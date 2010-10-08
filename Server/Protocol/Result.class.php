@@ -15,7 +15,7 @@ class Result
 	 *
 	 * Contains the result code.
 	 */
-	public $Data = Array();
+	protected $Data = Array('Result'=>255);
 
 	/**
 	 * OutputMethod
@@ -31,6 +31,22 @@ class Result
 	{
 		
 	}
+
+	/**
+	 * Adds a variable to the Data Array
+	 *
+	 *
+	 * @param $Key
+	 *   The key in the data array to put $Value in
+	 *
+	 * @param $Value
+	 *   The Value to be stored
+	 */
+	public function Set($Key, $Value)
+	{
+		$this->Data[$Key] = $Value;
+	}
+
 
 	/**
 	 * Prints the result
