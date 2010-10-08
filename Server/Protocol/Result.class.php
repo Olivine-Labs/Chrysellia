@@ -2,8 +2,12 @@
 
 namespace Protocol;
 
-define('JSON', 0);
-define('XML', 1);
+define('OT_JSON', 0);
+define('OT_XML', 1);
+
+define('ER_SUCCESS', 0);
+define('ER_DBERROR', 254);
+define('ER_ACCESSDENIED', 255);
 
 /**
  * Result Class
@@ -15,14 +19,14 @@ class Result
 	 *
 	 * Contains the result code.
 	 */
-	protected $Data = Array('Result'=>255);
+	protected $Data = Array('Result'=>ER_ACCESSDENIED);
 
 	/**
 	 * OutputMethod
 	 *
 	 * Sets the format that we output our result data
 	 */
-	public $OutputMethod = JSON;
+	public $OutputMethod = OT_JSON;
 
 	/**
 	 * Default constructor for the Result class
@@ -55,10 +59,10 @@ class Result
 	{
 		switch($this->OutputMethod)
 		{
-			case JSON:
+			case OT_JSON:
 				echo json_encode($this->Data);
 				break;
-			case XML:
+			case OT_XML:
 				if(class_exists('XML_Serializer'))
 				{
 					$serializer = new XML_Serializer();

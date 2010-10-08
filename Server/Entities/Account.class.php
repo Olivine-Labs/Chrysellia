@@ -94,6 +94,34 @@ class Account
 		$this->Validated = $Validated;
 		$this->CreatedOn = $CreatedOn;
 	}
+
+	/**
+	 * Verifies account data, ensures all fields are valid.
+	 */
+	public function Verify()
+	{
+		if(isset($this->Name))
+		{
+			if((strlen($this->Name) < 8) || (strlen($this->Name)) > 50)
+			{
+				return false;
+			}
+		}
+		if(isset($this->Password))
+		{
+			if(strlen($this->Password) != 16)
+			{
+				return false;
+			}
+		}
+		if(isset($this->Email))
+		{
+			if((strlen($this->Email) < 3) && (strlen($this->Email) > 150))
+			{
+				return false;
+			}
+		}
+	}
 }
 
 ?>
