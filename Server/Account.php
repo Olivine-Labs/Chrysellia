@@ -1,5 +1,5 @@
 <?php
-require './autoload.php';
+require './Common/Common.inc.php';
 $Result = new \Protocol\Result();
 
 if ( 'POST' == $_SERVER['REQUEST_METHOD'] )
@@ -7,33 +7,30 @@ if ( 'POST' == $_SERVER['REQUEST_METHOD'] )
 	define('LOGIN', 0);
 	define('REGISTER', 1);
 
-	$Post = json_decode($_POST['Data']);
-switch($Post->action)
-{
-	case LOGIN:
-		$AnAccount = new \Entities\Account();
-		$AnAccount->Name = $Post->Data->UserName;
-		$AnAccount->Password = $Post->Data->Password;
-		if($AnAccount->Verify())
+	if(isset($_POST['Data']))
+	{
+		$Post = json_decode($_POST['Data']);
+		if(property_exists($Post->Action))
 		{
-			try
+			switch($Post->Action)
 			{
-				$Database = new \Database\MySQL\Database('localhost', '3306', 'root', '', 'neflaria');
-				if($Database->Accounts->Login($AnAccount))
-				{
-					$Result->Set('Result', \Protocol\ER_SUCCESS);
-				}
-			}
-			catch(Exception $e)
-			{
-				$Result->Set('Result', ER_DBERROR);
+				case LOGIN:
+					include './Functions/Account/Login.php';
+					break;
+				case REGISTER:
+					include './Functions/Account/Register.php';
+					break;
 			}
 		}
-		break;
-	case REGISTER:
-		//TODO
-		break;
-}
+		else
+		{
+			$Result->Set('Result', ER_MALFORMED);
+		}
+	}
+	else
+	{
+		$Result->Set('Result', ER_MALFORMED);
+	}
 }
 $Result->Output();
 ?>

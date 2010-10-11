@@ -5,9 +5,10 @@ namespace Protocol;
 define('OT_JSON', 0);
 define('OT_XML', 1);
 
-define('ER_SUCCESS', 0);
-define('ER_DBERROR', 254);
-define('ER_ACCESSDENIED', 255);
+define('ER_SUCCESS', 0);//when Murphy is not around everything works.
+define('ER_MALFORMED', 253);//when a post/get is malformed for the function requested
+define('ER_DBERROR', 254);//when the database fails
+define('ER_ACCESSDENIED', 255);//when they just don't have access.
 
 /**
  * Result Class
