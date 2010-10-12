@@ -5,7 +5,7 @@
  */
 
 include('./Common/Config.php');
-include('./Common/AutoLoad.php');
+include('./Common/autoload.php');
 include('./Common/Database.php');
 
 ?>
