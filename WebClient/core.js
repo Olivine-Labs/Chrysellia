@@ -5,6 +5,8 @@
  * Copyright 2010, Jack Lawson
  *
  * Date: Tue Oct 12 08:22:00 [-0500]
+ *
+ * Dependencies: jQuery Core
  */
  
  (function( window, undefined ) {
@@ -14,6 +16,7 @@
 	var ER_MALFORMED = 253; //when a post/get is malformed for the function requested
 	var ER_DBERROR = 254; //when the database fails
 	var ER_ACCESSDENIED = 255; //when they just don't have access.
+	var SERVERCODE_DIRECTORY = "../Server/";
 
 	var V2Core = function (){};
 	

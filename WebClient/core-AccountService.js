@@ -5,6 +5,8 @@
  * Copyright 2010, Jack Lawson
  *
  * Date: Tue Oct 12 08:34:00 [-0500]
+ *
+ *Dependencies: jQuery Core, core.js
  */
  
 (function( window, undefined ) {
@@ -14,7 +16,7 @@
 	V2Core.AccountService = QMSCore.as = QMSCore.AccountService.prototype = {
 		Login: function(username, password, callback){
 			$.ajax({
-				url: "../Server/Account.php",
+				url: SERVERCODE_DIRECTORY + "Account.php",
 				cache: false,
 				type: "POST",
 				data: { Action: LOGIN, UserName: username, Password: password },
@@ -26,7 +28,7 @@
 		
 		Register: function(username, password, email, callback){
 			$.ajax({
-				url: "../Server/Account.php",
+				url: SERVERCODE_DIRECTORY + "Account.php",
 				cache: false,
 				type: "POST",
 				data: { Action: REGISTER, UserName: username, Password: password, Email: email },
@@ -36,4 +38,4 @@
 			});
 		}
 	};
-});
+})(window);
