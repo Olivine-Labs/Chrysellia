@@ -37,6 +37,7 @@ class Database extends \Database\Database
 			throw new \Exception($this->Connection->error());
 
 		$this->Accounts = new Accounts($this);
+		$this->Characters = new Characters($this);
 	}
 
 	/**

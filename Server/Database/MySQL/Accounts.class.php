@@ -7,7 +7,7 @@ define('SQL_GETACCOUNTBYID', 'SELECT `userName`, `email`, `validated`, `type`, `
 define('SQL_INSERTACCOUNT', 'INSERT INTO `Accounts` (`accountId`, `userName`, `password`, `email`) VALUES (?, ?, ?, ?)');
 
 /**
- * Contains properties and methods related to general tasks specific to the mysql database
+ * Contains properties and methods related to querying our accounts table and relations
  */
 class Accounts extends \Database\Accounts
 {

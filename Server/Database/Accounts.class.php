@@ -49,7 +49,7 @@ abstract class Accounts
 	 * Abstract - Insert an Account object into the database.
 	 *
 	 * @param $Account
-	 *   The Account class that will be inserted.
+	 *   The Account object that will be inserted.
 	 *
 	 * @return Boolean
 	 *   Whether the Account object was successfully inserted or not

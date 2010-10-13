@@ -23,6 +23,13 @@ abstract class Database
 	public $Accounts;
 
 	/**
+	 * Reference to object that contains Character related queries
+	 *
+	 * @var Characters
+	 */
+	public $Characters;
+
+	/**
 	 * Constructor for the abstract Database class
 	 *
 	 * Throws an exception when connection fails
