@@ -10,10 +10,12 @@
  */
  
 (function( window, undefined ) {
-	var LOGIN = 0;
-	var REGISTER = 1;
+	window.LOGIN = 0;
+	window.REGISTER = 1;
 	
-	V2Core.AccountService = QMSCore.as = QMSCore.AccountService.prototype = {
+	var AccountService = function (){};
+	
+	AccountService = AccountService.prototype = {
 		Login: function(username, password, callback){
 			$.ajax({
 				url: SERVERCODE_DIRECTORY + "Account.php",
@@ -37,5 +39,7 @@
 			   }
 			});
 		}
-	};
+	}
+	
+	V2Core.AccountService = V2Core.as = AccountService;
 })(window);

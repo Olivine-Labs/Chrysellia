@@ -10,13 +10,13 @@
  */
  
  (function( window, undefined ) {
-	var ER_SUCCESS = 0; //when Murphy is not around everything works.
-	var ER_BADDATA = 251; //when the data is bad
-	var ER_ALREADYEXISTS = 252; //when the data already exists in the database
-	var ER_MALFORMED = 253; //when a post/get is malformed for the function requested
-	var ER_DBERROR = 254; //when the database fails
-	var ER_ACCESSDENIED = 255; //when they just don't have access.
-	var SERVERCODE_DIRECTORY = "../Server/";
+	window.ER_SUCCESS = 0; //when Murphy is not around everything works.
+	window.ER_BADDATA = 251; //when the data is bad
+	window.ER_ALREADYEXISTS = 252; //when the data already exists in the database
+	window.ER_MALFORMED = 253; //when a post/get is malformed for the function requested
+	window.ER_DBERROR = 254; //when the database fails
+	window.ER_ACCESSDENIED = 255; //when they just don't have access.
+	window.SERVERCODE_DIRECTORY = "../Server/";
 
 	var V2Core = function (){};
 	
