@@ -143,5 +143,16 @@ abstract class Characters
 	 *   Whether the row was inserted or not
 	 */
 	abstract public function InsertRaceTraits(\Entities\Character $Character);
+
+	/**
+	 * Abstract - Gets a count of all characters attached to an account.
+	 *
+	 * @param $Account
+	 *   The Account entity that will be used to lookup the characters
+	 *
+	 * @return int
+	 *   Number of characters
+	 */
+	abstract public function GetCount(\Entities\Account $Account);
 }
 ?>

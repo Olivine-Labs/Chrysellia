@@ -4,28 +4,31 @@ $Result = new \Protocol\Result();
 
 if ( 'POST' == $_SERVER['REQUEST_METHOD'] )
 {
-	define('CREATE', 0);
-
-	if(isset($_POST['Data']))
+	if(isset($_SESSION['AccountId']))
 	{
-		$Post = json_decode($_POST['Data']);
-		if(property_exists($Post->Action))
+		define('CREATE', 0);
+
+		if(isset($_POST['Data']))
 		{
-			switch($Post->Action)
+			$Post = json_decode($_POST['Data']);
+			if(property_exists($Post->Action))
 			{
-				case CREATE:
-					include './Functions/Character/Create.php';
-					break;
+				switch($Post->Action)
+				{
+					case CREATE:
+						include './Functions/Character/Create.php';
+						break;
+				}
+			}
+			else
+			{
+				$Result->Set('Result', ER_MALFORMED);
 			}
 		}
 		else
 		{
 			$Result->Set('Result', ER_MALFORMED);
 		}
-	}
-	else
-	{
-		$Result->Set('Result', ER_MALFORMED);
 	}
 }
 $Result->Output();

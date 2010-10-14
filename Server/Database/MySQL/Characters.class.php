@@ -7,6 +7,7 @@ namespace Database\MySQL;
 define('SQL_GETCHARACTERSBYACCOUNTID', 'SELECT `firstName`, `middleName`, `lastName`, `createdOn` FROM `Characters` WHERE `accountId`=?);
 define('SQL_GETCHARACTERBYID', 'SELECT `firstName`, `middleName`, `lastName`, `createdOn` FROM `Characters` WHERE `CharacterId`=?');
 define('SQL_INSERTCHARACTER', 'INSERT INTO `Characters` (`characterId`, `firstName`, `middleName`, `lastName`, `biography`) VALUES (?, ?, ?, ?)');
+define('SQL_GETCHARACTERCOUNT', 'SELECT count(*) FROM `Characters` WHERE `accountId`=?');
 
 //Traits
 define('SQL_GETCHARACTERTRAITS', 'SELECT `raceId`, `align`, `level`, `freelevels`, `experience`, `strength`, `dexterity`, `intelligence`, `wisdom`, `vitality`, `health`, `experienceBonus`, `alignBonus`, `strengthBonus`, `dexterityBonus`, `intelligenceBonus`, `wisdomBonus`, `vitalityBonus` FROM `character_traits` WHERE `characterId`=?');
@@ -303,6 +304,28 @@ class Characters extends \Database\Characters
 			return true;
 		else
 			return false;
+	}
+
+	/**
+	 * Abstract - Gets a count of all characters attached to an account.
+	 *
+	 * @param $Account
+	 *   The Account entity that will be used to lookup the characters
+	 *
+	 * @return int
+	 *   Number of characters
+	 */
+	public function GetCount(\Entities\Account $Account)
+	{
+		$Query = $this->Database->Connection->prepare(SQL_GETCHARACTERCOUNT);
+		$Query->bind_param('s', $Account->Id);
+
+		$Query->Execute();
+
+		$Query->bind_result($Count);
+
+		$Query->fetch();
+		return $Count;
 	}
 }
 ?>
