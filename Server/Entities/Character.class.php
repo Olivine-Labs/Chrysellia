@@ -288,6 +288,34 @@ class Character
 	{
 		
 	}
+
+	/**
+	 * Verifies character data, ensures all fields are valid.
+	 */
+	public function Verify()
+	{
+		if(isset($this->FirstName))
+		{
+			if((strlen($this->FirstName) < 3) || (strlen($this->FirstName)) > 50)
+			{
+				return false;
+			}
+		}
+		if(isset($this->MiddleName))
+		{
+			if((strlen($this->MiddleName) < 3) || (strlen($this->MiddleName)) > 50)
+			{
+				return false;
+			}
+		}
+		if(isset($this->LastName))
+		{
+			if((strlen($this->LastName) < 3) || (strlen($this->LastName)) > 50)
+			{
+				return false;
+			}
+		}
+	}
 }
 
 ?>
