@@ -14,7 +14,7 @@ class Character
 	 *
 	 * @var $CharacterId
 	 */
-	public $Id;
+	public $CharacterId;
 
 	/**
 	 * First Name

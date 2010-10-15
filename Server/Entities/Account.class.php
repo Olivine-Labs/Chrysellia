@@ -15,7 +15,7 @@ class Account
 	 *
 	 * @var accountId
 	 */
-	public $Id;
+	public $AccountId;
 
 	/**
 	 * Name
