@@ -3,28 +3,34 @@
  * This file contains the Character creation logic
  */
 
+$Post = (object)Array('Data'=>'');
+if(isset($_POST['Data']))
+{
+	$Post = json_decode($_POST['Data']);
+}
+
 if(
-	property_exists($Post->Data, 'FirstName') &&
-	property_exists($Post->Data, 'MiddleName') &&
-	property_exists($Post->Data, 'LastName') &&
-	property_exists($Post->Data, 'RaceId') &&
-	property_exists($Post->Data, 'Strength') &&
-	property_exists($Post->Data, 'Dexterity') &&
-	property_exists($Post->Data, 'Intelligence') &&
-	property_exists($Post->Data, 'Wisdom') &&
-	property_exists($Post->Data, 'Vitality')
+	property_exists($Post, 'FirstName') &&
+	property_exists($Post, 'MiddleName') &&
+	property_exists($Post, 'LastName') &&
+	property_exists($Post, 'RaceId') &&
+	property_exists($Post, 'Strength') &&
+	property_exists($Post, 'Dexterity') &&
+	property_exists($Post, 'Intelligence') &&
+	property_exists($Post, 'Wisdom') &&
+	property_exists($Post, 'Vitality')
 ){
 	$ACharacter = new \Entities\Character();
 	$ACharacter->AccountId = $_SESSION['AccountId'];
-	$ACharacter->FirstName = $Post->Data->FirstName;
-	$ACharacter->MiddleName = $Post->Data->MiddleName;
-	$ACharacter->LastName = $Post->Data->LastName;
-	$ACharacter->RaceId = $Post->Data->RaceId;
-	$ACharacter->RacialStrength = $Post->Data->Strength;
-	$ACharacter->RacialDexterity = $Post->Data->Dexterity;
-	$ACharacter->RacialIntelligence = $Post->Data->Intelligence;
-	$ACharacter->RacialWisdom = $Post->Data->Wisdom;
-	$ACharacter->RacialVitality = $Post->Data->Vitality;
+	$ACharacter->FirstName = $Post->FirstName;
+	$ACharacter->MiddleName = $Post->MiddleName;
+	$ACharacter->LastName = $Post->LastName;
+	$ACharacter->RaceId = $Post->RaceId;
+	$ACharacter->RacialStrength = $Post->Strength;
+	$ACharacter->RacialDexterity = $Post->Dexterity;
+	$ACharacter->RacialIntelligence = $Post->Intelligence;
+	$ACharacter->RacialWisdom = $Post->Wisdom;
+	$ACharacter->RacialVitality = $Post->Vitality;
 
 	if($ACharacter->Verify())
 	{

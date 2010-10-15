@@ -2,6 +2,11 @@
 /**
  * This file contains the Login function logic for Accounts
  */
+$Post = (object)Array('Data'=>'');
+if(isset($_POST['Data']))
+{
+	$Post = json_decode($_POST['Data']);
+}
 
 if(
 	property_exists($Post->Data, 'UserName') &&

@@ -2,21 +2,28 @@
 /**
  * Check to see if a name already exists
  */
+
+$Post = (object)Array('Data'=>'');
+if(isset($_POST['Data']))
+{
+	$Post = json_decode($_POST['Data']);
+}
+
 try
 {
 	if(isset($_SESSION['AccountId']))
 	{
 		if(
-			property_exists($Post->Data, 'FirstName') &&
-			property_exists($Post->Data, 'MiddleName') &&
-			property_exists($Post->Data, 'LastName') &&
+			property_exists($Post, 'FirstName') &&
+			property_exists($Post, 'MiddleName') &&
+			property_exists($Post, 'LastName') &&
 		){
 			if($Character->Verify())
 			{
 				$Character = new \Entities\Character();
-				$Character->FirstName = $Post->Data->FirstName;
-				$Character->MiddleName = $Post->Data->MiddleName;
-				$Character->LastName = $Post->Data->LastName;
+				$Character->FirstName = $Post->FirstName;
+				$Character->MiddleName = $Post->MiddleName;
+				$Character->LastName = $Post->LastName;
 
 				if($Database->Characters->CheckName($Character))
 					$Result->Set('Result', \Protocol\ER_SUCCESS);

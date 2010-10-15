@@ -128,17 +128,17 @@ class Account
 	 */
 	public function Fill($Post)
 	{
-		if(property_exists($Post->Data, 'UserName')
+		if(property_exists($Post, 'UserName')
 		{
-			$this->Name = $Post->Data->UserName;
+			$this->Name = $Post->UserName;
 		}
-		if(property_exists($Post->Data, 'Password')
+		if(property_exists($Post, 'Password')
 		{
-			$this->Password = $Post->Data->Password;
+			$this->Password = $Post->Password;
 		}
-		if(property_exists($Post->Data, 'Email')
+		if(property_exists($Post, 'Email')
 		{
-			$this->Email = $Post->Data->Email;
+			$this->Email = $Post->Email;
 		}
 	}
 }
