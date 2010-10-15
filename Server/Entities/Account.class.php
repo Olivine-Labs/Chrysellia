@@ -73,14 +73,14 @@ class Account
 	{
 		if(isset($this->Name))
 		{
-			if((strlen($this->Name) < 8) || (strlen($this->Name)) > 50)
+			if((strlen($this->Name) < 4) || (strlen($this->Name)) > 50))
 			{
 				return false;
 			}
 		}
 		if(isset($this->Password))
 		{
-			if(strlen($this->Password) != 16)
+			if(strlen($this->Password) != 32)
 			{
 				return false;
 			}
@@ -99,15 +99,15 @@ class Account
 	 */
 	public function Fill($Post)
 	{
-		if(property_exists($Post, 'UserName')
+		if(property_exists($Post, 'UserName'))
 		{
 			$this->Name = $Post->UserName;
 		}
-		if(property_exists($Post, 'Password')
+		if(property_exists($Post, 'Password'))
 		{
 			$this->Password = $Post->Password;
 		}
-		if(property_exists($Post, 'Email')
+		if(property_exists($Post, 'Email'))
 		{
 			$this->Email = $Post->Email;
 		}
