@@ -33,8 +33,8 @@ class Database extends \Database\Database
 	public function __construct($Host, $Port, $UserName, $Password, $Database)
 	{
 		$this->Connection = new \mysqli($Host, $UserName, $Password, $Database, $Port);
-		if(!$this->Connection)
-			throw new \Exception($this->Connection->error());
+		if(mysqli_connect_error())
+			throw new \Exception(mysqli_connect_error());
 
 		$this->Accounts = new Accounts($this);
 		$this->Characters = new Characters($this);
