@@ -122,6 +122,25 @@ class Account
 			}
 		}
 	}
+
+	/**
+	 * Fills the account with data from a json_decoded post object
+	 */
+	public function Fill($Post)
+	{
+		if(property_exists($Post->Data, 'UserName')
+		{
+			$this->Name = $Post->Data->UserName;
+		}
+		if(property_exists($Post->Data, 'Password')
+		{
+			$this->Password = $Post->Data->Password;
+		}
+		if(property_exists($Post->Data, 'Email')
+		{
+			$this->Email = $Post->Data->Email;
+		}
+	}
 }
 
 ?>

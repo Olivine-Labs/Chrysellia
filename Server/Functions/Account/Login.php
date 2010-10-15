@@ -8,8 +8,7 @@ if(
 	property_exists($Post->Data, 'Password')
 ){
 	$AnAccount = new \Entities\Account();
-	$AnAccount->Name = $Post->Data->UserName;
-	$AnAccount->Password = $Post->Data->Password;
+	$AnAccount->Fill($Post);
 	if($AnAccount->Verify())
 	{
 		try

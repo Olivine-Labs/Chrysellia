@@ -9,9 +9,7 @@ if(
 	property_exists($Post->Data, 'Email')
 ){
 	$AnAccount = new \Entities\Account();
-	$AnAccount->Name = $Post->Data->UserName;
-	$AnAccount->Password = $Post->Data->Password;
-	$AnAccount->Email = $Post->Data->Email;
+	$AnAccount->Fill($Post);
 
 	if($AnAccount->Verify())
 	{
