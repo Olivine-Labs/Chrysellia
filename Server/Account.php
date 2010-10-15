@@ -20,6 +20,9 @@ if ( 'POST' == $_SERVER['REQUEST_METHOD'] )
 				case REGISTER:
 					include './Functions/Account/Register.php';
 					break;
+				default:
+					$Result->Set('Result', ER_BADDATA);
+					break;
 			}
 		}
 		else

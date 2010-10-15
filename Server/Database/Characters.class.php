@@ -154,5 +154,16 @@ abstract class Characters
 	 *   Number of characters
 	 */
 	abstract public function GetCount(\Entities\Account $Account);
+
+	/**
+	 * Abstract - Checks to see if a character's name is already in use
+	 *
+	 * @param $Character
+	 *   The Character entity that will be checked
+	 *
+	 * @return Boolean
+	 *   If the name is not in use, true. Otherwise false.
+	 */
+	abstract public function CheckName(\Entities\Character $Character);
 }
 ?>

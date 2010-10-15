@@ -303,27 +303,21 @@ class Character
 	 */
 	public function Verify()
 	{
-		if(isset($this->FirstName))
+		if(isset($this->FirstName) && isset($this->MiddleName) && isset($this->LastName))
 		{
-			if((strlen($this->FirstName) < 3) || (strlen($this->FirstName)) > 50)
+			$test = $this->FirstName + $this->MiddleName + $this->LastName;
+			if((strlen($test) < 3) || (strlen($test)) > 150)
 			{
 				return false;
 			}
 		}
-		if(isset($this->MiddleName))
+		if(isset($this->RacialStrength) && isset($this->RacialDexterity) && isset($this->RacialIntelligence) && isset($this->RacialWisdom) && isset($this->RacialVitality))
 		{
-			if((strlen($this->MiddleName) < 3) || (strlen($this->MiddleName)) > 50)
+			if($this->RacialStrength + $this->RacialDexterity + $this->RacialIntelligence + $this->RacialWisdom + $this->RacialVitality != 25)
 			{
 				return false;
 			}
-		}
-		if(isset($this->LastName))
-		{
-			if((strlen($this->LastName) < 3) || (strlen($this->LastName)) > 50)
-			{
-				return false;
-			}
-		}
+		} 
 	}
 }
 

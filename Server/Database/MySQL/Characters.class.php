@@ -5,9 +5,10 @@ namespace Database\MySQL;
 //Queries
 //Basic
 define('SQL_GETCHARACTERSBYACCOUNTID', 'SELECT c.firstName, c.middleName, c.lastName, c.createdOn, ct.strength, ct.dexterity, ct.intelligence, ct.wisdom, ct.vitality, ct.health, ct.alignGood, ct.alignOrder, ct.raceId FROM `characters` c INNER JOIN `character_traits` ct ON c.characterId=ct.characterId WHERE c.accountId=?);
-define('SQL_GETCHARACTERBYID', 'SELECT `firstName`, `middleName`, `lastName`, `createdOn` FROM `Characters` WHERE `CharacterId`=?');
-define('SQL_INSERTCHARACTER', 'INSERT INTO `Characters` (`characterId`, `firstName`, `middleName`, `lastName`, `biography`) VALUES (?, ?, ?, ?)');
-define('SQL_GETCHARACTERCOUNT', 'SELECT count(*) FROM `Characters` WHERE `accountId`=?');
+define('SQL_GETCHARACTERBYID', 'SELECT `firstName`, `middleName`, `lastName`, `createdOn` FROM `Characters` WHERE `characterId`=?');
+define('SQL_INSERTCHARACTER', 'INSERT INTO `characters` (`characterId`, `firstName`, `middleName`, `lastName`, `biography`) VALUES (?, ?, ?, ?)');
+define('SQL_GETCHARACTERCOUNT', 'SELECT count(*) FROM `characters` WHERE `accountId`=?');
+define('SQL_CHECKCHARACTERNAME', 'SELECT count(*) FROM `characters` WHERE firstName=? && middleName=? && lastName=?');
 
 //Traits
 define('SQL_GETCHARACTERTRAITS', 'SELECT `raceId`, `alignGood`, `alignOrder`, `level`, `freelevels`, `experience`, `strength`, `dexterity`, `intelligence`, `wisdom`, `vitality`, `health`, `experienceBonus`, `alignBonus`, `strengthBonus`, `dexterityBonus`, `intelligenceBonus`, `wisdomBonus`, `vitalityBonus` FROM `character_traits` WHERE `characterId`=?');
@@ -316,7 +317,7 @@ class Characters extends \Database\Characters
 	}
 
 	/**
-	 * Abstract - Gets a count of all characters attached to an account.
+	 * Gets a count of all characters attached to an account.
 	 *
 	 * @param $Account
 	 *   The Account entity that will be used to lookup the characters
@@ -335,6 +336,31 @@ class Characters extends \Database\Characters
 
 		$Query->fetch();
 		return $Count;
+	}
+
+	/**
+	 * Checks to see if a character's name is already in use
+	 *
+	 * @param $Character
+	 *   The Character entity that will be checked
+	 *
+	 * @return Boolean
+	 *   If the name is not in use, true. Otherwise false.
+	 */
+	public function CheckName(\Entities\Character $Character)
+	{
+		$Query = $this->Database->Connection->prepare(SQL_CHECKCHARACTERNAME);
+		$Query->bind_param('sss', $Character->FirstName, $Character->MiddleName, $Character->LastName);
+
+		$Query->Execute();
+
+		$Query->bind_result($Count);
+
+		$Query->fetch();
+		if($Count > 0)
+			return false;
+		else
+			return true;
 	}
 }
 ?>
