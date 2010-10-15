@@ -39,6 +39,7 @@ class Database extends \Database\Database
 		$this->Accounts = new Accounts($this);
 		$this->Characters = new Characters($this);
 		$this->Sessions = new Sessions($this);
+		$this->Chat = new Chat($this);
 	}
 
 	/**

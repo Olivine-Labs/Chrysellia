@@ -37,6 +37,13 @@ abstract class Database
 	public $Sessions;
 
 	/**
+	 * Reference to object that contains Chat related queries
+	 *
+	 * @var Chat
+	 */
+	public $Chat;
+
+	/**
 	 * Constructor for the abstract Database class
 	 *
 	 * Throws an exception when connection fails
