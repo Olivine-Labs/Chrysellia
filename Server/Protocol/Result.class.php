@@ -23,14 +23,14 @@ class Result
 	 *
 	 * Contains the result code.
 	 */
-	protected $Data = Array('Result'=>$this->ER_ACCESSDENIED);
+	protected $Data = Array('Result'=>$this::ER_ACCESSDENIED);
 
 	/**
 	 * OutputMethod
 	 *
 	 * Sets the format that we output our result data
 	 */
-	public $OutputMethod = $this->OT_JSON;
+	public $OutputMethod = $this::OT_JSON;
 
 	/**
 	 * Default constructor for the Result class
@@ -63,10 +63,10 @@ class Result
 	{
 		switch($this->OutputMethod)
 		{
-			case $this->OT_JSON:
+			case $this::OT_JSON:
 				echo json_encode($this->Data);
 				break;
-			case $this->OT_XML:
+			case $this::OT_XML:
 				if(class_exists('XML_Serializer'))
 				{
 					$serializer = new XML_Serializer();
