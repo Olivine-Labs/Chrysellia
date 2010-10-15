@@ -13,7 +13,6 @@ try
 		){
 			if($Character->Verify())
 			{
-				InitializeDatabase($Database);
 				$Character = new \Entities\Character();
 				$Character->FirstName = $Post->Data->FirstName;
 				$Character->MiddleName = $Post->Data->MiddleName;

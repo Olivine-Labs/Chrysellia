@@ -4,7 +4,6 @@
  */
 try
 {
-	InitializeDatabase($Database);
 	if(isset($_SESSION['AccountId']))
 	{
 		$AnAccount = new \Entities\Account();

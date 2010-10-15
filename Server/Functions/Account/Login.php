@@ -14,7 +14,6 @@ if(
 	{
 		try
 		{
-			InitializeDatabase($Database);
 			if($Database->Accounts->Login($AnAccount))
 			{
 				$Result->Set('Result', \Protocol\ER_SUCCESS);

@@ -13,7 +13,7 @@ abstract class Database
 	 *
 	 * @var Connection
 	 */
-	protected $Connection;
+	public $Connection;
 
 	/**
 	 * Reference to object that contains Account related queries
@@ -28,6 +28,13 @@ abstract class Database
 	 * @var Characters
 	 */
 	public $Characters;
+
+	/**
+	 * Reference to object that contains Session related queries
+	 *
+	 * @var Sessions
+	 */
+	public $Sessions;
 
 	/**
 	 * Constructor for the abstract Database class

@@ -30,7 +30,6 @@ if(
 	{
 		try
 		{
-			InitializeDatabase($Database);
 			//TODO Racial verification
 			$Database->startTransaction();
 			$Success = false;

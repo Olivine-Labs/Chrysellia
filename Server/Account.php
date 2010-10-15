@@ -1,23 +1,23 @@
 <?php
-require './Common/Common.inc.php';
+require('./Common/Common.inc.php');
 $Result = new \Protocol\Result();
 
 if ( 'POST' == $_SERVER['REQUEST_METHOD'] )
 {
-	define('LOGIN', 0);
-	define('REGISTER', 1);
+	define('ACTION_LOGIN', 0);
+	define('ACTION_REGISTER', 1);
 
 	if(isset($_POST['Data']))
 	{
 		$Post = json_decode($_POST['Data']);
-		if(property_exists($Post->Action))
+		if(property_exists($Post, 'Action'))
 		{
 			switch($Post->Action)
 			{
-				case LOGIN:
+				case ACTION_LOGIN:
 					include './Functions/Account/Login.php';
 					break;
-				case REGISTER:
+				case ACTION_REGISTER:
 					include './Functions/Account/Register.php';
 					break;
 				default:
