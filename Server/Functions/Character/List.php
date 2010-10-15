@@ -9,7 +9,7 @@ try
 	{
 		$AnAccount = new \Entities\Account();
 		$AnAccount->Id = $_SESSION['AccountId'];
-		$Result->Set('Data', $Database->Characters->LoadList($AnAccount));
+		$Result->Set('Data', $Database->Characters->LoadListByAccountId($AnAccount));
 		$Result->Set('Result', \Protocol\ER_SUCCESS);
 	}
 }

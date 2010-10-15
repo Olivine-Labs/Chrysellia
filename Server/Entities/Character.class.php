@@ -83,13 +83,22 @@ class Character
 	public $RaceId;
 
 	/**
-	 * Align
+	 * AlignGood
 	 *
-	 * A character's align
+	 * A character's align on the "Good/Evil" axis
 	 *
-	 * @var $align
+	 * @var $alignGood
 	 */
-	public $Align;
+	public $AlignGood;
+
+	/**
+	 * AlignEvil
+	 *
+	 * A character's align on the "Order/Chaos" axis
+	 *
+	 * @var $alignOrder
+	 */
+	public $AlignOrder;
 
 	/**
 	 * Level

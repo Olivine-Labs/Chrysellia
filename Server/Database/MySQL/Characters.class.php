@@ -4,15 +4,15 @@ namespace Database\MySQL;
 
 //Queries
 //Basic
-define('SQL_GETCHARACTERSBYACCOUNTID', 'SELECT `firstName`, `middleName`, `lastName`, `createdOn` FROM `Characters` WHERE `accountId`=?);
+define('SQL_GETCHARACTERSBYACCOUNTID', 'SELECT c.firstName, c.middleName, c.lastName, c.createdOn, ct.strength, ct.dexterity, ct.intelligence, ct.wisdom, ct.vitality, ct.health, ct.alignGood, ct.alignOrder, ct.raceId FROM `characters` c INNER JOIN `character_traits` ct ON c.characterId=ct.characterId WHERE c.accountId=?);
 define('SQL_GETCHARACTERBYID', 'SELECT `firstName`, `middleName`, `lastName`, `createdOn` FROM `Characters` WHERE `CharacterId`=?');
 define('SQL_INSERTCHARACTER', 'INSERT INTO `Characters` (`characterId`, `firstName`, `middleName`, `lastName`, `biography`) VALUES (?, ?, ?, ?)');
 define('SQL_GETCHARACTERCOUNT', 'SELECT count(*) FROM `Characters` WHERE `accountId`=?');
 
 //Traits
-define('SQL_GETCHARACTERTRAITS', 'SELECT `raceId`, `align`, `level`, `freelevels`, `experience`, `strength`, `dexterity`, `intelligence`, `wisdom`, `vitality`, `health`, `experienceBonus`, `alignBonus`, `strengthBonus`, `dexterityBonus`, `intelligenceBonus`, `wisdomBonus`, `vitalityBonus` FROM `character_traits` WHERE `characterId`=?');
+define('SQL_GETCHARACTERTRAITS', 'SELECT `raceId`, `alignGood`, `alignOrder`, `level`, `freelevels`, `experience`, `strength`, `dexterity`, `intelligence`, `wisdom`, `vitality`, `health`, `experienceBonus`, `alignBonus`, `strengthBonus`, `dexterityBonus`, `intelligenceBonus`, `wisdomBonus`, `vitalityBonus` FROM `character_traits` WHERE `characterId`=?');
 define('SQL_GETCHARACTERRACETRAITS', 'SELECT `strength`, `dexterity`, `wisdom`, `intelligence`, `vitality`, `racialAbility` FROM `character_race_traits` WHERE `characterId`=?');
-define('SQL_INSERTCHARACTERTRAITS', 'INSERT INTO `character_traits` (`characterId`, `raceId`, `strength`, `dexterity`, `intelligence`, `wisdom`, `vitality`, `health`) VALUES(?, ?, ?, ?, ?, ?, ?, ?)');
+define('SQL_INSERTCHARACTERTRAITS', 'INSERT INTO `character_traits` (`characterId`, `raceId`, `alignGood`, `alignOrder`, `strength`, `dexterity`, `intelligence`, `wisdom`, `vitality`, `health`) VALUES(?, ?, ?, ?, ?, ?, ?, ?)');
 define('SQL_INSERTCHARACTERRACETRAITS', 'INSERT INTO `character_race_traits` (`strength`, `dexterity`, `wisdom`, `intelligence`, `vitality`, `racialAbility`) VALUES (?, ?, ?, ?, ?, ?');
 
 //Location
@@ -86,7 +86,7 @@ class Characters extends \Database\Characters
 
 		$Query->Execute();
 
-		$Query->bind_result($CharacterId, $FirstName, $MiddleName, $LastName, $CreatedOn);
+		$Query->bind_result($CharacterId, $FirstName, $MiddleName, $LastName, $CreatedOn, $Strength, $Dexterity, $Intelligence, $Wisdom, $Vitality, $Health, $AlignGood, $AlignOrder, $RaceId);
 
 		while($Query->fetch())
 		{
@@ -96,6 +96,15 @@ class Characters extends \Database\Characters
 			$Character->MiddleName = $MiddleName;
 			$Character->LastName = $LastName;
 			$Character->CreatedOn = $CreatedOn;
+			$Character->Strength = $Strength;
+			$Character->Dexterity = $Dexterity;
+			$Character->Intelligence = $Intelligence;
+			$Character->Wisdom = $Wisdom;
+			$Character->Vitality = $Vitality;
+			$Character->Health = $Health;
+			$Character->AlignGood = $AlignGood;
+			$Character->AlignOrder = $AlignOrder;
+			$Character->RaceId = $RaceId;
 			array_push($Result, $Character);
 		}
 		return $Result;
@@ -140,7 +149,7 @@ class Characters extends \Database\Characters
 
 		$Query->Execute();
 
-		$Query->bind_result($Character->RaceId, $Character->Align, $Character->Level, $Character->FreeLevels, $Character->Experience, $Character->Strength, $Character->Dexterity, $Character->Intelligence, $Character->Wisdom, $Character->Vitality, $Character->Health, $Character->ExperienceBonus, $Character->AlignBonus, $Character->StrengthBonus, $Character->DexterityBonus, $Character->IntelligenceBonus, $Character->WisdomBonus, $Character->VitalityBonus);
+		$Query->bind_result($Character->RaceId, $Character->AlignGood, $Character->AlignOrder, $Character->Level, $Character->FreeLevels, $Character->Experience, $Character->Strength, $Character->Dexterity, $Character->Intelligence, $Character->Wisdom, $Character->Vitality, $Character->Health, $Character->ExperienceBonus, $Character->AlignBonus, $Character->StrengthBonus, $Character->DexterityBonus, $Character->IntelligenceBonus, $Character->WisdomBonus, $Character->VitalityBonus);
 
 		if($Query->fetch())
 			return true;
@@ -160,7 +169,7 @@ class Characters extends \Database\Characters
 	function InsertTraits(\Entities\Character $Character)
 	{
 		$Query = $this->Database->Connection->prepare(SQL_INSERTCHARACTERTRAITS);
-		$Query->bind_param('ssssssss', $Character->CharacterId, $Character->RaceId, $Character->Strength, $Character->Dexterity, $Character->Intelligence, $Character->Wisdom, $Character->Vitality, $Character->Health);
+		$Query->bind_param('ssssssss', $Character->CharacterId, $Character->RaceId, $Character->AlignGood, $Character->AlignOrder, $Character->Strength, $Character->Dexterity, $Character->Intelligence, $Character->Wisdom, $Character->Vitality, $Character->Health);
 
 		$Query->Execute();
 
@@ -179,7 +188,7 @@ class Characters extends \Database\Characters
 	 * @return Boolean
 	 *   Whether the Character object was filled or not
 	 */
-	function LoadTraits(\Entities\Character $Character)
+	function LoadRaceTraits(\Entities\Character $Character)
 	{
 		$Query = $this->Database->Connection->prepare(SQL_GETCHARACTERTRAITS);
 		$Query->bind_param('s', $Character->CharacterId);

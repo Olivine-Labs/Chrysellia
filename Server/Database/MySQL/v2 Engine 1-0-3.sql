@@ -265,7 +265,8 @@ CREATE TABLE IF NOT EXISTS `character_statistics` (
 CREATE TABLE IF NOT EXISTS `character_traits` (
   `characterId` char(28) NOT NULL,
   `raceId` char(28) NOT NULL,
-  `align` int(11) NOT NULL DEFAULT '0',
+  `alignGood` int(11) NOT NULL DEFAULT '0',
+  `alignOrder` int(11) NOT NULL DEFAULT '0',
   `level` int(10) unsigned NOT NULL DEFAULT '1',
   `freelevels` int(10) unsigned NOT NULL DEFAULT '0',
   `experience` bigint(20) unsigned NOT NULL DEFAULT '0',
