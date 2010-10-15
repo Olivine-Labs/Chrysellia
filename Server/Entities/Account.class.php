@@ -73,7 +73,7 @@ class Account
 	{
 		if(isset($this->Name))
 		{
-			if((strlen($this->Name) < 4) || (strlen($this->Name)) > 50))
+			if((strlen($this->Name) < 4) || (strlen($this->Name) > 50))
 			{
 				return false;
 			}
