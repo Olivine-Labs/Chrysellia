@@ -24,13 +24,13 @@ if ( 'POST' == $_SERVER['REQUEST_METHOD'] )
 					include('./Functions/Character/CheckName.php');
 					break;
 				default:
-					$Result->Set('Result', ER_BADDATA);
+					$Result->Set('Result', \Protocol\Result::ER_BADDATA);
 					break;
 			}
 		}
 		else
 		{
-			$Result->Set('Result', ER_MALFORMED);
+			$Result->Set('Result', \Protocol\Result::ER_MALFORMED);
 		}
 	}
 }

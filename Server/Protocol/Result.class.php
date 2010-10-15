@@ -2,21 +2,22 @@
 
 namespace Protocol;
 
-define('OT_JSON', 0);
-define('OT_XML', 1);
-
-define('ER_SUCCESS', 0);//when Murphy is not around everything works.
-define('ER_BADDATA', 251);//when the data is bad
-define('ER_ALREADYEXISTS', 252);//when the data already exists in the database
-define('ER_MALFORMED', 253);//when a post/get is malformed for the function requested
-define('ER_DBERROR', 254);//when the database fails
-define('ER_ACCESSDENIED', 255);//when they just don't have access.
-
 /**
  * Result Class
  */
 class Result
 {
+
+	public const OT_JSON = 0;
+	public const OT_XML = 1;
+
+	public const ER_SUCCESS=0;//when Murphy is not around everything works.
+	public const ER_BADDATA=251;//when the data is bad
+	public const ER_ALREADYEXISTS=252);//when the data already exists in the database
+	public const ER_MALFORMED=253;//when a post/get is malformed for the function requested
+	public const ER_DBERROR=254;//when the database fails
+	public const ER_ACCESSDENIED=255;//when they just don't have access.
+
 	/**
 	 * Result
 	 *

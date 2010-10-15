@@ -20,22 +20,22 @@ if(
 		{
 			if($Database->Accounts->Login($AnAccount))
 			{
-				$Result->Set('Result', ER_SUCCESS);
+				$Result->Set('Result', \Protocol\Result::ER_SUCCESS);
 				$_SESSION['AccountId'] = $AnAccount->Id;
 			}
 		}
 		catch(Exception $e)
 		{
-			$Result->Set('Result', ER_DBERROR);
+			$Result->Set('Result', \Protocol\Result::ER_DBERROR);
 		}
 	}
 	else
 	{
-		$Result->Set('Result', ER_BADDATA);
+		$Result->Set('Result', \Protocol\Result::ER_BADDATA);
 	}
 }
 else
 {
-	$Result->Set('Result', ER_MALFORMED);
+	$Result->Set('Result', \Protocol\Result::ER_MALFORMED);
 }
 ?>

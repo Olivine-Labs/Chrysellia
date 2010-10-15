@@ -46,16 +46,16 @@ if(
 						if($Database->Characters->InsertPosition($ACharacter))
 							$Success = true;
 				if(!$Success)
-					$Result->Set('Result', ER_DBERROR);
+					$Result->Set('Result', \Protocol\Result::ER_DBERROR);
 			}else
 			{
-				$Result->Set('Result', ER_ALREADYEXISTS);
+				$Result->Set('Result', \Protocol\Result::ER_ALREADYEXISTS);
 			}
 
 			if($Success)
 			{
 				$Database->commitTransaction();
-				$Result->Set('Result', ER_SUCCESS);
+				$Result->Set('Result', \Protocol\Result::ER_SUCCESS);
 			}
 			else
 			{
@@ -64,18 +64,18 @@ if(
 		}
 		catch(Exception $e)
 		{
-			$Result->Set('Result', ER_DBERROR);
+			$Result->Set('Result', \Protocol\Result::ER_DBERROR);
 			$Database->rollbackTransaction();
 		}
 	}
 	else
 	{
-		$Result->Set('Result', ER_BADDATA);
+		$Result->Set('Result', \Protocol\Result::ER_BADDATA);
 	}
 }
 else
 {
-	$Result->Set('Result', ER_MALFORMED);
+	$Result->Set('Result', \Protocol\Result::ER_MALFORMED);
 }
 
 ?>
