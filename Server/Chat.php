@@ -13,7 +13,7 @@ if ( 'POST' == $_SERVER['REQUEST_METHOD'] )
 		switch($_POST['Action'])
 		{
 			default:
-				$Result->Set('Result', \Protocol\ER_BADDATA);
+				$Result->Set('Result', ER_BADDATA);
 				break;
 		}
 	}

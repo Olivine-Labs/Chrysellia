@@ -15,21 +15,21 @@ class Account
 	 *
 	 * @var accountId
 	 */
-	public Id;
+	public $Id;
 
 	/**
 	 * Name
 	 *
 	 * @var userName
 	 */
-	public Name;
+	public $Name;
 
 	/**
 	 * Password
 	 *
 	 * @var password
 	 */
-	public Password;
+	public $Password;
 
 	/**
 	 * Type
@@ -38,7 +38,7 @@ class Account
 	 *
 	 * @var type
 	 */
-	public Type;
+	public $Type;
 
 	/**
 	 * Validated
@@ -47,7 +47,7 @@ class Account
 	 *
 	 * @var validated
 	 */
-	public Validated;
+	public $Validated;
 
 	/**
 	 * CreatedOn
@@ -56,7 +56,7 @@ class Account
 	 *
 	 * @var createdOn
 	 */
-	public CreatedOn;
+	public $CreatedOn;
 
 	/**
 	 * Default constructor for the Account Class
