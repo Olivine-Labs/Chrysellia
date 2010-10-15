@@ -21,7 +21,7 @@
 				url: SERVERCODE_DIRECTORY + "Account.php",
 				cache: false,
 				type: "POST",
-				data: { Action: LOGIN, UserName: username, Password: password },
+				data: { Action: LOGIN, Data: JSON.stringify({ UserName: username, Password: password }) },
 				success: function(response){
 					callback(response);
 			   }
@@ -33,7 +33,7 @@
 				url: SERVERCODE_DIRECTORY + "Account.php",
 				cache: false,
 				type: "POST",
-				data: { Action: REGISTER, UserName: username, Password: password, Email: email },
+				data: { Action: REGISTER, Data: JSON.stringify({ UserName: username, Password: password, Email: email}) },
 				success: function(response){
 					callback(response);
 			   }

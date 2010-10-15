@@ -42,7 +42,7 @@ class Accounts extends \Database\Accounts
 	function Login(\Entities\Account $Account)
 	{
 		$Query = $this->Database->Connection->prepare(SQL_GETACCOUNTBYNAMEPASSWORD);
-		$Query->bind_param('ss', $Account->UserName, $Account->Password);
+		$Query->bind_param('ss', $Account->Name, $Account->Password);
 
 		$Query->Execute();
 

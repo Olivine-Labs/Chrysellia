@@ -14,6 +14,8 @@
 		<div id="tabs">
 			<ul>
 				<li><a href="#accountService">Account Service</a></li>
+				<li><a href="#characterService">Character Service</a></li>
+				<li><a href="#chatService">Chat Service</a></li>
 			</ul>
 			<div id="accountService">
 				<section id="acctRegister">
@@ -29,6 +31,20 @@
 					<label for="alPasswordInput">Password</label> <input id="alPasswordInput" name="alPasswordInput" /> <br />
 					<button class="button">Log In</button>
 				</section>
+			</div>
+			<div id="characterService">
+				<section id="chCheckName">
+					<h1>Check Name</h1>
+				</section>
+				<section id="chCreate">
+					<h1>Create Character</h1>
+				</section>
+				<section id="chList">
+					<h1>Character list</h1>
+				</section>
+			</div>
+			<div id="chatService">
+				
 			</div>
 		</div>
 		
@@ -50,12 +66,12 @@
 				
 				$("#tabs").tabs();
 				$(".button").button();
-				$("#results").dialog({ autoOpen: false });
+				$("#results").dialog({ autoOpen: false, buttons: { Ok: function() { $( this ).dialog( "close" ); } } });
 				
 				$("#acctRegister button").click(function(){
 					un = $("#arUsernameInput").val();
-					pw = $.md5($("#arEmailInput").val());
-					em = $("#arPasswordInput").val();
+					pw = $.md5($("#arPasswordInput").val());
+					em = $("#arEmailInput").val();
 					
 					vc.as.Register(un, pw, em, callback)
 				});
@@ -69,7 +85,7 @@
 			});
 			
 			function callback(object){
-				$("#response").text(JSON.stringify(object));
+				$("#results").text(object).dialog('open');
 			}
 		</script>
 	</body>
