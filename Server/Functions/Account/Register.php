@@ -21,7 +21,7 @@ if(
 	{
 		try
 		{
-			if($Database->Accounts->Insert($Account))
+			if($Database->Accounts->Insert($AnAccount))
 			{
 				$Result->Set('Result', \Protocol\Result::ER_SUCCESS);
 			}
