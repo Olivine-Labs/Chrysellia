@@ -8,29 +8,29 @@ namespace Protocol;
 class Result
 {
 
-	public const OT_JSON = 0;
-	public const OT_XML = 1;
+	const OT_JSON = 0;
+	const OT_XML = 1;
 
-	public const ER_SUCCESS=0;//when Murphy is not around everything works.
-	public const ER_BADDATA=251;//when the data is bad
-	public const ER_ALREADYEXISTS=252);//when the data already exists in the database
-	public const ER_MALFORMED=253;//when a post/get is malformed for the function requested
-	public const ER_DBERROR=254;//when the database fails
-	public const ER_ACCESSDENIED=255;//when they just don't have access.
+	const ER_SUCCESS=0;//when Murphy is not around everything works.
+	const ER_BADDATA=251;//when the data is bad
+	const ER_ALREADYEXISTS=252);//when the data already exists in the database
+	const ER_MALFORMED=253;//when a post/get is malformed for the function requested
+	const ER_DBERROR=254;//when the database fails
+	const ER_ACCESSDENIED=255;//when they just don't have access.
 
 	/**
 	 * Result
 	 *
 	 * Contains the result code.
 	 */
-	protected $Data = Array('Result'=>ER_ACCESSDENIED);
+	protected $Data = Array('Result'=>$this->ER_ACCESSDENIED);
 
 	/**
 	 * OutputMethod
 	 *
 	 * Sets the format that we output our result data
 	 */
-	public $OutputMethod = OT_JSON;
+	public $OutputMethod = $this->OT_JSON;
 
 	/**
 	 * Default constructor for the Result class
@@ -63,10 +63,10 @@ class Result
 	{
 		switch($this->OutputMethod)
 		{
-			case OT_JSON:
+			case $this->OT_JSON:
 				echo json_encode($this->Data);
 				break;
-			case OT_XML:
+			case $this->OT_XML:
 				if(class_exists('XML_Serializer'))
 				{
 					$serializer = new XML_Serializer();
