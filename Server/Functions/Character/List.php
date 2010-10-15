@@ -9,12 +9,12 @@ try
 		$AnAccount = new \Entities\Account();
 		$AnAccount->Id = $_SESSION['AccountId'];
 		$Result->Set('Data', $Database->Characters->LoadListByAccountId($AnAccount));
-		$Result->Set('Result', \Protocol\ER_SUCCESS);
+		$Result->Set('Result', ER_SUCCESS);
 	}
 }
 catch(Exception $e)
 {
-	$Result->Set('Result', \Protocol\ER_DBERROR);
+	$Result->Set('Result', ER_DBERROR);
 }
 
 ?>

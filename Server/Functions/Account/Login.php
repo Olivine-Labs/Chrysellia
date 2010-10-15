@@ -9,8 +9,8 @@ if(isset($_POST['Data']))
 }
 
 if(
-	property_exists($Post->Data, 'UserName') &&
-	property_exists($Post->Data, 'Password')
+	property_exists($Post, 'UserName') &&
+	property_exists($Post, 'Password')
 ){
 	$AnAccount = new \Entities\Account();
 	$AnAccount->Fill($Post);
@@ -20,22 +20,22 @@ if(
 		{
 			if($Database->Accounts->Login($AnAccount))
 			{
-				$Result->Set('Result', \Protocol\ER_SUCCESS);
+				$Result->Set('Result', ER_SUCCESS);
 				$_SESSION['AccountId'] = $AnAccount->Id;
 			}
 		}
 		catch(Exception $e)
 		{
-			$Result->Set('Result', \Protocol\ER_DBERROR);
+			$Result->Set('Result', ER_DBERROR);
 		}
 	}
 	else
 	{
-		$Result->Set('Result', \Protocol\ER_BADDATA);
+		$Result->Set('Result', ER_BADDATA);
 	}
 }
 else
 {
-	$Result->Set('Result', \Protocol\ER_MALFORMED);
+	$Result->Set('Result', ER_MALFORMED);
 }
 ?>

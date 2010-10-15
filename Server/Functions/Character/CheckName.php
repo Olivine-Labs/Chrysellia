@@ -26,24 +26,24 @@ try
 				$Character->LastName = $Post->LastName;
 
 				if($Database->Characters->CheckName($Character))
-					$Result->Set('Result', \Protocol\ER_SUCCESS);
+					$Result->Set('Result', ER_SUCCESS);
 				else
-					$Result->Set('Result', \Protocol\ER_ALREADYEXISTS);
+					$Result->Set('Result', ER_ALREADYEXISTS);
 			}
 			else
 			{
-				$Result->Set('Result', \Protocol\ER_BADDATA);
+				$Result->Set('Result', ER_BADDATA);
 			}
 		}
 		else
 		{
-			$Result->Set('Result', \Protocol\ER_MALFORMED);
+			$Result->Set('Result', ER_MALFORMED);
 		}
 	}
 }
 catch(Exception $e)
 {
-	$Result->Set('Result', \Protocol\ER_DBERROR);
+	$Result->Set('Result', ER_DBERROR);
 }
 
 ?>
