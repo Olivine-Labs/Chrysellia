@@ -13,7 +13,7 @@ class Result
 
 	const ER_SUCCESS=0;//when Murphy is not around everything works.
 	const ER_BADDATA=251;//when the data is bad
-	const ER_ALREADYEXISTS=252);//when the data already exists in the database
+	const ER_ALREADYEXISTS=252;//when the data already exists in the database
 	const ER_MALFORMED=253;//when a post/get is malformed for the function requested
 	const ER_DBERROR=254;//when the database fails
 	const ER_ACCESSDENIED=255;//when they just don't have access.
@@ -23,14 +23,14 @@ class Result
 	 *
 	 * Contains the result code.
 	 */
-	protected $Data = Array('Result'=>$this::ER_ACCESSDENIED);
+	protected $Data = Array('Result'=>Result::ER_ACCESSDENIED);
 
 	/**
 	 * OutputMethod
 	 *
 	 * Sets the format that we output our result data
 	 */
-	public $OutputMethod = $this::OT_JSON;
+	public $OutputMethod = Result::OT_JSON;
 
 	/**
 	 * Default constructor for the Result class
@@ -63,10 +63,10 @@ class Result
 	{
 		switch($this->OutputMethod)
 		{
-			case $this::OT_JSON:
+			case Result::OT_JSON:
 				echo json_encode($this->Data);
 				break;
-			case $this::OT_XML:
+			case Result::OT_XML:
 				if(class_exists('XML_Serializer'))
 				{
 					$serializer = new XML_Serializer();
