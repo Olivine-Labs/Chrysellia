@@ -91,7 +91,7 @@ class Accounts extends \Database\Accounts
 	{
 		$Account->AccountId = uniqid('ACCT_', true);
 		$Query = $this->Database->Connection->prepare(SQL_INSERTACCOUNT);
-		$Query->bind_param('ssss', $Account->AccountId, $Account->UserName, $Account->Password, $Account->Email);
+		$Query->bind_param('ssss', $Account->AccountId, $Account->Name, $Account->Password, $Account->Email);
 
 		$Query->Execute();
 
