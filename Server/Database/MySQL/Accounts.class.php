@@ -2,9 +2,9 @@
 
 namespace Database\MySQL;
 
-define('SQL_GETACCOUNTBYNAMEPASSWORD', 'SELECT `accountId`, `email`, `validated`, `type`, `createdOn` FROM `Accounts` WHERE `userName`=? AND `password`=?');
-define('SQL_GETACCOUNTBYID', 'SELECT `userName`, `email`, `validated`, `type`, `createdOn` FROM `Accounts` WHERE `accountId`=?');
-define('SQL_INSERTACCOUNT', 'INSERT INTO `Accounts` (`accountId`, `userName`, `password`, `email`) VALUES (?, ?, ?, ?)');
+define('SQL_GETACCOUNTBYNAMEPASSWORD', 'SELECT `accountId`, `email`, `validated`, `type`, `createdOn` FROM `accounts` WHERE `userName`=? AND `password`=?');
+define('SQL_GETACCOUNTBYID', 'SELECT `userName`, `email`, `validated`, `type`, `createdOn` FROM `accounts` WHERE `accountId`=?');
+define('SQL_INSERTACCOUNT', 'INSERT INTO `accounts` (`accountId`, `userName`, `password`, `email`) VALUES (?, ?, ?, ?)');
 
 /**
  * Contains properties and methods related to querying our accounts table and relations
