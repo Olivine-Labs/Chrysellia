@@ -21,7 +21,7 @@ if(
 			if($Database->Accounts->Login($AnAccount))
 			{
 				$Result->Set('Result', \Protocol\Result::ER_SUCCESS);
-				$_SESSION['AccountId'] = $AnAccount->Id;
+				$_SESSION['AccountId'] = $AnAccount->AccountId;
 			}
 		}
 		catch(Exception $e)
