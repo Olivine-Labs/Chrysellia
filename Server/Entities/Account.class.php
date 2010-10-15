@@ -87,7 +87,7 @@ class Account
 		}
 		if(isset($this->Email))
 		{
-			if((strlen($this->Email) < 3) && (strlen($this->Email) > 150))
+			if((strlen($this->Email) < 3) || (strlen($this->Email) > 150))
 			{
 				return false;
 			}
