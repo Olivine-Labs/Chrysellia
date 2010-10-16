@@ -15,13 +15,13 @@ if ( 'POST' == $_SERVER['REQUEST_METHOD'] )
 			switch($_POST['Action'])
 			{
 				case ACTION_CREATE:
-					include('./Functions/Character/Create.php');
+					include './Functions/Character/Create.php';
 					break;
 				case ACTION_LIST:
-					include('./Functions/Character/List.php');
+					include './Functions/Character/List.php';
 					break;
 				case ACTION_CHECKNAME:
-					include('./Functions/Character/CheckName.php');
+					include './Functions/Character/CheckName.php';
 					break;
 				default:
 					$Result->Set('Result', \Protocol\Result::ER_BADDATA);
