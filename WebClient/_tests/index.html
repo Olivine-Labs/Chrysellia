@@ -35,12 +35,28 @@
 			<div id="characterService">
 				<section id="chCheckName">
 					<h1>Check Name</h1>
+					<label for="ccFirstName">First Name</label> <input id="ccFirstName" name="ccFirstName" /> <br />
+					<label for="ccMiddleName">Middle Name</label> <input id="ccMiddleName" name="ccMiddleName" /> <br />
+					<label for="ccLastName">Last Name</label> <input id="ccLastName" name="ccLastName" /> <br />
+					<button class="button">Check Name</button>
 				</section>
 				<section id="chCreate">
 					<h1>Create Character</h1>
+					<label for="crFirstName">First Name</label> <input id="crFirstName" name="crFirstName" /> <br />
+					<label for="crMiddleName">Middle Name</label> <input id="crMiddleName" name="crMiddleName" /> <br />
+					<label for="crLastName">Last Name</label> <input id="crLastName" name="crLastName" /> <br />
+					<label for="crRaceId">Race ID</label> <input id="crRaceId" name="crRaceId" /> <br />
+					<label for="crStr">Str</label> <input id="crStr" name="crStr" /> <br />
+					<label for="crDex">Dex</label> <input id="crDex" name="crDex" /> <br />
+					<label for="crVit">Vit</label> <input id="crVit" name="crVit" /> <br />
+					<label for="crInt">Int</label> <input id="crInt" name="crInt" /> <br />
+					<label for="crWis">Wis</label> <input id="crWis" name="crWis" /> <br />
+					<button class="button">Create Character</button>
 				</section>
 				<section id="chList">
-					<h1>Character list</h1>
+					<h1>Character List</h1>
+					<p><em>Note: log in first</em></p>
+					<button class="button">Get List</button>
 				</section>
 			</div>
 			<div id="chatService">
@@ -58,6 +74,7 @@
 		<script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.5/jquery-ui.min.js" type="text/javascript"></script>
 		<script src="../core.js" type="text/javascript"></script>
 		<script src="../core-AccountService.js" type="text/javascript"></script>
+		<script src="../core-CharacterService.js" type="text/javascript"></script>
 		<script src="../jquery-md5.js" type="text/javascript"></script>
 		
 		<script type="text/javascript">
@@ -81,6 +98,31 @@
 					pw = $.md5($("#alPasswordInput").val());
 					
 					vc.as.Login(un, pw, callback)
+				});
+				
+				$("#chCheckName button").click(function(){
+					fn = $("#ccFirstName").val();
+					mn = $("#ccMiddleName").val();
+					ln = $("#ccLastName").val();
+					
+					vc.cs.CheckName(fn, mn, ln, callback)
+				});
+				
+				$("#chCreate button").click(function(){
+					fn = $("#crFirstName").val();
+					mn = $("#crMiddleName").val();
+					ln = $("#crLastName").val();
+					rID = $("#crRaceId").val();
+					str = $("#crStr").val();
+					dex = $("#crDex").val();
+					vit = $("#crVit").val();
+					intl = $("#crInt").val();
+					wis = $("#crWis").val();
+					vc.cs.Create(fn, mn, ln, rID, str, dex, vit, intl, wis, callback)
+				});
+				
+				$("#chList button").click(function(){
+					vc.cs.List(callback)
 				});
 			});
 			
