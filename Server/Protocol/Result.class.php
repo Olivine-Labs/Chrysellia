@@ -12,6 +12,7 @@ class Result
 	const OT_XML = 1;
 
 	const ER_SUCCESS=0;//when Murphy is not around everything works.
+	const ER_NOTLOGGEDIN=250;//when the session fails
 	const ER_BADDATA=251;//when the data is bad
 	const ER_ALREADYEXISTS=252;//when the data already exists in the database
 	const ER_MALFORMED=253;//when a post/get is malformed for the function requested

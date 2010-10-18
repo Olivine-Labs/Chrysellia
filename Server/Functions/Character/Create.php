@@ -31,6 +31,17 @@ if(
 	$ACharacter->RacialIntelligence = $Post->Intelligence;
 	$ACharacter->RacialWisdom = $Post->Wisdom;
 	$ACharacter->RacialVitality = $Post->Vitality;
+	$ACharacter->Strength = $Post->Strength;
+	$ACharacter->Dexterity = $Post->Dexterity;
+	$ACharacter->Intelligence = $Post->Intelligence;
+	$ACharacter->Wisdom = $Post->Wisdom;
+	$ACharacter->Vitality = $Post->Vitality;
+	$ACharacter->Health = $Post->Vitality;
+
+	//Temp
+	$ACharacter->MapId = 'MAP_00000000000000000000001';
+	$ACharacter->PositionX = 0;
+	$ACharacter->PositionY = 0;
 
 	if($ACharacter->Verify())
 	{
@@ -42,11 +53,20 @@ if(
 			if($Database->Characters->Insert($ACharacter))
 			{
 				if($Database->Characters->InsertTraits($ACharacter))
+				{
 					if($Database->Characters->InsertRaceTraits($ACharacter))
+					{
 						if($Database->Characters->InsertPosition($ACharacter))
+						{
 							$Success = true;
+						}
+					}
+				}
+
 				if(!$Success)
+				{
 					$Result->Set('Result', \Protocol\Result::ER_DBERROR);
+				}
 			}else
 			{
 				$Result->Set('Result', \Protocol\Result::ER_ALREADYEXISTS);

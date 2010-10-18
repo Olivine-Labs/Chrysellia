@@ -49,7 +49,7 @@ class Database extends \Database\Database
 	 */
 	public function startTransaction()
 	{
-		$this->Connection->autocommit = false;
+		$this->Connection->autocommit(false);
 	}
 
 	/**
@@ -61,7 +61,7 @@ class Database extends \Database\Database
 	public function commitTransaction()
 	{
 		$this->Connection->commit();
-		$this->Connection->autocommit = true;
+		$this->Connection->autocommit(true);
 	}
 
 	/**
@@ -73,7 +73,7 @@ class Database extends \Database\Database
 	public function rollbackTransaction()
 	{
 		$this->Connection->rollback();
-		$this->Connection->autocommit = true;
+		$this->Connection->autocommit(true);
 	}
 }
 

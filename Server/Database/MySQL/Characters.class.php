@@ -4,23 +4,23 @@ namespace Database\MySQL;
 
 //Queries
 //Basic
-define('SQL_GETCHARACTERSBYACCOUNTID', 'SELECT c.firstName, c.middleName, c.lastName, c.createdOn, ct.strength, ct.dexterity, ct.intelligence, ct.wisdom, ct.vitality, ct.health, ct.alignGood, ct.alignOrder, ct.raceId FROM `characters` c INNER JOIN `character_traits` ct ON c.characterId=ct.characterId WHERE c.accountId=?');
+define('SQL_GETCHARACTERSBYACCOUNTID', 'SELECT c.characterId, c.firstName, c.middleName, c.lastName, c.createdOn, ct.strength, ct.dexterity, ct.intelligence, ct.wisdom, ct.vitality, ct.health, ct.alignGood, ct.alignOrder, ct.raceId FROM `characters` c INNER JOIN `character_traits` ct ON c.characterId=ct.characterId WHERE c.accountId=?');
 define('SQL_GETCHARACTERBYID', 'SELECT `firstName`, `middleName`, `lastName`, `createdOn` FROM `characters` WHERE `characterId`=?');
-define('SQL_INSERTCHARACTER', 'INSERT INTO `characters` (`characterId`, `firstName`, `middleName`, `lastName`, `biography`) VALUES (?, ?, ?, ?)');
+define('SQL_INSERTCHARACTER', 'INSERT INTO `characters` (`accountId`, `characterId`, `firstName`, `middleName`, `lastName`) VALUES (?, ?, ?, ?, ?)');
 define('SQL_GETCHARACTERCOUNT', 'SELECT count(*) FROM `characters` WHERE `accountId`=?');
 define('SQL_CHECKCHARACTERNAME', 'SELECT count(*) FROM `characters` WHERE firstName=? && middleName=? && lastName=?');
 
 //Traits
 define('SQL_GETCHARACTERTRAITS', 'SELECT `raceId`, `alignGood`, `alignOrder`, `level`, `freelevels`, `experience`, `strength`, `dexterity`, `intelligence`, `wisdom`, `vitality`, `health`, `experienceBonus`, `alignBonus`, `strengthBonus`, `dexterityBonus`, `intelligenceBonus`, `wisdomBonus`, `vitalityBonus` FROM `character_traits` WHERE `characterId`=?');
 define('SQL_GETCHARACTERRACETRAITS', 'SELECT `strength`, `dexterity`, `wisdom`, `intelligence`, `vitality`, `racialAbility` FROM `character_race_traits` WHERE `characterId`=?');
-define('SQL_INSERTCHARACTERTRAITS', 'INSERT INTO `character_traits` (`characterId`, `raceId`, `alignGood`, `alignOrder`, `strength`, `dexterity`, `intelligence`, `wisdom`, `vitality`, `health`) VALUES(?, ?, ?, ?, ?, ?, ?, ?)');
-define('SQL_INSERTCHARACTERRACETRAITS', 'INSERT INTO `character_race_traits` (`strength`, `dexterity`, `wisdom`, `intelligence`, `vitality`, `racialAbility`) VALUES (?, ?, ?, ?, ?, ?');
+define('SQL_INSERTCHARACTERTRAITS', 'INSERT INTO `character_traits` (`characterId`, `raceId`, `strength`, `dexterity`, `intelligence`, `wisdom`, `vitality`, `health`) VALUES(?, ?, ?, ?, ?, ?, ?, ?)');
+define('SQL_INSERTCHARACTERRACETRAITS', 'INSERT INTO `character_race_traits` (`characterId`, `strength`, `dexterity`, `wisdom`, `intelligence`, `vitality`, `racialAbility`) VALUES (?, ?, ?, ?, ?, ?, ?)');
 
 //Location
 define('SQL_GETCHARACTERLOCATION', 'SELECT `mapId`, `positionX`, `positionY` FROM `character_locations` WHERE `characterId`=?');
 define('SQL_UPDATECHARACTERLOCATION', 'UPDATE `character_locations` SET `mapId`=?, `positionX`=?, `positionY=?` WHERE `characterId`=?');
 define('SQL_UPDATECHARACTERLOCATIONXY', 'UPDATE `character_locations` SET `positionX`=?, `positionY=?` WHERE `characterId`=?');
-define('SQL_INSERTCHARACTERLOCATION', 'INSERT INTO character_locations (`characterId`, `mapId`, `positionX`, `positionY`) VALUES (?, ?, ?)');
+define('SQL_INSERTCHARACTERLOCATION', 'INSERT INTO `character_locations` (`characterId`, `mapId`, `positionX`, `positionY`) VALUES (?, ?, ?, ?)');
 
 /**
  * Contains properties and methods related to querying our characters table and relations
@@ -83,7 +83,7 @@ class Characters extends \Database\Characters
 	{
 		$Result = Array();
 		$Query = $this->Database->Connection->prepare(SQL_GETCHARACTERSBYACCOUNTID);
-		$Query->bind_param('s', $AccountId);
+		$Query->bind_param('s', $Account->AccountId);
 
 		$Query->Execute();
 
@@ -124,8 +124,7 @@ class Characters extends \Database\Characters
 	{
 		$Character->CharacterId = uniqid('CHAR_', true);
 		$Query = $this->Database->Connection->prepare(SQL_INSERTCHARACTER);
-		$Query->bind_param('sssss', $Character->CharacterId, $Character->FirstName, $Character->MiddleName, $Character->LastName, $Character->Biography);
-
+		$Query->bind_param('sssss', $Character->AccountId, $Character->CharacterId, $Character->FirstName, $Character->MiddleName, $Character->LastName);
 		$Query->Execute();
 
 		if($Query->affected_rows > 0)
@@ -170,7 +169,7 @@ class Characters extends \Database\Characters
 	function InsertTraits(\Entities\Character $Character)
 	{
 		$Query = $this->Database->Connection->prepare(SQL_INSERTCHARACTERTRAITS);
-		$Query->bind_param('ssssssss', $Character->CharacterId, $Character->RaceId, $Character->AlignGood, $Character->AlignOrder, $Character->Strength, $Character->Dexterity, $Character->Intelligence, $Character->Wisdom, $Character->Vitality, $Character->Health);
+		$Query->bind_param('ssssssss', $Character->CharacterId, $Character->RaceId, $Character->Strength, $Character->Dexterity, $Character->Intelligence, $Character->Wisdom, $Character->Vitality, $Character->Health);
 
 		$Query->Execute();
 
@@ -216,7 +215,7 @@ class Characters extends \Database\Characters
 	function InsertRaceTraits(\Entities\Character $Character)
 	{
 		$Query = $this->Database->Connection->prepare(SQL_INSERTCHARACTERRACETRAITS);
-		$Query->bind_param('sssssss', $Character->CharacterId, $Character->Strength, $Character->Dexterity, $Character->Intelligence, $Character->Wisdom, $Character->Vitality);
+		$Query->bind_param('sssssss', $Character->CharacterId, $Character->RacialStrength, $Character->RacialDexterity, $Character->RacialIntelligence, $Character->RacialWisdom, $Character->RacialVitality, $Character->RacialAbilityId);
 
 		$Query->Execute();
 
@@ -309,7 +308,7 @@ class Characters extends \Database\Characters
 		$Query->bind_param('ssss', $Character->CharacterId, $Character->MapId, $Character->PositionX, $Character->PositionY);
 
 		$Query->Execute();
-
+		die($this->Database->Connection->error);
 		if($Query->affected_rows > 0)
 			return true;
 		else
@@ -328,7 +327,7 @@ class Characters extends \Database\Characters
 	public function GetCount(\Entities\Account $Account)
 	{
 		$Query = $this->Database->Connection->prepare(SQL_GETCHARACTERCOUNT);
-		$Query->bind_param('s', $Account->Id);
+		$Query->bind_param('s', $Account->AccountId);
 
 		$Query->Execute();
 

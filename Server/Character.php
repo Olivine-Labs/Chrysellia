@@ -33,6 +33,10 @@ if ( 'POST' == $_SERVER['REQUEST_METHOD'] )
 			$Result->Set('Result', \Protocol\Result::ER_MALFORMED);
 		}
 	}
+	else
+	{
+		$Result->Set('Result', \Protocol\Result::ER_NOTLOGGEDIN);
+	}
 }
 $Result->Output();
 ?>

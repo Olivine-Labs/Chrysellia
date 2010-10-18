@@ -289,6 +289,15 @@ class Character
 	 */
 	public $RacialVitality;
 
+	/**
+	 * RacialAbilityId
+	 *
+	 * A character's Racial ability
+	 *
+	 * @var $RacialAbilityId
+	 */
+	public $RacialAbilityId;
+
 
 	/**
 	 * Default constructor for the Account Class
@@ -305,7 +314,7 @@ class Character
 	{
 		if(isset($this->FirstName) && isset($this->MiddleName) && isset($this->LastName))
 		{
-			$test = $this->FirstName + $this->MiddleName + $this->LastName;
+			$test = $this->FirstName.$this->MiddleName.$this->LastName;
 			if((strlen($test) < 3) || (strlen($test) > 150))
 			{
 				return false;
@@ -318,6 +327,7 @@ class Character
 				return false;
 			}
 		} 
+		return true;
 	}
 }
 

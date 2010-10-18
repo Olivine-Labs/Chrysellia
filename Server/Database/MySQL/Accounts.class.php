@@ -46,7 +46,7 @@ class Accounts extends \Database\Accounts
 
 		$Query->Execute();
 
-		$Query->bind_result($Account->Id, $Account->Email, $Account->Validated, $Account->Type, $Account->CreatedOn);
+		$Query->bind_result($Account->AccountId, $Account->Email, $Account->Validated, $Account->Type, $Account->CreatedOn);
 
 		if($Query->fetch())
 			return true;

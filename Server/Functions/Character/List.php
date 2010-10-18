@@ -4,13 +4,10 @@
  */
 try
 {
-	if(isset($_SESSION['AccountId']))
-	{
-		$AnAccount = new \Entities\Account();
-		$AnAccount->Id = $_SESSION['AccountId'];
-		$Result->Set('Data', $Database->Characters->LoadListByAccountId($AnAccount));
-		$Result->Set('Result', \Protocol\Result::ER_SUCCESS);
-	}
+	$AnAccount = new \Entities\Account();
+	$AnAccount->AccountId = $_SESSION['AccountId'];
+	$Result->Set('Data', $Database->Characters->LoadListByAccountId($AnAccount));
+	$Result->Set('Result', \Protocol\Result::ER_SUCCESS);
 }
 catch(Exception $e)
 {

@@ -4,22 +4,42 @@ $Result = new \Protocol\Result();
 
 if ( 'POST' == $_SERVER['REQUEST_METHOD'] )
 {
-	//TODO
-	//define('ACTION_SENDCHAT', 0);
-	//define('ACTION_REFRESHCHAT', 1);
-
-	if(isset($_POST['Action']))
+	if(isset($_SESSION['AccountId']))
 	{
-		switch($_POST['Action'])
+		define('ACTION_SENDCHAT', 0);
+		define('ACTION_GETMESSAGESFROMCHANNEL', 1);
+		define('ACTION_GETMESSAGESFORCHARACTER', 2);
+		define('ACTION_JOINCHANNEL', 3);
+
+		if(isset($_POST['Action']))
 		{
-			default:
-				$Result->Set('Result', \Protocol\Result::ER_BADDATA);
-				break;
+			switch($_POST['Action'])
+			{
+				case ACTION_SENDMESSAGE:
+					include './Functions/Chat/SendMessageToChannel.php';
+					break;
+				case ACTION_GETMESSAGESFROMCHANNEL:
+					include './Functions/Chat/GetMessagesFromChannel.php';
+					break;
+				case ACTION_GETMESSAGESFORCHARACTER:
+					include './Functions/Chat/GetMessagesForCharacter.php';
+					break;
+				case ACTION_JOINCHANNEL:
+					//include './Functions/Chat/JoinChannel.php';
+					break;
+				default:
+					$Result->Set('Result', \Protocol\Result::ER_BADDATA);
+					break;
+			}
+		}
+		else
+		{
+			$Result->Set('Result', \Protocol\Result::ER_MALFORMED);
 		}
 	}
 	else
 	{
-		$Result->Set('Result', \Protocol\Result::ER_MALFORMED);
+		$Result->Set('Result', \Protocol\Result::ER_NOTLOGGEDIN);
 	}
 }
 $Result->Output();

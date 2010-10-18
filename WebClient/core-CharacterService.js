@@ -22,7 +22,7 @@
 				url: SERVERCODE_DIRECTORY + "Character.php",
 				cache: false,
 				type: "POST",
-				data: { Action: ACTION_CREATE, Data: JSON.stringify({ FirstName: firstName, MiddleName: middleName, LastName: lastName, Strength: strength, Dexterity: dexterity, Intelligence: intelligence, Wisdom: wisdom, Vitality: vitality }) },
+				data: { Action: ACTION_CREATE, Data: JSON.stringify({ FirstName: firstName, MiddleName: middleName, LastName: lastName, RaceId: raceID, Strength: strength, Dexterity: dexterity, Intelligence: intelligence, Wisdom: wisdom, Vitality: vitality }) },
 				success: function(response){
 					callback(response);
 			   }
