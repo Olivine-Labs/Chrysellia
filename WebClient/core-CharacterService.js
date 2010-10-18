@@ -22,7 +22,7 @@
 				url: SERVERCODE_DIRECTORY + "Character.php",
 				cache: false,
 				type: "POST",
-				data: { Action: LOGIN, Data: JSON.stringify({ FirstName: firstName, MiddleName: middleName, LastName: lastName, Strength: strength, Dexterity: dexterity, Intelligence: intelligence, Wisdom: wisdom, Vitality: vitality }) },
+				data: { Action: ACTION_CREATE, Data: JSON.stringify({ FirstName: firstName, MiddleName: middleName, LastName: lastName, Strength: strength, Dexterity: dexterity, Intelligence: intelligence, Wisdom: wisdom, Vitality: vitality }) },
 				success: function(response){
 					callback(response);
 			   }
@@ -34,7 +34,7 @@
 				url: SERVERCODE_DIRECTORY + "Character.php",
 				cache: true,
 				type: "POST",
-				data: { Action: REGISTER, Data: JSON.stringify({}) },
+				data: { Action: ACTION_LIST, Data: JSON.stringify({}) },
 				success: function(response){
 					callback(response);
 			   }
@@ -46,7 +46,7 @@
 				url: SERVERCODE_DIRECTORY + "Character.php",
 				cache: false,
 				type: "POST",
-				data: { Action: REGISTER, Data: JSON.stringify({ FirstName: firstName, MiddleName: middleName, LastName: lastName }) },
+				data: { Action: ACTION_CHECKNAME, Data: JSON.stringify({ FirstName: firstName, MiddleName: middleName, LastName: lastName }) },
 				success: function(response){
 					callback(response);
 			   }
