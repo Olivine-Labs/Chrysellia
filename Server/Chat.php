@@ -6,7 +6,7 @@ if ( 'POST' == $_SERVER['REQUEST_METHOD'] )
 {
 	if(isset($_SESSION['AccountId']))
 	{
-		define('ACTION_SENDCHAT', 0);
+		define('ACTION_SENDMESSAGE', 0);
 		define('ACTION_GETMESSAGESFROMCHANNEL', 1);
 		define('ACTION_GETMESSAGESFORCHARACTER', 2);
 		define('ACTION_JOINCHANNEL', 3);
