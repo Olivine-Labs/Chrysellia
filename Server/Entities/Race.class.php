@@ -271,11 +271,11 @@ class Race
 	public $ArcaneMasteryMax;
 
 	/**
-	 * AirMasteryMax
+	 * AirMasteryMin
 	 *
-	 * @var AirMasteryMax
+	 * @var AirMasteryMin
 	 */
-	public $AirMasteryMax;
+	public $AirMasteryMin;
 
 	/**
 	 * AirMasteryMax

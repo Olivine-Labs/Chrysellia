@@ -16,7 +16,8 @@
 	window.ER_MALFORMED = 253; //when a post/get is malformed for the function requested
 	window.ER_DBERROR = 254; //when the database fails
 	window.ER_ACCESSDENIED = 255; //when they just don't have access.
-	window.SERVERCODE_DIRECTORY = "../Server/";
+	window.SERVERCODE_DIRECTORY = "./Server/";
+	window.STATICINFO_DIRECTORY = "./Core/StaticInfo/";
 
 	var V2Core = function (){};
 	
@@ -33,10 +34,10 @@
 		CheckVersion: function(callback){
 			$.ajax({
 				async: false,
-				url: "./staticInfo/version.txt",
+				url: STATICINFO_DIRECTORY + "version.txt",
 				cache: false,
 				success: function(responseText){
-					callback();
+					callback(responseText);
 			   }
 			});
 		}

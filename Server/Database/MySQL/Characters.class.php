@@ -124,7 +124,7 @@ class Characters extends \Database\Characters
 	{
 		$Character->CharacterId = uniqid('CHAR_', true);
 		$Query = $this->Database->Connection->prepare(SQL_INSERTCHARACTER);
-		$Query->bind_param('ssssss', $Character->AccountId, $Character->CharacterId, $Character->Pin, $Character->FirstName, $Character->MiddleName, $Character->LastName);
+		$Query->bind_param('ssisss', $Character->AccountId, $Character->CharacterId, $Character->Pin, $Character->FirstName, $Character->MiddleName, $Character->LastName);
 		$Query->Execute();
 
 		if($Query->affected_rows > 0)
@@ -169,7 +169,7 @@ class Characters extends \Database\Characters
 	function InsertTraits(\Entities\Character $Character)
 	{
 		$Query = $this->Database->Connection->prepare(SQL_INSERTCHARACTERTRAITS);
-		$Query->bind_param('sssssssss', $Character->CharacterId, $Character->RaceId, $Character->Gender, $Character->Strength, $Character->Dexterity, $Character->Intelligence, $Character->Wisdom, $Character->Vitality, $Character->Health);
+		$Query->bind_param('ssiiiiiii', $Character->CharacterId, $Character->RaceId, $Character->Gender, $Character->Strength, $Character->Dexterity, $Character->Intelligence, $Character->Wisdom, $Character->Vitality, $Character->Health);
 
 		$Query->Execute();
 

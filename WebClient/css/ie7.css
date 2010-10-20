@@ -1,0 +1,20 @@
+.innerContainer {
+	text-align: center;
+}
+
+.innerContainer div {
+	text-align: left;
+}
+
+#topNav nav ul li  {
+	float: left;
+	display: inline;
+}
+
+.formLabel {
+	display: inline;
+}
+
+.formInput {
+	display: inline;
+}

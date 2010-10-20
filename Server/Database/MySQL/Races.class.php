@@ -41,15 +41,16 @@ class Races
 	{
 		$Query = $this->Database->Connection->prepare(SQL_GETRACE);
 		$Query->bind_param('s', $Race->RaceId);
-
 		$Query->Execute();
-		$Result = Array();
+		//$Result = Array();
 		$Query->bind_result($Race->Name, $Race->HomeMapId, $Race->HomePositionX, $Race->HomePositionY, $Race->LevelRequirement, $Race->AlignMin, $Race->AlignMax, $Race->Strength, $Race->Dexterity, $Race->Intelligence, $Race->Wisdom, $Race->Vitality, $Race->StrengthMax, $Race->DexterityMax, $Race->IntelligenceMax, $Race->WisdomMax, $Race->VitalityMax, $Race->ArmorMasteryMin, $Race->ArmorMasteryMax, $Race->SwordMasteryMin, $Race->SwordMasteryMax, $Race->AxeMasteryMin, $Race->AxeMasteryMax, $Race->MaceMasteryMinimum, $Race->MaceMasteryMax, $Race->StaffMasteryMin, $Race->StaffMasteryMax, $Race->ShieldMasteryMin, $Race->ShieldMasteryMax, $Race->FireMasteryMin, $Race->FireMastereyMax, $Race->ColdMasteryMin, $Race->ColdMasteryMax, $Race->ArcaneMasteryMin, $Race->ArcaneMasteryMax, $Race->AirMasteryMin, $Race->AirMasterytMax);
 
-		if($Query->fetch())
-			return $Result;
-		else
+		if($Query->fetch()){
+			return $Race;
+		}
+		else{
 			return false;
+		}
 	}
 }
 ?>

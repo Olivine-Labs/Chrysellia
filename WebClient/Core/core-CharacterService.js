@@ -17,14 +17,14 @@
 	var CharacterService = function (){};
 	
 	CharacterService = CharacterService.prototype = {
-		Create: function(firstName, middleName, lastName, raceID, strength, dexterity, intelligence, wisdom, vitality, callback){
+		Create: function(firstName, middleName, lastName, gender, pin, raceID, strength, dexterity, intelligence, wisdom, vitality, callback){
 			$.ajax({
 				url: SERVERCODE_DIRECTORY + "Character.php",
 				cache: false,
 				type: "POST",
-				data: { Action: ACTION_CREATE, Data: JSON.stringify({ FirstName: firstName, MiddleName: middleName, LastName: lastName, RaceId: raceID, Strength: strength, Dexterity: dexterity, Intelligence: intelligence, Wisdom: wisdom, Vitality: vitality }) },
+				data: { Action: ACTION_CREATE, Data: JSON.stringify({ FirstName: firstName, MiddleName: middleName, LastName: lastName, Gender: gender, Pin: pin, RaceId: raceID, Strength: strength, Dexterity: dexterity, Intelligence: intelligence, Wisdom: wisdom, Vitality: vitality }) },
 				success: function(response){
-					callback(response);
+					callback(JSON.parse(response));
 			   }
 			});
 		},
@@ -36,7 +36,7 @@
 				type: "POST",
 				data: { Action: ACTION_LIST, Data: JSON.stringify({}) },
 				success: function(response){
-					callback(response);
+					callback(JSON.parse(response));
 			   }
 			});
 		},
@@ -48,7 +48,7 @@
 				type: "POST",
 				data: { Action: ACTION_CHECKNAME, Data: JSON.stringify({ FirstName: firstName, MiddleName: middleName, LastName: lastName }) },
 				success: function(response){
-					callback(response);
+					callback(JSON.parse(response));
 			   }
 			});
 		}

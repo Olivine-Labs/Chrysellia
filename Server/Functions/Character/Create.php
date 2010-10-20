@@ -12,6 +12,7 @@ if(isset($_POST['Data']))
 if(
 	property_exists($Post, 'Gender') &&
 	property_exists($Post, 'Pin') &&
+	property_exists($Post, 'FirstName') &&
 	property_exists($Post, 'MiddleName') &&
 	property_exists($Post, 'LastName') &&
 	property_exists($Post, 'RaceId') &&
@@ -37,6 +38,7 @@ if(
 
 	$ARace = new \Entities\Race();
 	$ARace->RaceId = $ACharacter->RaceId;
+	
 	if($Database->Races->LoadById($ARace))
 	{
 		if($ACharacter->Verify($ARace))

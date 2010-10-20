@@ -23,7 +23,7 @@
 				type: "POST",
 				data: { Action: LOGIN, Data: JSON.stringify({ UserName: username, Password: password }) },
 				success: function(response){
-					callback(response);
+					callback(JSON.parse(response));
 			   }
 			});
 		},
@@ -35,7 +35,7 @@
 				type: "POST",
 				data: { Action: REGISTER, Data: JSON.stringify({ UserName: username, Password: password, Email: email}) },
 				success: function(response){
-					callback(response);
+					callback(JSON.parse(response));
 			   }
 			});
 		}
