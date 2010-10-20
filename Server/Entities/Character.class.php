@@ -326,8 +326,22 @@ class Character
 	/**
 	 * Verifies character data, ensures all fields are valid.
 	 */
-	public function Verify()
+	public function Verify(Race $ARace)
 	{
+		if(isset($this->Gender))
+		{
+			if(($this->Gender != 0) && ($this->Gender != 1))
+			{
+				return false;
+			}
+		}
+		if(isset($this->Pin))
+		{
+			if(($this->Pin > 9999) || ($this->Pin < 0))
+			{
+				return false;
+			}
+		}
 		if(isset($this->FirstName) && isset($this->MiddleName) && isset($this->LastName))
 		{
 			$test = $this->FirstName.$this->MiddleName.$this->LastName;
@@ -340,6 +354,15 @@ class Character
 		{
 			if($this->RacialStrength + $this->RacialDexterity + $this->RacialIntelligence + $this->RacialWisdom + $this->RacialVitality != 25)
 			{
+				return false;
+			}
+			if(
+				($RacialStrength + $ARace->Strength > $ARace->StrengthMax) ||
+				($RacialDexterity + $ARace->Dexterity > $ARace->DexterityMax) ||
+				($RacialIntelligence + $ARace->Intelligence > $ARace->IntelligenceMax) ||
+				($RacialWisdom + $ARace->Wisdom > $ARace->WisdomMax) ||
+				($RacialVitality + $ARace->Vitality > $ARace->VitalityMax)
+			){
 				return false;
 			}
 		} 

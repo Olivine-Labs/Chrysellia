@@ -10,7 +10,8 @@ if(isset($_POST['Data']))
 }
 
 if(
-	property_exists($Post, 'FirstName') &&
+	property_exists($Post, 'Gender') &&
+	property_exists($Post, 'Pin') &&
 	property_exists($Post, 'MiddleName') &&
 	property_exists($Post, 'LastName') &&
 	property_exists($Post, 'RaceId') &&
@@ -22,6 +23,8 @@ if(
 ){
 	$ACharacter = new \Entities\Character();
 	$ACharacter->AccountId = $_SESSION['AccountId'];
+	$ACharacter->Gender = $Post->Gender;
+	$ACharacter->Pin = $Post->Pin;
 	$ACharacter->FirstName = $Post->FirstName;
 	$ACharacter->MiddleName = $Post->MiddleName;
 	$ACharacter->LastName = $Post->LastName;
@@ -31,61 +34,68 @@ if(
 	$ACharacter->RacialIntelligence = $Post->Intelligence;
 	$ACharacter->RacialWisdom = $Post->Wisdom;
 	$ACharacter->RacialVitality = $Post->Vitality;
-	$ACharacter->Strength = $Post->Strength;
-	$ACharacter->Dexterity = $Post->Dexterity;
-	$ACharacter->Intelligence = $Post->Intelligence;
-	$ACharacter->Wisdom = $Post->Wisdom;
-	$ACharacter->Vitality = $Post->Vitality;
-	$ACharacter->Health = $Post->Vitality;
 
-	//Temp
-	$ACharacter->MapId = 'MAP_00000000000000000000001';
-	$ACharacter->PositionX = 0;
-	$ACharacter->PositionY = 0;
-
-	if($ACharacter->Verify())
+	$ARace = new \Entities\Race();
+	$ARace->RaceId = $ACharacter->RaceId;
+	if($Database->Races->LoadById($ARace))
 	{
-		try
+		if($ACharacter->Verify($ARace))
 		{
-			//TODO Racial verification
-			$Database->startTransaction();
-			$Success = false;
-			if($Database->Characters->Insert($ACharacter))
+			$ACharacter->MapId = $ARace->HomeMapId;
+			$ACharacter->PositionX = $ARace->HomePositionX;
+			$ACharacter->PositionY = $ARace->HomePositionY;
+			$ACharacter->Strength = $ARace->Strength + $ACharacter->RacialStrength;
+			$ACharacter->Dexterity = $ARace->Dexterity + $ACharacter->RacialDexterity;
+			$ACharacter->Intelligence = $ARace->Intelligence + $ACharacter->RacialIntelligence;
+			$ACharacter->Wisdom = $ARace->Wisdom + $ACharacter->RacialWisdom;
+			$ACharacter->Vitality = $ARace->Vitality + $ACharacter->RacialVitality;
+			$ACharacter->Health = $ACharacter->Vitality;
+
+			try
 			{
-				if($Database->Characters->InsertTraits($ACharacter))
+				$Database->startTransaction();
+				$Success = false;
+				if($Database->Characters->Insert($ACharacter))
 				{
-					if($Database->Characters->InsertRaceTraits($ACharacter))
+					if($Database->Characters->InsertTraits($ACharacter))
 					{
-						if($Database->Characters->InsertPosition($ACharacter))
+						if($Database->Characters->InsertRaceTraits($ACharacter))
 						{
-							$Success = true;
+							if($Database->Characters->InsertPosition($ACharacter))
+							{
+								$Success = true;
+							}
 						}
 					}
-				}
 
-				if(!$Success)
+					if(!$Success)
+					{
+						$Result->Set('Result', \Protocol\Result::ER_DBERROR);
+					}
+				}else
 				{
-					$Result->Set('Result', \Protocol\Result::ER_DBERROR);
+					$Result->Set('Result', \Protocol\Result::ER_ALREADYEXISTS);
 				}
-			}else
-			{
-				$Result->Set('Result', \Protocol\Result::ER_ALREADYEXISTS);
-			}
 
-			if($Success)
-			{
-				$Database->commitTransaction();
-				$Result->Set('Result', \Protocol\Result::ER_SUCCESS);
+				if($Success)
+				{
+					$Database->commitTransaction();
+					$Result->Set('Result', \Protocol\Result::ER_SUCCESS);
+				}
+				else
+				{
+					$Database->rollbackTransaction();
+				}
 			}
-			else
+			catch(Exception $e)
 			{
+				$Result->Set('Result', \Protocol\Result::ER_DBERROR);
 				$Database->rollbackTransaction();
 			}
 		}
-		catch(Exception $e)
+		else
 		{
-			$Result->Set('Result', \Protocol\Result::ER_DBERROR);
-			$Database->rollbackTransaction();
+			$Result->Set('Result', \Protocol\Result::ER_BADDATA);
 		}
 	}
 	else
