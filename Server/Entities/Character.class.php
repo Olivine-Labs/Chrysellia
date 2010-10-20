@@ -17,6 +17,13 @@ class Character
 	public $CharacterId;
 
 	/**
+	 * Pin
+	 *
+	 * @var $Pin
+	 */
+	public $Pin;
+
+	/**
 	 * First Name
 	 *
 	 * @var $FirstName
@@ -81,6 +88,15 @@ class Character
 	 * @var $RaceId
 	 */
 	public $RaceId;
+
+	/**
+	 * Gender
+	 *
+	 * An identifier that defines the character's gender
+	 *
+	 * @var $gender
+	 */
+	public $Gender;
 
 	/**
 	 * AlignGood

@@ -44,6 +44,13 @@ abstract class Database
 	public $Chat;
 
 	/**
+	 * Reference to object that contains Race related queries
+	 *
+	 * @var Races
+	 */
+	public $Races;
+
+	/**
 	 * Constructor for the abstract Database class
 	 *
 	 * Throws an exception when connection fails
