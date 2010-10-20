@@ -9,6 +9,7 @@ if ( 'POST' == $_SERVER['REQUEST_METHOD'] )
 		define('ACTION_CREATE', 0);
 		define('ACTION_LIST', 1);
 		define('ACTION_CHECKNAME', 2);
+		define('ACTION_SELECTCHARACTER', 3);
 
 		if(isset($_POST['Action']))
 		{
@@ -22,6 +23,9 @@ if ( 'POST' == $_SERVER['REQUEST_METHOD'] )
 					break;
 				case ACTION_CHECKNAME:
 					include './Functions/Character/CheckName.php';
+					break;
+				case ACTION_SELECTCHARACTER:
+					include './Functions/Character/Select.php';
 					break;
 				default:
 					$Result->Set('Result', \Protocol\Result::ER_BADDATA);

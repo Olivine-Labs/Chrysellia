@@ -5,7 +5,7 @@ namespace Database\MySQL;
 //Queries
 //Basic
 define('SQL_GETCHARACTERSBYACCOUNTID', 'SELECT c.characterId, c.firstName, c.middleName, c.lastName, c.createdOn, ct.strength, ct.dexterity, ct.intelligence, ct.wisdom, ct.vitality, ct.health, ct.alignGood, ct.alignOrder, ct.raceId FROM `characters` c INNER JOIN `character_traits` ct ON c.characterId=ct.characterId WHERE c.accountId=?');
-define('SQL_GETCHARACTERBYID', 'SELECT `pin`, `firstName`, `middleName`, `lastName`, `createdOn` FROM `characters` WHERE `characterId`=?');
+define('SQL_GETCHARACTERBYID', 'SELECT `accountId`, `pin`, `firstName`, `middleName`, `lastName`, `createdOn` FROM `characters` WHERE `characterId`=?');
 define('SQL_INSERTCHARACTER', 'INSERT INTO `characters` (`accountId`, `characterId`, `pin`, `firstName`, `middleName`, `lastName`) VALUES (?, ?, ?, ?, ?, ?)');
 define('SQL_GETCHARACTERCOUNT', 'SELECT count(*) FROM `characters` WHERE `accountId`=?');
 define('SQL_CHECKCHARACTERNAME', 'SELECT count(*) FROM `characters` WHERE firstName=? && middleName=? && lastName=?');
@@ -62,7 +62,7 @@ class Characters extends \Database\Characters
 
 		$Query->Execute();
 
-		$Query->bind_result($Character->Pin, $Character->FirstName, $Character->MiddleName, $Character->LastName, $Character->CreatedOn);
+		$Query->bind_result($Character->AccountId, $Character->Pin, $Character->FirstName, $Character->MiddleName, $Character->LastName, $Character->CreatedOn);
 
 		if($Query->fetch())
 			return true;
