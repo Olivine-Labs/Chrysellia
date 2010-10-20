@@ -352,6 +352,11 @@ class Character
 		}
 		if(isset($this->RacialStrength) && isset($this->RacialDexterity) && isset($this->RacialIntelligence) && isset($this->RacialWisdom) && isset($this->RacialVitality))
 		{
+			if($this->RacialStrength + $this->RacialDexterity + $this->RacialIntelligence + $this->RacialWisdom + $this->RacialVitality != 25)
+			{
+				return false;	
+			}
+
 			if(
 				($RacialStrength + $ARace->Strength > $ARace->StrengthMax) ||
 				($RacialDexterity + $ARace->Dexterity > $ARace->DexterityMax) ||
