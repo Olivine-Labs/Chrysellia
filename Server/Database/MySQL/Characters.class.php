@@ -4,7 +4,7 @@ namespace Database\MySQL;
 
 //Queries
 //Basic
-define('SQL_GETCHARACTERSBYACCOUNTID', 'SELECT c.characterId, c.firstName, c.middleName, c.lastName, c.createdOn, ct.strength, ct.dexterity, ct.intelligence, ct.wisdom, ct.vitality, ct.health, ct.alignGood, ct.alignOrder, ct.raceId FROM `characters` c INNER JOIN `character_traits` ct ON c.characterId=ct.characterId WHERE c.accountId=?');
+define('SQL_GETCHARACTERSBYACCOUNTID', 'SELECT c.characterId, c.pin, c.firstName, c.middleName, c.lastName, c.createdOn, ct.strength, ct.dexterity, ct.intelligence, ct.wisdom, ct.vitality, ct.health, ct.alignGood, ct.alignOrder, ct.raceId FROM `characters` c INNER JOIN `character_traits` ct ON c.characterId=ct.characterId WHERE c.accountId=?');
 define('SQL_GETCHARACTERBYID', 'SELECT `accountId`, `pin`, `firstName`, `middleName`, `lastName`, `createdOn` FROM `characters` WHERE `characterId`=?');
 define('SQL_INSERTCHARACTER', 'INSERT INTO `characters` (`accountId`, `characterId`, `pin`, `firstName`, `middleName`, `lastName`) VALUES (?, ?, ?, ?, ?, ?)');
 define('SQL_GETCHARACTERCOUNT', 'SELECT count(*) FROM `characters` WHERE `accountId`=?');
@@ -87,12 +87,16 @@ class Characters extends \Database\Characters
 
 		$Query->Execute();
 
-		$Query->bind_result($CharacterId, $FirstName, $MiddleName, $LastName, $CreatedOn, $Strength, $Dexterity, $Intelligence, $Wisdom, $Vitality, $Health, $AlignGood, $AlignOrder, $RaceId);
+		$Query->bind_result($CharacterId, $Pin, $FirstName, $MiddleName, $LastName, $CreatedOn, $Strength, $Dexterity, $Intelligence, $Wisdom, $Vitality, $Health, $AlignGood, $AlignOrder, $RaceId);
 
 		while($Query->fetch())
 		{
 			$Character = new \Entities\Character();
 			$Character->CharacterId = $CharacterId;
+			if(($Pin > 0) && ($Pin != null))
+				$Character->HasPin = true;
+			else
+				$Character->HasPin = false;
 			$Character->FirstName = $FirstName;
 			$Character->MiddleName = $MiddleName;
 			$Character->LastName = $LastName;

@@ -9,16 +9,20 @@ if(isset($_POST['Data']))
 	$Post = json_decode($_POST['Data']);
 }
 
-if(property_exists($Post, 'Character'))
-{
+if(
+	property_exists($Post, 'Character') &&
+	property_exists($Post, 'Pin')
+){
 	try
 	{
 		$ACharacter = new \Entities\Character();
 		$ACharacter->CharacterId = $Post->Character;
 		if($Database->Characters->LoadById($ACharacter))
 		{
-			if($ACharacter->AccountId == $_SESSION['AccountId'])
-			{
+			if(
+				($ACharacter->AccountId == $_SESSION['AccountId']) &&
+				(($ACharacter->Pin == $Post->Pin) || ($ACharacter->Pin == 0))
+			){
 				$Result->Set('Result', \Protocol\Result::ER_SUCCESS);
 				$_SESSION['CharacterId'] = $ACharacter->CharacterId;
 			}

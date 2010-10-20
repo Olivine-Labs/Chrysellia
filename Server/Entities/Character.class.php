@@ -24,6 +24,13 @@ class Character
 	public $Pin;
 
 	/**
+	 * HasPin
+	 *
+	 * @var $HasPin
+	 */
+	public $HasPin;
+
+	/**
 	 * First Name
 	 *
 	 * @var $FirstName
