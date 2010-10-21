@@ -9,7 +9,7 @@ if(isset($_POST['Data']))
 	$Post = json_decode($_POST['Data']);
 }
 
-if(property_exists($Post, 'Channel'))
+if(property_exists($Post, 'Channel')
 {
 	try
 	{
@@ -17,11 +17,12 @@ if(property_exists($Post, 'Channel'))
 		$Character->CharacterId = $_SESSION['CharacterId'];
 		if($Rights = $Database->Chat->HasRights($Character, $Post->Channel))
 		{
-			if($Rights['Write'])
+			if($Rights['Read'])
 			{
-				if($Database->Chat->InsertChat($Character, $Post->Channel, $Post->Message))
+				if($ChannelId = $Database->Chat->JoinChannel($Character, $Post->Channel))
 				{
 					$Result->Set('Result', \Protocol\Result::ER_SUCCESS);
+					$Result->Set('Data', Array('ChannelId'=>$ChannelId);
 				}
 			}
 		}
@@ -35,5 +36,4 @@ else
 {
 	$Result->Set('Result', \Protocol\Result::ER_MALFORMED);
 }
-
 ?>

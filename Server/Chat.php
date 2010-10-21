@@ -25,7 +25,7 @@ if ( 'POST' == $_SERVER['REQUEST_METHOD'] )
 					include './Functions/Chat/GetMessagesForCharacter.php';
 					break;
 				case ACTION_JOINCHANNEL:
-					//include './Functions/Chat/JoinChannel.php';
+					include './Functions/Chat/JoinChannel.php';
 					break;
 				default:
 					$Result->Set('Result', \Protocol\Result::ER_BADDATA);
