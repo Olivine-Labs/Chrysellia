@@ -30,7 +30,7 @@ abstract class Chat
 	 * @param $Character
 	 *   The Character object that will be used to insert "from" information.
 	 *
-	 * @param $Channel
+	 * @param $ChannelId
 	 *   The channel id
 	 *
 	 * @param $Message
@@ -39,7 +39,7 @@ abstract class Chat
 	 * @return Boolean
 	 *   Whether the insert was successful or not.
 	 */
-	abstract public function Insert(\Entities\Character $Character, $Channel, $Message);
+	abstract public function Insert(\Entities\Character $Character, $ChannelId, $Message);
 
 	/**
 	 * Abstract - Loads a list of chat messages for a character
@@ -47,13 +47,16 @@ abstract class Chat
 	 * @param $Character
 	 *   The Character object that will be used to lookup chat messages
 	 *
-	 * @param $Channel
+	 * @param $ChannelId
 	 *   A channel id to load chat for.
+	 *
+	 * @param $DateForward
+	 *   The max date from which to get chat messages from
 	 *
 	 * @return Array
 	 *   An array of chat messages
 	 */
-	abstract public function LoadListForChannel(\Entities\Character $Character, $Channel, $DateForward);
+	abstract public function LoadListForChannel(\Entities\Character $Character, $ChannelId, $DateForward);
 
 	/**
 	 * Loads a list of chat messages for a character
@@ -61,8 +64,8 @@ abstract class Chat
 	 * @param $Character
 	 *   The Character object that will be used to lookup chat messages
 	 *
-	 * @param $Channel
-	 *   A channel id to load chat for.
+	 * @param $DateForward
+	 *   The max date from which to get chat messages from
 	 *
 	 * @return Array
 	 *   An array of chat messages
@@ -75,12 +78,54 @@ abstract class Chat
 	 * @param $Character
 	 *   The Character object that will be checked for permissions
 	 *
-	 * @param $Channel
+	 * @param $ChannelName
 	 *   The name of the channel the character wishes to join.
 	 *
 	 * @return String
 	 *   The id of the channel or null if access is denied
 	 */
-	abstract public function JoinChannel(\Entities\Character $Character, $Channel);
+	abstract public function JoinChannel(\Entities\Character $Character, $ChannelName);
+
+	/**
+	 * Abstract - Creates a channel
+	 *
+	 * @param $Character
+	 *   The Character object that will be checked for permissions
+	 *
+	 * @param $ChannelName
+	 *   The name of the channel
+	 *
+	 * @return String
+	 *   The id of the channel or null if access is denied
+	 */
+	abstract public function CreateChannel($ChannelName);
+
+	/**
+	 * Abstract - Gets a character's rights to a channel
+	 *
+	 * @param $Character
+	 *   The Character object that will be checked for permissions
+	 *
+	 * @param $ChannelId
+	 *   The id of the channel
+	 *
+	 * @return Array
+	 *   An array of rights or false
+	 */
+	abstract public function GetRights(\Entities\Character $Character, $ChannelId);
+
+	/**
+	 * Abstract - Sets rights on a channel
+	 *
+	 * @param $Character
+	 *   The Character object that will be given permissions
+	 *
+	 * @param $ChannelId
+	 *   The id of the channel to which rights will be given
+	 *
+	 * @return Boolean
+	 *   Whether or not the update was successful
+	 */
+	abstract public function SetRights(\Entities\Character $ACharacter, $ChannelId, Array $Rights);
 }
 ?>

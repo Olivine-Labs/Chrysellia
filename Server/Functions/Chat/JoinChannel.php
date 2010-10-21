@@ -1,6 +1,6 @@
 <?php
 /**
- * Chat send logic
+ * Join Channel
  */
 
 $Post = (object)Array('Data'=>'');
@@ -15,16 +15,10 @@ if(property_exists($Post, 'Channel')
 	{
 		$Character = new \Entities\Character();
 		$Character->CharacterId = $_SESSION['CharacterId'];
-		if($Rights = $Database->Chat->HasRights($Character, $Post->Channel))
+		if($ChannelId = $Database->Chat->JoinChannel($Character, $Post->Channel))
 		{
-			if($Rights['Read'])
-			{
-				if($ChannelId = $Database->Chat->JoinChannel($Character, $Post->Channel))
-				{
-					$Result->Set('Result', \Protocol\Result::ER_SUCCESS);
-					$Result->Set('Data', Array('ChannelId'=>$ChannelId);
-				}
-			}
+			$Result->Set('Result', \Protocol\Result::ER_SUCCESS);
+			$Result->Set('Data', Array('ChannelId'=>$ChannelId));
 		}
 	}
 	catch(Exception $e)

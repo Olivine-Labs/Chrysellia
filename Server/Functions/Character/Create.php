@@ -3,6 +3,9 @@
  * This file contains the Character creation logic
  */
 
+define('CHANNEL_GENERAL', 'CHAN_00000000000000000000001');
+define('CHANNEL_TRADE', 'CHAN_00000000000000000000002');
+
 $Post = (object)Array('Data'=>'');
 if(isset($_POST['Data']))
 {
@@ -65,7 +68,13 @@ if(
 						{
 							if($Database->Characters->InsertPosition($ACharacter))
 							{
-								$Success = true;
+								if($Database->Chat->SetRights($ACharacter, CHANNEL_GENERAL, Array('Read'=>1, 'Write'=>1, 'Moderate'=>0, 'Administrate'=>0)))
+								{
+									if($Database->Chat->SetRights($ACharacter, CHANNEL_TRADE, Array('Read'=>1, 'Write'=>1, 'Moderate'=>0, 'Administrate'=>0)))
+									{
+										$Success = true;
+									}
+								}
 							}
 						}
 					}

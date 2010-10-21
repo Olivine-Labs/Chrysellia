@@ -3,7 +3,7 @@
 namespace Database\MySQL;
 
 define('SQL_GETSESSION', 'SELECT `data` FROM `sessions` WHERE `sessionId`=?');
-define('SQL_REPLACESESSION', 'REPLACE INTO `sessions` (`sessionId`, `data`, `lastUsedOn`) VALUES (?, ?, NOW())');
+define('SQL_REPLACESESSION', 'INSERT INTO `sessions` (`sessionId`, `data`, `lastUsedOn`) VALUES (?, ?, NOW()) ON DUPLICATE KEY UPDATE `data`=?, `lastUsedOn`=NOW()');
 define('SQL_DELETESESSION', 'DELETE FROM `sessions` WHERE `sessionId`=?');
 define('SQL_CLEANSESSIONS', 'DELETE FROM `sessions` WHERE `lastUsedOn` < (NOW() - INTERVAL ? SECOND)');
 
@@ -67,7 +67,7 @@ class Sessions extends \Database\Sessions
 	public function Replace($Id, $Data)
 	{
 		$Query = $this->Database->Connection->prepare(SQL_REPLACESESSION);
-		$Query->bind_param('ss', $Id, $Data);
+		$Query->bind_param('sss', $Id, $Data, $Data);
 
 		$Query->Execute();
 
