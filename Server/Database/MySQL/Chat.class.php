@@ -4,7 +4,7 @@ namespace Database\MySQL;
 
 define('SQL_GETMESSAGESINCHANNEL', 'SELECT c.message, c.fromName, c.type, c.sentOn FROM `chat` c INNER JOIN `channel_permissions` p ON p.channelId=c.channelId AND p.characterId=? WHERE c.channelId=? AND p.accessChat=1 AND c.sentOn>?');
 define('SQL_JOINCHANNEL', 'SELECT c.channelid FROM `channels` c INNER JOIN `channel_permissions` p ON c.channelId=p.channelId AND p.characterId=? AND p.accessChat=1 WHERE c.Name=?');
-define('SQL_CHANNELGETRIGHTS', 'SELECT `accessChat`, `accessModerator`, `accessAdmin` FROM `channel_permissions` WHERE `channelId`=?');
+define('SQL_CHANNELGETRIGHTS', 'SELECT `accessRead`, `accessWrite`, `accessModerator`, `accessAdmin` FROM `channel_permissions` WHERE `channelId`=?');
 define('SQL_INSERTMESSAGE', 'INSERT INTO `chat` (`characterIdFrom`, `channelId`, `message`, `fromName`) VALUES (?, ?, ?, ?)');
 define('SQL_GETMESSAGESFORCHARACTER', 'SELECT `message`, `fromName`, `sentOn` FROM `chat` WHERE `type`=2 AND `characterIdTo`=? `sentOn`>?');
 
@@ -168,7 +168,7 @@ class Chat extends \Database\Chat
 
 		$Query->Execute();
 		$Result = Array();
-		$Query->bind_result($Result['Chat'], $Result['Moderator'], $Result['Admin']);
+		$Query->bind_result($Result['Read'], $Result['Write'], $Result['Moderator'], $Result['Admin']);
 
 		if($Query->fetch())
 			return $Result;
