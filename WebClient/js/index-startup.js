@@ -31,6 +31,7 @@ $(function(){
 				switch(r.Result){
 					case ER_SUCCESS:
 						alert("Your account has been created! You can now log in.");
+						$("input", $("#createAccountForm")).val('');
 						break;
 					case ER_BADDATA:
 					case ER_MALFORMED:
@@ -45,8 +46,6 @@ $(function(){
 						break;
 				}
 			});
-			
-			$("input", $("#createAccountForm")).val('');
 		});
 		
 		$("#submitLogIn").click(function(){
@@ -57,7 +56,6 @@ $(function(){
 			vc.as.Login($("#li_username").val(), $.md5($("#li_password").val()), function(r){
 				ProcessLogin(r.Result);
 			});
-			$("input", $("#loginForm")).val('');
 		});
 		
 		$("#submitQuickLogin").click(function(){
@@ -68,8 +66,6 @@ $(function(){
 			vc.as.Login($("#ql_username").val(), $.md5($("#ql_password").val()), function(r){
 				ProcessLogin(r.Result);
 			});
-			
-			$("input", $("#topLoginForm")).val('');
 		});
 		
 		$("#ca_username").parent().focusout(function(){

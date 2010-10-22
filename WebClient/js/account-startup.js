@@ -24,7 +24,7 @@ $(function(){
 		return newText;
 	}
 	
-	$('select#c_race').selectmenu({
+	$('#c_race').selectmenu({
 		style:'dropdown', 
 		menuWidth: 400,
 		format: characterInfoFormatting
@@ -32,7 +32,15 @@ $(function(){
 	
 	$("#submitCreateAccount").click(function(){
 		var race = window.Races[$("#c_race").val()];
-		vc.cs.Create($("#c_fn").val(), $("#c_mn").val(), $("#c_ln").val(), $("#c_gender").val(), $("#c_pin").val(), race.Id, race.Str, race.Dex, race.Int, race.Wis, race.Vit, function(r){
+		var fn = $("#c_fn").val();
+		var mn = $("#c_mn").val();
+		var ln = $("#c_ln").val();
+		
+		if(fn == "First Name") { alert("Please enter a firt name."); return; }
+		if(mn == "Middle Name") { mn = ""; }
+		if(ln == "Last Name") { ln = ""; }
+		
+		vc.cs.Create(fn, mn, ln, $("#c_gender").val(), $("#c_pin").val(), race.Id, 5, 5, 5, 5, 5, function(r){
 			switch(r.Result){
 					case ER_SUCCESS:
 						vc.cs.List(LoadCharacterList);
