@@ -1,10 +1,8 @@
 /*!
- * V2 Core Library 0.0.1 rev 01
+ * V2 Core Library
  * http://v2.neflaria.com/
  *
  * Copyright 2010, Jack Lawson
- *
- * Date: Tue Oct 12 08:22:00 [-0500]
  *
  * Dependencies: jQuery Core
  */

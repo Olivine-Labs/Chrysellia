@@ -1,10 +1,8 @@
 /*!
- * V2 Account Services Library 0.0.1 rev 01
+ * V2 Character Services Library
  * http://v2.neflaria.com/
  *
  * Copyright 2010, Jack Lawson
- *
- * Date: Tue Oct 12 08:34:00 [-0500]
  *
  *Dependencies: jQuery Core, core.js
  */
