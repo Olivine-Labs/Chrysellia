@@ -17,7 +17,7 @@ try
 		{
 			$Character = new \Entities\Character();
 			$Character->CharacterId = $_SESSION['CharacterId'];
-			$ChatArray = $Database->Chat->LoadListForChannel($Character, $Post->Channel, $_SESSION[$Post->Channel]);
+			if($ChatArray = $Database->Chat->LoadListForChannel($Character, $Post->Channel, $_SESSION[$Post->Channel]))
 			{
 				$Result->Set('Result', \Protocol\Result::ER_SUCCESS);
 				$Result->Set('Data', $ChatArray);
