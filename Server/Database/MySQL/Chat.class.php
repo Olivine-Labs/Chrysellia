@@ -86,12 +86,15 @@ class Chat extends \Database\Chat
 		$Result = Array();
 		while($Continue)
 		{
-			$Continue = $Query->Fetch();
 			$Query->bind_result($Result[$Index]['Message'], $Result[$Index]['FromName'], $Result[$Index]['Type'], $Result[$Index]['SentOn']);
+			$Continue = $Query->Fetch();
 			$Index ++;
 		}
 
-		return $Result;
+		if((count($Result) == 1) && ($Result[0]['FromName'] == null))
+			return false;
+		else
+			return $Result;
 	}
 
 	/**
@@ -122,7 +125,10 @@ class Chat extends \Database\Chat
 			$Index ++;
 		}
 
-		return $Result;
+		if((count($Result) == 1) && ($Result[0]['FromName'] == null))
+			return false;
+		else
+			return $Result;
 	}
 
 	/**
