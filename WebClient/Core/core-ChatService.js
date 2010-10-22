@@ -23,19 +23,19 @@
 				url: SERVERCODE_DIRECTORY + "Chat.php",
 				cache: false,
 				type: "POST",
-				data: { Action: ACTION_GETMESSAGESFROMCHANNEL, Data: JSON.stringify({ }) },
+				data: { Action: ACTION_GETMESSAGESFROMCHANNEL, Data: JSON.stringify({ Channel: channel }) },
 				success: function(response){
 					callback(JSON.parse(response));
 			   }
 			});
 		},
 		
-		SendMessageToChannel: function(channel, callback){
+		SendMessageToChannel: function(channel, message, callback){
 			$.ajax({
 				url: SERVERCODE_DIRECTORY + "Chat.php",
 				cache: false,
 				type: "POST",
-				data: { Action: ACTION_SENDMESSAGE, Data: JSON.stringify({ }) },
+				data: { Action: ACTION_SENDMESSAGE, Data: JSON.stringify({ Channel: channel, Message: message }) },
 				success: function(response){
 					callback(JSON.parse(response));
 			   }
@@ -47,7 +47,7 @@
 				url: SERVERCODE_DIRECTORY + "Chat.php",
 				cache: false,
 				type: "POST",
-				data: { Action: ACTION_JOINCHANNEL, Data: JSON.stringify({ }) },
+				data: { Action: ACTION_JOINCHANNEL, Data: JSON.stringify({ Channel: channel }) },
 				success: function(response){
 					callback(JSON.parse(response));
 			   }

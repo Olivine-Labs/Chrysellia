@@ -13,6 +13,7 @@
 	window.ACTION_CREATE = 0;
 	window.ACTION_LIST = 1;
 	window.ACTION_CHECKNAME = 2;
+	window.ACTION_SELECTCHARACTER = 3;
 	
 	var CharacterService = function (){};
 	
@@ -47,6 +48,18 @@
 				cache: false,
 				type: "POST",
 				data: { Action: ACTION_CHECKNAME, Data: JSON.stringify({ FirstName: firstName, MiddleName: middleName, LastName: lastName }) },
+				success: function(response){
+					callback(JSON.parse(response));
+			   }
+			});
+		},
+		
+		Select: function(characterId, pin, callback){
+			$.ajax({
+				url: SERVERCODE_DIRECTORY + "Character.php",
+				cache: false,
+				type: "POST",
+				data: { Action: ACTION_SELECTCHARACTER, Data: JSON.stringify({ Character: characterId, Pin: pin }) },
 				success: function(response){
 					callback(JSON.parse(response));
 			   }

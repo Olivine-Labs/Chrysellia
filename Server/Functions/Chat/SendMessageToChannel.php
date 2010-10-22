@@ -15,15 +15,22 @@ if(property_exists($Post, 'Channel'))
 	{
 		$Character = new \Entities\Character();
 		$Character->CharacterId = $_SESSION['CharacterId'];
-		if($Rights = $Database->Chat->GetRights($Character, $Post->Channel))
+		if($Database->Characters->LoadById($Character))
 		{
-			if($Rights['Write'])
+			if($Rights = $Database->Chat->GetRights($Character, $Post->Channel))
 			{
-				if($Database->Chat->InsertChat($Character, $Post->Channel, $Post->Message))
+				if($Rights['Write'])
 				{
-					$Result->Set('Result', \Protocol\Result::ER_SUCCESS);
+					if($Database->Chat->Insert($Character, $Post->Channel, $Post->Message))
+					{
+						$Result->Set('Result', \Protocol\Result::ER_SUCCESS);
+					}
 				}
 			}
+		}
+		else
+		{
+			$Result->Set('Result', \Protocol\Result::ER_BADDATA);
 		}
 	}
 	catch(Exception $e)
