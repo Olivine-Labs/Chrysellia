@@ -21,16 +21,22 @@ try
 			{
 				$_SESSION[$Post->Channel] = time() - 300;
 			}
-			if($ChatArray = $Database->Chat->LoadListForChannel($Character, $Post->Channel, $_SESSION[$Post->Channel]))
+			$ChatArray = $Database->Chat->LoadListForChannel($Character, $Post->Channel, $_SESSION[$Post->Channel])
+			$Result->Set('Result', \Protocol\Result::ER_SUCCESS);
+			$Result->Set('Data', $ChatArray);
+			if(count($ChatArray) > 0)
 			{
-				$Result->Set('Result', \Protocol\Result::ER_SUCCESS);
-				$Result->Set('Data', $ChatArray);
-				if(count($ChatArray) > 0)
-				{
-					$_SESSION[$Post->Channel] = $ChatArray[count($ChatArray)-1]['SentOn'];
-				}
+				$_SESSION[$Post->Channel] = $ChatArray[count($ChatArray)-1]['SentOn'];
 			}
 		}
+		else
+		{
+			$Result->Set('Result', \Protocol\Result::ER_BADDATA);
+		}
+	}
+	else
+	{
+		$Result->Set('Result', \Protocol\Result::ER_MALFORMED);
 	}
 }
 catch(Exception $e)
