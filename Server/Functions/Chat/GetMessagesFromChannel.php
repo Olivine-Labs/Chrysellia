@@ -21,7 +21,10 @@ try
 			{
 				$Result->Set('Result', \Protocol\Result::ER_SUCCESS);
 				$Result->Set('Data', $ChatArray);
-				$_SESSION[$Post->Channel] = time();
+				if(count($ChatArray) > 0)
+				{
+					$_SESSION[$Post->Channel] = $ChatArray[count($ChatArray)-1]['SentOn'];
+				}
 			}
 		}
 	}

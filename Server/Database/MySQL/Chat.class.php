@@ -2,7 +2,7 @@
 
 namespace Database\MySQL;
 
-define('SQL_GETMESSAGESINCHANNEL', 'SELECT c.message, c.fromName, c.type, c.sentOn FROM `chat` c INNER JOIN `channel_permissions` p ON p.channelId=c.channelId AND p.characterId=? WHERE c.channelId=? AND p.accessRead=1 AND c.sentOn>FROM_UNIXTIME(?)');
+define('SQL_GETMESSAGESINCHANNEL', 'SELECT c.message, c.fromName, c.type, UNIX_TIMESTAMP(c.sentOn) FROM `chat` c INNER JOIN `channel_permissions` p ON p.channelId=c.channelId AND p.characterId=? WHERE c.channelId=? AND p.accessRead=1 AND c.sentOn>FROM_UNIXTIME(?)');
 define('SQL_JOINCHANNEL', 'SELECT c.channelid FROM `channels` c INNER JOIN `channel_permissions` p ON c.channelId=p.channelId AND p.characterId=? AND p.accessRead=1 WHERE c.Name=?');
 define('SQL_CHANNELGETRIGHTS', 'SELECT `accessRead`, `accessWrite`, `accessModerator`, `accessAdmin` FROM `channel_permissions` WHERE `characterId`=? AND `channelId`=?');
 define('SQL_INSERTMESSAGE', 'INSERT INTO `chat` (`characterIdFrom`, `channelId`, `message`, `fromName`) VALUES (?, ?, ?, ?)');
@@ -101,10 +101,12 @@ class Chat extends \Database\Chat
 			$Index ++;
 		}
 
-		if((count($Result) == 1) && ($Result[0]['FromName'] == null))
-			return false;
-		else
-			return $Result;
+		if(count($Result) > 0)
+		{
+			array_pop($Result);
+		}
+
+		return $Result;
 	}
 
 	/**
@@ -135,10 +137,12 @@ class Chat extends \Database\Chat
 			$Index ++;
 		}
 
-		if((count($Result) == 1) && ($Result[0]['FromName'] == null))
-			return false;
-		else
-			return $Result;
+		if(count($Result) > 0)
+		{
+			array_pop($Result);
+		}
+
+		return $Result;
 	}
 
 	/**
