@@ -81,41 +81,22 @@ $(function(){
 function LoadCharacterList(list){
 	$login = $("#logIn");
 	$(".character", $login).remove();
-	
-	$.each(list.Data, function(index, c) {
-		var name = c.FirstName;
-		
-		if(c.MiddleName){
-			name += " " + c.MiddleName;
-		}
-		
-		if(c.LastName){
-			name += " " + c.LastName;
-		}
-		
-		var level = c.Level || 0;
-		var race = window.Races[c.RaceId].Name;
-		
-		var x = c.PositionX || 0;
-		var y = c.PositionY || 0;
-		
-		var goodAlign = "";
-		var orderAlign = "";
-		
-		if(c.AlignGood <= -100){
-			goodAlign = "Evil ";
-		}else if(c.AlignGood >= 100){
-			goodAlign = "Good ";
-		}
-		
-		if(c.AlignOrder <= -100){
-			orderAlign = "Chaotic ";
-		}else if(c.AlignOrder >= 100){
-			orderAlign = "Ordered ";
-		}
-		
-		$('<div class="character"><input type="hidden" value="' + c.CharacterId + '" class="c_id" /><input type="hidden" value="' + c.HasPin + '" class="c_haspin" /><a class="button bigButton" href="#"><span class="characterName">' + name + '</span><span class="characterStats">Lvl ' + level + ' ' + orderAlign + goodAlign + race + '</span></a><ul class="recentActivity"><li>Located at ' + x + ', ' + y + ' (todo: zones)</li><li>Created on: ' + c.CreatedOn + '</li></ul></div>').appendTo($login);
-	});
+	if(list.Result == ER_SUCCESS){
+		$.each(list.Data, function(index, charData) {
+			var c = new Character();
+			c.Construct(charData);
+			
+			var level = c.Level || 0;
+			
+			var x = c.PositionX || 0;
+			var y = c.PositionY || 0;
+			
+			$('<div class="character"><input type="hidden" value="' + c.CharacterId + '" class="c_id" /><input type="hidden" value="' + c.HasPin + '" class="c_haspin" /><a class="button bigButton" href="#"><span class="characterName">' + c.Name() + '</span><span class="characterStats">Lvl ' + level + ' ' + c.AlignName() + c.RaceName() + '</span></a><ul class="recentActivity"><li>Located at ' + x + ', ' + y + ' (todo: zones)</li><li>Created on: ' + c.CreatedOn + '</li></ul></div>').appendTo($login);
+		});
+	}else{
+		alert("Please login again.");
+		window.location = "./index.html";
+	}
 }
 
 function SelectCharacter(chardata){

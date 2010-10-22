@@ -14,6 +14,7 @@
 	window.ACTION_LIST = 1;
 	window.ACTION_CHECKNAME = 2;
 	window.ACTION_SELECTCHARACTER = 3;
+	window.ACTION_GETCURRENTCHARACTER = 4;
 	
 	var CharacterService = function (){};
 	
@@ -60,6 +61,18 @@
 				cache: false,
 				type: "POST",
 				data: { Action: ACTION_SELECTCHARACTER, Data: JSON.stringify({ Character: characterId, Pin: pin }) },
+				success: function(response){
+					callback(JSON.parse(response));
+			   }
+			});
+		},
+		
+		GetCurrentCharacter: function(callback){
+			$.ajax({
+				url: SERVERCODE_DIRECTORY + "Character.php",
+				cache: false,
+				type: "POST",
+				data: { Action: ACTION_GETCURRENTCHARACTER, Data: JSON.stringify({ Character: characterId, Pin: pin }) },
 				success: function(response){
 					callback(JSON.parse(response));
 			   }
