@@ -72,7 +72,7 @@
 				url: SERVERCODE_DIRECTORY + "Character.php",
 				cache: false,
 				type: "POST",
-				data: { Action: ACTION_GETCURRENTCHARACTER, Data: JSON.stringify({ Character: characterId, Pin: pin }) },
+				data: { Action: ACTION_GETCURRENTCHARACTER, Data: JSON.stringify({ }) },
 				success: function(response){
 					callback(JSON.parse(response));
 			   }
