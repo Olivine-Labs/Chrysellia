@@ -21,7 +21,7 @@ try
 			{
 				$_SESSION[$Post->Channel] = time() - 300;
 			}
-			$ChatArray = $Database->Chat->LoadListForChannel($Character, $Post->Channel, $_SESSION[$Post->Channel])
+			$ChatArray = $Database->Chat->LoadListForChannel($Character, $Post->Channel, $_SESSION[$Post->Channel]);
 			$Result->Set('Result', \Protocol\Result::ER_SUCCESS);
 			$Result->Set('Data', $ChatArray);
 			if(count($ChatArray) > 0)
