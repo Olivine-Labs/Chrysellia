@@ -9,14 +9,16 @@ $(function(){
 		vc.ch.SendMessageToChannel("CHAN_00000000000000000000001", message, function(){});
 		chatbox.val('');
 		
-		$("<div class='chatMessage'><strong>" + MyCharacter.Name() + "</strong>: " + message + "</div>").prependTo($("#chatMessages"));
+		var msg = $("<span class='message' />").text(message);
+		$("<div class='chatMessage'><strong>" + MyCharacter.Name() + "</strong>: </div>").append(msg).prependTo($("#chatMessages"));
 	});
 });
 
 function fillChat(list){
 	if(list.Result == ER_SUCCESS){
 		$.each(list.Data, function(index, c) {
-			$("<div class='chatMessage'><strong>" + c.FromName + "</strong>: " + c.Message + "</div>").prependTo($("#chatMessages"));
+			var msg = $("<span class='message' />").text(c.Message);
+			$("<div class='chatMessage'><strong>" + c.FromName + "</strong>: </div>").append(msg).prependTo($("#chatMessages"));
 		}); 
 	}
 	
