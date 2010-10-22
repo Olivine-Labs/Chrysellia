@@ -86,8 +86,8 @@ class Chat extends \Database\Chat
 		$Result = Array();
 		while($Continue)
 		{
-			$Query->bind_result($Result[$Index]['Message'], $Result[$Index]['FromName'], $Result[$Index]['Type'], $Result[$Index]['SentOn']);
 			$Continue = $Query->Fetch();
+			$Query->bind_result($Result[$Index]['Message'], $Result[$Index]['FromName'], $Result[$Index]['Type'], $Result[$Index]['SentOn']);
 			$Index ++;
 		}
 
