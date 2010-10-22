@@ -29,6 +29,10 @@ try
 				{
 					$_SESSION[$Post->Channel] = $ChatArray[count($ChatArray)-1]['SentOn'];
 				}
+				else
+				{
+					$_SESSION[$Post->Channel] = time();
+				}
 			}
 		}
 	}
