@@ -2,8 +2,8 @@
 
 namespace Database\MySQL;
 
-define('SQL_GETMESSAGESINCHANNEL', 'SELECT c.message, c.fromName, c.type, c.sentOn FROM `chat` c INNER JOIN `channel_permissions` p ON p.channelId=c.channelId AND p.characterId=? WHERE c.channelId=? AND p.accessChat=1 AND c.sentOn>?');
-define('SQL_JOINCHANNEL', 'SELECT c.channelid FROM `channels` c INNER JOIN `channel_permissions` p ON c.channelId=p.channelId AND p.characterId=? AND p.accessChat=1 WHERE c.Name=?');
+define('SQL_GETMESSAGESINCHANNEL', 'SELECT c.message, c.fromName, c.type, c.sentOn FROM `chat` c INNER JOIN `channel_permissions` p ON p.channelId=c.channelId AND p.characterId=? WHERE c.channelId=? AND p.accessRead=1 AND c.sentOn>?');
+define('SQL_JOINCHANNEL', 'SELECT c.channelid FROM `channels` c INNER JOIN `channel_permissions` p ON c.channelId=p.channelId AND p.characterId=? AND p.accessRead=1 WHERE c.Name=?');
 define('SQL_CHANNELGETRIGHTS', 'SELECT `accessRead`, `accessWrite`, `accessModerator`, `accessAdmin` FROM `channel_permissions` WHERE `channelId`=?');
 define('SQL_INSERTMESSAGE', 'INSERT INTO `chat` (`characterIdFrom`, `channelId`, `message`, `fromName`) VALUES (?, ?, ?, ?)');
 define('SQL_GETMESSAGESFORCHARACTER', 'SELECT `message`, `fromName`, `sentOn` FROM `chat` WHERE `type`=2 AND `characterIdTo`=? `sentOn`>?');
@@ -77,7 +77,7 @@ class Chat extends \Database\Chat
 	 */
 	public function LoadListForChannel(\Entities\Character $Character, $ChannelId, $DateForward)
 	{
-		$Query = $this->Database->Connection->prepare(SQL_GETMESSAGESFORCHANNEL);
+		$Query = $this->Database->Connection->prepare(SQL_GETMESSAGESINCHANNEL);
 		$Query->bind_param('sss', $Character->CharacterId, $ChannelId, $DateForward);
 
 		$Query->Execute();	
