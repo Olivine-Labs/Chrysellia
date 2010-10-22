@@ -7,7 +7,7 @@ define('SQL_JOINCHANNEL', 'SELECT c.channelid FROM `channels` c INNER JOIN `chan
 define('SQL_CHANNELGETRIGHTS', 'SELECT `accessRead`, `accessWrite`, `accessModerator`, `accessAdmin` FROM `channel_permissions` WHERE `channelId`=?');
 define('SQL_INSERTMESSAGE', 'INSERT INTO `chat` (`characterIdFrom`, `channelId`, `message`, `fromName`) VALUES (?, ?, ?, ?)');
 define('SQL_GETMESSAGESFORCHARACTER', 'SELECT `message`, `fromName`, `sentOn` FROM `chat` WHERE `type`=2 AND `characterIdTo`=? `sentOn`>?');
-define('SQL_CHANNELSETRIGHTS', 'INSERT INTO `channel_permissions` (`characterId`, `channelId`, `accessRead`,`accessWrite`,`accessModerator`,`accessAdmin`) VALUES (?, ?, ?, ?, ?, ?) ON DUPLICATE KEY UPDATE `accessRead`=?, `accessWrite`=?, `accessModerate`=?, `accessAdmin`=?');
+define('SQL_CHANNELSETRIGHTS', 'INSERT INTO `channel_permissions` (`characterId`, `channelId`, `accessRead`,`accessWrite`,`accessModerator`,`accessAdmin`) VALUES (?, ?, ?, ?, ?, ?) ON DUPLICATE KEY UPDATE `accessRead`=?, `accessWrite`=?, `accessModerator`=?, `accessAdmin`=?');
 /**
  * Contains properties and methods related to querying our chat table and relations
  */
