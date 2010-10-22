@@ -10,6 +10,7 @@ if ( 'POST' == $_SERVER['REQUEST_METHOD'] )
 		define('ACTION_LIST', 1);
 		define('ACTION_CHECKNAME', 2);
 		define('ACTION_SELECTCHARACTER', 3);
+		define('ACTION_GETCURRENTCHARACTER', 4);
 
 		if(isset($_POST['Action']))
 		{
@@ -26,6 +27,9 @@ if ( 'POST' == $_SERVER['REQUEST_METHOD'] )
 					break;
 				case ACTION_SELECTCHARACTER:
 					include './Functions/Character/Select.php';
+					break;
+				case ACTION_GETCURRENTCHARACTER:
+					include './Functions/Character/Load.php';
 					break;
 				default:
 					$Result->Set('Result', \Protocol\Result::ER_BADDATA);
