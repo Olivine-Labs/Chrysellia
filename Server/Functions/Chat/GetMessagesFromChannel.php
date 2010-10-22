@@ -17,6 +17,10 @@ try
 		{
 			$Character = new \Entities\Character();
 			$Character->CharacterId = $_SESSION['CharacterId'];
+			if(!isset($_SESSION[$Post->Channel])
+			{
+				$_SESSION[$Post->Channel] = time() - 300;
+			}
 			if($ChatArray = $Database->Chat->LoadListForChannel($Character, $Post->Channel, $_SESSION[$Post->Channel]))
 			{
 				$Result->Set('Result', \Protocol\Result::ER_SUCCESS);
