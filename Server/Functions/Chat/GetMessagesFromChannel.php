@@ -17,6 +17,7 @@ try
 		{
 			$Character = new \Entities\Character();
 			$Character->CharacterId = $_SESSION['CharacterId'];
+			$TimeSet = false;
 			if(!isset($_SESSION[$Post->Channel]))
 			{
 				$_SESSION[$Post->Channel] = time() - 300;
@@ -27,12 +28,13 @@ try
 				$Result->Set('Data', $ChatArray);
 				if(count($ChatArray) > 0)
 				{
+					$TimeSet = true;
 					$_SESSION[$Post->Channel] = $ChatArray[count($ChatArray)-1]['SentOn'];
 				}
-				else
-				{
-					$_SESSION[$Post->Channel] = time();
-				}
+			}
+			if(!$TimeSet)
+			{
+				$_SESSION[$Post->Channel] = time();
 			}
 		}
 	}
