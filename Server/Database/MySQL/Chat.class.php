@@ -224,7 +224,7 @@ class Chat extends \Database\Chat
 
 		$Query->Execute();
 
-		if($Query->fetch())
+		if($Query->affected_rows > 0)
 			return true;
 		else
 			return false;
