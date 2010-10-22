@@ -15,7 +15,7 @@ if(property_exists($Post, 'Channel'))
 	{
 		$Character = new \Entities\Character();
 		$Character->CharacterId = $_SESSION['CharacterId'];
-		if($Rights = $Database->Chat->HasRights($Character, $Post->Channel))
+		if($Rights = $Database->Chat->GetRights($Character, $Post->Channel))
 		{
 			if($Rights['Write'])
 			{

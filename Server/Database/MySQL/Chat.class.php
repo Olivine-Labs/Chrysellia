@@ -77,7 +77,7 @@ class Chat extends \Database\Chat
 	 */
 	public function LoadListForChannel(\Entities\Character $Character, $ChannelId, $DateForward)
 	{
-		$Query = $this->Database->Connection->prepare(SQL_GETMESSAGES);
+		$Query = $this->Database->Connection->prepare(SQL_GETMESSAGESFORCHANNEL);
 		$Query->bind_param('sss', $Character->CharacterId, $ChannelId, $DateForward);
 
 		$Query->Execute();	
