@@ -17,7 +17,6 @@ try
 		{
 			$Character = new \Entities\Character();
 			$Character->CharacterId = $_SESSION['CharacterId'];
-			$TimeSet = false;
 			if(!isset($_SESSION[$Post->Channel]))
 			{
 				$_SESSION[$Post->Channel] = time() - 300;
