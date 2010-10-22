@@ -28,13 +28,8 @@ try
 				$Result->Set('Data', $ChatArray);
 				if(count($ChatArray) > 0)
 				{
-					$TimeSet = true;
 					$_SESSION[$Post->Channel] = $ChatArray[count($ChatArray)-1]['SentOn'];
 				}
-			}
-			if(!$TimeSet)
-			{
-				$_SESSION[$Post->Channel] = time();
 			}
 		}
 	}
