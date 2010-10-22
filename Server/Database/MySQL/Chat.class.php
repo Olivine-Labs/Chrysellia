@@ -50,7 +50,17 @@ class Chat extends \Database\Chat
 	public function Insert(\Entities\Character $Character, $ChannelId, $Message)
 	{
 		$Query = $this->Database->Connection->prepare(SQL_INSERTMESSAGE);
-		$Query->bind_param('ssss', $Character->CharacterId, $ChannelId, $Message, $Character->FirstName);
+		$name = $Character->FirstName;
+		
+		if($Character->MiddleName != ""){
+			$name.= " ".$Character->MiddleName;
+		}
+		
+		if($Character->LastName != ""){
+			$name.= " ".$Character->LastName;
+		}
+		
+		$Query->bind_param('ssss', $Character->CharacterId, $ChannelId, $Message, $name);
 
 		$Query->Execute();
 
