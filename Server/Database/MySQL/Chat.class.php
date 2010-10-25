@@ -5,7 +5,7 @@ namespace Database\MySQL;
 define('SQL_GETMESSAGESINCHANNEL', 'SELECT c.message, c.fromName, c.type, UNIX_TIMESTAMP(c.sentOn) FROM `chat` c INNER JOIN `channel_permissions` p ON p.channelId=c.channelId AND p.characterId=? AND p.characterId != c.characterIdFrom WHERE c.channelId=? AND p.accessRead=1 AND c.sentOn>FROM_UNIXTIME(?) ORDER BY c.sentOn ASC');
 define('SQL_JOINCHANNEL', 'SELECT c.channelid FROM `channels` c INNER JOIN `channel_permissions` p ON c.channelId=p.channelId AND p.characterId=? AND p.accessRead=1 WHERE c.Name=?');
 define('SQL_CHANNELGETRIGHTS', 'SELECT `accessRead`, `accessWrite`, `accessModerator`, `accessAdmin` FROM `channel_permissions` WHERE `characterId`=? AND `channelId`=?');
-define('SQL_INSERTMESSAGE', 'INSERT INTO `chat` (`characterIdFrom`, `channelId`, `message`, `fromName`) VALUES (?, ?, ?, ?)');
+define('SQL_INSERTMESSAGE', 'INSERT INTO `chat` (`characterIdFrom`, `channelId`, `message`, `fromName`, `type`) VALUES (?, ?, ?, ?, ?)');
 define('SQL_GETMESSAGESFORCHARACTER', 'SELECT `message`, `fromName`, `sentOn` FROM `chat` WHERE `type`=2 AND `characterIdTo`=? `sentOn`>?');
 define('SQL_CHANNELSETRIGHTS', 'INSERT INTO `channel_permissions` (`characterId`, `channelId`, `accessRead`,`accessWrite`,`accessModerator`,`accessAdmin`) VALUES (?, ?, ?, ?, ?, ?) ON DUPLICATE KEY UPDATE `accessRead`=?, `accessWrite`=?, `accessModerator`=?, `accessAdmin`=?');
 /**
@@ -47,20 +47,20 @@ class Chat extends \Database\Chat
 	 * @return Boolean
 	 *   Whether the insert was successful or not.
 	 */
-	public function Insert(\Entities\Character $Character, $ChannelId, $Message)
+	public function Insert(\Entities\Character $Character, $ChannelId, $Message, $Type=0)
 	{
 		$Query = $this->Database->Connection->prepare(SQL_INSERTMESSAGE);
-		$name = $Character->FirstName;
+		$Name = $Character->FirstName;
 		
 		if($Character->MiddleName != ""){
-			$name.= " ".$Character->MiddleName;
+			$Name.= " ".$Character->MiddleName;
 		}
 		
 		if($Character->LastName != ""){
-			$name.= " ".$Character->LastName;
+			$Name.= " ".$Character->LastName;
 		}
 		
-		$Query->bind_param('ssss', $Character->CharacterId, $ChannelId, $Message, $name);
+		$Query->bind_param('sssss', $Character->CharacterId, $ChannelId, $Message, $Name, $Type);
 
 		$Query->Execute();
 
