@@ -392,7 +392,7 @@ a.bigButton .characterStats {
 }
 
 .game .innerContainer div {
-	padding: 2px 8px;
+
 }
 
 .game .innerContainer #topInfo  {
@@ -427,15 +427,17 @@ a.bigButton .characterStats {
 	padding: 0;
 }
 
+#top, #bottom { margin: 5px; }
+
 .game #top {
-	height: 300px;
+	height: 250px;
 	clear: both;
 }
 
 .game #topLeft {
 	float: left;
 	width: 250px;
-	height: 300px;
+	height: 250px;
 	background-color: #fff;
 }
 
@@ -444,14 +446,14 @@ a.bigButton .characterStats {
 	width: auto;
 	background-color: #ccc;
 	margin-left: 250px;
-	height: 300px;
+	height: 250px;
 }
 
 .game #topRight {
 	float: right;
 	width: 250px;
 	background-color: #999;
-	height: 300px;
+	height: 250px;
 }
 
 .game #bottom {
