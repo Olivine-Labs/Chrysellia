@@ -432,13 +432,10 @@ a.bigButton .characterStats {
 	clear: both;
 }
 
-.game #top div {
-	height: 300px;
-}
-
 .game #topLeft {
 	float: left;
 	width: 250px;
+	height: 300px;
 	background-color: #fff;
 }
 
@@ -447,14 +444,21 @@ a.bigButton .characterStats {
 	width: auto;
 	background-color: #ccc;
 	margin-left: 250px;
+	height: 300px;
 }
 
 .game #topRight {
 	float: right;
 	width: 250px;
 	background-color: #999;
+	height: 300px;
 }
 
 .game #bottom {
 	
 }
+
+.stats { margin: 1em; }
+
+.statLabel { font-weight: bold; }
+.name { font-weight: bold; text-align: center; }
