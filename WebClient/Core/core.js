@@ -1,8 +1,10 @@
 /*!
- * V2 Core Library
+ * V2 Core Library 0.0.1 rev 01
  * http://v2.neflaria.com/
  *
  * Copyright 2010, Jack Lawson
+ *
+ * Date: Tue Oct 12 08:22:00 [-0500]
  *
  * Dependencies: jQuery Core
  */
@@ -66,6 +68,7 @@
 		this.Wisdom = 0;
 		this.Vitality = 0;
 		this.Health = 0;
+		this.Gold = 0;
 		
 		this.RaceName = function(){
 			return window.Races[this.RaceId].Name;
@@ -140,6 +143,7 @@
 			this.Wisdom = data.Wisdom;
 			this.Vitality = data.Vitality;
 			this.Health = data.Health;
+			this.Gold = data.Gold;
 		}
 	}
 	

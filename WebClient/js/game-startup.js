@@ -33,6 +33,19 @@ function SelectCharacter(data){
 	
 	if(data.Result == ER_SUCCESS){
 		window.MyCharacter.Construct(data.Data);
+		var name = $("<div class='charName'>" + window.MyCharacter.Name() + "</div>");
+		var str = $("<div class='stat'>Str: " + window.MyCharacter.Strength + "</div>"); 
+		var dex = $("<div class='stat'>Dex: " + window.MyCharacter.Dexterity + "</div>"); 
+		var wis = $("<div class='stat'>Wis: " + window.MyCharacter.Wisdom + "</div>"); 
+		var inte = $("<div class='stat'>Int: " + window.MyCharacter.Intelligence + "</div>"); 
+		var vit = $("<div class='stat'>Vit: " + window.MyCharacter.Vitality + "</div>"); 
+		var gold = $("<div class='stat'>Gold: " + window.MyCharacter.Gold + "</div>"); 
+		var exp = $("<div class='stat'>Exp: " + window.MyCharacter.Experience + "</div>"); 
+		var level = $("<div class='stat'>Level: " + window.MyCharacter.Level + "</div>"); 
+		var statsPanel = $("<div class='stats'></div>");
+		statsPanel.append(name).append(str).append(dex).append(wis).append(inte).append(vit).append(gold).append(exp).append(level);
+		statsPanel.appendTo($("#topLeft"));
+		
 	}else{
 		alert("Please login again.");
 		window.location = "./index.html";
