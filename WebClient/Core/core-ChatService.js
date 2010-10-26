@@ -29,7 +29,9 @@
 		},
 		
 		SendMessageToChannel: function(channel, message, callback){
-			if(message.indexOf("/") != 0){
+			var chatobj = vc.ch.Utilities.ParseMessage(message);
+			
+			if(chatobj.Type == 0){
 				$.ajax({
 					url: SERVERCODE_DIRECTORY + "Chat.php",
 					cache: false,
@@ -40,8 +42,8 @@
 				   }
 				});
 			}else{
-				if(message.indexOf("/e ") == 0){
-					vc.cmd.SendChatCommand(channel, ACTION_EMOTE, message.substr(3, message.length - 3), callback);
+				if(chatobj.Type == 1){
+					vc.cmd.SendChatCommand(channel, ACTION_EMOTE, chatobj.Message, callback);
 				}else{
 					callback({ Result: ER_MALFORMED, Data: {} });
 				}
