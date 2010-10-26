@@ -1,6 +1,6 @@
 $(function(){
 	vc.cs.GetCurrentCharacter(SelectCharacter);
-	vc.ch.GetMessagesFromChannel(MyCharacter.CurrentChannel, fillChat);
+	
 	
 	$("#chatForm").submit(function(e){
 		e.preventDefault();
@@ -36,6 +36,8 @@ function SelectCharacter(data){
 		alert("Please login again.");
 		window.location = "./index.html";
 	}
+	
+	vc.ch.GetMessagesFromChannel(MyCharacter.CurrentChannel, fillChat);
 }
 
 function insertChat(c){
