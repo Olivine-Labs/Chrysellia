@@ -464,3 +464,5 @@ a.bigButton .characterStats {
 
 .statLabel { font-weight: bold; }
 .name { font-weight: bold; text-align: center; }
+
+.emote { font-style: italic; }

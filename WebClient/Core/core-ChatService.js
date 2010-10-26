@@ -29,15 +29,23 @@
 		},
 		
 		SendMessageToChannel: function(channel, message, callback){
-			$.ajax({
-				url: SERVERCODE_DIRECTORY + "Chat.php",
-				cache: false,
-				type: "POST",
-				data: { Action: ACTION_SENDMESSAGE, Data: JSON.stringify({ Channel: channel, Message: message }) },
-				success: function(response){
-					callback(JSON.parse(response));
-			   }
-			});
+			if(message.indexOf("/") != 0){
+				$.ajax({
+					url: SERVERCODE_DIRECTORY + "Chat.php",
+					cache: false,
+					type: "POST",
+					data: { Action: ACTION_SENDMESSAGE, Data: JSON.stringify({ Channel: channel, Message: message }) },
+					success: function(response){
+						callback(JSON.parse(response));
+				   }
+				});
+			}else{
+				if(message.indexOf("/e ") == 0){
+					vc.cmd.SendChatCommand(channel, ACTION_EMOTE, message.substr(3, message.length - 3), callback);
+				}else{
+					callback({ Result: ER_MALFORMED, Data: {} });
+				}
+			}
 		},
 		
 		JoinChannel: function(channel, callback){
@@ -62,6 +70,21 @@
 					callback(JSON.parse(response));
 			   }
 			});
+		},
+		
+		Utilities: {}
+	}
+	
+	ChatService.Utilities = ChatService.Utilities.prototype = {
+		ParseMessage: function(message){
+			var type = 0;
+
+			if(message.indexOf("/e ") == 0){
+				type = 1;
+				message = message.substr(3, message.length - 3);
+			}
+			
+			return {Type: type, Message: message};
 		}
 	}
 	
