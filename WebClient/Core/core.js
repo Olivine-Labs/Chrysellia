@@ -69,6 +69,8 @@
 		this.Vitality = 0;
 		this.Health = 0;
 		this.Gold = 0;
+		this.CurrentChannel = "CHAN_00000000000000000000001";
+		this.ChannelsJoined = ["CHAN_00000000000000000000001"];
 		
 		this.RaceName = function(){
 			return window.Races[this.RaceId].Name;

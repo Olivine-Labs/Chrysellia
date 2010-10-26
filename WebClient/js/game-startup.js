@@ -1,42 +1,29 @@
 $(function(){
 	vc.cs.GetCurrentCharacter(SelectCharacter);
-	vc.ch.GetMessagesFromChannel("CHAN_00000000000000000000001", fillChat);
+	vc.ch.GetMessagesFromChannel(MyCharacter.CurrentChannel, fillChat);
 	
 	$("#chatForm").submit(function(e){
 		e.preventDefault();
 		var chatbox = $("#chatInput");
 		var message = chatbox.val();
-		vc.ch.SendMessageToChannel("CHAN_00000000000000000000001", message, function(){});
+		vc.ch.SendMessageToChannel(MyCharacter.CurrentChannel, message, function(){});
 		chatbox.val('');
 		
 		var msgobj = vc.ch.Utilities.ParseMessage(message);
-		
-		if(msgobj.Type == 0){
-			var msg = $("<span class='message' />").text(msgobj.Message);
-			$("<div class='chatMessage'><strong>" + MyCharacter.Name() + "</strong>: </div>").append(msg).prependTo($("#chatMessages"));
-		}else if(msgobj.Type == 1){
-			var msg = $("<span class='message' />").text(msgobj.Message);
-			$("<div class='chatMessage emote'>" + MyCharacter.Name() + " </div>").append(msg).prependTo($("#chatMessages"));
-		}
+		insertChat({ Type: msgobj.Type, FromName: MyCharacter.Name(), Message: msgobj.Message  });
 	});
 });
 
 function fillChat(list){
 	if(list.Result == ER_SUCCESS){
 		$.each(list.Data, function(index, c) {
-			if(c.Type == 0){
-				var msg = $("<span class='message' />").text(c.Message);
-				$("<div class='chatMessage'><strong>" + c.FromName + "</strong>: </div>").append(msg).prependTo($("#chatMessages"));
-			}else{
-				var msg = $("<span class='message' />").text(c.Message);
-				$("<div class='chatMessage emote'>" + c.FromName + " </div>").append(msg).prependTo($("#chatMessages"));
-			}
+			insertChat(c);
 		}); 
 	}
 	
 	$(".chatMessage:nth-child(n+50)").remove();
 	
-	window.setTimeout(function(){ vc.ch.GetMessagesFromChannel("CHAN_00000000000000000000001", fillChat); }, 3000);
+	window.setTimeout(function(){ vc.ch.GetMessagesFromChannel(MyCharacter.CurrentChannel, fillChat); }, 3000);
 }
 
 function SelectCharacter(data){
@@ -48,5 +35,23 @@ function SelectCharacter(data){
 	}else{
 		alert("Please login again.");
 		window.location = "./index.html";
+	}
+}
+
+function insertChat(c){
+	var msg = $("<span class='message' />").text(c.Message);
+	
+	switch(c.Type){
+		case 0:
+			$("<div class='chatMessage'><strong>" + c.FromName + "</strong>: </div>").append(msg).prependTo($("#chatMessages"));
+			break;
+		
+		case 1:
+			$("<div class='chatMessage emote'>" + c.FromName + " </div>").append(msg).prependTo($("#chatMessages"));
+			break;
+		
+		default:
+			$("<div class='chatMessage'><strong>" + c.FromName + "</strong>: </div>").append(msg).prependTo($("#chatMessages"));
+			break;
 	}
 }
