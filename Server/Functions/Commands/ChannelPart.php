@@ -9,7 +9,7 @@ if(isset($_POST['Data']))
 	$Post = json_decode($_POST['Data']);
 }
 
-if(property_exists($Post, 'Channel')
+if(property_exists($Post, 'Channel'))
 {
 	unset($_SESSION['Channels'][$ChannelId]);
 }

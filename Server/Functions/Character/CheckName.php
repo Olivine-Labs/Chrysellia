@@ -18,7 +18,7 @@ try
 		$Character->Name = $Post->Name;
 		if($Character->Verify())
 		{
-			if($Database->Characters->CheckName($Character))
+			if(!$Database->Characters->CheckName($Character))
 				$Result->Set('Result', \Protocol\Result::ER_SUCCESS);
 			else
 				$Result->Set('Result', \Protocol\Result::ER_ALREADYEXISTS);

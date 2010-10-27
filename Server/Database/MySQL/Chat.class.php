@@ -173,7 +173,8 @@ class Chat extends \Database\Chat
 		if($Query->fetch())
 			return $Result;
 		else
-			return false;
+			$Result = Array('Read'=>0, 'Write'=>0, 'Moderate'=>0, 'Administrate'=>0);
+			return $Result;
 	}
 
 	/**
