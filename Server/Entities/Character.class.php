@@ -307,6 +307,15 @@ class Character
 	 */
 	public $RacialAbilityId;
 
+	/**
+	 * Gold
+	 *
+	 * A character's gold
+	 *
+	 * @var $Gold
+	 */
+	public $Gold;
+
 
 	/**
 	 * Default constructor for the Account Class

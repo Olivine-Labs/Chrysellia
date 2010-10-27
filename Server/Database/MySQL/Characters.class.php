@@ -4,16 +4,16 @@ namespace Database\MySQL;
 
 //Queries
 //Basic
-define('SQL_GETCHARACTERSBYACCOUNTID', 'SELECT c.characterId, c.pin, c.name, c.createdOn, ct.strength, ct.dexterity, ct.intelligence, ct.wisdom, ct.vitality, ct.health, ct.alignGood, ct.alignOrder, ct.raceId FROM `characters` c INNER JOIN `character_traits` ct ON c.characterId=ct.characterId WHERE c.accountId=?');
+define('SQL_GETCHARACTERSBYACCOUNTID', 'SELECT c.characterId, c.pin, c.name, c.createdOn, ct.strength, ct.dexterity, ct.intelligence, ct.wisdom, ct.vitality, ct.health, ct.alignGood, ct.alignOrder, ct.raceId, ct.gold FROM `characters` c INNER JOIN `character_traits` ct ON c.characterId=ct.characterId WHERE c.accountId=?');
 define('SQL_GETCHARACTERBYID', 'SELECT `accountId`, `pin`, `name`, `createdOn` FROM `characters` WHERE `characterId`=?');
 define('SQL_INSERTCHARACTER', 'INSERT INTO `characters` (`accountId`, `characterId`, `pin`, `name`) VALUES (?, ?, ?, ?)');
 define('SQL_GETCHARACTERCOUNT', 'SELECT count(*) FROM `characters` WHERE `accountId`=?');
 define('SQL_CHECKCHARACTERNAME', 'SELECT `characterId` FROM `characters` WHERE `name`=?');
 
 //Traits
-define('SQL_GETCHARACTERTRAITS', 'SELECT `raceId`, `gender`, `alignGood`, `alignOrder`, `level`, `freelevels`, `experience`, `strength`, `dexterity`, `intelligence`, `wisdom`, `vitality`, `health`, `experienceBonus`, `alignBonus`, `strengthBonus`, `dexterityBonus`, `intelligenceBonus`, `wisdomBonus`, `vitalityBonus` FROM `character_traits` WHERE `characterId`=?');
+define('SQL_GETCHARACTERTRAITS', 'SELECT `raceId`, `gender`, `alignGood`, `alignOrder`, `level`, `freelevels`, `experience`, `strength`, `dexterity`, `intelligence`, `wisdom`, `vitality`, `health`, `experienceBonus`, `alignBonus`, `strengthBonus`, `dexterityBonus`, `intelligenceBonus`, `wisdomBonus`, `vitalityBonus`, `gold` FROM `character_traits` WHERE `characterId`=?');
 define('SQL_GETCHARACTERRACETRAITS', 'SELECT `strength`, `dexterity`, `wisdom`, `intelligence`, `vitality`, `racialAbility` FROM `character_race_traits` WHERE `characterId`=?');
-define('SQL_INSERTCHARACTERTRAITS', 'INSERT INTO `character_traits` (`characterId`, `raceId`, `gender`, `strength`, `dexterity`, `intelligence`, `wisdom`, `vitality`, `health`) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?)');
+define('SQL_INSERTCHARACTERTRAITS', 'INSERT INTO `character_traits` (`characterId`, `raceId`, `gender`, `strength`, `dexterity`, `intelligence`, `wisdom`, `vitality`, `health`, `gold`) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?)');
 define('SQL_INSERTCHARACTERRACETRAITS', 'INSERT INTO `character_race_traits` (`characterId`, `strength`, `dexterity`, `wisdom`, `intelligence`, `vitality`, `racialAbility`) VALUES (?, ?, ?, ?, ?, ?, ?)');
 
 //Location
@@ -87,7 +87,7 @@ class Characters extends \Database\Characters
 
 		$Query->Execute();
 
-		$Query->bind_result($CharacterId, $Pin, $Name, $CreatedOn, $Strength, $Dexterity, $Intelligence, $Wisdom, $Vitality, $Health, $AlignGood, $AlignOrder, $RaceId);
+		$Query->bind_result($CharacterId, $Pin, $Name, $CreatedOn, $Strength, $Dexterity, $Intelligence, $Wisdom, $Vitality, $Health, $AlignGood, $AlignOrder, $RaceId, $Gold);
 
 		while($Query->fetch())
 		{
@@ -108,6 +108,7 @@ class Characters extends \Database\Characters
 			$Character->AlignGood = $AlignGood;
 			$Character->AlignOrder = $AlignOrder;
 			$Character->RaceId = $RaceId;
+			$Character->Gold = $Gold;
 			array_push($Result, $Character);
 		}
 		return $Result;
@@ -151,7 +152,7 @@ class Characters extends \Database\Characters
 
 		$Query->Execute();
 
-		$Query->bind_result($Character->RaceId, $Character->Gender, $Character->AlignGood, $Character->AlignOrder, $Character->Level, $Character->FreeLevels, $Character->Experience, $Character->Strength, $Character->Dexterity, $Character->Intelligence, $Character->Wisdom, $Character->Vitality, $Character->Health, $Character->ExperienceBonus, $Character->AlignBonus, $Character->StrengthBonus, $Character->DexterityBonus, $Character->IntelligenceBonus, $Character->WisdomBonus, $Character->VitalityBonus);
+		$Query->bind_result($Character->RaceId, $Character->Gender, $Character->AlignGood, $Character->AlignOrder, $Character->Level, $Character->FreeLevels, $Character->Experience, $Character->Strength, $Character->Dexterity, $Character->Intelligence, $Character->Wisdom, $Character->Vitality, $Character->Health, $Character->ExperienceBonus, $Character->AlignBonus, $Character->StrengthBonus, $Character->DexterityBonus, $Character->IntelligenceBonus, $Character->WisdomBonus, $Character->VitalityBonus, $Character->Gold);
 
 		if($Query->fetch())
 			return true;
