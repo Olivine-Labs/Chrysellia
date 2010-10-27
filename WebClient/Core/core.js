@@ -70,7 +70,10 @@
 		this.Health = 0;
 		this.Gold = 0;
 		this.CurrentChannel = "CHAN_00000000000000000000001";
-		this.ChannelsJoined = ["CHAN_00000000000000000000001"];
+		
+		this.Channels = new Array();
+		this.Channels["CHAN_00000000000000000000001"] = "General";
+		this.Channels["CHAN_00000000000000000000002"] = "Trade";
 		
 		this.RaceName = function(){
 			return window.Races[this.RaceId].Name;
@@ -146,6 +149,7 @@
 			this.Vitality = data.Vitality;
 			this.Health = data.Health;
 			this.Gold = data.Gold;
+			//this.Channels = data.Channels;
 		}
 	}
 	

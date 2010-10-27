@@ -1,7 +1,6 @@
 $(function(){
 	vc.cs.GetCurrentCharacter(SelectCharacter);
 	
-	
 	$("#chatForm").submit(function(e){
 		e.preventDefault();
 		var chatbox = $("#chatInput");
@@ -37,7 +36,11 @@ function SelectCharacter(data){
 		window.location = "./index.html";
 	}
 	
-	vc.ch.GetMessagesFromChannel(MyCharacter.CurrentChannel, fillChat);
+	for(var i in window.MyCharacter.Channels){
+		// add in channels per i
+		var chatName = window.MyCharacter[i];
+		vc.ch.GetMessagesFromChannel(i, fillChat);
+	}
 }
 
 function insertChat(c){

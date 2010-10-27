@@ -10,6 +10,10 @@
 (function( window, undefined ) {
 	// Commands
 	window.ACTION_EMOTE = 0;
+	window.ACTION_JOINCHANNEL = 1;
+	window.ACTION_CHANNEL_CREATE = 2;
+	window.ACTION_CHANNEL_PART = 3;
+	window.ACTION_CHANNEL_SETRIGHTS = 4;
 	
 	var CommandService = function (){};
 	
