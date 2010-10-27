@@ -2,11 +2,10 @@
 
 namespace Database\MySQL;
 
-define('SQL_GETMESSAGESINCHANNEL', 'SELECT c.message, c.fromName, c.type, UNIX_TIMESTAMP(c.sentOn) FROM `chat` c INNER JOIN `channel_permissions` p ON p.channelId=c.channelId AND p.characterId=? AND p.characterId != c.characterIdFrom WHERE c.channelId=? AND p.accessRead=1 AND c.sentOn>FROM_UNIXTIME(?) ORDER BY c.sentOn ASC');
+define('SQL_GETMESSAGES', 'SELECT c.message, c.fromName, c.type, UNIX_TIMESTAMP(c.sentOn) FROM `chat` c INNER JOIN `channel_permissions` p ON p.channelId=c.channelId AND p.characterId=? AND p.characterId != c.characterIdFrom WHERE c.channelId=? AND p.accessRead=1 AND c.sentOn>FROM_UNIXTIME(?) ORDER BY c.sentOn ASC');
 define('SQL_JOINCHANNEL', 'SELECT c.channelid FROM `channels` c INNER JOIN `channel_permissions` p ON c.channelId=p.channelId AND p.characterId=? AND p.accessRead=1 WHERE c.Name=?');
 define('SQL_CHANNELGETRIGHTS', 'SELECT `accessRead`, `accessWrite`, `accessModerator`, `accessAdmin` FROM `channel_permissions` WHERE `characterId`=? AND `channelId`=?');
 define('SQL_INSERTMESSAGE', 'INSERT INTO `chat` (`characterIdFrom`, `channelId`, `message`, `fromName`, `type`) VALUES (?, ?, ?, ?, ?)');
-define('SQL_GETMESSAGESFORCHARACTER', 'SELECT `message`, `fromName`, `sentOn` FROM `chat` WHERE `type`=2 AND `characterIdTo`=? `sentOn`>?');
 define('SQL_CHANNELSETRIGHTS', 'INSERT INTO `channel_permissions` (`characterId`, `channelId`, `accessRead`,`accessWrite`,`accessModerator`,`accessAdmin`) VALUES (?, ?, ?, ?, ?, ?) ON DUPLICATE KEY UPDATE `accessRead`=?, `accessWrite`=?, `accessModerator`=?, `accessAdmin`=?');
 /**
  * Contains properties and methods related to querying our chat table and relations
@@ -50,17 +49,8 @@ class Chat extends \Database\Chat
 	public function Insert(\Entities\Character $Character, $ChannelId, $Message, $Type=0)
 	{
 		$Query = $this->Database->Connection->prepare(SQL_INSERTMESSAGE);
-		$Name = $Character->FirstName;
 		
-		if($Character->MiddleName != ""){
-			$Name.= " ".$Character->MiddleName;
-		}
-		
-		if($Character->LastName != ""){
-			$Name.= " ".$Character->LastName;
-		}
-		
-		$Query->bind_param('sssss', $Character->CharacterId, $ChannelId, $Message, $Name, $Type);
+		$Query->bind_param('sssss', $Character->CharacterId, $ChannelId, $Message, $Character->Name, $Type);
 
 		$Query->Execute();
 
@@ -85,9 +75,9 @@ class Chat extends \Database\Chat
 	 * @return Array
 	 *   An array of chat messages
 	 */
-	public function LoadListForChannel(\Entities\Character $Character, $ChannelId, $DateForward)
+	public function LoadList(\Entities\Character $Character, $ChannelId, $DateForward)
 	{
-		$Query = $this->Database->Connection->prepare(SQL_GETMESSAGESINCHANNEL);
+		$Query = $this->Database->Connection->prepare(SQL_GETMESSAGES);
 		$Query->bind_param('sss', $Character->CharacterId, $ChannelId, $DateForward);
 
 		$Query->Execute();	
@@ -110,42 +100,6 @@ class Chat extends \Database\Chat
 	}
 
 	/**
-	 * Loads a list of chat messages for a character
-	 *
-	 * @param $Character
-	 *   The Character object that will be used to lookup chat messages
-	 *
-	 * @param $DateForward
-	 *   The max date from when to return data
-	 *
-	 * @return Array
-	 *   An array of chat messages
-	 */
-	public function LoadListForCharacter(\Entities\Character $Character, $DateForward)
-	{
-		$Query = $this->Database->Connection->prepare(SQL_GETMESSAGESFORCHARACTER);
-		$Query->bind_param('ss', $Character->CharacterId, $DateForward);
-
-		$Query->Execute();	
-		$Continue = true;
-		$Index = 0;
-		$Result = Array();
-		while($Continue)
-		{
-			$Query->bind_result($Result[$Index]['Message'], $Result[$Index]['FromName'], $Result[$Index]['SentOn']);
-			$Continue = $Query->Fetch();
-			$Index ++;
-		}
-
-		if(count($Result) > 0)
-		{
-			array_pop($Result);
-		}
-
-		return $Result;
-	}
-
-	/**
 	 * Joins a channel
 	 *
 	 * @param $Character
@@ -154,8 +108,8 @@ class Chat extends \Database\Chat
 	 * @param $ChannelName
 	 *   The name of the channel the character wishes to join.
 	 *
-	 * @return String
-	 *   The id of the channel or false if access is denied
+	 * @return Boolean
+	 *   true or false if access is denied
 	 */
 	public function JoinChannel(\Entities\Character $Character, $ChannelName)
 	{
@@ -167,7 +121,7 @@ class Chat extends \Database\Chat
 		$Query->bind_result($ChannelId);
 
 		if($Query->fetch())
-			return $ChannelId;
+			return true;
 		else
 			return false;
 	}

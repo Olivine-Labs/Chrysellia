@@ -4,11 +4,11 @@ namespace Database\MySQL;
 
 //Queries
 //Basic
-define('SQL_GETCHARACTERSBYACCOUNTID', 'SELECT c.characterId, c.pin, c.firstName, c.middleName, c.lastName, c.createdOn, ct.strength, ct.dexterity, ct.intelligence, ct.wisdom, ct.vitality, ct.health, ct.alignGood, ct.alignOrder, ct.raceId FROM `characters` c INNER JOIN `character_traits` ct ON c.characterId=ct.characterId WHERE c.accountId=?');
-define('SQL_GETCHARACTERBYID', 'SELECT `accountId`, `pin`, `firstName`, `middleName`, `lastName`, `createdOn` FROM `characters` WHERE `characterId`=?');
-define('SQL_INSERTCHARACTER', 'INSERT INTO `characters` (`accountId`, `characterId`, `pin`, `firstName`, `middleName`, `lastName`) VALUES (?, ?, ?, ?, ?, ?)');
+define('SQL_GETCHARACTERSBYACCOUNTID', 'SELECT c.characterId, c.pin, c.name, c.createdOn, ct.strength, ct.dexterity, ct.intelligence, ct.wisdom, ct.vitality, ct.health, ct.alignGood, ct.alignOrder, ct.raceId FROM `characters` c INNER JOIN `character_traits` ct ON c.characterId=ct.characterId WHERE c.accountId=?');
+define('SQL_GETCHARACTERBYID', 'SELECT `accountId`, `pin`, `name`, `createdOn` FROM `characters` WHERE `characterId`=?');
+define('SQL_INSERTCHARACTER', 'INSERT INTO `characters` (`accountId`, `characterId`, `pin`, `name`) VALUES (?, ?, ?, ?)');
 define('SQL_GETCHARACTERCOUNT', 'SELECT count(*) FROM `characters` WHERE `accountId`=?');
-define('SQL_CHECKCHARACTERNAME', 'SELECT count(*) FROM `characters` WHERE firstName=? && middleName=? && lastName=?');
+define('SQL_CHECKCHARACTERNAME', 'SELECT count(*) FROM `characters` WHERE `name`=?');
 
 //Traits
 define('SQL_GETCHARACTERTRAITS', 'SELECT `raceId`, `gender`, `alignGood`, `alignOrder`, `level`, `freelevels`, `experience`, `strength`, `dexterity`, `intelligence`, `wisdom`, `vitality`, `health`, `experienceBonus`, `alignBonus`, `strengthBonus`, `dexterityBonus`, `intelligenceBonus`, `wisdomBonus`, `vitalityBonus` FROM `character_traits` WHERE `characterId`=?');
@@ -62,7 +62,7 @@ class Characters extends \Database\Characters
 
 		$Query->Execute();
 
-		$Query->bind_result($Character->AccountId, $Character->Pin, $Character->FirstName, $Character->MiddleName, $Character->LastName, $Character->CreatedOn);
+		$Query->bind_result($Character->AccountId, $Character->Pin, $Character->Name, $Character->CreatedOn);
 
 		if($Query->fetch())
 			return true;
@@ -87,7 +87,7 @@ class Characters extends \Database\Characters
 
 		$Query->Execute();
 
-		$Query->bind_result($CharacterId, $Pin, $FirstName, $MiddleName, $LastName, $CreatedOn, $Strength, $Dexterity, $Intelligence, $Wisdom, $Vitality, $Health, $AlignGood, $AlignOrder, $RaceId);
+		$Query->bind_result($CharacterId, $Pin, $Name, $CreatedOn, $Strength, $Dexterity, $Intelligence, $Wisdom, $Vitality, $Health, $AlignGood, $AlignOrder, $RaceId);
 
 		while($Query->fetch())
 		{
@@ -97,9 +97,7 @@ class Characters extends \Database\Characters
 				$Character->HasPin = true;
 			else
 				$Character->HasPin = false;
-			$Character->FirstName = $FirstName;
-			$Character->MiddleName = $MiddleName;
-			$Character->LastName = $LastName;
+			$Character->Name = $Name;
 			$Character->CreatedOn = $CreatedOn;
 			$Character->Strength = $Strength;
 			$Character->Dexterity = $Dexterity;
@@ -128,7 +126,7 @@ class Characters extends \Database\Characters
 	{
 		$Character->CharacterId = uniqid('CHAR_', true);
 		$Query = $this->Database->Connection->prepare(SQL_INSERTCHARACTER);
-		$Query->bind_param('ssisss', $Character->AccountId, $Character->CharacterId, $Character->Pin, $Character->FirstName, $Character->MiddleName, $Character->LastName);
+		$Query->bind_param('ssisss', $Character->AccountId, $Character->CharacterId, $Character->Pin, $Character->Name);
 		$Query->Execute();
 
 		if($Query->affected_rows > 0)
@@ -353,7 +351,7 @@ class Characters extends \Database\Characters
 	public function CheckName(\Entities\Character $Character)
 	{
 		$Query = $this->Database->Connection->prepare(SQL_CHECKCHARACTERNAME);
-		$Query->bind_param('sss', $Character->FirstName, $Character->MiddleName, $Character->LastName);
+		$Query->bind_param('s', $Character->Name);
 
 		$Query->Execute();
 

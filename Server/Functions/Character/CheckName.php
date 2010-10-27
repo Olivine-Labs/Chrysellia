@@ -12,14 +12,10 @@ if(isset($_POST['Data']))
 try
 {
 	if(
-		property_exists($Post, 'FirstName') &&
-		property_exists($Post, 'MiddleName') &&
-		property_exists($Post, 'LastName')
+		property_exists($Post, 'Name')
 	){
 		$Character = new \Entities\Character();
-		$Character->FirstName = $Post->FirstName;
-		$Character->MiddleName = $Post->MiddleName;
-		$Character->LastName = $Post->LastName;
+		$Character->Name = $Post->Name;
 		if($Character->Verify())
 		{
 			if($Database->Characters->CheckName($Character))

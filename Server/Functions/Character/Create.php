@@ -15,9 +15,7 @@ if(isset($_POST['Data']))
 if(
 	property_exists($Post, 'Gender') &&
 	property_exists($Post, 'Pin') &&
-	property_exists($Post, 'FirstName') &&
-	property_exists($Post, 'MiddleName') &&
-	property_exists($Post, 'LastName') &&
+	property_exists($Post, 'Name') &&
 	property_exists($Post, 'RaceId') &&
 	property_exists($Post, 'Strength') &&
 	property_exists($Post, 'Dexterity') &&
@@ -29,9 +27,7 @@ if(
 	$ACharacter->AccountId = $_SESSION['AccountId'];
 	$ACharacter->Gender = $Post->Gender;
 	$ACharacter->Pin = $Post->Pin;
-	$ACharacter->FirstName = $Post->FirstName;
-	$ACharacter->MiddleName = $Post->MiddleName;
-	$ACharacter->LastName = $Post->LastName;
+	$ACharacter->Name = $Post->Name;
 	$ACharacter->RaceId = $Post->RaceId;
 	$ACharacter->RacialStrength = $Post->Strength;
 	$ACharacter->RacialDexterity = $Post->Dexterity;

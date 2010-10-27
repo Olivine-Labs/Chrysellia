@@ -31,25 +31,11 @@ class Character
 	public $HasPin;
 
 	/**
-	 * First Name
+	 * Name
 	 *
-	 * @var $FirstName
+	 * @var $Name
 	 */
-	public $FirstName;
-
-	/**
-	 * Middle Name
-	 *
-	 * @var MiddleName
-	 */
-	public $MiddleName;
-
-	/**
-	 * Last Name
-	 *
-	 * @var $LastName
-	 */
-	public $LastName;
+	public $Name;
 
 	/**
 	 * CreatedOn
@@ -349,10 +335,9 @@ class Character
 				return false;
 			}
 		}
-		if(isset($this->FirstName) && isset($this->MiddleName) && isset($this->LastName))
+		if(isset($this->Name))
 		{
-			$test = $this->FirstName.$this->MiddleName.$this->LastName;
-			if((strlen($test) < 3) || (strlen($test) > 150))
+			if((strlen($this->Name) < 3) || (strlen($this->Name) > 50))
 			{
 				return false;
 			}

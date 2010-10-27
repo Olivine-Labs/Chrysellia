@@ -19,6 +19,7 @@ if(property_exists($Post, 'Channel')
 		{
 			$Result->Set('Result', \Protocol\Result::ER_SUCCESS);
 			$Result->Set('Data', Array('ChannelId'=>$ChannelId));
+			$_SESSION['Channels'][$ChannelId] = new stdClass();
 		}
 	}
 	catch(Exception $e)

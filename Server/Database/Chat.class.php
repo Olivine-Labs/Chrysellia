@@ -56,21 +56,7 @@ abstract class Chat
 	 * @return Array
 	 *   An array of chat messages
 	 */
-	abstract public function LoadListForChannel(\Entities\Character $Character, $ChannelId, $DateForward);
-
-	/**
-	 * Loads a list of chat messages for a character
-	 *
-	 * @param $Character
-	 *   The Character object that will be used to lookup chat messages
-	 *
-	 * @param $DateForward
-	 *   The max date from which to get chat messages from
-	 *
-	 * @return Array
-	 *   An array of chat messages
-	 */
-	abstract public function LoadListForCharacter(\Entities\Character $Character, $DateForward);
+	abstract public function LoadList(\Entities\Character $Character, $ChannelId, $DateForward);
 
 	/**
 	 * Abstract - Joins a channel
@@ -81,8 +67,8 @@ abstract class Chat
 	 * @param $ChannelName
 	 *   The name of the channel the character wishes to join.
 	 *
-	 * @return String
-	 *   The id of the channel or null if access is denied
+	 * @return Boolean
+	 *   true or false if access is denied
 	 */
 	abstract public function JoinChannel(\Entities\Character $Character, $ChannelName);
 
