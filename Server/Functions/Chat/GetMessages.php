@@ -27,7 +27,7 @@ try
 			{
 				$Value->LastRefresh = $TempArray[count($TempArray)-1]['SentOn'];
 			}
-			$ChatArray += $TempArray;
+			$ChatArray[$ChannelId] = $TempArray;
 		}
 	}
 	$Result->Set('Result', \Protocol\Result::ER_SUCCESS);
