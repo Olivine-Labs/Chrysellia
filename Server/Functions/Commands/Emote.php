@@ -17,11 +17,13 @@ if(
 	{
 		$Character = new \Entities\Character();
 		$Character->CharacterId = $_SESSION['CharacterId'];
-
-		if($ChannelId = $Database->Chat->InsertChat($Character, $Channel, $Message, 1))
+		if($Database->Characters->LoadById($Character))
 		{
-			$Result->Set('Result', \Protocol\Result::ER_SUCCESS);
-			$Result->Set('Data', Array('ChannelId'=>$ChannelId));
+			if($ChannelId = $Database->Chat->Insert($Character, $Post->Channel, $Post->Message, 1))
+			{
+				$Result->Set('Result', \Protocol\Result::ER_SUCCESS);
+				//$Result->Set('Data', Array('ChannelId'=>$ChannelId));
+			}
 		}
 	}
 	catch(Exception $e)
