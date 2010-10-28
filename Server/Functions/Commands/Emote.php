@@ -19,11 +19,16 @@ if(
 		$Character->CharacterId = $_SESSION['CharacterId'];
 		if($Database->Characters->LoadById($Character))
 		{
-			if($ChannelId = $Database->Chat->Insert($Character, $Post->Channel, $Post->Message, 1))
+			if($Database->Chat->Insert($Character, $Post->Channel, $Post->Message, 1))
 			{
 				$Result->Set('Result', \Protocol\Result::ER_SUCCESS);
-				//$Result->Set('Data', Array('ChannelId'=>$ChannelId));
+			}else
+			{
+				$Result->Set('Result', \Protocol\Result::ER_BADDATA);
 			}
+		}else
+		{
+			$Result->Set('Result', \Protocol\Result::ER_DBERROR);
 		}
 	}
 	catch(Exception $e)
