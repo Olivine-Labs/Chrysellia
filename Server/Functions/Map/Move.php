@@ -10,8 +10,8 @@ if(isset($_POST['Data']))
 }
 
 if(
-	property_exists($Post, 'PositionX') &&
-	property_exists($Post, 'PositionY')
+	property_exists($Post, 'X') &&
+	property_exists($Post, 'Y')
 ){
 	try
 	{
@@ -19,8 +19,8 @@ if(
 		$Character->CharacterId = $_SESSION['CharacterId'];
 		if($Database->Characters->LoadPosition($Character))
 		{
-			$DiffX = abs($Character->PositionX - $Post->PositionX);
-			$DiffY = abs($Character->PositionY - $Post->PositionY);
+			$DiffX = abs($Character->PositionX - $Post->X);
+			$DiffY = abs($Character->PositionY - $Post->Y);
 			if(
 				($DiffX <= 1) &&
 				($DiffY <= 1)
@@ -33,8 +33,17 @@ if(
 				{
 					$_SESSION['NextAction'] = time() + 1;
 				}
-				$Result->Set('Result', \Protocol\Result::ER_SUCCESS);
-				$Result->Set('Data', Array('X'=>$Post->PositionX, 'Y'=>$PositionY));
+				$Character->PositionX = $Post->X;
+				$Character->PositionY = $Post->Y;
+				if($Database->Character->UpdatePosition($Character))
+				{
+					$Result->Set('Result', \Protocol\Result::ER_SUCCESS);
+					$Result->Set('Data', Array('X'=>$Post->X, 'Y'=>$Post->Y));
+				}
+				else
+				{
+					$Result->Set('Result', \Protocol\Result::ER_DBERROR);
+				}
 			}
 			else
 			{

@@ -25,6 +25,7 @@ if(
 			){
 				$Result->Set('Result', \Protocol\Result::ER_SUCCESS);
 				$_SESSION['CharacterId'] = $ACharacter->CharacterId;
+				$_SESSION['NextAction'] = time() + 1;
 			}
 		}
 		else
