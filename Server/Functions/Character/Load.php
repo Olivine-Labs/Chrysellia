@@ -19,6 +19,7 @@ try
 					else
 						$ACharacter->HasPin = false;
 					$ACharacter->Pin = null;
+					$ACharacter->Channels = $Database->Chat->LoadJoinedChannels($ACharacter);
 					$Result->Set('Data', $ACharacter);
 					$Result->Set('Result', \Protocol\Result::ER_SUCCESS);
 				}

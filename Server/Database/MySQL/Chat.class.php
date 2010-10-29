@@ -7,6 +7,9 @@ define('SQL_JOINCHANNEL', 'SELECT c.channelid FROM `channels` c INNER JOIN `chan
 define('SQL_CHANNELGETRIGHTS', 'SELECT `accessRead`, `accessWrite`, `accessModerator`, `accessAdmin` FROM `channel_permissions` WHERE `characterId`=? AND `channelId`=?');
 define('SQL_INSERTMESSAGE', 'INSERT INTO `chat` (`characterIdFrom`, `channelId`, `message`, `fromName`, `type`) VALUES (?, ?, ?, ?, ?)');
 define('SQL_CHANNELSETRIGHTS', 'INSERT INTO `channel_permissions` (`characterId`, `channelId`, `accessRead`,`accessWrite`,`accessModerator`,`accessAdmin`) VALUES (?, ?, ?, ?, ?, ?) ON DUPLICATE KEY UPDATE `accessRead`=?, `accessWrite`=?, `accessModerator`=?, `accessAdmin`=?');
+define('SQL_CHANNELGETJOINEDLIST', 'SELECT p.channelId, c.name FROM `channel_permissions` p INNER JOIN channels c ON c.channelId=p.channelId WHERE p.characterId`=?');
+define('SQL_CHANNELSETJOINED', 'INSERT INTO `channel_permissions` (`characterId`, `channelId`, `isJoined`) VALUES (?, ?, ?) ON DUPLICATE KEY UPDATE `isJoined`=?');
+
 /**
  * Contains properties and methods related to querying our chat table and relations
  */
@@ -100,6 +103,35 @@ class Chat extends \Database\Chat
 	}
 
 	/**
+	 * Loads a list of joined channels
+	 *
+	 * @param $Character
+	 *   The Character object that will be used to lookup chat messages
+	 *
+	 * @return Array
+	 *   An array of channels
+	 */
+	public function LoadJoinedChannels(\Entities\Character $Character)
+	{
+		$Query = $this->Database->Connection->prepare(SQL_GETMESSAGES);
+		$Query->bind_param('s', $Character->CharacterId);
+
+		$Query->Execute();	
+		$Continue = true;
+		$Result = Array();
+		while($Continue)
+		{
+			$Query->bind_result($ChannelId, $Name);
+			if($Continue = $Query->Fetch())
+			{
+				$Result[$ChannelId] = $Name;
+			}
+		}
+
+		return $Result;
+	}
+
+	/**
 	 * Joins a channel
 	 *
 	 * @param $Character
@@ -108,8 +140,8 @@ class Chat extends \Database\Chat
 	 * @param $ChannelName
 	 *   The name of the channel the character wishes to join.
 	 *
-	 * @return Boolean
-	 *   true or false if access is denied
+	 * @return Boolean/String
+	 *   ChannelId or false if access is denied
 	 */
 	public function JoinChannel(\Entities\Character $Character, $ChannelName)
 	{
@@ -121,6 +153,43 @@ class Chat extends \Database\Chat
 		$Query->bind_result($ChannelId);
 
 		if($Query->fetch())
+		{
+			$Query2 = $this->Database->Connection->prepare(SQL_CHANNELSETJOINED);
+			$Query2->bind_param('ssi', $Character->CharacterId, $ChannelId, 1);
+
+			$Query2->Execute();
+
+			if($Query2->affected_rows <= 0)
+				return false;
+			return $ChannelId;
+
+		}
+		else
+		{
+			return false;
+		}
+	}
+
+	/**
+	 * Leaves a channel
+	 *
+	 * @param $Character
+	 *   The Character object that will be checked for permissions
+	 *
+	 * @param $ChannelId
+	 *   The id of the channel the character wishes to leave.
+	 *
+	 * @return Boolean
+	 *   true or false if isJoined set successfully
+	 */
+	public function LeaveChannel(\Entities\Character $Character, $ChannelId)
+	{
+		$Query = $this->Database->Connection->prepare(SQL_CHANNELSETJOINED);
+		$Query->bind_param('ssi', $Character->CharacterId, $ChannelId, 0);
+
+		$Query->Execute();
+
+		if($Query->affected_rows > 0)
 			return true;
 		else
 			return false;
