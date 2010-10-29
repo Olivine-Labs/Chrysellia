@@ -1,24 +1,26 @@
 body {
-	background: #d7d4c7;
-	color: #494239;
-	font-family: Calibri, Arial, sans-serif;
-	font-size: 1em;
+	font-family: Georgia, 'Times New Roman', serif;
+	font-size: 10pt;
 }
+
+.alternate { font-family: 'DejaWeb', Arial, Helvetica, sans-serif; }
 
 a, a:link, a:visited {
 	text-decoration: none;
+	color: #940000;
 }
 
 a:hover {
 	text-decoration: underline;
+	color: #a00000;
 }
 
 input, select, textarea {
 	background-color: #fff;
 	border: solid 1px #494239;
-	-moz-border-radius: 3px;
-	-webkit-border-radius: 3px;
-	border-radius: 3px;
+	-moz-border-radius: 4px;
+	-webkit-border-radius: 4px;
+	border-radius: 4px;
 	padding: 2px;
 }
 
@@ -26,204 +28,56 @@ input:focus {
 	background-color: #eee;
 }
 
-hr.columnClearingDevice {
-	clear: both;
-	visibility: hidden;
-	margin: 0;
-	padding: 0;
-	border: 0 none;
-	color: transparent;
+a.button, a.button:hover, a.button:link, a.button:visited, a.button:active, button.button, input.button{
+	-moz-border-radius: 4px;
+	-webkit-border-radius: 4px;
+	border-radius: 4px;
+	font-family: Arial;
+	text-decoration: none;
+	display: inline-block;
+	background: #554f48;
+	color: #fff;
+	border: solid 1px #000;
 }
 
-a.button, a.button:hover, a.button:link, a.button:visited, a.button:active {
-	text-decoration: none;
-	font-size: 1em;
-	font-weight: bold;
+a.bigButton, a.bigButton:hover, a.bigButton:link, a.bigButton:visited, a.bigButton:active, button.bigButton, input.bigButton {
+	font-size: 14pt;
+	padding: 5px 30px;
+	background: url('images/redpattern.png') #940000;
+	border: solid 1px #000;
+	-moz-border-radius: 8px;
+	-webkit-border-radius: 8px;
+	border-radius: 8px;
 	color: #fff;
-	padding: 3px 8px;
-	background-color: #494239;
-	-moz-border-radius: 3px;
-	-webkit-border-radius: 3px;
-	border-radius: 3px;
-	border-right: solid 2px #c08826;
-	border-bottom: solid 2px #c08826;
+	font-family: Arial;
+	text-decoration: none;
+	margin: 3px 0;
 	display: inline-block;
 }
 
+h1, h2, h3, h4, h5, h6 { font-family: 'Crimson Text', Georgia, 'Times New Roman', serif; font-weight: normal; }
+
 h1 {
-	font-size: 48px;
+	font-size: 36px;
 }
 
 h2 {
-	font-size: 36px;	
+	font-size: 24px;	
 }
 
 h3 {
-	font-size: 24px;
+	font-size: 18px;
 }
 
-.warning {
-	color: #994239;
-}
+ul { list-style: none; margin: 0; padding: 0; }
+p { margin: .5em 0; font-size: 11pt; line-height: 1.1em; }
+section, header { margin-bottom: 2em; }
 
-.outerContainer {
-	border-top: 10px solid #494239;
-	min-width: 900px;
-}
-
-.innerContainer #topInfo {
-	background: #c08826;
-	color: #d7d4c7;
-	height: 16px;
-}
-
-.innerContainer #topInfo a {
-	color: #494239;
-}
-
-.innerContainer #topInfo span {
-	margin-right: 2em;
-	font-size: .8em
-}
-
-#languageSelection {
-	float: right;
-}
-
-#languageSelection a {
-	display: inline-block;
-	width: 16px;
-	height: 11px;
-	margin: 0 5px;
-}
-
-#languageSelection a.us-flag {
-	background: transparent url('images/flags/us.png') center center no-repeat;
-}
-
-#languageSelection a.mx-flag {
-	background: transparent url('images/flags/mx.png') center center no-repeat;
-}
-
-#languageSelection a.se-flag {
-	background: transparent url('images/flags/se.png') center center no-repeat;
-}
-
-#topInfo, #topNav {
-	padding: 8px;
-}
-
-#topNav {
-	height: 16px;
-	margin-bottom: 10px;
-}
-
-#topNav nav, #topNav nav ul {
-	float: left;
-}
-
-#topNav nav ul li {
-	display: inline-block;
-	margin-right: 10px;
-}
-
-#topNav nav ul li a, #topNav nav ul li a:link, #topNav nav ul li a:active, #topNav nav ul li a:visited, #topNav nav ul li a:hover {
-	display: inline-block;
-	padding: 3px 6px;
-	background-color: #494239;
-	color: #d7d4c7;
-	-moz-border-radius: 3px;
-	-webkit-border-radius: 3px;
-	border-radius: 3px;
-	text-decoration: none;
-}
-
-#topNav nav ul li a.active {
-	background-color: #C08826;
-	color: #494239;
-}
-
-#topLoginForm {
-	text-align: right;
-	float: right;
-}
+section h1 { color: #940000; }
 
 input.watermark {
 	color: #999;
 	font-style: italic;
-}
-
-#content section {
-	margin: 40px 0;
-}
-
-p {
-	margin: 20px 0;
-}
-
-#screenshots {
-	height: 250px;
-	width: auto;
-	overflow: hidden;
-}
-
-#screenshots ul, #loginForm, #createAccountForm {
-	display: none;
-}
-
-#screenshots ul {
-	list-style: none;
-	margin: 0;
-	padding: 0;
-}
-
-#screenshots ul li {
-	list-style: none;
-	display: inline-block;
-	margin-right: 20px;
-}
-
-footer nav {
-	background-color: #c08826;
-	padding: 5px;
-}
-
-footer nav ul {
-	margin: auto;
-	padding: 0;
-	list-style: none;
-	text-align: center;
-	width: 900px;
-}
-
-footer nav ul li {
-	margin: 0;
-	padding: 0;
-	list-style: none;
-	display: inline;
-	font-size: 1em;
-	color: #d7d4c7;
-}
-
-footer nav ul li a {
-	display: inline-block;
-	color: #494239;
-}
-
-footer #copyright {
-	background-color: #494239;
-	text-align: center;
-	color: #d7d4c7;
-	padding: 5px;
-}
-
-footer #copyright a, footer #copyright a:link, footer #copyright a:visited, footer #copyright a:active {
-	color: #c08826;
-	text-align: center;
-}
-
-footer address {
-	display: inline;
 }
 
 .formRow {
@@ -245,10 +99,6 @@ footer address {
 	width: 175px;
 }
 
-.formLabel a {
-	color: #c08826;
-}
-
 .formValidator {
 	display: inline-block;
 	text-align: left;
@@ -265,20 +115,6 @@ footer address {
 	margin-right: 0.3em
 }
 
-#info {
-	float: left;
-	padding: 0;
-}
-
-#languages {
-	float: right;
-	padding: 0;
-}
-
-#tos ol, #tos ul, #pp ol, #pp ul {
-	margin: 5px 20px;
-}
-
 .formRow .explanation {
 	font-size: .8em;
 	font-style: italic;
@@ -288,181 +124,38 @@ footer address {
 	display: inline-block;
 }
 
-/* home page styles */
-.home #content {
-	width: 600px;
-	margin: auto;
-	padding-left: 300px;
-	background: transparent url('images/mage.png') top left no-repeat;
-}
+#top10 { margin: .5em auto; }
+#top10 ul { margin: 0 0 0 1em; float: right; }
+#top10 li { display: inline-block; width: 24px; height: 24px; margin-right: 5px; background-color: #ccc; }
+#top10 h1 { font-size: 12pt; font-weight: normal; display: inline; color: #000; }
 
-.home #content header {
-	width: auto;
-	height: 188px;
-	background: transparent url('images/header-logo.png') top right no-repeat;
-	overflow: hidden;
-	text-indent: -10000px;
-	margin-top: 20px;
-}
+#info { margin-top: 7px; }
+.info { margin-right: 3em; }
 
-.home #storyText blockquote {
-	font-family: Pristina, Gentilis, Georgia, "Times New Roman", serif;
-	font-size: 1.5em;
-	margin: 0 20px;
-}
+#messages { background: url(images/greypattern.png) #666; color: #fff; height: 30px; border-bottom: solid 2px #202020; }
+#messages a, .copyright a { color: #ff0; }
 
-.home #storyText .citation {
-	font-family: Pristina, Gentilis, Georgia, "Times New Roman", serif;
-	font-size: 1.2em;
-	margin: 0 20px;
-	text-align: right;
-}
+#navigation { background: #940000; color: #fff; height: 26px; padding-top: 4px; border-top: solid 1px #bf6666 }
+#navigation ul { float: left; }
+#navigation li { display: inline-block; margin-right: .5em; }
+#navigation li a { display: inline-block; height: 20px; padding: 3px 10px; color: #fff; text-shadow: 0px 1px 1px #000; }
+#navigation li a.selected { text-shadow: none; color: #940000; background-color: #fff; -webkit-border-top-left-radius: 5px; -webkit-border-top-right-radius: 5px; -moz-border-radius-topleft: 5px; -moz-border-radius-topright: 5px; border-top-left-radius: 5px; border-top-right-radius: 5px; }
 
-.home #content #actions {
-	text-align: center;
-}
+.quickLogin { float: right; }
+.quickLogin .button { position: relative; top: 1px; }
 
-a.bigButton, a.bigButton:hover, a.bigButton:link, a.bigButton:visited, a.bigButton:active {
-	font-size: 2em;
-	padding: 10px 22px;
-	font-weight: normal;
-	margin: 0 20px;
-}
+.pageHeader { margin-top: 2em; }
+.pageHeader h1 { background: url('images/logo.png') top left no-repeat; overflow: hidden; text-indent: 10000%; width: 473px; height: 188px; }
+.pageHeader h2 { display: none; }
+.pageHeader .bigButton { position: relative; left: 325px; top: -35px; }
 
-.home footer nav ul li {
-	font-size: 2em;
-}
+.news > h1 { display: none; }
+.newsItem ul, .newsItem li { margin: .5em 0; }
 
-.home footer nav {
-	padding: 20px;
-}
+.fromManual h1, .secondaryNews h1 { font-size: 24px; color: #000; }
+.fromManual h2 { font-size: 36px; color: #940000; }
 
-/* account management styles */
-#logIn {
-	width: 40%;
-}
+.goodx { background: url('images/goodx.png') no-repeat scroll right top transparent; width:299px; height: 488px; position: relative; top: -150px; }
+.mainContainer { background: url('images/background_2.png') no-repeat scroll left bottom transparent; padding-bottom:100px; }
 
-#createCharacter {
-	width: 60%;
-}
-
-#logIn, #createCharacter {
-	float: left;
-	margin: 0;
-	padding: 0;
-	border: 0 none;
-}
-
-#createCharacter {
-	clear: right;
-}
-
-#logIn .character {
-	margin: 20px 0 0 20px;
-}
-
-#logIn .character .bigButton {
-	margin: 0;
-}
-
-#logIn .character ul {
-	margin: 10px 0 0 20px;
-	font-size: 12px;
-}
-
-a.bigButton .characterName {
-	clear: both;
-	display: block;
-}
-
-a.bigButton .characterStats {
-	clear: both;
-	font-size: 12px;
-	display: block;
-}
-
-.account #content {
-	margin: 8px;
-}
-
-/* in-game styles */
-.game .outerContainer {
-	border-top: none;
-	min-width: 750px;
-}
-
-.game .innerContainer div {
-
-}
-
-.game .innerContainer #topInfo  {
-	height: 18px;
-}
-
-.game footer nav { 
-	padding: 2px 8px;
-}
-
-.game footer nav ul {
-	width: auto;
-}
-
-.game footer nav ul li {
-	font-size: 13px;
-}
-
-.game footer #copyright {
-	font-size: 13px;
-}
-
-.game footer #copyright br { 
-	display: none;
-}
-
-.game footer #copyright address { 
-	display: inline;
-}
-
-.game .innerContainer #content div {
-	padding: 0;
-}
-
-#top, #bottom { margin: 5px; }
-
-.game #top {
-	height: 250px;
-	clear: both;
-}
-
-.game #topLeft {
-	float: left;
-	width: 250px;
-	height: 250px;
-	background-color: #fff;
-}
-
-.game #topCenter {
-	float:left;
-	width: auto;
-	background-color: #ccc;
-	margin-left: 250px;
-	height: 250px;
-}
-
-.game #topRight {
-	float: right;
-	width: 250px;
-	background-color: #999;
-	height: 250px;
-}
-
-.game #bottom {
-	
-}
-
-.stats { margin: 1em; }
-
-.statLabel { font-weight: bold; }
-.name { font-weight: bold; text-align: center; }
-
-.emote { font-style: italic; }
+.copyright { background: url(images/greypattern.png) #666; border-top: solid 1px #202020; color: #fff; text-align: center; font-size: 12pt; line-height: 1.75em; padding: 5px 0; }
