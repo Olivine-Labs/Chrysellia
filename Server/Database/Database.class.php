@@ -51,6 +51,13 @@ abstract class Database
 	public $Races;
 
 	/**
+	 * Reference to object that contains Map related queries
+	 *
+	 * @var Maps
+	 */
+	public $Maps;
+
+	/**
 	 * Constructor for the abstract Database class
 	 *
 	 * Throws an exception when connection fails

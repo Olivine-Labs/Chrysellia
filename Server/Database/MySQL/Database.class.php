@@ -41,6 +41,7 @@ class Database extends \Database\Database
 		$this->Sessions = new Sessions($this);
 		$this->Chat = new Chat($this);
 		$this->Races = new Races($this);
+		$this->Maps = new Maps($this);
 	}
 
 	/**
