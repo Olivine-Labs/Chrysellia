@@ -130,7 +130,7 @@ input.watermark {
 #top10 h1 { font-size: 12pt; font-weight: normal; display: inline; color: #000; }
 
 #info { margin-top: 7px; }
-.info { margin-right: 3em; }
+.info { margin-right: 3em; font-family: 'DejaWeb', Arial, Helvetica, sans-serif; }
 
 #messages { background: url(images/greypattern.png) #666; color: #fff; height: 30px; border-bottom: solid 2px #202020; }
 #messages a, .copyright a { color: #ff0; }
@@ -159,3 +159,9 @@ input.watermark {
 .mainContainer { background: url('images/background_2.png') no-repeat scroll left bottom transparent; padding-bottom:100px; }
 
 .copyright { background: url(images/greypattern.png) #666; border-top: solid 1px #202020; color: #fff; text-align: center; font-size: 12pt; line-height: 1.75em; padding: 5px 0; }
+.register { float: left; width: 270px; margin: 0 5px 0 0; border-right: solid 5px #ccc; padding-right: 12px; }
+
+.register .formLabel, .logIn .formLabel { width: 60px; }
+.register .formRow, .logIn .formRow { margin:  0 0 5px 0;}
+.logIn { width: 270px; float: right; }
+#playNow h1 { margin-bottom: 5px; font-size: 24px; }

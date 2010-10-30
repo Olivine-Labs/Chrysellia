@@ -22,3 +22,5 @@
 .ui-selectmenu-menu .ui-selectmenu-group { font-size: 1em; }
 .ui-selectmenu-menu .ui-selectmenu-group .ui-selectmenu-group-label { line-height: 1.4em; display:block; padding:.6em .5em 0; font-weight: bold; }
 .ui-selectmenu-menu .ui-selectmenu-group ul { margin: 0; padding: 0; }
+
+a.ui-selectmenu { color: #fff; }

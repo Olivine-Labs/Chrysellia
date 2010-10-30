@@ -58,17 +58,18 @@
 					<nav>
 						<ul>
 							<li><a href="index.html" class="selected">Home</a></li>
+							<li><a href="#">Play</a></li>
 							<li><a href="http://v2.neflaria.com">Blog</a></li>
 							<li><a href="#">Manual</a></li>
-							<li><a href="#">Tops Lists</a></li>
-							<li><a href="#">Forum</a></li>
-							<li><a href="#">Wiki</a></li>
+							<li><a href="#">Rankings</a></li>
+							<li><a href="http://www.neflaria.com/forum">Forum</a></li>
 							<li><a href="#">Donate</a></li>
+							<li><a href="#">Store</a></li>
 						</ul>
 					</nav>
 					
 					<div class="quickLogin">
-						<form action="submitaction.php" method="post">
+						<form action="submitaction.php" method="post" id="quickLoginForm">
 							<input type="text" placeholder="Username" name="quickLogin_un" id="quickLogin_un" />
 							<input type="password" placeholder="Password" name="quickLogin_pw" id="quickLogin_pw" />
 							<input type="hidden" value="login" name="action" id="action" />
@@ -120,7 +121,7 @@
 						<header class="pageHeader">
 							<h1>Neflaria</h1>
 							<h2>The classic free online RPG</h2>
-							<a class="button bigButton" href="#">Play Now!</a>
+							<a class="button bigButton" href="#" id="btnPlayNow">Play Now!</a>
 						</header>
 					</div>
 					
@@ -168,5 +169,138 @@
 				Neflaria is built on the <a href="#">Chrysolite Game Engine</a>, available under <a href="#">BSD Licensing</a>.
 			</div>
 		</footer>
+		
+		<div id="playNow" style="display:none">
+			<section class="register">
+				<h1>Register</h1>
+				<form action="submitaction.php" method="post"  id="registerForm">
+					<div class="formRow">
+						<div class="formLabel">
+							<label for="ca_username">Username:</label>
+						</div>
+						<div class="formInput">
+							<input type="text" id="ca_username" placeholder="Account Username" />
+						</div>
+						<div class="formValidator">
+							<span id="ca_username_validator"></span>
+						</div>
+					</div>
+					
+					<div class="formRow">
+						<div class="formLabel">
+							<label for="ca_password">Password:</label>
+						</div>
+						<div class="formInput">
+							<input type="password" id="ca_password" placeholder="Password" />
+						</div>
+						<div class="formValidator">
+							<span id="ca_password_validator"></span>
+						</div>
+					</div>
+					
+					<div class="formRow">
+						<div class="formLabel">
+							<label for="ca_confirmPassword">Confirm Password:</label>
+						</div>
+						<div class="formInput">
+							<input type="password" id="ca_confirmPassword" placeholder="Confirm Password" />
+						</div>
+						<div class="formValidator">
+							<span id="ca_confirmPassword_validator"></span>
+						</div>
+					</div>
+					
+					<div class="formRow">
+						<div class="formLabel">
+							<label for="ca_email">Email:</label>
+						</div>
+						<div class="formInput">
+							<input type="text" id="ca_email" placeholder="Account Email" />
+						</div>
+						<div class="formValidator">
+							<span id="ca_email_validator"></span>
+						</div>
+					</div>
+					
+					<div class="formRow">
+						<div class="formLabel">
+							<label for="ca_confirmEmail">Confirm Email:</label>
+						</div>
+						<div class="formInput">
+							<input type="text" id="ca_confirmEmail" placeholder="Confirm Email" />
+						</div>
+						<div class="formValidator">
+							<span id="ca_confirmEmail_validator"></span>
+						</div>
+					</div>
+					
+					<div class="formRow">
+						<span class="explanation">
+							Once you've clicked "create", check your e-mail for a confirmation from accounts@neflaria.com. Be sure 
+							to check your spam folder if you don't see anything within 30 minutes. <a href="#">Help?</a>
+						</span>
+					</div>
+					
+					<div class="formRow">
+						<div class="formLabel"></div>
+						<div class="formInput">
+							<button id="submitCreateAccount" class="button createAccount">Create</button>
+						</div>
+					</div>
+				</form>
+			</section>
+			<section class="logIn">
+				<h1>Log In</h1>
+				<form action="submitaction.php" method="post"  id="loginForm">
+					<div class="formRow">
+						<div class="formLabel">
+							<label for="li_username">Username:</label>
+						</div>
+						<div class="formInput">
+							<input type="text" id="li_username" placeholder="Account Username" />
+						</div>
+						<div class="formValidator">
+							<span id="li_username_validator"></span>
+						</div>
+					</div>
+					
+					<div class="formRow">
+						<div class="formLabel">
+							<label for="li_password">Password:</label>
+						</div>
+						<div class="formInput">
+							<input type="password" id="li_password" placeholder="Password" />
+						</div>
+						<div class="formValidator">
+							<span id="li_password_validator"></span>
+						</div>
+					</div>
+					
+					<div class="formRow">
+						<div class="formLabel"></div>
+						<div class="formInput">
+							<button id="submitLogIn" class="button">Log In</button>
+						</div>
+					</div>
+				</form>
+			</section>
+		</div>
+		
+		<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.3/jquery.min.js"></script>
+		<script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.5/jquery-ui.min.js"></script>
+		
+		<!-- Here come the plugins -->
+		<script src="./js/jquery.watermark.min.js"></script>
+		<script src="./Core/jquery-md5.js" type="text/javascript"></script>
+		<script src="./Core/json.js" type="text/javascript"></script>
+				
+		<!-- For the production version, we'll minify and combine our javascript, and keep a plain version for us -->
+		<script src="./Core/core.js"></script>
+		<script src="./Core/core-AccountService.js"></script>
+		<script src="./Core/core-CharacterService.js"></script>
+		
+		<!-- Page setup -->
+		<script src="./js/startup.js"></script>
+		<script src="./js/index-startup.js"></script>
 	</body>
 </html>
