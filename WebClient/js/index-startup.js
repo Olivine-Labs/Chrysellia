@@ -1,7 +1,7 @@
 $(function(){
 	$("#playNow").dialog({ modal: true, title: "Register or Log In", width: 600, autoOpen: false });
 	
-	$("#btnPlayNow").click(function(e){
+	$("#btnPlayNow, .playNow").click(function(e){
 		e.preventDefault();
 		$("#playNow").dialog("open");
 	});

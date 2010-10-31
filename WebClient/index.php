@@ -57,8 +57,8 @@
 				<div class="grid_12" id="mainNav">
 					<nav>
 						<ul>
-							<li><a href="index.html" class="selected">Home</a></li>
-							<li><a href="#">Play</a></li>
+							<li><a href="index.php" class="selected">Home</a></li>
+							<li><a href="#" class="playNow">Play</a></li>
 							<li><a href="http://v2.neflaria.com">Blog</a></li>
 							<li><a href="#">Manual</a></li>
 							<li><a href="#">Rankings</a></li>

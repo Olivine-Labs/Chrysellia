@@ -48,9 +48,7 @@
 	Character = Character.prototype = function(){ 
 		this.CharacterId = "";
 		this.HasPin = false;
-		this.FirstName = "";
-		this.MiddleName = "";
-		this.LastName = "";
+		this.Name = "";
 		this.CreatedOn = "";
 		this.MapId = "";
 		this.PositionX = 0;
@@ -77,18 +75,6 @@
 		
 		this.RaceName = function(){
 			return window.Races[this.RaceId].Name;
-		}
-		
-		this.Name = function(){
-			var name = this.FirstName;
-			if(this.MiddleName){
-				name += " " + this.MiddleName;
-			}
-			if(this.LastName){
-				name += " " + this.LastName;
-			}
-			
-			return name;
 		}
 		
 		this.ZoneName = function(){
@@ -128,9 +114,7 @@
 		this.Construct = function(data){
 			this.CharacterId = data.CharacterId;
 			this.HasPin = data.HasPin;
-			this.FirstName = data.FirstName;
-			this.MiddleName = data.MiddleName;
-			this.LastName = data.LastName;
+			this.Name = data.Name;
 			this.CreatedOn = data.CreatedOn;
 			this.MapId = data.MapId;
 			this.PositionX = data.PositionX;
@@ -149,7 +133,7 @@
 			this.Vitality = data.Vitality;
 			this.Health = data.Health;
 			this.Gold = data.Gold;
-			//this.Channels = data.Channels;
+			this.Channels = data.Channels;
 		}
 	}
 	

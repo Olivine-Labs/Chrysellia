@@ -17,12 +17,12 @@
 	var CharacterService = function (){};
 	
 	CharacterService = CharacterService.prototype = {
-		Create: function(firstName, middleName, lastName, gender, pin, raceID, strength, dexterity, intelligence, wisdom, vitality, callback){
+		Create: function(name, gender, pin, raceID, strength, dexterity, intelligence, wisdom, vitality, callback){
 			$.ajax({
 				url: SERVERCODE_DIRECTORY + "Character.php",
 				cache: false,
 				type: "POST",
-				data: { Action: ACTION_CREATE, Data: JSON.stringify({ FirstName: firstName, MiddleName: middleName, LastName: lastName, Gender: gender, Pin: pin, RaceId: raceID, Strength: strength, Dexterity: dexterity, Intelligence: intelligence, Wisdom: wisdom, Vitality: vitality }) },
+				data: { Action: ACTION_CREATE, Data: JSON.stringify({ Name: name, Gender: gender, Pin: pin, RaceId: raceID, Strength: strength, Dexterity: dexterity, Intelligence: intelligence, Wisdom: wisdom, Vitality: vitality }) },
 				success: function(response){
 					callback(JSON.parse(response));
 			   }

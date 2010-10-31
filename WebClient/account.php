@@ -57,8 +57,7 @@
 				<div class="grid_12" id="mainNav">
 					<nav>
 						<ul>
-							<li><a href="index.html" class="selected">Home</a></li>
-							<li><a href="#">Play</a></li>
+							<li><a href="index.php" class="selected">Home</a></li>
 							<li><a href="http://v2.neflaria.com">Blog</a></li>
 							<li><a href="#">Manual</a></li>
 							<li><a href="#">Rankings</a></li>
@@ -127,7 +126,7 @@
 						<label for="c_pin">Numeric PIN (Optional):</label>
 					</div>
 					<div class="formInput">
-						<input type="password" id="c_pin" placeholder="PIN (Such as '123456')" maxlength="4" />
+						<input type="password" id="c_pin" placeholder="" maxlength="4" />
 					</div>
 					<div class="formValidator">
 						<span id="c_pin_validator" maxlength="4"></span>
@@ -139,7 +138,7 @@
 						<label for="c_confirmpin">Confirm PIN:</label>
 					</div>
 					<div class="formInput">
-						<input type="password" id="c_confirmpin" placeholder="Confirm PIN" />
+						<input type="password" id="c_confirmpin" placeholder="" />
 					</div>
 					<div class="formValidator">
 						<span id="c_confirmpin_validator"></span>

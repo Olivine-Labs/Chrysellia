@@ -32,15 +32,11 @@ $(function(){
 	
 	$("#submitCreateAccount").click(function(){
 		var race = window.Races[$("#c_race").val()];
-		var fn = $("#c_fn").val();
-		var mn = $("#c_mn").val();
-		var ln = $("#c_ln").val();
+		var n = $("#c_fn").val();
 		
-		if(fn == "First Name") { alert("Please enter a firt name."); return; }
-		if(mn == "Middle Name") { mn = ""; }
-		if(ln == "Last Name") { ln = ""; }
+		if(n == "Character Name") { alert("Please enter a name."); return; }
 		
-		vc.cs.Create(fn, mn, ln, $("#c_gender").val(), $("#c_pin").val(), race.Id, 5, 5, 5, 5, 5, function(r){
+		vc.cs.Create(n, $("#c_gender").val(), $("#c_pin").val(), race.Id, 5, 5, 5, 5, 5, function(r){
 			switch(r.Result){
 					case ER_SUCCESS:
 						vc.cs.List(LoadCharacterList);
@@ -91,7 +87,7 @@ function LoadCharacterList(list){
 			var x = c.PositionX || 0;
 			var y = c.PositionY || 0;
 			
-			$('<div class="character"><input type="hidden" value="' + c.CharacterId + '" class="c_id" /><input type="hidden" value="' + c.HasPin + '" class="c_haspin" /><a class="button bigButton" href="#"><span class="characterName">' + c.Name() + '</span><span class="characterStats">Lvl ' + level + ' ' + c.AlignName() + c.RaceName() + '</span></a><ul class="recentActivity"><li>Located at ' + x + ', ' + y + ' (todo: zones)</li><li>Created on: ' + c.CreatedOn + '</li></ul></div>').appendTo($login);
+			$('<div class="character"><input type="hidden" value="' + c.CharacterId + '" class="c_id" /><input type="hidden" value="' + c.HasPin + '" class="c_haspin" /><a class="button bigButton" href="#"><span class="characterName">' + c.Name + '</span> <span class="characterStats">Lvl ' + level + ' ' + c.AlignName() + c.RaceName() + '</span></a><ul class="recentActivity"><li>Located at ' + x + ', ' + y + ' (todo: zones)</li><li>Created on: ' + c.CreatedOn + '</li></ul></div>').appendTo($login);
 		});
 	}else{
 		alert("Please login again.");

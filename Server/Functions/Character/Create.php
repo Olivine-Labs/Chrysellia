@@ -54,7 +54,7 @@ if(
 
 			try
 			{
-				$Database->startTransaction();
+				//$Database->startTransaction();
 				$Success = false;
 				if($Database->Characters->Insert($ACharacter))
 				{
