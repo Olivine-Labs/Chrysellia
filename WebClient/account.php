@@ -95,7 +95,7 @@
 				</div>-->
 			</section>
 			
-			<form action="submitaction.php" method="post" id="createCharacter">
+			<form action="submitaction.php" method="post" id="createCharacterForm">
 				<section id="createCharacter" class="grid_4">
 					<h1>Create New Character</h1>
 					
@@ -182,11 +182,11 @@
 					</div>
 				</section>
 					
-				<div class="grid_3">
+				<div class="grid_3 selectStats">
 					<em>You have <span id="remPoints">0</span> points to distribute.</em>
 					<div class="formRow">
 						<div class="formLabel">
-							<label for="startingStr">Strength</label>
+							<label for="startingStr">Str</label>
 						</div>
 						<div class="formInput">
 							<button class="button minus"></button>
@@ -197,7 +197,7 @@
 					
 					<div class="formRow">
 						<div class="formLabel">
-							<label for="startingDex">Dexterity</label>
+							<label for="startingDex">Dex</label>
 						</div>
 						<div class="formInput">
 							<button class="button minus"></button>
@@ -208,7 +208,7 @@
 					
 					<div class="formRow">
 						<div class="formLabel">
-							<label for="startingInt">Intelligence</label>
+							<label for="startingInt">Int</label>
 						</div>
 						<div class="formInput">
 							<button class="button minus"></button>
@@ -219,7 +219,7 @@
 					
 					<div class="formRow">
 						<div class="formLabel">
-							<label for="startingWis">Wisdom</label>
+							<label for="startingWis">Wis</label>
 						</div>
 						<div class="formInput">
 							<button class="button minus"></button>
@@ -230,7 +230,7 @@
 					
 					<div class="formRow">
 						<div class="formLabel">
-							<label for="startingVit">Vitality</label>
+							<label for="startingVit">Vit</label>
 						</div>
 						<div class="formInput">
 							<button class="button minus"></button>

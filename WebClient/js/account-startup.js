@@ -52,18 +52,20 @@ $(function(){
 		format: characterInfoFormatting
 	});
 	
-	$("#createCharacter").submit(function(){
+	$("#createCharacterForm").submit(function(e){
+		e.preventDefault();
+		
 		var name = $("#c_fn").val();
 		var race = window.Races[$("#c_race").val()];
 		var gender = $("#c_gender").val();
-		var str = $("#startingStr");
-		var dex = $("#startingDex");
-		var intel = $("#startingInt");
-		var wis = $("#startingWis");
-		var vit = $("#startingVit");
+		var str = $("#startingStr").val();
+		var dex = $("#startingDex").val();
+		var intel = $("#startingInt").val();
+		var wis = $("#startingWis").val();
+		var vit = $("#startingVit").val();
 		var pin = $("#c_pin").val();
 		
-		if(n == "Character Name") { alert("Please enter a name."); return; }
+		if(name == "Character Name") { alert("Please enter a name."); return; }
 		
 		vc.cs.Create(name, gender, pin, race.Id, str, dex, intel, wis, vit, function(r){
 			switch(r.Result){
@@ -103,14 +105,14 @@ $(function(){
 		vc.cs.Select(cId, pin, SelectCharacter);
 	});
 	
-	$("#createCharacter .formInput input").change(function(e){
-		e.preventDefault();
+	$(".selectStats .formInput input").change(function(e){
 		UpdateCreateCharacterStats($(this), e);
 	});
 	
-	$("#createCharacter .formInput button").click(function(e){
+	$(".selectStats .formInput button").click(function(e){
 		e.preventDefault();
 		UpdateCreateCharacterStats($(this), e);
+		return false;
 	});
 });
 
@@ -164,7 +166,7 @@ function LoadCharacterList(list){
 			var x = c.PositionX || 0;
 			var y = c.PositionY || 0;
 			
-			$('<div class="character"><input type="hidden" value="' + c.CharacterId + '" class="c_id" /><input type="hidden" value="' + c.HasPin + '" class="c_haspin" /><a class="button bigButton" href="#"><span class="characterName">' + c.Name + '</span> <span class="characterStats">Lvl ' + level + ' ' + c.AlignName() + c.RaceName() + '</span></a><ul class="recentActivity"><li>Located at ' + x + ', ' + y + ' (todo: zones)</li><li>Created on: ' + c.CreatedOn + '</li></ul></div>').appendTo($login);
+			$('<div class="character"><input type="hidden" value="' + c.CharacterId + '" class="c_id" /><input type="hidden" value="' + c.HasPin + '" class="c_haspin" /><a class="button bigButton" href="#"><span class="characterName">' + c.Name + '</span> <span class="characterStats">Lvl ' + level + ' ' + c.AlignName() + c.RaceName() + '</span></a><ul class="recentActivity"><li>Str: ' + c.Strength + '</li><li>Dex: ' + c.Dexterity + '</li><li>Int: ' + c.Intelligence + '</li><li>Wis: ' + c.Wisdom + '</li><li>Health: ' + c.Health + ' / ' + c.Vitality + '</li><li>Gold: ' + c.Gold + '</li><li>Located at ' + x + ', ' + y + ' (todo: zones)</li><li>Created on: ' + c.CreatedOn + '</li></ul></div>').appendTo($login);
 		});
 	}else{
 		alert("Please login again.");

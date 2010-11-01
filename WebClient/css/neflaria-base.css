@@ -168,4 +168,5 @@ input.watermark {
 .TestRace .ui-selectmenu-item-header { padding-left: 36px; background: transparent url('images/gargoyle_24.png') left center no-repeat; }
 .mainSection { padding: 2em 0; }
 .formInput  .statChooser { width: 2em; }
-#createCharacter .formLabel { width: 75px; }
+#createCharacter .formLabel { width: 95px; }
+#createCharacterForm .selectStats .formLabel { width: 3em; }
