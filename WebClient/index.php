@@ -44,8 +44,7 @@
 		<div id="messages">
 			<div class="container_12">
 				<div class="grid_12" id="info">
-					<span class="info">Online: <span id="onlines"></span></span>
-					<span class="info">@<a href="#">Neflaria</a>: <span id="onlines"></span></span>
+					<span class="info">Online: <span id="onlines">0</span></span>
 					<span class="info">News: <a href="#">We've updated the graphics, and redeveloped some...</a></span>
 				</div>
 			</div>

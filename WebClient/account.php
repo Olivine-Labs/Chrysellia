@@ -57,7 +57,8 @@
 				<div class="grid_12" id="mainNav">
 					<nav>
 						<ul>
-							<li><a href="index.php" class="selected">Home</a></li>
+							<li><a href="index.php">Home</a></li>
+							<li><a href="#" class="selected">Play</a></li>
 							<li><a href="http://v2.neflaria.com">Blog</a></li>
 							<li><a href="#">Manual</a></li>
 							<li><a href="#">Rankings</a></li>
@@ -95,151 +96,163 @@
 				</div>-->
 			</section>
 			
-			<form action="submitaction.php" method="post" id="createCharacterForm">
-				<section id="createCharacter" class="grid_4">
-					<h1>Create New Character</h1>
-					
-					<div class="formRow">
-						<span class="explanation">
-							You can create new characters for your account. Your characters will share a bank
-							account, and once your first character reaches level 15, all subsequent characters will
-							have the ability to chat without having to first level to 15.
-						</span>
-					</div>
-					
-					<div class="formRow">
-						<div class="formLabel">
-							<label for="c_name">Name:</label>
+			<section>
+				<h1 class="grid_7">Create New Character</h1>
+				
+				<form action="submitaction.php" method="post" id="createCharacterForm">
+					<div id="createCharacter" class="grid_4">
+						<div class="formRow">
+							<span class="explanation">
+								You can create new characters for your account. Your characters will share a bank
+								account, and once your first character reaches level 15, all subsequent characters will
+								have the ability to chat without having to first level to 15.
+							</span>
 						</div>
-						<div class="formInput">
-							<input type="text" id="c_fn" placeholder="Character Name" />
-							<!--<input type="text" id="c_mn" placeholder="Middle Name" />
-							<input type="text" id="c_ln" placeholder="Last Name" />-->
+						
+						<div class="formRow">
+							<div class="formLabel">
+								<label for="c_name">Name:</label>
+							</div>
+							<div class="formInput">
+								<input type="text" id="c_fn" placeholder="Character Name" />
+								<!--<input type="text" id="c_mn" placeholder="Middle Name" />
+								<input type="text" id="c_ln" placeholder="Last Name" />-->
+							</div>
+							<div class="formValidator">
+								<span id="c_name_validator"></span>
+							</div>
 						</div>
-						<div class="formValidator">
-							<span id="c_name_validator"></span>
+						
+						
+						<div class="formRow">
+							<div class="formLabel">
+								<label for="c_pin">Numeric PIN (Optional):</label>
+							</div>
+							<div class="formInput">
+								<input type="password" id="c_pin" placeholder="" maxlength="4" />
+							</div>
+							<div class="formValidator">
+								<span id="c_pin_validator" maxlength="4"></span>
+							</div>
 						</div>
-					</div>
-					
-					
-					<div class="formRow">
-						<div class="formLabel">
-							<label for="c_pin">Numeric PIN (Optional):</label>
+						
+						<div class="formRow">
+							<div class="formLabel">
+								<label for="c_confirmpin">Confirm PIN:</label>
+							</div>
+							<div class="formInput">
+								<input type="password" id="c_confirmpin" placeholder="" />
+							</div>
+							<div class="formValidator">
+								<span id="c_confirmpin_validator"></span>
+							</div>
 						</div>
-						<div class="formInput">
-							<input type="password" id="c_pin" placeholder="" maxlength="4" />
+						
+						<div class="formRow">
+							<div class="formLabel">
+								<label for="c_race">Race:</label>
+							</div>
+							<div class="formInput">
+								<select id="c_race">
+								</select>
+							</div>
+							<div class="formValidator">
+								<span id="c_race_validator"></span>
+							</div>
 						</div>
-						<div class="formValidator">
-							<span id="c_pin_validator" maxlength="4"></span>
+						
+						<div class="formRow">
+							<div class="formLabel">
+								<label for="c_gender">Gender:</label>
+							</div>
+							<div class="formInput">
+								<select id="c_gender">
+									<option value="0">Male</option>
+									<option value="1">Female</option>
+								</select>
+							</div>
+							<div class="formValidator">
+								<span id="c_race_validator"></span>
+							</div>
 						</div>
-					</div>
-					
-					<div class="formRow">
-						<div class="formLabel">
-							<label for="c_confirmpin">Confirm PIN:</label>
-						</div>
-						<div class="formInput">
-							<input type="password" id="c_confirmpin" placeholder="" />
-						</div>
-						<div class="formValidator">
-							<span id="c_confirmpin_validator"></span>
-						</div>
-					</div>
-					
-					<div class="formRow">
-						<div class="formLabel">
-							<label for="c_race">Race:</label>
-						</div>
-						<div class="formInput">
-							<select id="c_race">
-							</select>
-						</div>
-						<div class="formValidator">
-							<span id="c_race_validator"></span>
-						</div>
-					</div>
-					
-					<div class="formRow">
-						<div class="formLabel">
-							<label for="c_gender">Gender:</label>
-						</div>
-						<div class="formInput">
-							<select id="c_gender">
-								<option value="0">Male</option>
-								<option value="1">Female</option>
-							</select>
-						</div>
-						<div class="formValidator">
-							<span id="c_race_validator"></span>
-						</div>
-					</div>
-					
-					<div class="formRow">
-						<div class="formLabel"></div>
-						<div class="formInput">
-							<button id="submitCreateAccount" class="button createAccount">Create</button>
-						</div>
-					</div>
-				</section>
-					
-				<div class="grid_3 selectStats">
-					<em>You have <span id="remPoints">0</span> points to distribute.</em>
-					<div class="formRow">
-						<div class="formLabel">
-							<label for="startingStr">Str</label>
-						</div>
-						<div class="formInput">
-							<button class="button minus"></button>
-							<span id="baseStr">20</span> + <input class="statChooser" id="startingStr" maxlength="2" value="5" />
-							<button class="button plus"></button>
+						
+						<div class="formRow">
+							<div class="formLabel"></div>
+							<div class="formInput">
+								<button id="submitCreateAccount" class="button createAccount">Create</button>
+							</div>
 						</div>
 					</div>
-					
-					<div class="formRow">
-						<div class="formLabel">
-							<label for="startingDex">Dex</label>
+						
+					<div class="grid_3 selectStats">
+						<em>You have <span id="remPoints">0</span> points to distribute.</em>
+						<div class="formRow">
+							<div class="formLabel">
+								<label for="startingStr">Str</label>
+							</div>
+							<div class="formInput">
+								<button class="button minus">+</button>
+								<span id="baseStr">20</span> + <input class="statChooser" id="startingStr" maxlength="2" value="0" />
+								<button class="button plus">-</button>
+								<br />
+								<em>Race max: <span id="raceStrMax">30</span></em>
+							</div>
 						</div>
-						<div class="formInput">
-							<button class="button minus"></button>
-							<span id="baseDex">20</span> + <input class="statChooser" id="startingDex" maxlength="2" value="5" />
-							<button class="button plus"></button>
+						
+						<div class="formRow">
+							<div class="formLabel">
+								<label for="startingDex">Dex</label>
+							</div>
+							<div class="formInput">
+								<button class="button minus">+</button>
+								<span id="baseDex">20</span> + <input class="statChooser" id="startingDex" maxlength="2" value="0" />
+								<button class="button plus">-</button>
+								<br />
+								<em>Race max: <span id="raceDexMax">30</span></em>
+							</div>
+						</div>
+						
+						<div class="formRow">
+							<div class="formLabel">
+								<label for="startingInt">Int</label>
+							</div>
+							<div class="formInput">
+								<button class="button minus">+</button>
+								<span id="baseInt">20</span> + <input class="statChooser" id="startingInt" maxlength="2" value="0" />
+								<button class="button plus">-</button>
+								<br />
+								<em>Race max: <span id="raceIntMax">30</span></em>
+							</div>
+						</div>
+						
+						<div class="formRow">
+							<div class="formLabel">
+								<label for="startingWis">Wis</label>
+							</div>
+							<div class="formInput">
+								<button class="button minus">+</button>
+								<span id="baseWis">20</span> + <input class="statChooser" id="startingWis" maxlength="2" value="0" />
+								<button class="button plus">-</button>
+								<br />
+								<em>Race max: <span id="raceWisMax">30</span></em>
+							</div>
+						</div>
+						
+						<div class="formRow">
+							<div class="formLabel">
+								<label for="startingVit">Vit</label>
+							</div>
+							<div class="formInput">
+								<button class="button minus">+</button>
+								<span id="baseVit">20</span> + <input class="statChooser" id="startingVit" maxlength="2" value="0" />
+								<button class="button plus">-</button>
+								<br />
+								<em>Race max: <span id="raceVitMax">30</span></em>
+							</div>
 						</div>
 					</div>
-					
-					<div class="formRow">
-						<div class="formLabel">
-							<label for="startingInt">Int</label>
-						</div>
-						<div class="formInput">
-							<button class="button minus"></button>
-							<span id="baseInt">20</span> + <input class="statChooser" id="startingInt" maxlength="2" value="5" />
-							<button class="button plus"></button>
-						</div>
-					</div>
-					
-					<div class="formRow">
-						<div class="formLabel">
-							<label for="startingWis">Wis</label>
-						</div>
-						<div class="formInput">
-							<button class="button minus"></button>
-							<span id="baseWis">20</span> + <input class="statChooser" id="startingWis" maxlength="2" value="5" />
-							<button class="button plus"></button>
-						</div>
-					</div>
-					
-					<div class="formRow">
-						<div class="formLabel">
-							<label for="startingVit">Vit</label>
-						</div>
-						<div class="formInput">
-							<button class="button minus"></button>
-							<span id="baseVit">20</span> + <input class="statChooser" id="startingVit" maxlength="2" value="5" />
-							<button class="button plus"></button>
-						</div>
-					</div>
-				</div>
-			</form>
+				</form>
+			</section>
 		</div>
 		
 		<div class="clear"></div>

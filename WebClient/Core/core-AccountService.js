@@ -10,6 +10,7 @@
 (function( window, undefined ) {
 	window.LOGIN = 0;
 	window.REGISTER = 1;
+	window.LOGOUT = 2;
 	
 	var AccountService = function (){};
 	
@@ -32,6 +33,18 @@
 				cache: false,
 				type: "POST",
 				data: { Action: REGISTER, Data: JSON.stringify({ UserName: username, Password: password, Email: email}) },
+				success: function(response){
+					callback(JSON.parse(response));
+			   }
+			});
+		},
+		
+		Logout: function(callback){
+			$.ajax({
+				url: SERVERCODE_DIRECTORY + "Account.php",
+				cache: false,
+				type: "POST",
+				data: { Action: LOGOUT, Data: JSON.stringify({ }) },
 				success: function(response){
 					callback(JSON.parse(response));
 			   }

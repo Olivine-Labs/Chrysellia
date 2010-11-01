@@ -166,7 +166,11 @@ input.watermark {
 .logIn { width: 270px; float: right; }
 #playNow h1 { margin-bottom: 5px; font-size: 24px; }
 .TestRace .ui-selectmenu-item-header { padding-left: 36px; background: transparent url('images/gargoyle_24.png') left center no-repeat; }
+.TestRace2 .ui-selectmenu-item-header { padding-left: 36px; background: transparent url('images/orc_24.png') left center no-repeat; }
 .mainSection { padding: 2em 0; }
 .formInput  .statChooser { width: 2em; }
 #createCharacter .formLabel { width: 95px; }
-#createCharacterForm .selectStats .formLabel { width: 3em; }
+#createCharacterForm .selectStats .formLabel { font-weight:bold; vertical-align:top; width:3em; }
+.character { margin-bottom: 1em; }
+
+.recentActivity li { margin: 1px 0; padding: 2px; font-family: 'DejaWeb', Arial, Helvetica, sans-serif; } 

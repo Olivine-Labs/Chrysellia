@@ -2,22 +2,17 @@ $(function(){
 	$(".button.plus").button({ icons: { primary: "ui-icon-circle-plus" }, text: false });
 	$(".button.minus").button({ icons: { primary: "ui-icon-circle-minus" }, text: false });
 	
-	var $goodOptGroup = $("<optgroup class='good' label='Good Alligned' />");
-	var $evilOptGroup = $("<optgroup class='good' label='Evil Alligned' />");
-	
 	for(var i in window.Races){
 		var r = window.Races[i];
-		var $option = $("<option value='" + i + "' class='race " + r.Name.replace(/ /,'') + "'>" + r.Name + " - Str: " + r.Str + ", Dex: " + r.Dex + ", Vit: " + r.Vit + ", Int: " + r.Int + ", Wis: " + r.Wis + "</option>");
-		if(r.Align == "good"){
-			$option.appendTo($goodOptGroup);
-		}else{
-			$option.appendTo($evilOptGroup);
-			
-		};
-	}
 		
-	$goodOptGroup.appendTo("#c_race")
-	$evilOptGroup.appendTo("#c_race")
+		var $option = $("<option value='" + i + "' class='race " + r.Name.replace(/ /g,'') + "'>" + r.Name + " - Str: " + r.Str + ", Dex: " + r.Dex + ", Vit: " + r.Vit + ", Int: " + r.Int + ", Wis: " + r.Wis + "</option>");
+		
+		if(r.Align == "good"){
+			$option.appendTo($("#c_race"));
+		}else{
+			$option.appendTo($("#c_race"));
+		}
+	}
 	
 	$("#c_race").change(function(){
 		var race = window.Races[$(this).val()];
@@ -26,6 +21,12 @@ $(function(){
 		$("#baseInt").text(race.Int);
 		$("#baseWis").text(race.Wis);
 		$("#baseVit").text(race.Vit);
+		
+		$("#raceStrMax").text(race.StrMax);
+		$("#raceDexMax").text(race.DexMax);
+		$("#raceIntMax").text(race.IntMax);
+		$("#raceWisMax").text(race.WisMax);
+		$("#raceVitMax").text(race.VitMax);
 	}).change();
 	
 	//a custom format option callback
@@ -72,6 +73,7 @@ $(function(){
 				case ER_SUCCESS:
 					vc.cs.List(LoadCharacterList);
 					alert("Your character has been created!");
+					$(".statChooser").val(0);
 					break;
 				case ER_BADDATA:
 				case ER_MALFORMED:
@@ -87,8 +89,6 @@ $(function(){
 			}
 		});
 	});
-	
-	vc.cs.List(LoadCharacterList);
 	
 	$(".bigButton").live("click", function(e){
 		e.preventDefault();
@@ -114,12 +114,25 @@ $(function(){
 		UpdateCreateCharacterStats($(this), e);
 		return false;
 	});
+	
+	$("#quickLoginForm .button").click(function(e){
+		e.preventDefault();
+		//vc.as.Logout(logout);
+		Logout();
+	});
+	
+	vc.cs.List(LoadCharacterList);
 });
+
+function Logout(){
+	window.location = "./index.php";
+}
 
 function UpdateCreateCharacterStats(ui, e){
 	var $remPoints = $("#remPoints");
 	var currentBalance = CurrentStatBalance();
 	var currentStatValue = 0;
+	var currentStatMax = 0;
 	
 	if(ui.hasClass("minus")){
 		currentStatValue = ui.siblings(".statChooser").val() *1;
@@ -137,9 +150,9 @@ function UpdateCreateCharacterStats(ui, e){
 	
 	currentBalance = CurrentStatBalance();
 	if(currentBalance > 25 || currentBalance < 0){
-		$remPoints.addClass("ui-state-highlight").text(currentBalance);
+		$remPoints.text(currentBalance).parent().addClass("ui-state-highlight");
 	}else{
-		$remPoints.removeClass("ui-state-highlight").text(currentBalance);
+		$remPoints.text(currentBalance).parent().removeClass("ui-state-highlight");
 	}
 }
 
@@ -170,14 +183,14 @@ function LoadCharacterList(list){
 		});
 	}else{
 		alert("Please login again.");
-		window.location = "./index.html";
+		window.location = "./index.php";
 	}
 }
 
 function SelectCharacter(chardata){
 	switch(chardata.Result){
 		case ER_SUCCESS:
-			window.location = "./game.html";
+			window.location = "./game.php";
 			break;
 		case ER_BADDATA:
 		case ER_MALFORMED:
