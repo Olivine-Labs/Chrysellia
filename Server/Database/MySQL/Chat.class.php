@@ -4,10 +4,10 @@ namespace Database\MySQL;
 
 define('SQL_GETMESSAGES', 'SELECT c.message, c.fromName, c.type, UNIX_TIMESTAMP(c.sentOn) FROM `chat` c INNER JOIN `channel_permissions` p ON p.channelId=c.channelId AND p.characterId=? AND p.characterId != c.characterIdFrom WHERE c.channelId=? AND p.accessRead=1 AND c.sentOn>FROM_UNIXTIME(?) ORDER BY c.sentOn ASC');
 define('SQL_JOINCHANNEL', 'SELECT c.channelid FROM `channels` c INNER JOIN `channel_permissions` p ON c.channelId=p.channelId AND p.characterId=? AND p.accessRead=1 WHERE c.Name=?');
-define('SQL_CHANNELGETRIGHTS', 'SELECT `accessRead`, `accessWrite`, `accessModerator`, `accessAdmin` FROM `channel_permissions` WHERE `characterId`=? AND `channelId`=?');
+define('SQL_CHANNELGETRIGHTS', 'SELECT `accessRead`, `accessWrite`, `accessModerator`, `accessAdmin`, `isJoined` FROM `channel_permissions` WHERE `characterId`=? AND `channelId`=?');
 define('SQL_INSERTMESSAGE', 'INSERT INTO `chat` (`characterIdFrom`, `channelId`, `message`, `fromName`, `type`) VALUES (?, ?, ?, ?, ?)');
-define('SQL_CHANNELSETRIGHTS', 'INSERT INTO `channel_permissions` (`characterId`, `channelId`, `accessRead`,`accessWrite`,`accessModerator`,`accessAdmin`) VALUES (?, ?, ?, ?, ?, ?) ON DUPLICATE KEY UPDATE `accessRead`=?, `accessWrite`=?, `accessModerator`=?, `accessAdmin`=?');
-define('SQL_CHANNELGETJOINEDLIST', 'SELECT p.channelId, c.name FROM `channel_permissions` p INNER JOIN channels c ON c.channelId=p.channelId WHERE p.characterId`=?');
+define('SQL_CHANNELSETRIGHTS', 'INSERT INTO `channel_permissions` (`characterId`, `channelId`, `accessRead`,`accessWrite`,`accessModerator`,`accessAdmin`, `isJoined`) VALUES (?, ?, ?, ?, ?, ?, ?) ON DUPLICATE KEY UPDATE `accessRead`=?, `accessWrite`=?, `accessModerator`=?, `accessAdmin`=?, `isJoined`=?');
+define('SQL_CHANNELGETJOINEDLIST', 'SELECT p.channelId, c.name FROM `channel_permissions` p INNER JOIN channels c ON c.channelId=p.channelId WHERE p.characterId=?');
 define('SQL_CHANNELSETJOINED', 'INSERT INTO `channel_permissions` (`characterId`, `channelId`, `isJoined`) VALUES (?, ?, ?) ON DUPLICATE KEY UPDATE `isJoined`=?');
 
 /**
@@ -113,12 +113,14 @@ class Chat extends \Database\Chat
 	 */
 	public function LoadJoinedChannels(\Entities\Character $Character)
 	{
-		$Query = $this->Database->Connection->prepare(SQL_GETMESSAGES);
+		$Query = $this->Database->Connection->prepare(SQL_CHANNELGETJOINEDLIST);
 		$Query->bind_param('s', $Character->CharacterId);
 
 		$Query->Execute();	
 		$Continue = true;
 		$Result = Array();
+		$Index = 0;
+		
 		while($Continue)
 		{
 			$Query->bind_result($ChannelId, $Name);
@@ -237,12 +239,12 @@ class Chat extends \Database\Chat
 
 		$Query->Execute();
 		$Result = Array();
-		$Query->bind_result($Result['Read'], $Result['Write'], $Result['Moderate'], $Result['Administrate']);
+		$Query->bind_result($Result['Read'], $Result['Write'], $Result['Moderate'], $Result['Administrate'], $Result['isJoined']);
 		
 		if($Query->fetch())
 			return $Result;
 		else
-			$Result = Array('Read'=>0, 'Write'=>0, 'Moderate'=>0, 'Administrate'=>0);
+			$Result = Array('Read'=>0, 'Write'=>0, 'Moderate'=>0, 'Administrate'=>0, 'isJoined'=>0);
 			return $Result;
 	}
 
@@ -264,7 +266,7 @@ class Chat extends \Database\Chat
 	public function SetRights(\Entities\Character $Character, $ChannelId, Array $Rights)
 	{
 		$Query = $this->Database->Connection->prepare(SQL_CHANNELSETRIGHTS);
-		$Query->bind_param('ssiiiiiiii', $Character->CharacterId, $ChannelId, $Rights['Read'], $Rights['Write'], $Rights['Moderate'], $Rights['Administrate'], $Rights['Read'], $Rights['Write'], $Rights['Moderate'], $Rights['Administrate']);
+		$Query->bind_param('ssiiiiiiiiii', $Character->CharacterId, $ChannelId, $Rights['Read'], $Rights['Write'], $Rights['Moderate'], $Rights['Administrate'], $Rights['isJoined'], $Rights['Read'], $Rights['Write'], $Rights['Moderate'], $Rights['Administrate'], $Rights['isJoined']);
 
 		$Query->Execute();
 

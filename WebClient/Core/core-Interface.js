@@ -3,7 +3,7 @@
 	
 	Interface = Interface.prototype = {
 		UpdateStats: function() {
-			$("#myCharacter_Name").text(window.MyCharacter.Name());
+			$("#myCharacter_Name").text(window.MyCharacter.Name);
 			$("#myCharacter_Strength").text(window.MyCharacter.Strength);
 			$("#myCharacter_Dexterity").text(window.MyCharacter.Dexterity);
 			$("#myCharacter_Wisdom").text(window.MyCharacter.Wisdom);

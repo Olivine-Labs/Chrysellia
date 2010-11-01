@@ -9,7 +9,7 @@ $(function(){
 		chatbox.val('');
 		
 		var msgobj = vc.ch.Utilities.ParseMessage(message);
-		insertChat({ Type: msgobj.Type, FromName: MyCharacter.Name(), Message: msgobj.Message  });
+		insertChat({ Type: msgobj.Type, FromName: MyCharacter.Name, Message: msgobj.Message  });
 	});
 });
 
@@ -36,11 +36,14 @@ function SelectCharacter(data){
 		window.location = "./index.html";
 	}
 	
+	//"Channels":{"CHAN_00000000000000000000001":"General","CHAN_00000000000000000000002":"Trade"}
+	
 	for(var i in window.MyCharacter.Channels){
 		// add in channels per i
 		var chatName = window.MyCharacter[i];
-		vc.ch.GetMessagesFromChannel(i, fillChat);
 	}
+	
+	vc.ch.GetMessagesFromChannel(i, fillChat);
 }
 
 function insertChat(c){
