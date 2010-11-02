@@ -72,7 +72,16 @@ function CreateChannel(data){
 }
 
 function JoinChannel(data){
-	
+	if(data.Result == ER_SUCCESS){
+		$("#jc_channelName").val('');
+		$("#cc_channelMOTD").val('');
+		$("#joinChannelForm").dialog("close");
+		AddTab(data.Data.Name, data.Data.ChannelId, data.Data.Motd);
+	}else if(data.Result == ER_ALREADYEXISTS){
+		alert("Channel name already exists!");
+	}else{
+		alert("An error has occured.");
+	}
 }
 
 function AddTab(title, channelId, motd) {

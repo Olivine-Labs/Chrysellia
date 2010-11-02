@@ -3,7 +3,7 @@
 namespace Database\MySQL;
 
 define('SQL_GETMESSAGES', 'SELECT c.message, c.fromName, c.type, UNIX_TIMESTAMP(c.sentOn) FROM `chat` c INNER JOIN `channel_permissions` p ON p.channelId=c.channelId AND p.characterId=? AND p.characterId != c.characterIdFrom WHERE c.channelId=? AND p.accessRead=1 AND c.sentOn>FROM_UNIXTIME(?) ORDER BY c.sentOn ASC');
-define('SQL_JOINCHANNEL', 'SELECT c.channelid FROM `channels` c INNER JOIN `channel_permissions` p ON c.channelId=p.channelId AND p.characterId=? AND p.accessRead=1 WHERE c.Name=?');
+define('SQL_JOINCHANNEL', 'SELECT c.channelid, c.name, c.motd FROM `channels` c INNER JOIN `channel_permissions` p ON c.channelId=p.channelId AND p.characterId=? AND p.accessRead=1 WHERE c.Name=?');
 define('SQL_CHANNELGETRIGHTS', 'SELECT `accessRead`, `accessWrite`, `accessModerator`, `accessAdmin`, `isJoined` FROM `channel_permissions` WHERE `characterId`=? AND `channelId`=?');
 define('SQL_INSERTMESSAGE', 'INSERT INTO `chat` (`characterIdFrom`, `channelId`, `message`, `fromName`, `type`) VALUES (?, ?, ?, ?, ?)');
 define('SQL_CHANNELSETRIGHTS', 'INSERT INTO `channel_permissions` (`characterId`, `channelId`, `accessRead`,`accessWrite`,`accessModerator`,`accessAdmin`, `isJoined`) VALUES (?, ?, ?, ?, ?, ?, ?) ON DUPLICATE KEY UPDATE `accessRead`=?, `accessWrite`=?, `accessModerator`=?, `accessAdmin`=?, `isJoined`=?');
@@ -152,22 +152,26 @@ class Chat extends \Database\Chat
 	{
 		$Query = $this->Database->Connection->prepare(SQL_JOINCHANNEL);
 		$Query->bind_param('ss', $Character->CharacterId, $ChannelName);
-
 		$Query->Execute();
-
-		$Query->bind_result($ChannelId);
+		$Query->bind_result($ChannelId, $Name, $Motd);
 
 		if($Query->fetch())
 		{
-			$Query2 = $this->Database->Connection->prepare(SQL_CHANNELSETJOINED);
-			$Query2->bind_param('ssi', $Character->CharacterId, $ChannelId, 1);
+			$Query->close();
+			$Query2 = $this->Database->Connection->prepare(SQL_CHANNELSETJOINED);			
+			$thisisaone = 1;
+			$thisisanotherone = 1;
+			
+			$Query2->bind_param('ssii', $Character->CharacterId, $ChannelId, $thisisaone, $thisisanotherone);
 
 			$Query2->Execute();
 
 			if($Query2->affected_rows <= 0)
 				return false;
-			return $ChannelId;
-
+				
+			$Result = Array();
+			$Result = Array("ChannelId" =>$ChannelId, "Name" => $Name, "Motd" => $Motd);
+			return $Result;
 		}
 		else
 		{
