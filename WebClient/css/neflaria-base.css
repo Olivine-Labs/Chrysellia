@@ -28,6 +28,8 @@ input:focus {
 	background-color: #eee;
 }
 
+a.button { padding: 3px 5px; }
+
 a.button, a.button:hover, a.button:link, a.button:visited, a.button:active, button.button, input.button{
 	-moz-border-radius: 4px;
 	-webkit-border-radius: 4px;
@@ -175,3 +177,4 @@ input.watermark {
 
 .recentActivity li { margin: 1px 0; padding: 2px; font-family: 'DejaWeb', Arial, Helvetica, sans-serif; } 
 .emote { font-style: italic; }
+#chatForm a.button { margin-right: .5em; }

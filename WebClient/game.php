@@ -136,10 +136,10 @@
 					<form action="game.html" id="chatForm" class="CHAN_00000000000000000000001">
 						<input type="text" id="chatInput" style="width: 400px;" />
 						<input type="submit" value="Submit">
+						
+						<a href="#" id="createChannelLink" class="button" style="float:right;">Create channel</a>
+						<a href="#" id="joinChannelLink" class="button" style="float:right;">Join channel</a>
 					</form>
-					
-					<a href="#" id="createChannelLink">Create channel</a>
-					<a href="#" id="joinChannelLink">Join channel</a>
 					
 					<div id="chatChannels" class="chatChannels" style="height: 300px; overflow: auto;">
 						<ul id="channelTabs"></ul>

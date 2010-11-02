@@ -12,16 +12,17 @@ if(isset($_POST['Data']))
 if(
 	property_exists($Post, 'Character') &&
 	property_exists($Post, 'Channel') &&
-	property_exists($Post, 'RightType') &&
-	property_exists($Post, 'Right')
+	property_exists($Post, 'Rights')
 ){
 	try
 	{
+		
 		$Character = new \Entities\Character();
 		$Character->CharacterId = $_SESSION['CharacterId'];
 
 		$TargetCharacter = new \Entities\Character();
 		$TargetCharacter->Name = $Post->Character;
+
 		if($Rights = $Database->Chat->GetRights($Character, $Post->Channel))
 		{
 			if($Rights['Administrate'])
@@ -29,30 +30,35 @@ if(
 				if($Database->Characters->CheckName($TargetCharacter))
 				{
 					$TargetCharacterRights = $Database->Chat->GetRights($TargetCharacter, $Post->Channel);
+					
 					define('RIGHT_READ', 0);
 					define('RIGHT_WRITE', 1);
 					define('RIGHT_MODERATE', 2);
 					define('RIGHT_ADMINISTRATE', 3);
+					
 					$Success = true;
-					switch($Post->RightType)
-					{
-						case RIGHT_READ:
-							$TargetCharacterRights['Read'] = (bool)$Post->Right;
-							break;
-						case RIGHT_WRITE:
-							$TargetCharacterRights['Write'] = (bool)$Post->Right;
-							break;
-						case RIGHT_MODERATE:
-							$TargetCharacterRights['Moderate'] = (bool)$Post->Right;
-							break;
-						case RIGHT_ADMINISTRATE:
-							$TargetCharacterRights['Administrate'] = (bool)$Post->Right;
-							break;
-						default:
-							$Success = false;
-							break;
+					$TargetRights = $Post->Rights;
+					
+					if(property_exists($TargetRights, 'Read')){
+						$TargetCharacterRights['Read'] = (bool)$TargetRights->Read;
 					}
-
+					
+					if(property_exists($TargetRights, 'Write')){
+						$TargetCharacterRights['Write'] = (bool)$TargetRights->Write;
+					}
+					
+					if(property_exists($TargetRights, 'Moderate')){
+						$TargetCharacterRights['Moderate'] = (bool)$TargetRights->Moderate;
+					}
+					
+					if(property_exists($TargetRights, 'Administrate')){
+						$TargetCharacterRights['Administrate'] = (bool)$TargetRights->Administrate;
+					}
+					
+					if(property_exists($TargetRights, 'isJoined')){
+						$TargetCharacterRights['isJoined'] = (bool)$TargetRights->isJoined;
+					}
+					
 					if($Success)
 					{
 						if($Database->Chat->SetRights($TargetCharacter, $Post->Channel, $TargetCharacterRights))

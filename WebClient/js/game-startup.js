@@ -7,13 +7,7 @@ $(function(){
 	
 	$("#chatForm").submit(function(e){
 		e.preventDefault();
-		var chatbox = $("#chatInput");
-		var message = chatbox.val();
-		vc.ch.SendMessageToChannel(MyCharacter.CurrentChannel, message, function(){});
-		chatbox.val('');
-		
-		var msgobj = vc.ch.Utilities.ParseMessage(message);
-		InsertChat([{ "Type": msgobj.Type, "FromName": MyCharacter.Name, "Message": msgobj.Message }], window.MyCharacter.CurrentChannel);
+		SubmitMessage();
 	});
 	
 	window.$tabs = $('#chatChannels').tabs({
@@ -142,4 +136,22 @@ function InsertChat(data, channel){
 				break;
 		}
 	}
+}
+
+function SubmitMessage(){
+	var chatbox = $("#chatInput");
+	var message = chatbox.val();
+	var msgobj = vc.ch.Utilities.ParseMessage(message);
+	
+	if(!msgobj.NonMessageCommand){
+		vc.ch.SendMessageToChannel(MyCharacter.CurrentChannel, message, function(){});
+		InsertChat([{ "Type": msgobj.Type, "FromName": MyCharacter.Name, "Message": msgobj.Message }], window.MyCharacter.CurrentChannel);
+	}else{
+		if(msgobj.Type = ACTION_CHANNEL_SETRIGHTS){
+			var rights = vc.ch.Utilities.ParseRights(msgobj.Message);
+			vc.ch.SetRights(window.MyCharacter.CurrentChannel, rights.Character, rights.Rights, function(){});
+		}
+	}
+	
+	chatbox.val('');
 }
