@@ -14,6 +14,15 @@ try
 	$Character = new \Entities\Character();
 	$Character->CharacterId = $_SESSION['CharacterId'];
 	$ChatArray = array();
+
+	if(!isset($_SESSION['Channels']))
+	{
+		$_SESSION['Channels'] = $Database->Chat->LoadJoinedChannels($Character);
+		foreach($_SESSION['Channels'] AS &$Value)
+		{
+			$Value = new stdClass();
+		}
+	}
 	foreach($_SESSION['Channels'] AS $ChannelId=>&$Value)
 	{
 		if(is_object($Value))
