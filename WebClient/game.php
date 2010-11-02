@@ -134,7 +134,9 @@
 				
 				<div id="bottom" class="container bottom">
 					<form action="game.html" id="chatForm" class="CHAN_00000000000000000000001"><input type="text" id="chatInput" style="width: 400px;" /><input type="submit" value="Submit"></form>
-					<div class="chatChannel CHAN_00000000000000000000001" style="height: 300px; overflow: auto;"></div>
+					<div id="chatChannels" class="chatChannels" style="height: 300px; overflow: auto;">
+						<ul id="channelTabs"></ul>
+					</div>
 				</div>
 			</div>
 		</div>
