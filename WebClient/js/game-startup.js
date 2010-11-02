@@ -47,6 +47,10 @@ $(function(){
 		vc.ch.JoinChannel(channelName, JoinChannel);
 	});
 	
+	$("#quickLoginForm .button").click(function(e){
+		e.preventDefault();
+		vc.as.Logout(Logout);
+	});
 	
 	$("#createChannelLink").click(function(){ $("#createChannelForm").dialog("open"); });
 	$("#joinChannelLink").click(function(){ $("#joinChannelForm").dialog("open"); });

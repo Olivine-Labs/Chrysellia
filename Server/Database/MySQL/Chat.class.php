@@ -84,6 +84,8 @@ class Chat extends \Database\Chat
 		$Query = $this->Database->Connection->prepare(SQL_GETMESSAGES);
 		$Query->bind_param('sss', $Character->CharacterId, $ChannelId, $DateForward);
 
+		//echo('SELECT c.message, c.fromName, c.type, UNIX_TIMESTAMP(c.sentOn) FROM `chat` c INNER JOIN `channel_permissions` p ON p.channelId=c.channelId AND p.characterId='.$Character->CharacterId.' AND p.characterId != c.characterIdFrom WHERE c.channelId='.$ChannelId.' AND p.accessRead=1 AND c.sentOn>FROM_UNIXTIME('.$DateForward.') ORDER BY c.sentOn ASC');
+		
 		$Query->Execute();	
 		$Continue = true;
 		$Index = 0;

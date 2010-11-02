@@ -117,14 +117,13 @@ $(function(){
 	
 	$("#quickLoginForm .button").click(function(e){
 		e.preventDefault();
-		//vc.as.Logout(logout);
-		Logout();
+		vc.as.Logout(Logout);
 	});
 	
 	vc.cs.List(LoadCharacterList);
 });
 
-function Logout(){
+function Logout(data){
 	window.location = "./index.php";
 }
 
