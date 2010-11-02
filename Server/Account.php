@@ -6,6 +6,7 @@ if ( 'POST' == $_SERVER['REQUEST_METHOD'] )
 {
 	define('ACTION_LOGIN', 0);
 	define('ACTION_REGISTER', 1);
+	define('ACTION_LOGOUT', 2);
 
 	if(isset($_POST['Action']))
 	{
@@ -16,6 +17,9 @@ if ( 'POST' == $_SERVER['REQUEST_METHOD'] )
 				break;
 			case ACTION_REGISTER:
 				include './Functions/Account/Register.php';
+				break;
+			case ACTION_LOGOUT:
+				include './Functions/Account/Logout.php';
 				break;
 			default:
 				$Result->Set('Result', \Protocol\Result::ER_BADDATA);
