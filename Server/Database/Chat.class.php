@@ -106,7 +106,7 @@ abstract class Chat
 	 * @return String
 	 *   The id of the channel or false if access is denied
 	 */
-	abstract public function CreateChannel($ChannelName);
+	abstract public function CreateChannel($ChannelName, $Motd);
 
 	/**
 	 * Abstract - Gets a character's rights to a channel

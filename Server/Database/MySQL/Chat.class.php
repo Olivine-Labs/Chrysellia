@@ -7,8 +7,9 @@ define('SQL_JOINCHANNEL', 'SELECT c.channelid FROM `channels` c INNER JOIN `chan
 define('SQL_CHANNELGETRIGHTS', 'SELECT `accessRead`, `accessWrite`, `accessModerator`, `accessAdmin`, `isJoined` FROM `channel_permissions` WHERE `characterId`=? AND `channelId`=?');
 define('SQL_INSERTMESSAGE', 'INSERT INTO `chat` (`characterIdFrom`, `channelId`, `message`, `fromName`, `type`) VALUES (?, ?, ?, ?, ?)');
 define('SQL_CHANNELSETRIGHTS', 'INSERT INTO `channel_permissions` (`characterId`, `channelId`, `accessRead`,`accessWrite`,`accessModerator`,`accessAdmin`, `isJoined`) VALUES (?, ?, ?, ?, ?, ?, ?) ON DUPLICATE KEY UPDATE `accessRead`=?, `accessWrite`=?, `accessModerator`=?, `accessAdmin`=?, `isJoined`=?');
-define('SQL_CHANNELGETJOINEDLIST', 'SELECT p.channelId, c.name FROM `channel_permissions` p INNER JOIN channels c ON c.channelId=p.channelId WHERE p.characterId=?');
+define('SQL_CHANNELGETJOINEDLIST', 'SELECT p.channelId, c.name, c.motd FROM `channel_permissions` p INNER JOIN channels c ON c.channelId=p.channelId WHERE p.isJoined=1 AND p.characterId=?');
 define('SQL_CHANNELSETJOINED', 'INSERT INTO `channel_permissions` (`characterId`, `channelId`, `isJoined`) VALUES (?, ?, ?) ON DUPLICATE KEY UPDATE `isJoined`=?');
+define('SQL_CREATECHANNEL','INSERT INTO `channels` (`channelId`, `name`, `motd`) VALUES (?, ?, ?)');
 
 /**
  * Contains properties and methods related to querying our chat table and relations
@@ -120,13 +121,15 @@ class Chat extends \Database\Chat
 		$Continue = true;
 		$Result = Array();
 		$Index = 0;
+		$Data = Array();
 		
 		while($Continue)
 		{
-			$Query->bind_result($ChannelId, $Name);
+			$Query->bind_result($ChannelId, $Name, $Motd);
 			if($Continue = $Query->Fetch())
 			{
-				$Result[$ChannelId] = $Name;
+				$Data = Array("Name" => $Name, "Motd" => $Motd);
+				$Result[$ChannelId] = $Data;
 			}
 		}
 
@@ -187,14 +190,14 @@ class Chat extends \Database\Chat
 	public function LeaveChannel(\Entities\Character $Character, $ChannelId)
 	{
 		$Query = $this->Database->Connection->prepare(SQL_CHANNELSETJOINED);
-		$Query->bind_param('ssi', $Character->CharacterId, $ChannelId, 0);
-
+		$zeroseriouslywtf = 0;
+		
+		$Query->bind_param('ssii', $Character->CharacterId, $ChannelId, $zeroseriouslywtf, $zeroseriouslywtf);
 		$Query->Execute();
 
-		if($Query->affected_rows > 0)
-			return true;
-		else
+		if($Query->affected_rows <= 0)
 			return false;
+		return true;
 	}
 
 	/**
@@ -206,15 +209,15 @@ class Chat extends \Database\Chat
 	 * @return String
 	 *   The id of the channel or false if access is denied
 	 */
-	public function CreateChannel($ChannelName)
+	public function CreateChannel($ChannelName, $Motd)
 	{
 		$ChannelId = uniqid('CHAN_', true);
 		$Query = $this->Database->Connection->prepare(SQL_CREATECHANNEL);
-		$Query->bind_param('ss', $ChannelId, $ChannelName);
+		$Query->bind_param('sss', $ChannelId, $ChannelName, $Motd);
 
 		$Query->Execute();
 
-		if($Query->fetch())
+		if($Query->affected_rows > 0)
 			return $ChannelId;
 		else
 			return false;

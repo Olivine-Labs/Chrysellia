@@ -13,7 +13,7 @@
 	window.ACTION_GETMESSAGESFORCHARACTER = 2;
 	
 	window.CHAT_TYPE_GENERAL = 0;
-	window.CHAT_TYPE_EMOTE = 0;
+	window.CHAT_TYPE_EMOTE = 1;
 	
 	var ChatService = function (){};
 	
@@ -66,7 +66,7 @@
 		
 		JoinChannel: function(channel, callback){
 			$.ajax({
-				url: SERVERCODE_DIRECTORY + "Command.php",
+				url: SERVERCODE_DIRECTORY + "Commands.php",
 				cache: false,
 				type: "POST",
 				data: { Action: ACTION_JOINCHANNEL, Data: JSON.stringify({ Channel: channel }) },
@@ -78,7 +78,7 @@
 		
 		PartChannel: function(channel, callback){
 			$.ajax({
-				url: SERVERCODE_DIRECTORY + "Command.php",
+				url: SERVERCODE_DIRECTORY + "Commands.php",
 				cache: false,
 				type: "POST",
 				data: { Action: ACTION_CHANNEL_PART, Data: JSON.stringify({ Channel: channel }) },
@@ -88,12 +88,12 @@
 			});
 		},
 		
-		CreateChannel: function(name, callback){
+		CreateChannel: function(name, motd, callback){
 			$.ajax({
-				url: SERVERCODE_DIRECTORY + "Command.php",
+				url: SERVERCODE_DIRECTORY + "Commands.php",
 				cache: false,
 				type: "POST",
-				data: { Action: ACTION_CHANNEL_CREATE, Data: JSON.stringify({ Channel: name }) },
+				data: { Action: ACTION_CHANNEL_CREATE, Data: JSON.stringify({ Channel: name, Motd: motd }) },
 				success: function(response){
 					callback(JSON.parse(response));
 			   }
@@ -102,7 +102,7 @@
 		
 		SetRights: function(channel, characterId, rights, callback){
 			$.ajax({
-				url: SERVERCODE_DIRECTORY + "Command.php",
+				url: SERVERCODE_DIRECTORY + "Commands.php",
 				cache: false,
 				type: "POST",
 				data: { Action: ACTION_CHANNEL_SETRIGHTS, Data: JSON.stringify({ Channel: channel, Character: characterId, Rights: rights }) },

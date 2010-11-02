@@ -1,5 +1,3 @@
-
-
 $(function(){
 	window.chatTabIndex = 0;
 	window.GENERALCHATID = "CHAN_00000000000000000000001";
@@ -15,7 +13,7 @@ $(function(){
 		chatbox.val('');
 		
 		var msgobj = vc.ch.Utilities.ParseMessage(message);
-		insertChat([{ "Type": msgobj.Type, "FromName": MyCharacter.Name, "Message": msgobj.Message }], window.MyCharacter.CurrentChannel);
+		InsertChat([{ "Type": msgobj.Type, "FromName": MyCharacter.Name, "Message": msgobj.Message }], window.MyCharacter.CurrentChannel);
 	});
 	
 	window.$tabs = $('#chatChannels').tabs({
@@ -35,25 +33,64 @@ $(function(){
 			window.ChatToCloseIndex = $('li',$tabs).index($(this).parent()); 
 			vc.ch.PartChannel(channelId, function(){ $tabs.tabs('remove', window.ChatToCloseIndex); });
 		}
-	})
+	});
+	
+	$("#createChannelForm").dialog({ autoOpen: false, title:"Create Chat Channel", width: 400 });
+	$("#joinChannelForm").dialog({ autoOpen: false, title:"Join Chat Channel", width: 400 });
+	
+	$("#createChannelForm form").submit(function(e){
+		e.preventDefault();
+		
+		var channelName = $("#cc_channelName").val();
+		var channelMotd = $("#cc_channelMOTD").val();
+		
+		vc.ch.CreateChannel(channelName, channelMotd, CreateChannel)
+	});
+	
+	$("#joinChannelForm form").submit(function(e){
+		e.preventDefault();
+		var channelName = $("#jc_channelName").val();
+		vc.ch.JoinChannel(channelName, JoinChannel);
+	});
+	
+	
+	$("#createChannelLink").click(function(){ $("#createChannelForm").dialog("open"); });
+	$("#joinChannelLink").click(function(){ $("#joinChannelForm").dialog("open"); });
 });
 
-function addTab(title, channelId) {
+function CreateChannel(data){
+	if(data.Result == ER_SUCCESS){
+		$("#cc_channelName").val('');
+		$("#cc_channelMOTD").val('');
+		$("#createChannelForm").dialog("close");
+		AddTab(data.Data.Name, data.Data.ChannelId);
+	}else if(data.Result == ER_ALREADYEXISTS){
+		alert("Channel name already exists!");
+	}else{
+		alert("An error has occured.");
+	}
+}
+
+function JoinChannel(data){
+	
+}
+
+function AddTab(title, channelId, motd) {
 	$tabs.tabs('add', '#channelTabs-'+chatTabIndex, title);
 	$("<input type='hidden' value='" + channelId + "' class='channelId' />").appendTo($('#channelTabs-'+chatTabIndex));
 	chatTabIndex++;
 }
 
-function fillChat(list){
+function FillChat(list){
 	if(list.Result == ER_SUCCESS){
 		for(var i in list.Data){
-			insertChat(list.Data[i], i);
+			InsertChat(list.Data[i], i);
 		}
 	}
 	
 	$(".chatMessage:nth-child(n+50)").remove();
 	
-	window.setTimeout(function(){ vc.ch.GetMessagesFromChannel(MyCharacter.CurrentChannel, fillChat); }, 3000);
+	window.setTimeout(function(){ vc.ch.GetMessagesFromChannel(MyCharacter.CurrentChannel, FillChat); }, 3000);
 }
 
 function SelectCharacter(data){
@@ -68,15 +105,15 @@ function SelectCharacter(data){
 	}
 	
 	for(var i in window.MyCharacter.Channels){
-		addTab(window.MyCharacter.Channels[i], i);
+		AddTab(window.MyCharacter.Channels[i].Name, i, i.Motd);
 	}
 	
 	$tabs.tabs('select', 0);
 	
-	vc.ch.GetMessagesFromChannel(i, fillChat);
+	vc.ch.GetMessagesFromChannel(i, FillChat);
 }
 
-function insertChat(data, channel){
+function InsertChat(data, channel){
 	var $chatWindow = $("input[value='" + channel + "']").parent();
 	
 	for(x = 0; x< data.length; x++){

@@ -133,7 +133,14 @@
 				</div>
 				
 				<div id="bottom" class="container bottom">
-					<form action="game.html" id="chatForm" class="CHAN_00000000000000000000001"><input type="text" id="chatInput" style="width: 400px;" /><input type="submit" value="Submit"></form>
+					<form action="game.html" id="chatForm" class="CHAN_00000000000000000000001">
+						<input type="text" id="chatInput" style="width: 400px;" />
+						<input type="submit" value="Submit">
+					</form>
+					
+					<a href="#" id="createChannelLink">Create channel</a>
+					<a href="#" id="joinChannelLink">Join channel</a>
+					
 					<div id="chatChannels" class="chatChannels" style="height: 300px; overflow: auto;">
 						<ul id="channelTabs"></ul>
 					</div>
@@ -150,6 +157,38 @@
 				Neflaria is built on the <a href="#">Chrysolite Game Engine</a>, available under <a href="#">BSD Licensing</a>.
 			</div>
 		</footer>
+		
+		<div style="hidden" id="createChannelForm" style="display:none;">
+			<form action="submitaction.php" method="post">
+				<input type="hidden" value="createChannel">
+				<div class="formRow">
+					<div class="formLabel"><label for="cc_channelName">Channel Name</label></div>
+					<div class="formInput"><input id="cc_channelName" /></div>
+				</div>
+				<div class="formRow">
+					<div class="formLabel"><label for="cc_channelMOTD">MOTD</label></div>
+					<div class="formInput"><input id="cc_channelMOTD" /></div>
+				</div>
+				<div class="formRow">
+					<div class="formLabel">&nbsp;</div>
+					<div class="formInput"><button class="button">Create</button></div>
+				</div>
+			</form>
+		</div>
+		
+		<div style="hidden" id="joinChannelForm" style="display:none;">
+			<form action="submitaction.php" method="post">
+				<input type="hidden" value="joinChannel">
+				<div class="formRow">
+					<div class="formLabel"><label for="jc_channelName">Channel Name</label></div>
+					<div class="formInput"><input id="jc_channelName" /></div>
+				</div>
+				<div class="formRow">
+					<div class="formLabel">&nbsp;</div>
+					<div class="formInput"><button class="button">Join</button></div>
+				</div>
+			</form>
+		</div>
 		
 		<!--[if IE 8]>
 		</div>
