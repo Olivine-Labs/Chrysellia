@@ -178,3 +178,17 @@ input.watermark {
 .recentActivity li { margin: 1px 0; padding: 2px; font-family: 'DejaWeb', Arial, Helvetica, sans-serif; } 
 .emote { font-style: italic; }
 #chatForm a.button { margin-right: .5em; }
+.statLabel { font-weight: bold; }
+.stat { margin: .25em 0; width: 50%; float: left; }
+.stat.name, .stat.level { width: 100%; clear: both; }
+#bottom { margin-bottom: 1em; overflow: auto; }
+#chatForm {
+	padding: 0 21px;
+	position:relative;
+	top:79px;
+	z-index:999;
+}
+#chatChannels .ui-tabs-panel { height: 300px; overflow: auto; margin-top: 30px; }
+.game .copyright { font-size: .75em; }
+.motd { font-size: 1.1em; font-weight: bold; color: #C08826; }
+.chatMessage{ font-size: 1.1em; line-height: 1.35em; }

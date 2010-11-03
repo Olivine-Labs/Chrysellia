@@ -85,6 +85,7 @@ function JoinChannel(data){
 function AddTab(title, channelId, motd) {
 	$tabs.tabs('add', '#channelTabs-'+chatTabIndex, title);
 	$("<input type='hidden' value='" + channelId + "' class='channelId' />").appendTo($('#channelTabs-'+chatTabIndex));
+	InsertChat([{ "Type": 999, "FromName": "", "Message": motd }], channelId);
 	chatTabIndex++;
 }
 
@@ -112,7 +113,7 @@ function SelectCharacter(data){
 	}
 	
 	for(var i in window.MyCharacter.Channels){
-		AddTab(window.MyCharacter.Channels[i].Name, i, i.Motd);
+		AddTab(window.MyCharacter.Channels[i].Name, i, window.MyCharacter.Channels[i].Motd);
 	}
 	
 	$tabs.tabs('select', 0);
@@ -134,7 +135,9 @@ function InsertChat(data, channel){
 			case 1:
 				$("<div class='chatMessage emote'>" + chatobj.FromName + " </div>").append(msg).prependTo($chatWindow);
 				break;
-			
+			case 999: //motd
+				$("<div class='chatMessage motd'></div>").append(msg).prependTo($chatWindow);
+				break;
 			default:
 				$("<div class='chatMessage'><strong>" + chatobj.FromName + "</strong>: </div>").append(msg).prependTo($chatWindow);
 				break;
