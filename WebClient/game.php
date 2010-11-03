@@ -146,7 +146,7 @@
 				</div>
 				<div class="formRow">
 					<div class="formLabel">&nbsp;</div>
-					<div class="formInput"><button class="button">Create</button></div>
+					<div class="formInput"><button type="submit" class="button">Create</button></div>
 				</div>
 			</form>
 		</div>
@@ -160,7 +160,7 @@
 				</div>
 				<div class="formRow">
 					<div class="formLabel">&nbsp;</div>
-					<div class="formInput"><button class="button">Join</button></div>
+					<div class="formInput"><button type="submit" class="button">Join</button></div>
 				</div>
 			</form>
 		</div>

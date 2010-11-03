@@ -73,7 +73,7 @@
 							<input type="password" placeholder="Password" name="quickLogin_pw" id="quickLogin_pw" />
 							<input type="hidden" value="login" name="action" id="action" />
 							
-							<button class="button">Log in</button>
+							<button type="submit" class="button">Log in</button>
 						</form>
 					</div>
 				</div>
@@ -243,7 +243,7 @@
 					<div class="formRow">
 						<div class="formLabel"></div>
 						<div class="formInput">
-							<button id="submitCreateAccount" class="button createAccount">Create</button>
+							<button type="submit" id="submitCreateAccount" class="button createAccount">Create</button>
 						</div>
 					</div>
 				</form>
@@ -278,7 +278,7 @@
 					<div class="formRow">
 						<div class="formLabel"></div>
 						<div class="formInput">
-							<button id="submitLogIn" class="button">Log In</button>
+							<button type="submit" id="submitLogIn" class="button">Log In</button>
 						</div>
 					</div>
 				</form>

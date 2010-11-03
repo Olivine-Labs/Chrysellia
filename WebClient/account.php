@@ -71,7 +71,7 @@
 					<div class="quickLogin">
 						<form action="submitaction.php" method="post" id="quickLoginForm">
 							<input type="hidden" value="logout" name="action" id="action" />
-							<button class="button">Log Out</button>
+							<button type="submit" class="button">Log Out</button>
 						</form>
 					</div>
 				</div>
@@ -179,7 +179,7 @@
 						<div class="formRow">
 							<div class="formLabel"></div>
 							<div class="formInput">
-								<button id="submitCreateAccount" class="button createAccount">Create</button>
+								<button type="submit" id="submitCreateAccount" class="button createAccount">Create</button>
 							</div>
 						</div>
 					</div>
@@ -191,9 +191,9 @@
 								<label for="startingStr">Str</label>
 							</div>
 							<div class="formInput">
-								<button class="button minus">+</button>
+								<button type="submit" class="button minus">+</button>
 								<span id="baseStr">20</span> + <input class="statChooser" id="startingStr" maxlength="2" value="0" />
-								<button class="button plus">-</button>
+								<button type="submit" class="button plus">-</button>
 								<br />
 								<em>Race max: <span id="raceStrMax">30</span></em>
 							</div>
@@ -204,9 +204,9 @@
 								<label for="startingDex">Dex</label>
 							</div>
 							<div class="formInput">
-								<button class="button minus">+</button>
+								<button type="submit" class="button minus">+</button>
 								<span id="baseDex">20</span> + <input class="statChooser" id="startingDex" maxlength="2" value="0" />
-								<button class="button plus">-</button>
+								<button type="submit" class="button plus">-</button>
 								<br />
 								<em>Race max: <span id="raceDexMax">30</span></em>
 							</div>
@@ -217,9 +217,9 @@
 								<label for="startingInt">Int</label>
 							</div>
 							<div class="formInput">
-								<button class="button minus">+</button>
+								<button type="submit" class="button minus">+</button>
 								<span id="baseInt">20</span> + <input class="statChooser" id="startingInt" maxlength="2" value="0" />
-								<button class="button plus">-</button>
+								<button type="submit" class="button plus">-</button>
 								<br />
 								<em>Race max: <span id="raceIntMax">30</span></em>
 							</div>
@@ -230,9 +230,9 @@
 								<label for="startingWis">Wis</label>
 							</div>
 							<div class="formInput">
-								<button class="button minus">+</button>
+								<button type="submit" class="button minus">+</button>
 								<span id="baseWis">20</span> + <input class="statChooser" id="startingWis" maxlength="2" value="0" />
-								<button class="button plus">-</button>
+								<button type="submit" class="button plus">-</button>
 								<br />
 								<em>Race max: <span id="raceWisMax">30</span></em>
 							</div>
@@ -243,9 +243,9 @@
 								<label for="startingVit">Vit</label>
 							</div>
 							<div class="formInput">
-								<button class="button minus">+</button>
+								<button type="submit" class="button minus">+</button>
 								<span id="baseVit">20</span> + <input class="statChooser" id="startingVit" maxlength="2" value="0" />
-								<button class="button plus">-</button>
+								<button type="submit" class="button plus">-</button>
 								<br />
 								<em>Race max: <span id="raceVitMax">30</span></em>
 							</div>

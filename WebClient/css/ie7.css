@@ -6,7 +6,7 @@
 	text-align: left;
 }
 
-#topNav nav ul li  {
+#top10 li, #navigation li  {
 	float: left;
 	display: inline;
 }
