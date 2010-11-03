@@ -24,7 +24,7 @@
 				type: "POST",
 				data: { Action: ACTION_CREATE, Data: JSON.stringify({ Name: name, Gender: gender, Pin: pin, RaceId: raceID, Strength: strength, Dexterity: dexterity, Intelligence: intelligence, Wisdom: wisdom, Vitality: vitality }) },
 				success: function(response){
-					callback(JSON.parse(response));
+					callback(response);
 			   }
 			});
 		},
@@ -36,7 +36,7 @@
 				type: "POST",
 				data: { Action: ACTION_LIST, Data: JSON.stringify({}) },
 				success: function(response){
-					callback(JSON.parse(response));
+					callback(response);
 			   }
 			});
 		},
@@ -48,7 +48,7 @@
 				type: "POST",
 				data: { Action: ACTION_CHECKNAME, Data: JSON.stringify({ FirstName: firstName, MiddleName: middleName, LastName: lastName }) },
 				success: function(response){
-					callback(JSON.parse(response));
+					callback(response);
 			   }
 			});
 		},
@@ -60,7 +60,7 @@
 				type: "POST",
 				data: { Action: ACTION_SELECTCHARACTER, Data: JSON.stringify({ Character: characterId, Pin: pin }) },
 				success: function(response){
-					callback(JSON.parse(response));
+					callback(response);
 			   }
 			});
 		},
@@ -72,7 +72,7 @@
 				type: "POST",
 				data: { Action: ACTION_GETCURRENTCHARACTER, Data: JSON.stringify({ }) },
 				success: function(response){
-					callback(JSON.parse(response));
+					callback(response);
 			   }
 			});
 		}

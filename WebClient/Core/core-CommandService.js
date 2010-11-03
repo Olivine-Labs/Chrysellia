@@ -35,7 +35,7 @@
 				type: "POST",
 				data: responseData,
 				success: function(response){
-					callback(JSON.parse(response));
+					callback(response);
 			   }
 			});
 		}
