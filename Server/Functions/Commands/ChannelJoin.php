@@ -20,6 +20,7 @@ if(property_exists($Post, 'Channel'))
 			$Result->Set('Result', \Protocol\Result::ER_SUCCESS);
 			$Result->Set('Data', $Channel);
 			$_SESSION['Channels'][$Channel["ChannelId"]] = new stdClass();
+			$_SESSION['Channels'][$Channel["ChannelId"]]->LastRefresh = time() - 300;
 		}
 	}
 	catch(Exception $e)
