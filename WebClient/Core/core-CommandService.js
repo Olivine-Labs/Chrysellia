@@ -30,7 +30,7 @@
 			}
 			
 			$.getJSON(
-				SERVERCODE_DIRECTORY + "Commands.php?jsonCallback=?",
+				SERVERCODE_DIRECTORY + "Commands.php",
 				responseData,
 				function(data) { callback(data); }
 			);

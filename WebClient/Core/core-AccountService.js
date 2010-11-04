@@ -17,7 +17,7 @@
 	AccountService = AccountService.prototype = {
 		Login: function(username, password, callback){
 			$.getJSON(
-				SERVERCODE_DIRECTORY + "Account.php?jsonCallback=?",
+				SERVERCODE_DIRECTORY + "Account.php",
 				{ Action: LOGIN, Data: JSON.stringify({ UserName: username, Password: password }) },
 				function(data) { callback(data); }
 			);
@@ -25,7 +25,7 @@
 		
 		Register: function(username, password, email, callback){
 			$.getJSON(
-				SERVERCODE_DIRECTORY + "Account.php?jsonCallback=?",
+				SERVERCODE_DIRECTORY + "Account.php",
 				{ Action: REGISTER, Data: JSON.stringify({ UserName: username, Password: password, Email: email}) },
 				function(data) { callback(data); }
 			);
@@ -33,7 +33,7 @@
 		
 		Logout: function(callback){
 			$.getJSON(
-				SERVERCODE_DIRECTORY + "Account.php?jsonCallback=?",
+				SERVERCODE_DIRECTORY + "Account.php",
 				{ Action: LOGOUT, Data: JSON.stringify({ }) },
 				function(data) { callback(data); }
 			);
