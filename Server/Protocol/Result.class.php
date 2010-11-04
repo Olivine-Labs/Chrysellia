@@ -65,7 +65,14 @@ class Result
 		switch($this->OutputMethod)
 		{
 			case Result::OT_JSON:
-				echo $_GET["jsonCallback"]. "(" . json_encode($this->Data) . ")";
+				if(isset($_GET['jsonCallback']))
+				{
+					echo $_GET["jsonCallback"]. "(" . json_encode($this->Data) . ")";
+				}
+				else
+				{
+					echo json_encode($this->Data);
+				}
 				break;
 			case Result::OT_XML:
 				if(class_exists('XML_Serializer'))
