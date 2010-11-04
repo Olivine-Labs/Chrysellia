@@ -16,39 +16,27 @@
 	
 	AccountService = AccountService.prototype = {
 		Login: function(username, password, callback){
-			$.ajax({
-				url: SERVERCODE_DIRECTORY + "Account.php",
-				cache: false,
-				type: "POST",
-				data: { Action: LOGIN, Data: JSON.stringify({ UserName: username, Password: password }) },
-				success: function(response){
-					callback(response);
-			   }
-			});
+			$.getJSON(
+				SERVERCODE_DIRECTORY + "Account.php?jsonCallback=?",
+				{ Action: LOGIN, Data: JSON.stringify({ UserName: username, Password: password }) },
+				function(data) { callback(data); }
+			);
 		},
 		
 		Register: function(username, password, email, callback){
-			$.ajax({
-				url: SERVERCODE_DIRECTORY + "Account.php",
-				cache: false,
-				type: "POST",
-				data: { Action: REGISTER, Data: JSON.stringify({ UserName: username, Password: password, Email: email}) },
-				success: function(response){
-					callback(response);
-			   }
-			});
+			$.getJSON(
+				SERVERCODE_DIRECTORY + "Account.php?jsonCallback=?",
+				{ Action: REGISTER, Data: JSON.stringify({ UserName: username, Password: password, Email: email}) },
+				function(data) { callback(data); }
+			);
 		},
 		
 		Logout: function(callback){
-			$.ajax({
-				url: SERVERCODE_DIRECTORY + "Account.php",
-				cache: false,
-				type: "POST",
-				data: { Action: LOGOUT, Data: JSON.stringify({ }) },
-				success: function(response){
-					callback(response);
-			   }
-			});
+			$.getJSON(
+				SERVERCODE_DIRECTORY + "Account.php?jsonCallback=?",
+				{ Action: LOGOUT, Data: JSON.stringify({ }) },
+				function(data) { callback(data); }
+			);
 		}
 	}
 	

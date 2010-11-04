@@ -62,6 +62,7 @@ function CreateChannel(data){
 		$("#cc_channelMOTD").val('');
 		$("#createChannelForm").dialog("close");
 		AddTab(data.Data.Name, data.Data.ChannelId);
+		window.MyCharacter.CurrentChannel = data.Data.ChannelId;
 	}else if(data.Result == ER_ALREADYEXISTS){
 		alert("Channel name already exists!");
 	}else{

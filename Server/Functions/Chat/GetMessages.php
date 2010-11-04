@@ -3,10 +3,10 @@
  * Channel refresh logic
  */
 
-$Post = (object)Array('Data'=>'');
-if(isset($_POST['Data']))
+$Get = (object)Array('Data'=>'');
+if(isset($_GET['Data']))
 {
-	$Post = json_decode($_POST['Data']);
+	$Get = json_decode($_GET['Data']);
 }
 
 try

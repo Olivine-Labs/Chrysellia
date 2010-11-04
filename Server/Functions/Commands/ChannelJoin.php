@@ -3,19 +3,19 @@
  * Join Channel
  */
 
-$Post = (object)Array('Data'=>'');
-if(isset($_POST['Data']))
+$Get = (object)Array('Data'=>'');
+if(isset($_GET['Data']))
 {
-	$Post = json_decode($_POST['Data']);
+	$Get = json_decode($_GET['Data']);
 }
 
-if(property_exists($Post, 'Channel'))
+if(property_exists($Get, 'Channel'))
 {
 	try
 	{
 		$Character = new \Entities\Character();
 		$Character->CharacterId = $_SESSION['CharacterId'];
-		if($Channel = $Database->Chat->JoinChannel($Character, $Post->Channel))
+		if($Channel = $Database->Chat->JoinChannel($Character, $Get->Channel))
 		{
 			$Result->Set('Result', \Protocol\Result::ER_SUCCESS);
 			$Result->Set('Data', $Channel);

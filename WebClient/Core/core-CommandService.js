@@ -29,15 +29,11 @@
 					break;
 			}
 			
-			$.ajax({
-				url: SERVERCODE_DIRECTORY + "Commands.php",
-				cache: false,
-				type: "POST",
-				data: responseData,
-				success: function(response){
-					callback(response);
-			   }
-			});
+			$.getJSON(
+				SERVERCODE_DIRECTORY + "Commands.php?jsonCallback=?",
+				responseData,
+				function(data) { callback(data); }
+			);
 		}
 	}
 	

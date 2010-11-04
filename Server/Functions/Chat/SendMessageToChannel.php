@@ -3,13 +3,13 @@
  * Chat send logic
  */
 
-$Post = (object)Array('Data'=>'');
-if(isset($_POST['Data']))
+$Get = (object)Array('Data'=>'');
+if(isset($_GET['Data']))
 {
-	$Post = json_decode($_POST['Data']);
+	$Get = json_decode($_GET['Data']);
 }
 
-if(property_exists($Post, 'Channel'))
+if(property_exists($Get, 'Channel'))
 {
 	try
 	{
@@ -17,11 +17,11 @@ if(property_exists($Post, 'Channel'))
 		$Character->CharacterId = $_SESSION['CharacterId'];
 		if($Database->Characters->LoadById($Character))
 		{
-			if($Rights = $Database->Chat->GetRights($Character, $Post->Channel))
+			if($Rights = $Database->Chat->GetRights($Character, $Get->Channel))
 			{
 				if($Rights['Write'])
 				{
-					if($Database->Chat->Insert($Character, $Post->Channel, $Post->Message))
+					if($Database->Chat->Insert($Character, $Get->Channel, $Get->Message))
 					{
 						$Result->Set('Result', \Protocol\Result::ER_SUCCESS);
 					}

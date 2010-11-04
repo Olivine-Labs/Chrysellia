@@ -6,15 +6,15 @@ header('Content-type: application/json');
 require('./Common/Common.inc.php');
 $Result = new \Protocol\Result();
 
-if ( 'POST' == $_SERVER['REQUEST_METHOD'] )
+if ( 'GET' == $_SERVER['REQUEST_METHOD'] )
 {
 	define('ACTION_LOGIN', 0);
 	define('ACTION_REGISTER', 1);
 	define('ACTION_LOGOUT', 2);
 
-	if(isset($_POST['Action']))
+	if(isset($_GET['Action']))
 	{
-		switch($_POST['Action'])
+		switch($_GET['Action'])
 		{
 			case ACTION_LOGIN:
 				include './Functions/Account/Login.php';

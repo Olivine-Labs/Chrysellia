@@ -2,18 +2,18 @@
 /**
  * This file contains the Login function logic for Accounts
  */
-$Post = (object)Array('Data'=>'');
-if(isset($_POST['Data']))
+$Get = (object)Array('Data'=>'');
+if(isset($_GET['Data']))
 {
-	$Post = json_decode($_POST['Data']);
+	$Get = json_decode($_GET['Data']);
 }
 
 if(
-	property_exists($Post, 'UserName') &&
-	property_exists($Post, 'Password')
+	property_exists($Get, 'UserName') &&
+	property_exists($Get, 'Password')
 ){
 	$AnAccount = new \Entities\Account();
-	$AnAccount->Fill($Post);
+	$AnAccount->Fill($Get);
 	if($AnAccount->Verify())
 	{
 		try

@@ -3,13 +3,13 @@
  * Create Channel
  */
 
-$Post = (object)Array('Data'=>'');
-if(isset($_POST['Data']))
+$Get = (object)Array('Data'=>'');
+if(isset($_GET['Data']))
 {
-	$Post = json_decode($_POST['Data']);
+	$Get = json_decode($_GET['Data']);
 }
 
-if(property_exists($Post, 'Channel') && property_exists($Post, 'Motd'))
+if(property_exists($Get, 'Channel') && property_exists($Get, 'Motd'))
 {
 	try
 	{
@@ -17,14 +17,14 @@ if(property_exists($Post, 'Channel') && property_exists($Post, 'Motd'))
 		$Character->CharacterId = $_SESSION['CharacterId'];
 		$Database->startTransaction();
 		$Success = false;
-		if($ChannelId = $Database->Chat->CreateChannel($Post->Channel, $Post->Motd))
+		if($ChannelId = $Database->Chat->CreateChannel($Get->Channel, $Get->Motd))
 		{
 			if($Database->Chat->SetRights($Character, $ChannelId, Array('Read'=>1,'Write'=>1,'Moderate'=>1,'Administrate'=>1,'isJoined'=>1)))
 			{
 				$Success = true;
 				$Database->commitTransaction();
 				$Result->Set('Result', \Protocol\Result::ER_SUCCESS);
-				$Result->Set('Data', Array('ChannelId'=>$ChannelId, 'Name'=>$Post->Channel, 'Motd'=>$Post->Motd));
+				$Result->Set('Data', Array('ChannelId'=>$ChannelId, 'Name'=>$Get->Channel, 'Motd'=>$Get->Motd));
 			}
 		}
 		if(!$Success)

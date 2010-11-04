@@ -19,42 +19,30 @@
 	
 	ChatService = ChatService.prototype = {
 		GetMessagesFromChannel: function(channel, callback){
-			$.ajax({
-				url: SERVERCODE_DIRECTORY + "Chat.php",
-				cache: false,
-				type: "POST",
-				data: { Action: ACTION_GETMESSAGESFROMCHANNEL, Data: JSON.stringify({ Channel: channel }) },
-				success: function(response){
-					callback(response);
-			   }
-			});
+			$.getJSON(
+				SERVERCODE_DIRECTORY + "Chat.php?jsonCallback=?",
+				{ Action: ACTION_GETMESSAGESFROMCHANNEL, Data: JSON.stringify({ Channel: channel }) },
+				function(data) { callback(data); }
+			);
 		},
 		
 		GetMessagesForCharacter: function(callback){
-			$.ajax({
-				url: SERVERCODE_DIRECTORY + "Chat.php",
-				cache: false,
-				type: "POST",
-				data: { Action: ACTION_GETMESSAGESFORCHARACTER, Data: JSON.stringify({ }) },
-				success: function(response){
-					callback(response);
-			   }
-			});
+			$.getJSON(
+				SERVERCODE_DIRECTORY + "Chat.php?jsonCallback=?",
+				{ Action: ACTION_GETMESSAGESFORCHARACTER, Data: JSON.stringify({ }) },
+				function(data) { callback(data); }
+			);
 		},
 		
 		SendMessageToChannel: function(channel, message, callback){
 			var chatobj = vc.ch.Utilities.ParseMessage(message);
 			
 			if(chatobj.Type == 0){
-				$.ajax({
-					url: SERVERCODE_DIRECTORY + "Chat.php",
-					cache: false,
-					type: "POST",
-					data: { Action: ACTION_SENDMESSAGE, Data: JSON.stringify({ Channel: channel, Message: message }) },
-					success: function(response){
-						callback(response);
-				   }
-				});
+				$.getJSON(
+					SERVERCODE_DIRECTORY + "Chat.php?jsonCallback=?",
+					{ Action: ACTION_SENDMESSAGE, Data: JSON.stringify({ Channel: channel, Message: message }) },
+					function(data) { callback(data); }
+				);
 			}else{
 				if(chatobj.Type == 1){
 					vc.cmd.SendChatCommand(channel, ACTION_EMOTE, chatobj.Message, callback);
@@ -65,51 +53,35 @@
 		},
 		
 		JoinChannel: function(channel, callback){
-			$.ajax({
-				url: SERVERCODE_DIRECTORY + "Commands.php",
-				cache: false,
-				type: "POST",
-				data: { Action: ACTION_JOINCHANNEL, Data: JSON.stringify({ Channel: channel }) },
-				success: function(response){
-					callback(response);
-			   }
-			});
+			$.getJSON(
+				SERVERCODE_DIRECTORY + "Commands.php?jsonCallback=?",
+				{ Action: ACTION_JOINCHANNEL, Data: JSON.stringify({ Channel: channel }) },
+				function(data) { callback(data); }
+			);
 		},
 		
 		PartChannel: function(channel, callback){
-			$.ajax({
-				url: SERVERCODE_DIRECTORY + "Commands.php",
-				cache: false,
-				type: "POST",
-				data: { Action: ACTION_CHANNEL_PART, Data: JSON.stringify({ Channel: channel }) },
-				success: function(response){
-					callback(response);
-			   }
-			});
+			$.getJSON(
+				SERVERCODE_DIRECTORY + "Commands.php?jsonCallback=?",
+				{ Action: ACTION_CHANNEL_PART, Data: JSON.stringify({ Channel: channel }) },
+				function(data) { callback(data); }
+			);
 		},
 		
 		CreateChannel: function(name, motd, callback){
-			$.ajax({
-				url: SERVERCODE_DIRECTORY + "Commands.php",
-				cache: false,
-				type: "POST",
-				data: { Action: ACTION_CHANNEL_CREATE, Data: JSON.stringify({ Channel: name, Motd: motd }) },
-				success: function(response){
-					callback(response);
-			   }
-			});
+			$.getJSON(
+				SERVERCODE_DIRECTORY + "Commands.php?jsonCallback=?",
+				{ Action: ACTION_CHANNEL_CREATE, Data: JSON.stringify({ Channel: name, Motd: motd }) },
+				function(data) { callback(data); }
+			);
 		},
 		
 		SetRights: function(channel, characterName, rights, callback){
-			$.ajax({
-				url: SERVERCODE_DIRECTORY + "Commands.php",
-				cache: false,
-				type: "POST",
-				data: { Action: ACTION_CHANNEL_SETRIGHTS, Data: JSON.stringify({ Channel: channel, Character: characterName, Rights: rights }) },
-				success: function(response){
-					callback(response);
-			   }
-			});
+			$.getJSON(
+				SERVERCODE_DIRECTORY + "Commands.php?jsonCallback=?",
+				{ Action: ACTION_CHANNEL_SETRIGHTS, Data: JSON.stringify({ Channel: channel, Character: characterName, Rights: rights }) },
+				function(data) { callback(data); }
+			);
 		},
 		
 		Utilities: {},

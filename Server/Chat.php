@@ -6,16 +6,16 @@ header('Content-type: application/json');
 require('./Common/Common.inc.php');
 $Result = new \Protocol\Result();
 
-if ( 'POST' == $_SERVER['REQUEST_METHOD'] )
+if ( 'GET' == $_SERVER['REQUEST_METHOD'] )
 {
 	if(isset($_SESSION['AccountId']) && isset($_SESSION['CharacterId']))
 	{
 		define('ACTION_SENDMESSAGE', 0);
 		define('ACTION_GETMESSAGES', 1);
 
-		if(isset($_POST['Action']))
+		if(isset($_GET['Action']))
 		{
-			switch($_POST['Action'])
+			switch($_GET['Action'])
 			{
 				case ACTION_SENDMESSAGE:
 					include './Functions/Chat/SendMessageToChannel.php';

@@ -3,25 +3,25 @@
  * Character select logic
  */
 
-$Post = (object)Array('Data'=>'');
-if(isset($_POST['Data']))
+$Get = (object)Array('Data'=>'');
+if(isset($_GET['Data']))
 {
-	$Post = json_decode($_POST['Data']);
+	$Get = json_decode($_GET['Data']);
 }
 
 if(
-	property_exists($Post, 'Character') &&
-	property_exists($Post, 'Pin')
+	property_exists($Get, 'Character') &&
+	property_exists($Get, 'Pin')
 ){
 	try
 	{
 		$ACharacter = new \Entities\Character();
-		$ACharacter->CharacterId = $Post->Character;
+		$ACharacter->CharacterId = $Get->Character;
 		if($Database->Characters->LoadById($ACharacter))
 		{
 			if(
 				($ACharacter->AccountId == $_SESSION['AccountId']) &&
-				(($ACharacter->Pin == $Post->Pin) || ($ACharacter->Pin == 0))
+				(($ACharacter->Pin == $Get->Pin) || ($ACharacter->Pin == 0))
 			){
 				$Result->Set('Result', \Protocol\Result::ER_SUCCESS);
 				$_SESSION['CharacterId'] = $ACharacter->CharacterId;

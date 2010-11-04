@@ -18,63 +18,43 @@
 	
 	CharacterService = CharacterService.prototype = {
 		Create: function(name, gender, pin, raceID, strength, dexterity, intelligence, wisdom, vitality, callback){
-			$.ajax({
-				url: SERVERCODE_DIRECTORY + "Character.php",
-				cache: false,
-				type: "POST",
-				data: { Action: ACTION_CREATE, Data: JSON.stringify({ Name: name, Gender: gender, Pin: pin, RaceId: raceID, Strength: strength, Dexterity: dexterity, Intelligence: intelligence, Wisdom: wisdom, Vitality: vitality }) },
-				success: function(response){
-					callback(response);
-			   }
-			});
+			$.getJSON(
+				SERVERCODE_DIRECTORY + "Character.php?jsonCallback=?",
+				{ Action: ACTION_CREATE, Data: JSON.stringify({ Name: name, Gender: gender, Pin: pin, RaceId: raceID, Strength: strength, Dexterity: dexterity, Intelligence: intelligence, Wisdom: wisdom, Vitality: vitality }) },
+				function(data) { callback(data); }
+			);
 		},
 		
 		List: function(callback){
-			$.ajax({
-				url: SERVERCODE_DIRECTORY + "Character.php",
-				cache: true,
-				type: "POST",
-				data: { Action: ACTION_LIST, Data: JSON.stringify({}) },
-				success: function(response){
-					callback(response);
-			   }
-			});
+			$.getJSON(
+				SERVERCODE_DIRECTORY + "Character.php?jsonCallback=?",
+				{ Action: ACTION_LIST, Data: JSON.stringify({}) },
+				function(data) { callback(data); }
+			);
 		},
 		
 		CheckName: function(firstName, middleName, lastName, callback){
-			$.ajax({
-				url: SERVERCODE_DIRECTORY + "Character.php",
-				cache: false,
-				type: "POST",
-				data: { Action: ACTION_CHECKNAME, Data: JSON.stringify({ FirstName: firstName, MiddleName: middleName, LastName: lastName }) },
-				success: function(response){
-					callback(response);
-			   }
-			});
+			$.getJSON(
+				SERVERCODE_DIRECTORY + "Character.php?jsonCallback=?",
+				{ Action: ACTION_CHECKNAME, Data: JSON.stringify({ FirstName: firstName, MiddleName: middleName, LastName: lastName }) },
+				function(data) { callback(data); }
+			);
 		},
 		
 		Select: function(characterId, pin, callback){
-			$.ajax({
-				url: SERVERCODE_DIRECTORY + "Character.php",
-				cache: false,
-				type: "POST",
-				data: { Action: ACTION_SELECTCHARACTER, Data: JSON.stringify({ Character: characterId, Pin: pin }) },
-				success: function(response){
-					callback(response);
-			   }
-			});
+			$.getJSON(
+				SERVERCODE_DIRECTORY + "Character.php?jsonCallback=?",
+				{ Action: ACTION_SELECTCHARACTER, Data: JSON.stringify({ Character: characterId, Pin: pin }) },
+				function(data) { callback(data); }
+			);
 		},
 		
 		GetCurrentCharacter: function(callback){
-			$.ajax({
-				url: SERVERCODE_DIRECTORY + "Character.php",
-				cache: false,
-				type: "POST",
-				data: { Action: ACTION_GETCURRENTCHARACTER, Data: JSON.stringify({ }) },
-				success: function(response){
-					callback(response);
-			   }
-			});
+			$.getJSON(
+				SERVERCODE_DIRECTORY + "Character.php?jsonCallback=?",
+				{ Action: ACTION_GETCURRENTCHARACTER, Data: JSON.stringify({ }) },
+				function(data) { callback(data); }
+			);
 		}
 	}
 	

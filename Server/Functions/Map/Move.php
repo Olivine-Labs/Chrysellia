@@ -3,19 +3,19 @@
  * Character movement logic
  */
 
-$Post = (object)Array('Data'=>'');
-if(isset($_POST['Data']))
+$Get = (object)Array('Data'=>'');
+if(isset($_GET['Data']))
 {
-	$Post = json_decode($_POST['Data']);
+	$Get = json_decode($_GET['Data']);
 }
 
 if(
-	property_exists($Post, 'X') &&
-	property_exists($Post, 'Y')
+	property_exists($Get, 'X') &&
+	property_exists($Get, 'Y')
 ){
 	if(
-		($Post->X >= 0) &&
-		($Post->Y >= 0)
+		($Get->X >= 0) &&
+		($Get->Y >= 0)
 	){
 		try
 		{
@@ -23,8 +23,8 @@ if(
 			$Character->CharacterId = $_SESSION['CharacterId'];
 			if($Database->Characters->LoadPosition($Character))
 			{
-				$DiffX = abs($Character->PositionX - $Post->X);
-				$DiffY = abs($Character->PositionY - $Post->Y);
+				$DiffX = abs($Character->PositionX - $Get->X);
+				$DiffY = abs($Character->PositionY - $Get->Y);
 				if(
 					($DiffX <= 1) &&
 					($DiffY <= 1)
@@ -34,10 +34,10 @@ if(
 					if($Database->Maps->LoadById($Map))
 					{
 						if(
-							($Post->X < $Map->DimensionX) &&
-							($Post->Y < $Map->DimensionY)
+							($Get->X < $Map->DimensionX) &&
+							($Get->Y < $Map->DimensionY)
 						){
-							$Cell = $Database->Maps->LoadCell($Map, $Post->X, $Post->Y);
+							$Cell = $Database->Maps->LoadCell($Map, $Get->X, $Get->Y);
 							if(!$Cell['Blocked'])
 							{
 								if($DiffX + $DiffY == 2)
@@ -48,12 +48,12 @@ if(
 								{
 									$_SESSION['NextAction'] = time() + 1;
 								}
-								$Character->PositionX = $Post->X;
-								$Character->PositionY = $Post->Y;
+								$Character->PositionX = $Get->X;
+								$Character->PositionY = $Get->Y;
 								if($Database->Character->UpdatePosition($Character))
 								{
 									$Result->Set('Result', \Protocol\Result::ER_SUCCESS);
-									$Result->Set('Data', Array('X'=>$Post->X, 'Y'=>$Post->Y));
+									$Result->Set('Data', Array('X'=>$Get->X, 'Y'=>$Get->Y));
 								}
 								else
 								{

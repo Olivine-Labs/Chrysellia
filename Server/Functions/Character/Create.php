@@ -6,34 +6,34 @@
 define('CHANNEL_GENERAL', 'CHAN_00000000000000000000001');
 define('CHANNEL_TRADE', 'CHAN_00000000000000000000002');
 
-$Post = (object)Array('Data'=>'');
-if(isset($_POST['Data']))
+$Get = (object)Array('Data'=>'');
+if(isset($_GET['Data']))
 {
-	$Post = json_decode($_POST['Data']);
+	$Get = json_decode($_GET['Data']);
 }
 
 if(
-	property_exists($Post, 'Gender') &&
-	property_exists($Post, 'Pin') &&
-	property_exists($Post, 'Name') &&
-	property_exists($Post, 'RaceId') &&
-	property_exists($Post, 'Strength') &&
-	property_exists($Post, 'Dexterity') &&
-	property_exists($Post, 'Intelligence') &&
-	property_exists($Post, 'Wisdom') &&
-	property_exists($Post, 'Vitality')
+	property_exists($Get, 'Gender') &&
+	property_exists($Get, 'Pin') &&
+	property_exists($Get, 'Name') &&
+	property_exists($Get, 'RaceId') &&
+	property_exists($Get, 'Strength') &&
+	property_exists($Get, 'Dexterity') &&
+	property_exists($Get, 'Intelligence') &&
+	property_exists($Get, 'Wisdom') &&
+	property_exists($Get, 'Vitality')
 ){
 	$ACharacter = new \Entities\Character();
 	$ACharacter->AccountId = $_SESSION['AccountId'];
-	$ACharacter->Gender = $Post->Gender;
-	$ACharacter->Pin = $Post->Pin;
-	$ACharacter->Name = $Post->Name;
-	$ACharacter->RaceId = $Post->RaceId;
-	$ACharacter->RacialStrength = $Post->Strength;
-	$ACharacter->RacialDexterity = $Post->Dexterity;
-	$ACharacter->RacialIntelligence = $Post->Intelligence;
-	$ACharacter->RacialWisdom = $Post->Wisdom;
-	$ACharacter->RacialVitality = $Post->Vitality;
+	$ACharacter->Gender = $Get->Gender;
+	$ACharacter->Pin = $Get->Pin;
+	$ACharacter->Name = $Get->Name;
+	$ACharacter->RaceId = $Get->RaceId;
+	$ACharacter->RacialStrength = $Get->Strength;
+	$ACharacter->RacialDexterity = $Get->Dexterity;
+	$ACharacter->RacialIntelligence = $Get->Intelligence;
+	$ACharacter->RacialWisdom = $Get->Wisdom;
+	$ACharacter->RacialVitality = $Get->Vitality;
 
 	$ARace = new \Entities\Race();
 	$ARace->RaceId = $ACharacter->RaceId;

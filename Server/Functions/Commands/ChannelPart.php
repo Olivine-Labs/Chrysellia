@@ -3,17 +3,17 @@
  * Join Channel
  */
 
-$Post = (object)Array('Data'=>'');
-if(isset($_POST['Data']))
+$Get = (object)Array('Data'=>'');
+if(isset($_GET['Data']))
 {
-	$Post = json_decode($_POST['Data']);
+	$Get = json_decode($_GET['Data']);
 }
 
-if(property_exists($Post, 'Channel'))
+if(property_exists($Get, 'Channel'))
 {
 	$Character = new \Entities\Character();
 	$Character->CharacterId = $_SESSION['CharacterId'];
-	if($Database->Chat->LeaveChannel($Character, $Post->Channel))
+	if($Database->Chat->LeaveChannel($Character, $Get->Channel))
 	{
 		unset($_SESSION['Channels'][$ChannelId]);
 		$Result->Set('Result', \Protocol\Result::ER_BADDATA);

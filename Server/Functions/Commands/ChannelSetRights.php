@@ -3,16 +3,16 @@
  * Join Channel
  */
 
-$Post = (object)Array('Data'=>'');
-if(isset($_POST['Data']))
+$Get = (object)Array('Data'=>'');
+if(isset($_GET['Data']))
 {
-	$Post = json_decode($_POST['Data']);
+	$Get = json_decode($_GET['Data']);
 }
 
 if(
-	property_exists($Post, 'Character') &&
-	property_exists($Post, 'Channel') &&
-	property_exists($Post, 'Rights')
+	property_exists($Get, 'Character') &&
+	property_exists($Get, 'Channel') &&
+	property_exists($Get, 'Rights')
 ){
 	try
 	{
@@ -21,15 +21,15 @@ if(
 		$Character->CharacterId = $_SESSION['CharacterId'];
 
 		$TargetCharacter = new \Entities\Character();
-		$TargetCharacter->Name = $Post->Character;
+		$TargetCharacter->Name = $Get->Character;
 
-		if($Rights = $Database->Chat->GetRights($Character, $Post->Channel))
+		if($Rights = $Database->Chat->GetRights($Character, $Get->Channel))
 		{
 			if($Rights['Administrate'])
 			{
 				if($Database->Characters->CheckName($TargetCharacter))
 				{
-					$TargetCharacterRights = $Database->Chat->GetRights($TargetCharacter, $Post->Channel);
+					$TargetCharacterRights = $Database->Chat->GetRights($TargetCharacter, $Get->Channel);
 					
 					define('RIGHT_READ', 0);
 					define('RIGHT_WRITE', 1);
@@ -37,7 +37,7 @@ if(
 					define('RIGHT_ADMINISTRATE', 3);
 					
 					$Success = true;
-					$TargetRights = $Post->Rights;
+					$TargetRights = $Get->Rights;
 					
 					if(property_exists($TargetRights, 'Read')){
 						$TargetCharacterRights['Read'] = (bool)$TargetRights->Read;
@@ -61,7 +61,7 @@ if(
 					
 					if($Success)
 					{
-						if($Database->Chat->SetRights($TargetCharacter, $Post->Channel, $TargetCharacterRights))
+						if($Database->Chat->SetRights($TargetCharacter, $Get->Channel, $TargetCharacterRights))
 						{
 							$Result->Set('Result', \Protocol\Result::ER_SUCCESS);
 						}

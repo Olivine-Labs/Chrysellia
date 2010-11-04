@@ -3,19 +3,19 @@
  * Check to see if a name already exists
  */
 
-$Post = (object)Array('Data'=>'');
-if(isset($_POST['Data']))
+$Get = (object)Array('Data'=>'');
+if(isset($_GET['Data']))
 {
-	$Post = json_decode($_POST['Data']);
+	$Get = json_decode($_GET['Data']);
 }
 
 try
 {
 	if(
-		property_exists($Post, 'Name')
+		property_exists($Get, 'Name')
 	){
 		$Character = new \Entities\Character();
-		$Character->Name = $Post->Name;
+		$Character->Name = $Get->Name;
 		if($Character->Verify())
 		{
 			if(!$Database->Characters->CheckName($Character))

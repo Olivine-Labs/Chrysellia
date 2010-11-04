@@ -3,15 +3,15 @@
  * Emotion
  */
 
-$Post = (object)Array('Data'=>'');
-if(isset($_POST['Data']))
+$Get = (object)Array('Data'=>'');
+if(isset($_GET['Data']))
 {
-	$Post = json_decode($_POST['Data']);
+	$Get = json_decode($_GET['Data']);
 }
 
 if(
-	property_exists($Post, 'Message') &&
-	property_exists($Post, 'Channel')
+	property_exists($Get, 'Message') &&
+	property_exists($Get, 'Channel')
 ){
 	try
 	{
@@ -19,7 +19,7 @@ if(
 		$Character->CharacterId = $_SESSION['CharacterId'];
 		if($Database->Characters->LoadById($Character))
 		{
-			if($Database->Chat->Insert($Character, $Post->Channel, $Post->Message, 1))
+			if($Database->Chat->Insert($Character, $Get->Channel, $Get->Message, 1))
 			{
 				$Result->Set('Result', \Protocol\Result::ER_SUCCESS);
 			}else

@@ -6,7 +6,7 @@ header('Content-type: application/json');
 require('./Common/Common.inc.php');
 $Result = new \Protocol\Result();
 
-if ( 'POST' == $_SERVER['REQUEST_METHOD'] )
+if ( 'GET' == $_SERVER['REQUEST_METHOD'] )
 {
 	if(isset($_SESSION['AccountId']))
 	{
@@ -16,9 +16,9 @@ if ( 'POST' == $_SERVER['REQUEST_METHOD'] )
 		define('ACTION_SELECTCHARACTER', 3);
 		define('ACTION_GETCURRENTCHARACTER', 4);
 
-		if(isset($_POST['Action']))
+		if(isset($_GET['Action']))
 		{
-			switch($_POST['Action'])
+			switch($_GET['Action'])
 			{
 				case ACTION_CREATE:
 					include './Functions/Character/Create.php';
