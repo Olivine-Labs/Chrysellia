@@ -119,7 +119,7 @@
 									<td><button class="e" id="moveE">E</button><input type="hidden" class="y" value="0" /><input type="hidden" class="x" value="1" /></td>
 								</tr>
 								<tr>
-									<td><button class="sw" id="moveSW">SW</button><input type="hidden" class="y" value="-1" /><input type="hidden" class="x" value="1" /></td>
+									<td><button class="sw" id="moveSW">SW</button><input type="hidden" class="y" value="-1" /><input type="hidden" class="x" value="-1" /></td>
 									<td><button class="s" id="moveS">S</button><input type="hidden" class="y" value="-1" /><input type="hidden" class="x" value="0" /></td>
 									<td><button class="se" id="moveSE">SE</button><input type="hidden" class="y" value="-1" /><input type="hidden" class="x" value="1" /></td>
 								</tr>

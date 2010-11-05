@@ -67,10 +67,12 @@ $(function(){
 	$("#movementform button").click(function(e){
 		e.preventDefault();
 		
+		SetEnableMovement(false);
+		
 		$this = $(this);
 		
-		var x = ($this.siblings(".x") *1) + MyCharacter.PositionX *1;
-		var y = ($this.siblings(".y") *1) + MyCharacter.PositionY *1;
+		var x = ($this.siblings(".x").val() *1) + MyCharacter.PositionX *1;
+		var y = ($this.siblings(".y").val() *1) + MyCharacter.PositionY *1;
 		
 		if(x > (MyCharacter.CurrentMap.DimensionX -1) || MyCharacter.PositionX < 0){
 			x = MyCharacter.PositionX ;
@@ -81,13 +83,21 @@ $(function(){
 		}
 		
 		vc.ms.Move(x, y, RefreshMap);
+		
+		window.setTimeout(function(){SetEnableMovement(true)}, 1000);
 	});
 });
 
 function RefreshMap(data){
-	if(result.Result == ER_SUCCESS){
+	if(data.Result == ER_SUCCESS){
+		MyCharacter.PositionX = data.Data.X;
+		MyCharacter.PositionY = data.Data.Y;
 		BuildMap();
 	}
+}
+
+function SetEnableMovement(enabled){
+	$("#movementform button").button("option", "disabled", !enabled);
 }
 
 function CreateChannel(data){
@@ -162,6 +172,7 @@ function BuildMap(){
 	$("#currentX").text(MyCharacter.PositionX);
 	$("#currentY").text(MyCharacter.PositionY);
 	$currentMap = $("#currentMap");
+	$currentMap.empty();
 	
 	for(my = MyCharacter.CurrentMap.DimensionY-1; my >= 0; my--){
 		var $tr = $("<tr />");

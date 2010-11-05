@@ -50,7 +50,7 @@ if(
 								}
 								$Character->PositionX = $Get->X;
 								$Character->PositionY = $Get->Y;
-								if($Database->Character->UpdatePosition($Character))
+								if($Database->Characters->UpdatePosition($Character))
 								{
 									$Result->Set('Result', \Protocol\Result::ER_SUCCESS);
 									$Result->Set('Data', Array('X'=>$Get->X, 'Y'=>$Get->Y));

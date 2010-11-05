@@ -18,7 +18,7 @@ define('SQL_INSERTCHARACTERRACETRAITS', 'INSERT INTO `character_race_traits` (`c
 
 //Location
 define('SQL_GETCHARACTERLOCATION', 'SELECT `mapId`, `positionX`, `positionY` FROM `character_locations` WHERE `characterId`=?');
-define('SQL_UPDATECHARACTERLOCATION', 'UPDATE `character_locations` SET `mapId`=?, `positionX`=?, `positionY=?` WHERE `characterId`=?');
+define('SQL_UPDATECHARACTERLOCATION', 'UPDATE `character_locations` SET `mapId`=?, `positionX`=?, `positionY`=? WHERE `characterId`=?');
 define('SQL_UPDATECHARACTERLOCATIONXY', 'UPDATE `character_locations` SET `positionX`=?, `positionY=?` WHERE `characterId`=?');
 define('SQL_INSERTCHARACTERLOCATION', 'INSERT INTO `character_locations` (`characterId`, `mapId`, `positionX`, `positionY`) VALUES (?, ?, ?, ?)');
 
@@ -271,7 +271,7 @@ class Characters extends \Database\Characters
 	function UpdatePosition(\Entities\Character $Character)
 	{
 		$Query = $this->Database->Connection->prepare(SQL_UPDATECHARACTERLOCATION);
-		$Query->bind_param('ssss', $Character->CharacterId, $Character->MapId, $Character->PositionX, $Character->PositionY);
+		$Query->bind_param('siis', $Character->MapId, $Character->PositionX, $Character->PositionY, $Character->CharacterId);
 
 		$Query->Execute();
 
