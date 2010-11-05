@@ -192,3 +192,7 @@ input.watermark {
 .game .copyright { font-size: .75em; }
 .motd { font-size: 1.1em; font-weight: bold; color: #C08826; }
 .chatMessage{ font-size: 1.1em; line-height: 1.35em; }
+#currentMap { float: left; }
+#currentMap td { border: solid 1px #ccc; border-collapse: collapse; height: 30px; width: 30px; }
+#currentMap tr { height: 30px; }
+.mapData { font-family: 'DejaWeb', Arial, Helvetica, sans-serif; padding: 0; margin: 0; height: 30px; width: 30px; display: block; text-align: center; }

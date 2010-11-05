@@ -109,7 +109,7 @@
 							</span>
 						</div>
 						
-						<div class="formRow">
+						<div class="formRow characterName">
 							<div class="formLabel">
 								<label for="c_name">Name:</label>
 							</div>
@@ -192,7 +192,7 @@
 							</div>
 							<div class="formInput">
 								<button type="submit" class="button minus">+</button>
-								<span id="baseStr">20</span> + <input class="statChooser" id="startingStr" maxlength="2" value="0" />
+								<span id="baseStr" class="raceBaseStat">20</span> + <input class="statChooser" id="startingStr" maxlength="2" value="0" />
 								<button type="submit" class="button plus">-</button>
 								<br />
 								<em>Race max: <span id="raceStrMax">30</span></em>
@@ -205,7 +205,7 @@
 							</div>
 							<div class="formInput">
 								<button type="submit" class="button minus">+</button>
-								<span id="baseDex">20</span> + <input class="statChooser" id="startingDex" maxlength="2" value="0" />
+								<span id="baseDex" class="raceBaseStat">20</span> + <input class="statChooser" id="startingDex" maxlength="2" value="0" />
 								<button type="submit" class="button plus">-</button>
 								<br />
 								<em>Race max: <span id="raceDexMax">30</span></em>
@@ -218,7 +218,7 @@
 							</div>
 							<div class="formInput">
 								<button type="submit" class="button minus">+</button>
-								<span id="baseInt">20</span> + <input class="statChooser" id="startingInt" maxlength="2" value="0" />
+								<span id="baseInt" class="raceBaseStat">20</span> + <input class="statChooser" id="startingInt" maxlength="2" value="0" />
 								<button type="submit" class="button plus">-</button>
 								<br />
 								<em>Race max: <span id="raceIntMax">30</span></em>
@@ -231,7 +231,7 @@
 							</div>
 							<div class="formInput">
 								<button type="submit" class="button minus">+</button>
-								<span id="baseWis">20</span> + <input class="statChooser" id="startingWis" maxlength="2" value="0" />
+								<span id="baseWis" class="raceBaseStat">20</span> + <input class="statChooser" id="startingWis" maxlength="2" value="0" />
 								<button type="submit" class="button plus">-</button>
 								<br />
 								<em>Race max: <span id="raceWisMax">30</span></em>
@@ -244,7 +244,7 @@
 							</div>
 							<div class="formInput">
 								<button type="submit" class="button minus">+</button>
-								<span id="baseVit">20</span> + <input class="statChooser" id="startingVit" maxlength="2" value="0" />
+								<span id="baseVit" class="raceBaseStat">20</span> + <input class="statChooser" id="startingVit" maxlength="2" value="0" />
 								<button type="submit" class="button plus">-</button>
 								<br />
 								<em>Race max: <span id="raceVitMax">30</span></em>
@@ -275,6 +275,7 @@
 		
 		<!-- Data Libraries -->
 		<script src="./Core/staticInfo/races.js"></script>
+		<script src="./Core/staticInfo/maps.js"></script>
 		
 		<!-- For the production version, we'll minify and combine our javascript, and keep a plain version for us -->
 		<script src="./Core/core.js"></script>

@@ -14,21 +14,6 @@ $(function(){
 		}
 	}
 	
-	$("#c_race").change(function(){
-		var race = window.Races[$(this).val()];
-		$("#baseStr").text(race.Str);
-		$("#baseDex").text(race.Dex);
-		$("#baseInt").text(race.Int);
-		$("#baseWis").text(race.Wis);
-		$("#baseVit").text(race.Vit);
-		
-		$("#raceStrMax").text(race.StrMax);
-		$("#raceDexMax").text(race.DexMax);
-		$("#raceIntMax").text(race.IntMax);
-		$("#raceWisMax").text(race.WisMax);
-		$("#raceVitMax").text(race.VitMax);
-	}).change();
-	
 	//a custom format option callback
 	var characterInfoFormatting = function(text){
 		var newText = text;
@@ -59,14 +44,23 @@ $(function(){
 		var name = $("#c_fn").val();
 		var race = window.Races[$("#c_race").val()];
 		var gender = $("#c_gender").val();
-		var str = $("#startingStr").val();
-		var dex = $("#startingDex").val();
-		var intel = $("#startingInt").val();
-		var wis = $("#startingWis").val();
-		var vit = $("#startingVit").val();
+		var str = $("#startingStr").val() * 1;
+		var dex = $("#startingDex").val() * 1;
+		var intel = $("#startingInt").val() * 1;
+		var wis = $("#startingWis").val() * 1;
+		var vit = $("#startingVit").val() * 1;
 		var pin = $("#c_pin").val();
 		
-		if(name == "Character Name") { alert("Please enter a name."); return; }
+		if(name == "Character Name") { 
+			alert("Please enter a name."); 
+			return; 
+		}
+		
+		if((str + dex + intel + wis + vit) != 25){
+			$(".selectStats > em").addClass("ui-state-error");
+			alert("Please use all 25 stat points.");
+			return;
+		}
 		
 		vc.cs.Create(name, gender, pin, race.Id, str, dex, intel, wis, vit, function(r){
 			switch(r.Result){
@@ -105,6 +99,23 @@ $(function(){
 		vc.cs.Select(cId, pin, SelectCharacter);
 	});
 	
+	$("#c_race").change(function(){
+		var race = window.Races[$(this).val()];
+		$("#baseStr").text(race.Str);
+		$("#baseDex").text(race.Dex);
+		$("#baseInt").text(race.Int);
+		$("#baseWis").text(race.Wis);
+		$("#baseVit").text(race.Vit);
+		
+		$("#raceStrMax").text(race.StrMax);
+		$("#raceDexMax").text(race.DexMax);
+		$("#raceIntMax").text(race.IntMax);
+		$("#raceWisMax").text(race.WisMax);
+		$("#raceVitMax").text(race.VitMax);
+	}).change();
+	
+	UpdateCreateCharacterStats($(".selectStats .formInput input:first"),"");
+	
 	$(".selectStats .formInput input").change(function(e){
 		UpdateCreateCharacterStats($(this), e);
 	});
@@ -112,7 +123,6 @@ $(function(){
 	$(".selectStats .formInput button").click(function(e){
 		e.preventDefault();
 		UpdateCreateCharacterStats($(this), e);
-		return false;
 	});
 	
 	$("#quickLoginForm .button").click(function(e){
@@ -132,6 +142,7 @@ function UpdateCreateCharacterStats(ui, e){
 	var currentBalance = CurrentStatBalance();
 	var currentStatValue = 0;
 	var currentStatMax = 0;
+	var raceBaseStat = 0;
 	
 	if(ui.hasClass("minus")){
 		currentStatValue = ui.siblings(".statChooser").val() *1;
@@ -141,8 +152,10 @@ function UpdateCreateCharacterStats(ui, e){
 		}
 	}else if(ui.hasClass("plus")){
 		currentStatValue = ui.siblings(".statChooser").val() *1;
+		currentStatMax = ui.siblings("em").children("span").text() * 1;
+		raceBaseStat = ui.siblings(".raceBaseStat").text() * 1;
 		
-		if(currentStatValue-1 >= 0){
+		if(currentStatValue + raceBaseStat + 1 <= currentStatMax){
 			ui.siblings("input").val(currentStatValue+1);
 		}
 	}
@@ -173,12 +186,12 @@ function LoadCharacterList(list){
 			var c = new Character();
 			c.Construct(charData);
 			
-			var level = c.Level || 0;
+			var level = c.Level || 1;
 			
 			var x = c.PositionX || 0;
 			var y = c.PositionY || 0;
 			
-			$('<div class="character"><input type="hidden" value="' + c.CharacterId + '" class="c_id" /><input type="hidden" value="' + c.HasPin + '" class="c_haspin" /><a class="button bigButton" href="#"><span class="characterName">' + c.Name + '</span> <span class="characterStats">Lvl ' + level + ' ' + c.AlignName() + c.RaceName() + '</span></a><ul class="recentActivity"><li>Str: ' + c.Strength + '</li><li>Dex: ' + c.Dexterity + '</li><li>Int: ' + c.Intelligence + '</li><li>Wis: ' + c.Wisdom + '</li><li>Health: ' + c.Health + ' / ' + c.Vitality + '</li><li>Gold: ' + c.Gold + '</li><li>Located at ' + x + ', ' + y + ' (todo: zones)</li><li>Created on: ' + c.CreatedOn + '</li></ul></div>').appendTo($login);
+			$('<div class="character"><input type="hidden" value="' + c.CharacterId + '" class="c_id" /><input type="hidden" value="' + c.HasPin + '" class="c_haspin" /><a class="button bigButton" href="#"><span class="characterName">' + c.Name + '</span> <span class="characterStats">Lvl ' + level + ' ' + c.AlignName() + c.RaceName() + '</span></a><ul class="recentActivity"><li>Str: ' + c.Strength + '</li><li>Dex: ' + c.Dexterity + '</li><li>Int: ' + c.Intelligence + '</li><li>Wis: ' + c.Wisdom + '</li><li>Health: ' + c.Health + ' / ' + c.Vitality + '</li><li>Gold: ' + c.Gold + '</li><li>Located at ' + x + ', ' + y + ' ' + c.CurrentMap.Name + '</li><li>Created on: ' + c.CreatedOn + '</li></ul></div>').appendTo($login);
 		});
 	}else{
 		alert("Please login again.");

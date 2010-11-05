@@ -102,14 +102,37 @@
 					</div>
 					
 					<div id="topRight" class="container top grid_3">
-						<h1>Other Window</h1>
+						<h1>Location</h1>
+						<h2><span id="currentMapName"></span> <span id="currentX"></span>, <span id="currentY"></span></h2>
+						<table id="currentMap"></table>
+						<form action="submitaction.php" id="movementform">
+							<input type="hidden" value="move">
+							<table id="movement">
+								<tr>
+									<td><button class="nw" id="moveNW">NW</button><input type="hidden" class="y" value="1" /><input type="hidden" class="x" value="-1" /></td>
+									<td><button class="n" id="moveN">N</button><input type="hidden" class="y" value="1" /><input type="hidden" class="x" value="0" /></td>
+									<td><button class="ne" id="moveNE">NE</button><input type="hidden" class="y" value="1" /><input type="hidden" class="x" value="1" /></td>
+								</tr>
+								<tr>
+									<td><button class="w" id="moveW">W</button><input type="hidden" class="y" value="0" /><input type="hidden" class="x" value="-1" /></td>
+									<td>&nbsp;</td>
+									<td><button class="e" id="moveE">E</button><input type="hidden" class="y" value="0" /><input type="hidden" class="x" value="1" /></td>
+								</tr>
+								<tr>
+									<td><button class="sw" id="moveSW">SW</button><input type="hidden" class="y" value="-1" /><input type="hidden" class="x" value="1" /></td>
+									<td><button class="s" id="moveS">S</button><input type="hidden" class="y" value="-1" /><input type="hidden" class="x" value="0" /></td>
+									<td><button class="se" id="moveSE">SE</button><input type="hidden" class="y" value="-1" /><input type="hidden" class="x" value="1" /></td>
+								</tr>
+							</table>
+						</form>
 					</div>
 				</div>
 				
 				<div class="clear"></div>
 				
 				<div id="bottom" class="grid_12 bottom">
-					<form action="game.html" id="chatForm" class="CHAN_00000000000000000000001">
+					<form action="submitaction.php" id="chatForm" class="CHAN_00000000000000000000001">
+						<input type="hidden" value="chat">
 						Say: 
 						<input type="text" id="chatInput" style="width: 400px;" />
 						<input type="submit" value="Send">
@@ -186,6 +209,10 @@
 		<script src="./js/jquery-easing.js"></script>
 		<script src="./Core/jquery-md5.js" type="text/javascript"></script>
 		<script src="./Core/json.js" type="text/javascript"></script>
+		
+		<!-- Data Libraries -->
+		<script src="./Core/staticInfo/races.js"></script>
+		<script src="./Core/staticInfo/maps.js"></script>
 				
 		<!-- For the production version, we'll minify and combine our javascript, and keep a plain version for us -->
 		<script src="./Core/core.js"></script>
@@ -193,6 +220,7 @@
 		<script src="./Core/core-CharacterService.js"></script>
 		<script src="./Core/core-CommandService.js"></script>
 		<script src="./Core/core-ChatService.js"></script>
+		<script src="./Core/core-MapService.js"></script>
 		<script src="./Core/core-Interface.js"></script>
 		<script src="./js/startup.js"></script>
 		<script src="./js/game-startup.js"></script>

@@ -2,7 +2,7 @@
 
 namespace Database\MySQL;
 
-define('SQL_GETCELL', 'SELECT `isBlocked`, `placeId`, `isPvp` FROM `maps_places` WHERE `mapId`=? AND `positionX`=? AND `positionY`=?');
+define('SQL_GETCELL', 'SELECT `isBlocked`, `placeId`, `isPvp` FROM `map_places` WHERE `mapId`=? AND `positionX`=? AND `positionY`=?');
 define('SQL_GETMAP', 'SELECT `name`, `dimensionX`, `dimensionY`, `minLevel`, `maxLevel`, `minAlign`, `maxAlign` FROM `maps` WHERE `mapId`=?');
 
 /**
@@ -46,7 +46,7 @@ class Maps extends \Database\Maps
 	public function LoadCell(\Entities\Map $Map, $PositionX, $PositionY)
 	{
 		$Query = $this->Database->Connection->prepare(SQL_GETCELL);
-		$Query->bind_param('sii', $MapId, $PositionX, $PositionY);
+		$Query->bind_param('sii', $Map->MapId, $PositionX, $PositionY);
 		$Query->Execute();
 
 		$Result = Array();
@@ -73,8 +73,8 @@ class Maps extends \Database\Maps
 	 */
 	public function LoadMapById(\Entities\Map $Map)
 	{
-		$Query = $this->Database->Connection->prepare(SQL_GETCELL);
-		$Query->bind_param('sii', $MapId, $PositionX, $PositionY);
+		$Query = $this->Database->Connection->prepare(SQL_GETMAP);
+		$Query->bind_param('s', $Map->MapId);
 		$Query->Execute();
 
 		$Query->bind_result($Map->Name, $Map->DimensionX, $Map->DimensionY, $Map->MinLevel, $Map->MaxLevel, $Map->MinAlign, $Map->MaxAlign);

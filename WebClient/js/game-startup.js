@@ -54,7 +54,41 @@ $(function(){
 	
 	$("#createChannelLink").click(function(){ $("#createChannelForm").dialog("open"); });
 	$("#joinChannelLink").click(function(){ $("#joinChannelForm").dialog("open"); });
+	
+	$("#moveNW").button({ icons: { primary: "ui-icon-arrowthick-1-nw" }, text: false });
+	$("#moveN").button({ icons: { primary: "ui-icon-arrowthick-1-n" }, text: false });
+	$("#moveNE").button({ icons: { primary: "ui-icon-arrowthick-1-ne" }, text: false });
+	$("#moveW").button({ icons: { primary: "ui-icon-arrowthick-1-w" }, text: false });
+	$("#moveE").button({ icons: { primary: "ui-icon-arrowthick-1-e" }, text: false });
+	$("#moveSW").button({ icons: { primary: "ui-icon-arrowthick-1-sw" }, text: false });
+	$("#moveS").button({ icons: { primary: "ui-icon-arrowthick-1-s" }, text: false });
+	$("#moveSE").button({ icons: { primary: "ui-icon-arrowthick-1-se" }, text: false });
+	
+	$("#movementform button").click(function(e){
+		e.preventDefault();
+		
+		$this = $(this);
+		
+		var x = ($this.siblings(".x") *1) + MyCharacter.PositionX *1;
+		var y = ($this.siblings(".y") *1) + MyCharacter.PositionY *1;
+		
+		if(x > (MyCharacter.CurrentMap.DimensionX -1) || MyCharacter.PositionX < 0){
+			x = MyCharacter.PositionX ;
+		}
+		
+		if(y > (MyCharacter.CurrentMap.DimensionY -1) || y < 0){
+			y = MyCharacter.PositionY ;
+		}
+		
+		vc.ms.Move(x, y, RefreshMap);
+	});
 });
+
+function RefreshMap(data){
+	if(result.Result == ER_SUCCESS){
+		BuildMap();
+	}
+}
 
 function CreateChannel(data){
 	if(data.Result == ER_SUCCESS){
@@ -118,8 +152,33 @@ function SelectCharacter(data){
 	}
 	
 	$tabs.tabs('select', 0);
+	BuildMap();
 	
 	vc.ch.GetMessagesFromChannel(i, FillChat);
+}
+
+function BuildMap(){
+	$("#currentMapName").text(MyCharacter.CurrentMap.Name);
+	$("#currentX").text(MyCharacter.PositionX);
+	$("#currentY").text(MyCharacter.PositionY);
+	$currentMap = $("#currentMap");
+	
+	for(my = MyCharacter.CurrentMap.DimensionY-1; my >= 0; my--){
+		var $tr = $("<tr />");
+		for(mx = 0; mx < MyCharacter.CurrentMap.DimensionY; mx++){
+			var $td = $("<td />");
+			if(my == MyCharacter.PositionY && mx == MyCharacter.PositionX){
+				$td.html("<span class='mapData player'>X</span>");
+			}else{
+				$td.html("<span class='mapData empty'>&nbsp;</span>");
+			}
+			$td.appendTo($tr);
+		}
+		
+		$tr.appendTo($currentMap);
+	}
+	
+	$currentMap.css({ height: 30*MyCharacter.CurrentMap.DimensionY, width: 30*MyCharacter.CurrentMap.DimensionX })
 }
 
 function InsertChat(data, channel){
