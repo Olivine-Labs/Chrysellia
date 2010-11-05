@@ -31,7 +31,7 @@ if(
 				){
 					$Map = new \Entities\Map();
 					$Map->MapId = $Character->MapId;
-					if($Database->Maps->LoadById($Map))
+					if($Database->Maps->LoadMapById($Map))
 					{
 						if(
 							($Get->X < $Map->DimensionX) &&
