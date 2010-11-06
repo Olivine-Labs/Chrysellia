@@ -42,11 +42,11 @@ if(
 							{
 								if($DiffX + $DiffY == 2)
 								{
-									$_SESSION['NextAction'] = microtime(true) + 1.5;
+									$_SESSION['NextAction'] = microtime(true) + 1.060;
 								}
 								else
 								{
-									$_SESSION['NextAction'] = time() + 1;
+									$_SESSION['NextAction'] = microtime(true) + .750;
 								}
 								$Character->PositionX = $Get->X;
 								$Character->PositionY = $Get->Y;

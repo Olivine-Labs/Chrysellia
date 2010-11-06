@@ -66,13 +66,12 @@ $(function(){
 	
 	$("#movementform button").click(function(e){
 		e.preventDefault();
-		
 		SetEnableMovement(false);
-		
 		$this = $(this);
-		
-		var x = ($this.siblings(".x").val() *1) + MyCharacter.PositionX *1;
-		var y = ($this.siblings(".y").val() *1) + MyCharacter.PositionY *1;
+		var dirx = $this.siblings(".x").val() *1;
+		var diry = $this.siblings(".y").val() *1;
+		var x = dirx + MyCharacter.PositionX *1;
+		var y = diry + MyCharacter.PositionY *1;
 		
 		if(x > (MyCharacter.CurrentMap.DimensionX -1) || MyCharacter.PositionX < 0){
 			x = MyCharacter.PositionX ;
@@ -84,7 +83,11 @@ $(function(){
 		
 		vc.ms.Move(x, y, RefreshMap);
 		
-		window.setTimeout(function(){SetEnableMovement(true)}, 1000);
+		if(dirx+diry == 1 || dirx + diry == -1){
+			window.setTimeout(function(){SetEnableMovement(true)}, 750);
+		}else{
+			window.setTimeout(function(){SetEnableMovement(true)}, 1060);
+		}
 	});
 });
 
@@ -97,7 +100,7 @@ function RefreshMap(data){
 }
 
 function SetEnableMovement(enabled){
-	$("#movementform button").button("option", "disabled", !enabled);
+	$("#movementform button").button("option", "disabled", !enabled).removeClass("ui-state-hover");
 }
 
 function CreateChannel(data){

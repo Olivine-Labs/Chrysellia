@@ -155,7 +155,7 @@ function UpdateCreateCharacterStats(ui, e){
 		currentStatMax = ui.siblings("em").children("span").text() * 1;
 		raceBaseStat = ui.siblings(".raceBaseStat").text() * 1;
 		
-		if(currentStatValue + raceBaseStat + 1 <= currentStatMax){
+		if(currentStatValue + raceBaseStat + 1 <= currentStatMax && currentBalance > 0){
 			ui.siblings("input").val(currentStatValue+1);
 		}
 	}
