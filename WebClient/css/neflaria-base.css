@@ -167,15 +167,36 @@ input.watermark {
 .register .formRow, .logIn .formRow { margin:  0 0 5px 0;}
 .logIn { width: 270px; float: right; }
 #playNow h1 { margin-bottom: 5px; font-size: 24px; }
+.character a.bigButton { background: #940000 !important; padding: .25em; border-top: 1px solid #BF6666; -moz-box-shadow:1px 2px 2px #777; -webkit-box-shadow:1px 2px 2px #777; box-shadow:1px 2px 2px #777; }
+.character a.bigButton:hover { -moz-box-shadow: 3px 5px 5px #444; -webkit-box-shadow: 3px 5px 5px #444; box-shadow: 3px 5px 5px #444; position: relative; top: -2px; left: -1px; }
 .TestRace .ui-selectmenu-item-header { padding-left: 36px; background: transparent url('images/gargoyle_24.png') left center no-repeat; }
+.bigButton .characterPortrait { 
+	margin: 2px 10px 2px 2px;  
+	height: 150px; 
+	width: 150px; 
+	display: block; 
+	float: left; 
+	-webkit-border-top-left-radius: 4px;
+	-webkit-border-bottom-left-radius: 4px;
+	-moz-border-radius-topleft: 4px;
+	-moz-border-radius-bottomleft: 4px;
+	border-top-left-radius: 4px;
+	border-bottom-left-radius: 4px;
+}
+	
+.bigButton .TestRace { background: transparent url('images/gargoyle.jpg') top left no-repeat; }
+.bigButton .TestRace2 { background: transparent url('images/orc.jpg') top left no-repeat; }
 .TestRace2 .ui-selectmenu-item-header { padding-left: 36px; background: transparent url('images/orc_24.png') left center no-repeat; }
 .mainSection { padding: 2em 0; }
 .formInput  .statChooser { width: 2em; }
+#logIn h1 { display: none; }
 #createCharacter .formLabel { width: 95px; }
 #createCharacterForm .selectStats .formLabel { font-weight:bold; vertical-align:top; width:3em; }
 .character { margin-bottom: 1em; }
-
-.recentActivity li { margin: 1px 0; padding: 2px; font-family: 'DejaWeb', Arial, Helvetica, sans-serif; } 
+.character li { font-size: 10pt; float: left; display: block; width: 49%; }
+.character .characterName { display: block; font-size: 20pt; font-family: 'Crimson Text', Georgia, 'Times New Roman', serif; }
+.character .characterStats { display: block; font-size: 12pt; }
+.character .recentActivity li { margin-top: 5px; font-family: 'DejaWeb', Arial, Helvetica, sans-serif; } 
 .emote { font-style: italic; }
 #chatForm a.button { margin-right: .5em; }
 .statLabel { font-weight: bold; }
@@ -196,3 +217,4 @@ input.watermark {
 #currentMap td { border: solid 1px #ccc; border-collapse: collapse; height: 30px; width: 30px; }
 #currentMap tr { height: 30px; }
 .mapData { font-family: 'DejaWeb', Arial, Helvetica, sans-serif; padding: 0; margin: 0; height: 30px; width: 30px; display: block; text-align: center; }
+.ra_created { font-size: .75em; font-style: italic; }

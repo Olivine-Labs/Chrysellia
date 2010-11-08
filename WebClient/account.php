@@ -81,19 +81,6 @@
 		<div class="container_12 mainSection">
 			<section id="logIn" class="grid_5">
 				<h1>Select Character</h1>
-				<!--<div class="character">
-					<a class="button bigButton" href="#">
-						<span class="characterName">Silent Warrior</span>
-						<span class="characterStats">Neutral level 186 Human : 2,2 Ta'Lorn</span>
-					</a>
-					<ul class="recentActivity">
-						<li>#96 for Character Longevity</li>
-						<li>02/04/10: *Ding* Level 50 - time to pick a last name! Use "/last name".</li>
-						<li>02/03/10: *Ding* Level 15 - time to chat!</li>
-						<li>02/01/10: Character created!</li>
-						<li><strong>1 unread message</strong></li>
-					</ul>
-				</div>-->
 			</section>
 			
 			<section>
@@ -179,7 +166,7 @@
 						<div class="formRow">
 							<div class="formLabel"></div>
 							<div class="formInput">
-								<button type="submit" id="submitCreateAccount" class="button createAccount">Create</button>
+								<button type="submit" id="submitCreateAccount" class="button createAccount">Continue</button>
 							</div>
 						</div>
 					</div>
