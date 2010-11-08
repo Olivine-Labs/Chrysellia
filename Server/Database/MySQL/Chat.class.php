@@ -7,7 +7,7 @@ define('SQL_JOINCHANNEL', 'SELECT c.channelid, c.name, c.motd FROM `channels` c 
 define('SQL_CHANNELGETRIGHTS', 'SELECT `accessRead`, `accessWrite`, `accessModerator`, `accessAdmin`, `isJoined` FROM `channel_permissions` WHERE `characterId`=? AND `channelId`=?');
 define('SQL_INSERTMESSAGE', 'INSERT INTO `chat` (`characterIdFrom`, `channelId`, `message`, `fromName`, `type`) VALUES (?, ?, ?, ?, ?)');
 define('SQL_CHANNELSETRIGHTS', 'INSERT INTO `channel_permissions` (`characterId`, `channelId`, `accessRead`,`accessWrite`,`accessModerator`,`accessAdmin`, `isJoined`) VALUES (?, ?, ?, ?, ?, ?, ?) ON DUPLICATE KEY UPDATE `accessRead`=?, `accessWrite`=?, `accessModerator`=?, `accessAdmin`=?, `isJoined`=?');
-define('SQL_CHANNELGETJOINEDLIST', 'SELECT p.channelId, c.name, c.motd FROM `channel_permissions` p INNER JOIN channels c ON c.channelId=p.channelId WHERE p.isJoined=1 AND p.characterId=?');
+define('SQL_CHANNELGETJOINEDLIST', 'SELECT p.channelId, c.name, c.motd FROM `channel_permissions` p INNER JOIN `channels` c ON c.channelId=p.channelId WHERE p.isJoined=1 AND p.characterId=?');
 define('SQL_CHANNELSETJOINED', 'INSERT INTO `channel_permissions` (`characterId`, `channelId`, `isJoined`) VALUES (?, ?, ?) ON DUPLICATE KEY UPDATE `isJoined`=?');
 define('SQL_CREATECHANNEL','INSERT INTO `channels` (`channelId`, `name`, `motd`) VALUES (?, ?, ?)');
 
@@ -171,7 +171,6 @@ class Chat extends \Database\Chat
 			if($Query2->affected_rows <= 0)
 				return false;
 				
-			$Result = Array();
 			$Result = Array("ChannelId" =>$ChannelId, "Name" => $Name, "Motd" => $Motd);
 			return $Result;
 		}
