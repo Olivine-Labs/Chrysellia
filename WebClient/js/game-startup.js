@@ -95,6 +95,11 @@ $(function(){
 			}
 		}
 	});
+	
+	$(".accountActions .logOut").click(function(e){
+		e.preventDefault();
+		vc.as.Logout(Logout);
+	});
 });
 
 function RefreshMap(data){
@@ -237,4 +242,8 @@ function SubmitMessage(){
 	}
 	
 	chatbox.val('');
+}
+
+function Logout(data){
+	window.location = "./index.php";
 }

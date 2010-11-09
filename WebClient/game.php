@@ -49,6 +49,11 @@
 					<span id="latestPM" class="info">
 						<a href="#">Matt</a>: Dude, I need more cola. (<a href="#">more</a>)
 					</span>
+					
+					<div class="accountActions">
+						<a href="./account.php" class="button alternateButton account">Account</a>
+						<a href="./index.php" class="button alternateButton logOut">Log Out</a>
+					</div>
 				</div>
 			</div>
 			<div class="clear"></div>

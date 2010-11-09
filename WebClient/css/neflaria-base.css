@@ -42,6 +42,8 @@ a.button, a.button:hover, a.button:link, a.button:visited, a.button:active, butt
 	border: solid 1px #000;
 }
 
+button.button.alternateButton, input.button.alternateButton, a.button.alternateButton, a.button.alternateButton:hover, a.button.alternateButton:link, a.button.alternateButton:visited, a.button.alternateButton:active { background: url('images/redpattern.png') #940000; color: #fff; }
+
 a.bigButton, a.bigButton:hover, a.bigButton:link, a.bigButton:visited, a.bigButton:active, button.bigButton, input.bigButton {
 	font-size: 14pt;
 	padding: 5px 30px;
@@ -228,3 +230,5 @@ input.watermark {
 .icon.wis { background: transparent url(images/wisicon.png) top left no-repeat; }
 .icon.int { background: transparent url(images/inticon.png) top left no-repeat; }
 #currentMap .player { font-weight: bold; color: #fff; text-shadow: 1px 0px 4px #000;  }
+.accountActions { float: right; }
+#messages .alternateButton  { color: #fff; }
