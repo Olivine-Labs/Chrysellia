@@ -179,8 +179,6 @@ function SelectCharacter(data){
 
 function BuildMap(){
 	$("#currentMapName").text(MyCharacter.CurrentMap.Name);
-	$("#currentX").text(MyCharacter.PositionX);
-	$("#currentY").text(MyCharacter.PositionY);
 	$currentMap = $("#currentMap");
 	$currentMap.empty();
 	

@@ -217,18 +217,18 @@ input.watermark {
 .chatMessage{ font-size: 1.1em; line-height: 1.35em; }
 #currentMap { background: transparent url(images/town1.png) top left no-repeat; float: left; }
 #movement td { padding: 0 0 1px 1px; font-size: 9pt; }
-#currentMap td { border: solid 1px #ccc; border-collapse: collapse; height: 30px; width: 30px; }
+#currentMap td { border: none; border-collapse: collapse; height: 30px; width: 30px; }
 #currentMap tr { height: 30px; }
 .mapData { font-family: 'DejaWeb', Arial, Helvetica, sans-serif; padding: 0; margin: 0; height: 30px; width: 30px; display: block; text-align: center; }
 .ra_created { font-size: .75em; font-style: italic; }
 .character li.ra_gold { font-size: 18pt; }
-.icon {  display: inline-block; height: 24px; width: 24px; margin-right: 6px; text-indent: 1000000%; overflow: hidden; }
+.icon { display: inline-block; height: 24px; width: 24px; margin-right: 6px; text-indent: 1000000%; overflow: hidden; }
 .icon.str { background: transparent url(images/stricon.png) top left no-repeat; }
 .icon.dex { background: transparent url(images/dexicon.png) top left no-repeat; }
 .icon.vit { background: transparent url(images/viticon.png) top left no-repeat; }
 .icon.gold { background: transparent url(images/goldicon.png) top left no-repeat; }
 .icon.wis { background: transparent url(images/wisicon.png) top left no-repeat; }
 .icon.int { background: transparent url(images/inticon.png) top left no-repeat; }
-#currentMap .player { font-weight: bold; color: #fff; text-shadow: 1px 0px 4px #000;  }
+#currentMap .player { display: block; height: 28px; width: 28px; text-indent: 1000000%; background: transparent url(images/humanplayer.png) center left no-repeat; }
 .accountActions { float: right; }
 #messages .alternateButton  { color: #fff; }

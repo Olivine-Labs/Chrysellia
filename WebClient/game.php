@@ -106,9 +106,8 @@
 						<h1>Game Window</h1>
 					</div>
 					
-					<div id="topRight" class="container top grid_3">
-						<h1>Location</h1>
-						<h2><span id="currentMapName"></span> <span id="currentX"></span>, <span id="currentY"></span></h2>
+					<section id="topRight" class="container top grid_3">
+						<h1><span id="currentMapName"></span></h1>
 						<table id="currentMap"></table>
 						<form action="submitaction.php" id="movementform">
 							<input type="hidden" value="move">
@@ -130,7 +129,7 @@
 								</tr>
 							</table>
 						</form>
-					</div>
+					</section>
 				</div>
 				
 				<div class="clear"></div>
