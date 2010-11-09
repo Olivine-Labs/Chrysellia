@@ -168,10 +168,7 @@ class Chat extends \Database\Chat
 
 			$Query2->Execute();
 
-			if($Query2->affected_rows > 0)
-				return Array("ChannelId" =>$ChannelId, "Name" => $Name, "Motd" => $Motd);
-			else
-				return false;
+			return Array("ChannelId" =>$ChannelId, "Name" => $Name, "Motd" => $Motd);
 		}
 		else
 		{
