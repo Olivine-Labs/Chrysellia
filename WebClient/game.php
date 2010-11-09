@@ -115,7 +115,7 @@
 								</tr>
 								<tr>
 									<td><button class="w" id="moveW">W</button><input type="hidden" class="y" value="0" /><input type="hidden" class="x" value="-1" /></td>
-									<td>&nbsp;</td>
+									<td><button class="look" id="moveLook">Look</button><input type="hidden" class="y" value="0" /><input type="hidden" class="x" value="0" /></td>
 									<td><button class="e" id="moveE">E</button><input type="hidden" class="y" value="0" /><input type="hidden" class="x" value="1" /></td>
 								</tr>
 								<tr>

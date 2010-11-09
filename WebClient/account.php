@@ -175,7 +175,7 @@
 						<em>You have <span id="remPoints">0</span> points to distribute.</em>
 						<div class="formRow">
 							<div class="formLabel">
-								<label for="startingStr" class="icon str" title="Gold">Str</label>
+								<label for="startingStr" class="icon str" title="Strength">Str</label>
 							</div>
 							<div class="formInput">
 								<button type="submit" class="button minus">+</button>

@@ -63,30 +63,36 @@ $(function(){
 	$("#moveSW").button({ icons: { primary: "ui-icon-arrowthick-1-sw" }, text: false });
 	$("#moveS").button({ icons: { primary: "ui-icon-arrowthick-1-s" }, text: false });
 	$("#moveSE").button({ icons: { primary: "ui-icon-arrowthick-1-se" }, text: false });
+	$("#moveLook").button({ icons: { primary: "ui-icon-search" }, text: false });
 	
 	$("#movementform button").click(function(e){
 		e.preventDefault();
-		SetEnableMovement(false);
 		$this = $(this);
-		var dirx = $this.siblings(".x").val() *1;
-		var diry = $this.siblings(".y").val() *1;
-		var x = dirx + MyCharacter.PositionX *1;
-		var y = diry + MyCharacter.PositionY *1;
 		
-		if(x > (MyCharacter.CurrentMap.DimensionX -1) || MyCharacter.PositionX < 0){
-			x = MyCharacter.PositionX ;
-		}
-		
-		if(y > (MyCharacter.CurrentMap.DimensionY -1) || y < 0){
-			y = MyCharacter.PositionY ;
-		}
-		
-		vc.ms.Move(x, y, RefreshMap);
-		
-		if(dirx+diry == 1 || dirx + diry == -1){
-			window.setTimeout(function(){SetEnableMovement(true)}, 750);
+		if($this.hasClass("look")){
+			
 		}else{
-			window.setTimeout(function(){SetEnableMovement(true)}, 1060);
+			SetEnableMovement(false);
+			var dirx = $this.siblings(".x").val() *1;
+			var diry = $this.siblings(".y").val() *1;
+			var x = dirx + MyCharacter.PositionX *1;
+			var y = diry + MyCharacter.PositionY *1;
+			
+			if(x > (MyCharacter.CurrentMap.DimensionX -1) || MyCharacter.PositionX < 0){
+				x = MyCharacter.PositionX ;
+			}
+			
+			if(y > (MyCharacter.CurrentMap.DimensionY -1) || y < 0){
+				y = MyCharacter.PositionY ;
+			}
+			
+			vc.ms.Move(x, y, RefreshMap);
+			
+			if(dirx+diry == 1 || dirx + diry == -1){
+				window.setTimeout(function(){SetEnableMovement(true)}, 750);
+			}else{
+				window.setTimeout(function(){SetEnableMovement(true)}, 1060);
+			}
 		}
 	});
 });
