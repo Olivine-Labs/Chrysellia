@@ -175,7 +175,7 @@
 						<em>You have <span id="remPoints">0</span> points to distribute.</em>
 						<div class="formRow">
 							<div class="formLabel">
-								<label for="startingStr">Str</label>
+								<label for="startingStr" class="icon str" title="Gold">Str</label>
 							</div>
 							<div class="formInput">
 								<button type="submit" class="button minus">+</button>
@@ -188,7 +188,7 @@
 						
 						<div class="formRow">
 							<div class="formLabel">
-								<label for="startingDex">Dex</label>
+								<label for="startingDex" class="icon dex" title="Dexterity">Dex</label>
 							</div>
 							<div class="formInput">
 								<button type="submit" class="button minus">+</button>
@@ -201,7 +201,7 @@
 						
 						<div class="formRow">
 							<div class="formLabel">
-								<label for="startingInt">Int</label>
+								<label for="startingInt" class="icon int" title="Intelligence">Int</label>
 							</div>
 							<div class="formInput">
 								<button type="submit" class="button minus">+</button>
@@ -214,7 +214,7 @@
 						
 						<div class="formRow">
 							<div class="formLabel">
-								<label for="startingWis">Wis</label>
+								<label for="startingWis" class="icon wis" title="Wisdom">Wis</label>
 							</div>
 							<div class="formInput">
 								<button type="submit" class="button minus">+</button>
@@ -227,7 +227,7 @@
 						
 						<div class="formRow">
 							<div class="formLabel">
-								<label for="startingVit">Vit</label>
+								<label for="startingVit" class="icon vit" title="Vitality">Vit</label>
 							</div>
 							<div class="formInput">
 								<button type="submit" class="button minus">+</button>

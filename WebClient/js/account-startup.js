@@ -191,7 +191,7 @@ function LoadCharacterList(list){
 			var x = c.PositionX || 0;
 			var y = c.PositionY || 0;
 			
-			$('<div class="character"><input type="hidden" value="' + c.CharacterId + '" class="c_id" /><input type="hidden" value="' + c.HasPin + '" class="c_haspin" /><a class="button bigButton" href="#"><span class="characterPortrait ' + c.RaceName().replace(/ /g,'') + '"></span><span class="characterName">' + c.Name + '</span> <span class="characterStats">Lvl ' + level + ' ' + c.AlignName() + c.RaceName() + '</span><ul class="recentActivity"><li class="ra_health">Health: ' + c.Health + ' / ' + c.Vitality + '</li><li class="ra_gold">Gold: ' + c.Gold + '</li><li class="ra_location">Located at ' + x + ', ' + y + ' ' + c.CurrentMap.Name + '</li><li class="ra_created">Created: ' + c.CreatedOn + '</li></ul></a></div>').appendTo($login);
+			$('<div class="character"><input type="hidden" value="' + c.CharacterId + '" class="c_id" /><input type="hidden" value="' + c.HasPin + '" class="c_haspin" /><a class="button bigButton" href="#"><span class="characterPortrait ' + c.RaceName().replace(/ /g,'') + '"></span><span class="characterName">' + c.Name + '</span> <span class="characterStats">Lvl ' + level + ' ' + c.AlignName() + c.RaceName() + '</span><ul class="recentActivity"><li class="ra_health">Health: ' + c.Health + ' / ' + c.Vitality + '</li><li class="ra_gold"><span class="icon gold"></span>' + c.Gold + '</li><li class="ra_location">Located at ' + x + ', ' + y + ' ' + c.CurrentMap.Name + '</li><li class="ra_created">Created: ' + c.CreatedOn + '</li></ul></a></div>').appendTo($login);
 		});
 	}else{
 		alert("Please login again.");

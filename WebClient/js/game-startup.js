@@ -105,11 +105,9 @@ function SetEnableMovement(enabled){
 
 function CreateChannel(data){
 	if(data.Result == ER_SUCCESS){
-		$("#cc_channelName").val('');
-		$("#cc_channelMOTD").val('');
+		$("#cc_channelName, #cc_channelMOTD").val('');
 		$("#createChannelForm").dialog("close");
-		AddTab(data.Data.Name, data.Data.ChannelId);
-		window.MyCharacter.CurrentChannel = data.Data.ChannelId;
+		AddTab(data.Data.Name, data.Data.ChannelId, data.Data.Motd);
 	}else if(data.Result == ER_ALREADYEXISTS){
 		alert("Channel name already exists!");
 	}else{
@@ -119,13 +117,9 @@ function CreateChannel(data){
 
 function JoinChannel(data){
 	if(data.Result == ER_SUCCESS){
-		$("#jc_channelName").val('');
-		$("#cc_channelMOTD").val('');
+		$("#jc_channelName, #cc_channelMOTD").val('');
 		$("#joinChannelForm").dialog("close");
 		AddTab(data.Data.Name, data.Data.ChannelId, data.Data.Motd);
-		window.MyCharacter.CurrentChannel = data.Data.ChannelId;
-	}else if(data.Result == ER_ALREADYEXISTS){
-		alert("Channel name already exists!");
 	}else{
 		alert("An error has occured.");
 	}
@@ -136,6 +130,7 @@ function AddTab(title, channelId, motd) {
 	$("<input type='hidden' value='" + channelId + "' class='channelId' />").appendTo($('#channelTabs-'+chatTabIndex));
 	InsertChat([{ "Type": 999, "FromName": "", "Message": motd }], channelId);
 	chatTabIndex++;
+	window.MyCharacter.CurrentChannel = channelId;
 }
 
 function FillChat(list){
@@ -204,13 +199,13 @@ function InsertChat(data, channel){
 		var msg = $("<span class='message' />").text(chatobj.Message);
 		
 		switch(chatobj.Type){
-			case 0:
+			case CHAT_TYPE_GENERAL:
 				$("<div class='chatMessage'><strong>" + chatobj.FromName + "</strong>: </div>").append(msg).prependTo($chatWindow);
 				break;
-			case 1:
+			case CHAT_TYPE_EMOTE:
 				$("<div class='chatMessage emote'>" + chatobj.FromName + " </div>").append(msg).prependTo($chatWindow);
 				break;
-			case 999: //motd
+			case CHAT_TYPE_MOTD: //motd
 				$("<div class='chatMessage motd'></div>").append(msg).prependTo($chatWindow);
 				break;
 			default:

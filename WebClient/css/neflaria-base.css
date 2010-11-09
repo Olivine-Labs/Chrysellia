@@ -218,3 +218,13 @@ input.watermark {
 #currentMap tr { height: 30px; }
 .mapData { font-family: 'DejaWeb', Arial, Helvetica, sans-serif; padding: 0; margin: 0; height: 30px; width: 30px; display: block; text-align: center; }
 .ra_created { font-size: .75em; font-style: italic; }
+.character li.ra_gold { font-size: 20pt; }
+.icon {  display: inline-block; height: 24px; width: 24px; margin-right: 6px; text-indent: 1000000%; overflow: hidden; }
+.icon.str { background: transparent url(images/stricon.png) top left no-repeat; }
+.icon.dex { background: transparent url(images/dexicon.png) top left no-repeat; }
+.icon.vit { background: transparent url(images/viticon.png) top left no-repeat; }
+.icon.gold { background: transparent url(images/goldicon.png) top left no-repeat; }
+.icon.wis { background: transparent url(images/wisicon.png) top left no-repeat; }
+.icon.int { background: transparent url(images/inticon.png) top left no-repeat; }
+#currentMap { background: transparent url(images/town1.png) top left no-repeat; }
+#currentMap .player { font-weight: bold; color: #fff; text-shadow: 1px 0px 4px #000;  }

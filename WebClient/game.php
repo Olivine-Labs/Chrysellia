@@ -63,35 +63,35 @@
 								<h1><span id="myCharacter_Name"></span></h1>
 							</div>
 							<div class="stat level">
-								<h2><span class="statLabel">Level</span>:
+								<h2><span class="statLabel" title="Level">Level</span>
 								<span id="myCharacter_Level"></span></h2>
 							</div>
 							<div class="stat exp">
-								<span class="statLabel">Exp</span>:
+								<span class="statLabel" title="Experience">Exp</span>
 								<span id="myCharacter_Experience"></span>
 							</div>
 							<div class="stat gold">
-								<span class="statLabel">Gold</span>:
+								<span class="statLabel icon gold" title="Gold">Gold</span>
 								<span id="myCharacter_Gold"></span>
 							</div>
 							<div class="stat str">
-								<span class="statLabel">Str</span>:
+								<span class="statLabel icon str" title="Strength">Str</span>
 								<span id="myCharacter_Strength"></span>
 							</div>
 							<div class="stat dex">
-								<span class="statLabel">Dex</span>:
+								<span class="statLabel icon dex" title="Dexterity">Dex</span>
 								<span id="myCharacter_Dexterity"></span>
 							</div>
 							<div class="stat wis">
-								<span class="statLabel">Wis</span>:
+								<span class="statLabel icon wis" title="Wisdom">Wis</span>
 								<span id="myCharacter_Wisdom"></span>
 							</div>
 							<div class="stat int">
-								<span class="statLabel">Int</span>:
+								<span class="statLabel icon int" title="Intelligence">Int</span>
 								<span id="myCharacter_Intelligence"></span>
 							</div>
 							<div class="stat vit">
-								<span class="statLabel">Vit</span>:
+								<span class="statLabel icon vit" title="Vitality">Vit</span>
 								<span id="myCharacter_Vitality"></span>
 							</div>
 						</section>

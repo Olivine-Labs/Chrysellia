@@ -15,6 +15,10 @@
 	window.CHAT_TYPE_GENERAL = 0;
 	window.CHAT_TYPE_EMOTE = 1;
 	
+	//System types
+	window.CHAT_TYPE_SYSTEM = 255;
+	window.CHAT_TYPE_MOTD = 999;
+	
 	var ChatService = function (){};
 	
 	ChatService = ChatService.prototype = {
