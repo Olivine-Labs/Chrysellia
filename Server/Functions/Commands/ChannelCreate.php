@@ -25,6 +25,7 @@ if(property_exists($Get, 'Channel') && property_exists($Get, 'Motd'))
 				$Database->commitTransaction();
 				$Result->Set('Result', \Protocol\Result::ER_SUCCESS);
 				$Result->Set('Data', Array('ChannelId'=>$ChannelId, 'Name'=>$Get->Channel, 'Motd'=>$Get->Motd));
+				$_SESSION['Channels'][$ChannelId] = new stdClass();
 			}
 		}
 		if(!$Success)
