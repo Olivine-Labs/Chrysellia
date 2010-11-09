@@ -4,7 +4,7 @@
 	<head>
 		<meta http-equiv="Content-Type" content="text/html;charset=utf-8" /> 
 		<meta name="keywords" content="free online mmo, mmorpg, rpg, neflaria, shimlar, neflaria v2" />
-		<meta name="description" content="Neflaria V2 is a free online RPG: create an account and fight for the top spot!" />
+		<meta name="description" content="Chrysellia is a free online RPG: create an account and fight for the top spot!" />
 
 		<meta name="author" content="silwarnaiilo@neflaria.com" />
 		<meta name="distribution" content="Global" />
@@ -12,7 +12,7 @@
 		<!-- todo: remove for beta -->
 		<meta name="robots" content="nofollow" />
 		
-		<title>Neflaria V2</title>
+		<title>Chrysellia</title>
 		
 		<!--[if IE]>
 			<script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
@@ -39,7 +39,7 @@
 		<![endif]-->
 		
 		<link rel="icon" type="image/png" href="images/favicon.ico" /> 
-		<link rel="alternate" type="application/rss+xml" title="Neflaria News RSS Feed" href="http://v2.neflaria.com/blog/feed/" />
+		<link rel="alternate" type="application/rss+xml" title="Chrysellia News RSS Feed" href="http://v2.neflaria.com/blog/feed/" />
 	</head>
 	<body>
 		<div id="messages">
@@ -248,7 +248,7 @@
 			<div class="container_12">
 				&copy; 2010 <a href="#">Chrysolite Foundation</a>, all rights reserved. <a href="#">Terms of Service</a> - <a href="#">Privacy Policy</a> - <a href="#">Contact</a>
 				<br />
-				Neflaria is built on the <a href="#">Chrysolite Game Engine</a>, available under <a href="#">BSD Licensing</a>.
+				Chrysellia is built on the <a href="#">Chrysolite Game Engine</a>, available under <a href="#">BSD Licensing</a>.
 			</div>
 		</footer>
 

@@ -4,7 +4,7 @@
 	<head>
 		<meta http-equiv="Content-Type" content="text/html;charset=utf-8" /> 
 		<meta name="keywords" content="free online mmo, mmorpg, rpg, neflaria, shimlar, neflaria v2" />
-		<meta name="description" content="Neflaria V2 is a free online RPG: create an account and fight for the top spot!" />
+		<meta name="description" content="Chrysellia is a free online RPG: create an account and fight for the top spot!" />
 
 		<meta name="author" content="silwarnaiilo@neflaria.com" />
 		<meta name="distribution" content="Global" />
@@ -12,7 +12,7 @@
 		<!-- todo: remove for beta -->
 		<meta name="robots" content="nofollow" />
 		
-		<title>Neflaria V2</title>
+		<title>Chrysellia</title>
 		
 		<!--[if IE]>
 			<script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
@@ -118,7 +118,7 @@
 				<div class="container_8">
 					<div class="grid_8">
 						<header class="pageHeader">
-							<h1>Neflaria</h1>
+							<h1>Chrysellia</h1>
 							<h2>The classic free online RPG</h2>
 							<a class="button bigButton" href="#" id="btnPlayNow">Play Now!</a>
 						</header>
@@ -129,19 +129,19 @@
 					<section class="grid_4 news">
 						<h1>News</h1>
 						<section class="mainNews newsItem">
-							<h1>Neflaria Beta Open</h1>
+							<h1>Chrysellia Beta Open</h1>
 							<em class="alternate"><date></date> - by <a href="#">ajacksified</a></em>
 							<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla dignissim vehicula risus, vel scelerisque erat fermentum quis. Ut aliquam, augue pharetra facilisis dignissim, mauris lectus hendrerit erat, nec dapibus purus arcu id est. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque vulputate faucibus purus, eget egestas justo semper vitae. Nam velit neque, pulvinar vitae rhoncus luctus, ullamcorper at augue.</p>
-							<a href="#" class="alternate">Neflaria Developer Blog</a>
+							<a href="#" class="alternate">Chrysellia Developer Blog</a>
 						</section>
 						
 						<section class="secondaryNews newsItem">
 							<h1>More News</h1>
 							<ul>
-								<li class="alternate"><a href="#">Neflaria Developer Blog</a> - (<date></date>)</li>
-								<li class="alternate"><a href="#">Neflaria Developer Blog</a> - (<date></date>)</li>
-								<li class="alternate"><a href="#">Neflaria Developer Blog</a> - (<date></date>)</li>
-								<li class="alternate"><a href="#">Neflaria Developer Blog</a> - (<date></date>)</li>
+								<li class="alternate"><a href="#">Chrysellia Developer Blog</a> - (<date></date>)</li>
+								<li class="alternate"><a href="#">Chrysellia Developer Blog</a> - (<date></date>)</li>
+								<li class="alternate"><a href="#">Chrysellia Developer Blog</a> - (<date></date>)</li>
+								<li class="alternate"><a href="#">Chrysellia Developer Blog</a> - (<date></date>)</li>
 							</ul>
 							<a href="#" class="alternate">Subscribe to RSS</a> - <a href="#" class="alternate">Archive</a>
 						</section>
@@ -165,7 +165,7 @@
 			<div class="container_12">
 				&copy; 2010 <a href="#">Chrysolite Foundation</a>, all rights reserved. <a href="#">Terms of Service</a> - <a href="#">Privacy Policy</a> - <a href="#">Contact</a>
 				<br />
-				Neflaria is built on the <a href="#">Chrysolite Game Engine</a>, available under <a href="#">BSD Licensing</a>.
+				Chrysellia is built on the <a href="#">Chrysolite Game Engine</a>, available under <a href="#">BSD Licensing</a>.
 			</div>
 		</footer>
 		

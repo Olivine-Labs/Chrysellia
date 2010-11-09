@@ -123,6 +123,7 @@ function JoinChannel(data){
 		$("#cc_channelMOTD").val('');
 		$("#joinChannelForm").dialog("close");
 		AddTab(data.Data.Name, data.Data.ChannelId, data.Data.Motd);
+		window.MyCharacter.CurrentChannel = data.Data.ChannelId;
 	}else if(data.Result == ER_ALREADYEXISTS){
 		alert("Channel name already exists!");
 	}else{
@@ -131,7 +132,7 @@ function JoinChannel(data){
 }
 
 function AddTab(title, channelId, motd) {
-	$tabs.tabs('add', '#channelTabs-'+chatTabIndex, title);
+	$tabs.tabs('add', '#channelTabs-'+chatTabIndex, title.replace(/</g, "&lt;").replace(/>/g, "&gt;"));
 	$("<input type='hidden' value='" + channelId + "' class='channelId' />").appendTo($('#channelTabs-'+chatTabIndex));
 	InsertChat([{ "Type": 999, "FromName": "", "Message": motd }], channelId);
 	chatTabIndex++;
@@ -201,6 +202,7 @@ function InsertChat(data, channel){
 	for(x = 0; x< data.length; x++){
 		var chatobj = data[x];
 		var msg = $("<span class='message' />").text(chatobj.Message);
+		
 		switch(chatobj.Type){
 			case 0:
 				$("<div class='chatMessage'><strong>" + chatobj.FromName + "</strong>: </div>").append(msg).prependTo($chatWindow);
