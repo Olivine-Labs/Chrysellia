@@ -9,7 +9,10 @@ if(isset($_GET['Data']))
 	$Get = json_decode($_GET['Data']);
 }
 
-if(property_exists($Get, 'Channel'))
+if(
+	property_exists($Get, 'Channel') &&
+	property_exists($Get, 'Message')
+)
 {
 	try
 	{

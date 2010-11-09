@@ -205,7 +205,6 @@ function InsertChat(data, channel){
 			case 0:
 				$("<div class='chatMessage'><strong>" + chatobj.FromName + "</strong>: </div>").append(msg).prependTo($chatWindow);
 				break;
-			
 			case 1:
 				$("<div class='chatMessage emote'>" + chatobj.FromName + " </div>").append(msg).prependTo($chatWindow);
 				break;

@@ -35,8 +35,8 @@ try
 			if(count($TempArray) > 0)
 			{
 				$Value->LastRefresh = $TempArray[count($TempArray)-1]['SentOn'];
+				$ChatArray[$ChannelId] = $TempArray;
 			}
-			$ChatArray[$ChannelId] = $TempArray;
 		}
 	}
 	$Result->Set('Result', \Protocol\Result::ER_SUCCESS);

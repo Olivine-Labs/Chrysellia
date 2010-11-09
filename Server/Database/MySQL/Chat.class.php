@@ -168,11 +168,10 @@ class Chat extends \Database\Chat
 
 			$Query2->Execute();
 
-			if($Query2->affected_rows <= 0)
+			if($Query2->affected_rows > 0)
+				return Array("ChannelId" =>$ChannelId, "Name" => $Name, "Motd" => $Motd);
+			else
 				return false;
-				
-			$Result = Array("ChannelId" =>$ChannelId, "Name" => $Name, "Motd" => $Motd);
-			return $Result;
 		}
 		else
 		{
@@ -200,9 +199,10 @@ class Chat extends \Database\Chat
 		$Query->bind_param('ssii', $Character->CharacterId, $ChannelId, $zeroseriouslywtf, $zeroseriouslywtf);
 		$Query->Execute();
 
-		if($Query->affected_rows <= 0)
+		if($Query->affected_rows > 0)
+			return true;
+		else
 			return false;
-		return true;
 	}
 
 	/**
