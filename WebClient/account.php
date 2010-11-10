@@ -79,167 +79,173 @@
 		</div>
 		
 		<div class="container_12 mainSection">
-			<section id="logIn" class="grid_5">
-				<h1>Select Character</h1>
-			</section>
-			
-			<section>
-				<h1 class="grid_7">Create New Character</h1>
+			<div id="accountSelection">
+				<section id="logIn" class="grid_5">
+					<h1>Select Character</h1>
+				</section>
 				
-				<form action="submitaction.php" method="post" id="createCharacterForm">
-					<div id="createCharacter" class="grid_4">
-						<div class="formRow">
-							<span class="explanation">
-								You can create new characters for your account. Your characters will share a bank
-								account, and once your first character reaches level 15, all subsequent characters will
-								have the ability to chat without having to first level to 15.
-							</span>
-						</div>
-						
-						<div class="formRow characterName">
-							<div class="formLabel">
-								<label for="c_name">Name:</label>
+				<section>
+					<h1 class="grid_7">Create New Character</h1>
+					
+					<form action="submitaction.php" method="post" id="createCharacterForm">
+						<div id="createCharacter">
+							<div class="formRow">
+								<span class="explanation">
+									You can create new characters for your account. Your characters will share a bank
+									account, and once your first character reaches level 15, all subsequent characters will
+									have the ability to chat without having to first level to 15.
+								</span>
 							</div>
-							<div class="formInput">
-								<input type="text" id="c_fn" placeholder="Character Name" />
-								<!--<input type="text" id="c_mn" placeholder="Middle Name" />
-								<input type="text" id="c_ln" placeholder="Last Name" />-->
+							
+							<div class="formRow characterName">
+								<div class="formLabel">
+									<label for="c_name">Name:</label>
+								</div>
+								<div class="formInput">
+									<input type="text" id="c_fn" placeholder="Character Name" />
+									<!--<input type="text" id="c_mn" placeholder="Middle Name" />
+									<input type="text" id="c_ln" placeholder="Last Name" />-->
+								</div>
+								<div class="formValidator">
+									<span id="c_name_validator"></span>
+								</div>
 							</div>
-							<div class="formValidator">
-								<span id="c_name_validator"></span>
+							
+							<input id="c_race" type="hidden">
+							
+							<div class="formRow">
+								<div class="formLabel">
+									<label for="c_gender">Gender:</label>
+								</div>
+								<div class="formInput">
+									<select id="c_gender">
+										<option value="0">Male</option>
+										<option value="1">Female</option>
+									</select>
+								</div>
+								<div class="formValidator">
+									<span id="c_race_validator"></span>
+								</div>
 							</div>
-						</div>
-						
-						
-						<div class="formRow">
-							<div class="formLabel">
-								<label for="c_pin">Numeric PIN (Optional):</label>
+							
+							<div class="formRow">
+								<div class="formLabel">
+									<label for="c_pin">Numeric PIN (Optional):</label>
+								</div>
+								<div class="formInput">
+									<input type="password" id="c_pin" placeholder="" maxlength="4" />
+								</div>
+								<div class="formValidator">
+									<span id="c_pin_validator" maxlength="4"></span>
+								</div>
 							</div>
-							<div class="formInput">
-								<input type="password" id="c_pin" placeholder="" maxlength="4" />
+							
+							<div class="formRow">
+								<div class="formLabel">
+									<label for="c_confirmpin">Confirm PIN:</label>
+								</div>
+								<div class="formInput">
+									<input type="password" id="c_confirmpin" placeholder="" />
+								</div>
+								<div class="formValidator">
+									<span id="c_confirmpin_validator"></span>
+								</div>
 							</div>
-							<div class="formValidator">
-								<span id="c_pin_validator" maxlength="4"></span>
-							</div>
-						</div>
-						
-						<div class="formRow">
-							<div class="formLabel">
-								<label for="c_confirmpin">Confirm PIN:</label>
-							</div>
-							<div class="formInput">
-								<input type="password" id="c_confirmpin" placeholder="" />
-							</div>
-							<div class="formValidator">
-								<span id="c_confirmpin_validator"></span>
-							</div>
-						</div>
-						
-						<div class="formRow">
-							<div class="formLabel">
-								<label for="c_race">Race:</label>
-							</div>
-							<div class="formInput">
-								<select id="c_race">
-								</select>
-							</div>
-							<div class="formValidator">
-								<span id="c_race_validator"></span>
-							</div>
-						</div>
-						
-						<div class="formRow">
-							<div class="formLabel">
-								<label for="c_gender">Gender:</label>
-							</div>
-							<div class="formInput">
-								<select id="c_gender">
-									<option value="0">Male</option>
-									<option value="1">Female</option>
-								</select>
-							</div>
-							<div class="formValidator">
-								<span id="c_race_validator"></span>
-							</div>
-						</div>
-						
-						<div class="formRow">
-							<div class="formLabel"></div>
-							<div class="formInput">
-								<button type="submit" id="submitCreateAccount" class="button createAccount">Continue</button>
+							
+							<div class="formRow">
+								<div class="formLabel"></div>
+								<div class="formInput">
+									<a href="#" id="submitCreateAccount" class="button createAccount">Continue</a>
+								</div>
 							</div>
 						</div>
+					</form>
+				</section>
+			</div>
+			
+			<div id="raceSelection" style="display: none;">
+				<section id="goodRaces" class="grid_6">
+					<h1>Good</h1>
+					<ul></ul>
+				</section>
+				
+				<section id="evilRaces" class="grid_6">
+					<h1>Evil</h1>
+					<ul></ul>
+				</section>
+				
+				<div class="clear"></div>
+			</div>
+		</div>
+		
+		<div id="statSelection" style="display: none;">
+			<div class="grid_3 selectStats">
+				<em>You have <span id="remPoints">0</span> points to distribute.</em>
+				<div class="formRow">
+					<div class="formLabel">
+						<label for="startingStr" class="icon str" title="Strength">Str</label>
 					</div>
-						
-					<div class="grid_3 selectStats">
-						<em>You have <span id="remPoints">0</span> points to distribute.</em>
-						<div class="formRow">
-							<div class="formLabel">
-								<label for="startingStr" class="icon str" title="Strength">Str</label>
-							</div>
-							<div class="formInput">
-								<button type="submit" class="button minus">+</button>
-								<span id="baseStr" class="raceBaseStat">20</span> + <input class="statChooser" id="startingStr" maxlength="2" value="0" />
-								<button type="submit" class="button plus">-</button>
-								<br />
-								<em>Race max: <span id="raceStrMax">30</span></em>
-							</div>
-						</div>
-						
-						<div class="formRow">
-							<div class="formLabel">
-								<label for="startingDex" class="icon dex" title="Dexterity">Dex</label>
-							</div>
-							<div class="formInput">
-								<button type="submit" class="button minus">+</button>
-								<span id="baseDex" class="raceBaseStat">20</span> + <input class="statChooser" id="startingDex" maxlength="2" value="0" />
-								<button type="submit" class="button plus">-</button>
-								<br />
-								<em>Race max: <span id="raceDexMax">30</span></em>
-							</div>
-						</div>
-						
-						<div class="formRow">
-							<div class="formLabel">
-								<label for="startingInt" class="icon int" title="Intelligence">Int</label>
-							</div>
-							<div class="formInput">
-								<button type="submit" class="button minus">+</button>
-								<span id="baseInt" class="raceBaseStat">20</span> + <input class="statChooser" id="startingInt" maxlength="2" value="0" />
-								<button type="submit" class="button plus">-</button>
-								<br />
-								<em>Race max: <span id="raceIntMax">30</span></em>
-							</div>
-						</div>
-						
-						<div class="formRow">
-							<div class="formLabel">
-								<label for="startingWis" class="icon wis" title="Wisdom">Wis</label>
-							</div>
-							<div class="formInput">
-								<button type="submit" class="button minus">+</button>
-								<span id="baseWis" class="raceBaseStat">20</span> + <input class="statChooser" id="startingWis" maxlength="2" value="0" />
-								<button type="submit" class="button plus">-</button>
-								<br />
-								<em>Race max: <span id="raceWisMax">30</span></em>
-							</div>
-						</div>
-						
-						<div class="formRow">
-							<div class="formLabel">
-								<label for="startingVit" class="icon vit" title="Vitality">Vit</label>
-							</div>
-							<div class="formInput">
-								<button type="submit" class="button minus">+</button>
-								<span id="baseVit" class="raceBaseStat">20</span> + <input class="statChooser" id="startingVit" maxlength="2" value="0" />
-								<button type="submit" class="button plus">-</button>
-								<br />
-								<em>Race max: <span id="raceVitMax">30</span></em>
-							</div>
-						</div>
+					<div class="formInput">
+						<button type="submit" class="button minus">+</button>
+						<span id="baseStr" class="raceBaseStat">20</span> + <input class="statChooser" id="startingStr" maxlength="2" value="0" />
+						<button type="submit" class="button plus">-</button>
+						<br />
+						<em>Race max: <span id="raceStrMax">30</span></em>
 					</div>
-				</form>
-			</section>
+				</div>
+				
+				<div class="formRow">
+					<div class="formLabel">
+						<label for="startingDex" class="icon dex" title="Dexterity">Dex</label>
+					</div>
+					<div class="formInput">
+						<button type="submit" class="button minus">+</button>
+						<span id="baseDex" class="raceBaseStat">20</span> + <input class="statChooser" id="startingDex" maxlength="2" value="0" />
+						<button type="submit" class="button plus">-</button>
+						<br />
+						<em>Race max: <span id="raceDexMax">30</span></em>
+					</div>
+				</div>
+				
+				<div class="formRow">
+					<div class="formLabel">
+						<label for="startingInt" class="icon int" title="Intelligence">Int</label>
+					</div>
+					<div class="formInput">
+						<button type="submit" class="button minus">+</button>
+						<span id="baseInt" class="raceBaseStat">20</span> + <input class="statChooser" id="startingInt" maxlength="2" value="0" />
+						<button type="submit" class="button plus">-</button>
+						<br />
+						<em>Race max: <span id="raceIntMax">30</span></em>
+					</div>
+				</div>
+				
+				<div class="formRow">
+					<div class="formLabel">
+						<label for="startingWis" class="icon wis" title="Wisdom">Wis</label>
+					</div>
+					<div class="formInput">
+						<button type="submit" class="button minus">+</button>
+						<span id="baseWis" class="raceBaseStat">20</span> + <input class="statChooser" id="startingWis" maxlength="2" value="0" />
+						<button type="submit" class="button plus">-</button>
+						<br />
+						<em>Race max: <span id="raceWisMax">30</span></em>
+					</div>
+				</div>
+				
+				<div class="formRow">
+					<div class="formLabel">
+						<label for="startingVit" class="icon vit" title="Vitality">Vit</label>
+					</div>
+					<div class="formInput">
+						<button type="submit" class="button minus">+</button>
+						<span id="baseVit" class="raceBaseStat">20</span> + <input class="statChooser" id="startingVit" maxlength="2" value="0" />
+						<button type="submit" class="button plus">-</button>
+						<br />
+						<em>Race max: <span id="raceVitMax">30</span></em>
+					</div>
+				</div>
+			</div>
 		</div>
 		
 		<div class="clear"></div>

@@ -185,7 +185,7 @@ input.watermark {
 	border-top-left-radius: 4px;
 	border-bottom-left-radius: 4px;
 }
-	
+.mainSection { position: relative; }
 .bigButton .TestRace { background: transparent url('images/gargoyle.jpg') top left no-repeat; }
 .bigButton .TestRace2 { background: transparent url('images/orc.jpg') top left no-repeat; }
 .TestRace2 .ui-selectmenu-item-header { padding-left: 36px; background: transparent url('images/orc_24.png') left center no-repeat; }
@@ -196,7 +196,7 @@ input.watermark {
 #createCharacterForm .selectStats .formLabel { font-weight:bold; vertical-align:top; width:3em; }
 .character { margin-bottom: 1em; }
 .character li { font-size: 10pt; float: left; display: block; width: 49%; }
-.character .characterName { display: block; font-size: 20pt; font-family: 'Crimson Text', Georgia, 'Times New Roman', serif; }
+.character .characterName { display: block; font-size: 20pt; font-family: 'Crimson Text', Georgia, 'Times New Roman', serif; margin-bottom: 10px; }
 .character .characterStats { display: block; font-size: 12pt; }
 .character .recentActivity li { margin-top: 5px; font-family: 'DejaWeb', Arial, Helvetica, sans-serif; } 
 .emote { font-style: italic; }
@@ -232,3 +232,7 @@ input.watermark {
 #currentMap .player { display: block; height: 28px; width: 28px; text-indent: 1000000%; background: transparent url(images/humanplayer.png) center left no-repeat; }
 .accountActions { float: right; }
 #messages .alternateButton  { color: #fff; }
+.raceList .bigButton { width: 100%; }
+.raceList .bigButton .description { font-size: 12pt; font-family: 'Crimson Text', Georgia, 'Times New Roman', serif; }
+.raceList .icon { clear: left; }
+.raceStats { display: block; width: 80px; float: left; }

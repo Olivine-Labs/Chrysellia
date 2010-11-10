@@ -4,43 +4,61 @@ $(function(){
 	
 	for(var i in window.Races){
 		var r = window.Races[i];
-		
-		var $option = $("<option value='" + i + "' class='race " + r.Name.replace(/ /g,'') + "'>" + r.Name + " - Str: " + r.Str + ", Dex: " + r.Dex + ", Vit: " + r.Vit + ", Int: " + r.Int + ", Wis: " + r.Wis + "</option>");
+		var $race = $('<li class="character raceList"><a class="button bigButton" href="#"><input type="hidden" value="' + i + '" class="r_id" /><span class="characterPortrait ' + r.Name.replace(/ /g,'') + '"></span><span class="characterName">' + r.Name + '</span><span class="raceStats"><span class="icon str" title="Strength"></span><span>' + r.Str + '</span><br /><span class="icon dex" title="Dexterity"></span><span>' + r.Dex + '</span><br /><span class="icon int" title="Intelligence"></span><span>' + r.Int + '</span><br /><span class="icon wis" title="Wisdom"></span><span>' + r.Wis + '</span><br /><span class="icon vit" title="Vitality"></span><span>' + r.Vit + '</span><br /></span><span class="description">' + r.Description + '</span></a></li>');
 		
 		if(r.Align == "good"){
-			$option.appendTo($("#c_race"));
+			$race.appendTo($("#goodRaces ul"));
 		}else{
-			$option.appendTo($("#c_race"));
+			$race.appendTo($("#evilRaces ul"));
 		}
 	}
 	
-	//a custom format option callback
-	var characterInfoFormatting = function(text){
-		var newText = text;
-		//array of find replaces
-		var findreps = [
-			{find:/^([^\-]+) \- /g, rep: '<span class="ui-selectmenu-item-header">$1</span>'},
-			{find:/([^\|><]+) \| /g, rep: '<span class="ui-selectmenu-item-content">$1</span>'},
-			{find:/([^\|><\(\)]+) (\()/g, rep: '<span class="ui-selectmenu-item-content">$1</span>$2'},
-			{find:/([^\|><\(\)]+)$/g, rep: '<span class="ui-selectmenu-item-content">$1</span>'},
-			{find:/(\([^\|><]+\))$/g, rep: '<span class="ui-selectmenu-item-footer">$1</span>'}
-		];
+	$("#statSelection").dialog({ 
+		modal: true, 
+		title: "Select Stats", 
+		width: 400, 
+		height: 420, 
+		autoOpen: false, 
+		buttons: { 
+			"Create Character": function() { 
+				$(this).dialog("close"); 
+				$("#createCharacterForm").submit();
+			}, 
+			
+			Cancel: function() { 
+				$(this).dialog("close"); 
+			} 
+		} 
+	});
+	
+	$(".raceList a").click(function(e){
+		e.preventDefault();
+		var $this = $(this);
+		var id = $this.children(".r_id").val();
 		
-		for(var i in findreps){
-			newText = newText.replace(findreps[i].find, findreps[i].rep);
-		}
-		return newText;
-	}
+		$("#startingStr").val(0);
+		$("#startingDex").val(0);
+		$("#startingInt").val(0);
+		$("#startingWis").val(0);
+		$("#startingVit").val(0);
+		
+		$("#c_race").val(id).change();
+		$("#startingStr").change();
+		$("#statSelection").dialog("open");
+	});
 	
-	$('#c_race').selectmenu({
-		style:'dropdown', 
-		menuWidth: 400,
-		format: characterInfoFormatting
+	$("#submitCreateAccount").click(function(e){
+		e.preventDefault();
+		
+		var name = $("#c_fn").val();
+		if(name != "" && name != "Character Name"){
+			$("#accountSelection").fadeOut(500, function(){ $("#raceSelection").fadeIn(500); });
+		}
 	});
 	
 	$("#createCharacterForm").submit(function(e){
 		e.preventDefault();
-		
+
 		var name = $("#c_fn").val();
 		var race = window.Races[$("#c_race").val()];
 		var gender = $("#c_gender").val();
@@ -68,6 +86,7 @@ $(function(){
 					vc.cs.List(LoadCharacterList);
 					alert("Your character has been created!");
 					$(".statChooser").val(0);
+					$("#raceSelection").fadeOut(500, function(){ $("#accountSelection").fadeIn(500); });
 					break;
 				case ER_BADDATA:
 				case ER_MALFORMED:
@@ -84,7 +103,7 @@ $(function(){
 		});
 	});
 	
-	$(".bigButton").live("click", function(e){
+	$("#accountSelection .bigButton").live("click", function(e){
 		e.preventDefault();
 		$parent = $(this).parent();
 		
@@ -99,6 +118,8 @@ $(function(){
 		vc.cs.Select(cId, pin, SelectCharacter);
 	});
 	
+	$(".raceSelection").css({ display: "none" });
+	
 	$("#c_race").change(function(){
 		var race = window.Races[$(this).val()];
 		$("#baseStr").text(race.Str);
@@ -112,9 +133,7 @@ $(function(){
 		$("#raceIntMax").text(race.IntMax);
 		$("#raceWisMax").text(race.WisMax);
 		$("#raceVitMax").text(race.VitMax);
-	}).change();
-	
-	UpdateCreateCharacterStats($(".selectStats .formInput input:first"),"");
+	});
 	
 	$(".selectStats .formInput input").change(function(e){
 		UpdateCreateCharacterStats($(this), e);
