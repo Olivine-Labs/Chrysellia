@@ -84,8 +84,8 @@
 					<h1>Select Character</h1>
 				</section>
 				
-				<section>
-					<h1 class="grid_7">Create New Character</h1>
+				<section class="grid_7">
+					<h1>Create New Character</h1>
 					
 					<form action="submitaction.php" method="post" id="createCharacterForm">
 						<div id="createCharacter">
@@ -175,11 +175,15 @@
 				</section>
 				
 				<div class="clear"></div>
+				
+				<div class="grid_12" id="cancelCreation">
+					<a href="account.php" class="button alternateButton">Cancel Character Creation</a>
+				</div>
 			</div>
 		</div>
 		
 		<div id="statSelection" style="display: none;">
-			<div class="grid_3 selectStats">
+			<div class="selectStats">
 				<em>You have <span id="remPoints">0</span> points to distribute.</em>
 				<div class="formRow">
 					<div class="formLabel">

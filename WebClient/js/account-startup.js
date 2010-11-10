@@ -56,6 +56,8 @@ $(function(){
 		}
 	});
 	
+	$("#cancelCreation a ").click(function(e){ e.preventDefault(); $("#raceSelection").fadeOut(500, function(){ $("#accountSelection").fadeIn(500); }); });
+	
 	$("#createCharacterForm").submit(function(e){
 		e.preventDefault();
 

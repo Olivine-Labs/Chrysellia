@@ -11,12 +11,12 @@ $(function(){
 		e.preventDefault();
 		var validRegistration = true;
 		
-		if ($("#ca_username").val().length < 5){
+		if ($("#ca_username").val().length < 4){
 			validRegistration = false;
 			$("#ca_username_validator").html("<span class='ui-state-error ui-corner-all'><span class='ui-icon ui-icon-alert'></span>Username too short.</span>");
 		}
 		
-		if ($("#ca_password").val().length < 5){
+		if ($("#ca_password").val().length < 4){
 			validRegistration = false;
 			$("#ca_password_validator").html("<span class='ui-state-error ui-corner-all'><span class='ui-icon ui-icon-alert'></span>Password too short.</span>");
 		}
