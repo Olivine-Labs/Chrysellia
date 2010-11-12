@@ -23,6 +23,15 @@ try
 			$Value = new stdClass();
 		}
 	}
+	if(!isset($_SESSION['LastSystemMessage']))
+	{
+		$_SESSION['LastSystemMessage'] = time();
+	}
+	$ChatArray[0] = $Database->Chat->LoadSystemList($Character, $_SESSION['LastSystemMessage']);
+	if(count($ChatArray[0]) > 0)
+	{
+		$_SESSION['LastSystemMessage'] = $ChatArray[0][count($ChatArray[0]) - 1]['SentOn'];
+	}
 	foreach($_SESSION['Channels'] AS $ChannelId=>&$Value)
 	{
 		if(is_object($Value))
@@ -39,6 +48,7 @@ try
 			}
 		}
 	}
+
 	$Result->Set('Result', \Protocol\Result::ER_SUCCESS);
 	$Result->Set('Data', $ChatArray);
 }

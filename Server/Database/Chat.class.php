@@ -39,7 +39,7 @@ abstract class Chat
 	 * @return Boolean
 	 *   Whether the insert was successful or not.
 	 */
-	abstract public function Insert(\Entities\Character $Character, $ChannelId, $Message);
+	abstract public function Insert(\Entities\Character $Character, $ChannelId, $Message, $Type=0, \Entities\Character $CharacterTarget = null);
 
 	/**
 	 * Abstract - Loads a list of chat messages for a character
@@ -57,6 +57,21 @@ abstract class Chat
 	 *   An array of chat messages
 	 */
 	abstract public function LoadList(\Entities\Character $Character, $ChannelId, $DateForward);
+
+
+	/**
+	 * abstract - Loads a list of system messages for a character
+	 *
+	 * @param $Character
+	 *   The Character object that will be used to lookup system messages
+	 *
+	 * @param $DateForward
+	 *   The max date from when to return data
+	 *
+	 * @return Array
+	 *   An array of system messages
+	 */
+	abstract public function LoadSystemList(\Entities\Character $Character, $DateForward);
 
 	/**
 	 * Abstract - Loads a list of joined channels
