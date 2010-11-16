@@ -192,6 +192,17 @@ input.watermark {
 .bigButton .TestRace3 { background: transparent url('images/goblin.jpg') top left no-repeat; }
 .bigButton .TestRace4 { background: transparent url('images/troll.jpg') top left no-repeat; }
 
+.bigButton .Aviakan { background: transparent url('images/aviakan.jpg') top left no-repeat; }
+.bigButton .Drow { background: transparent url('images/drow.jpg') top left no-repeat; }
+.bigButton .Dwarf { background: transparent url('images/dwarf.jpg') top left no-repeat; }
+.bigButton .Elf { background: transparent url('images/elf.jpg') top left no-repeat; }
+.bigButton .Gargoyle { background: transparent url('images/gargoyle.jpg') top left no-repeat; }
+.bigButton .HalfElf { background: transparent url('images/halfelf.jpg') top left no-repeat; }
+.bigButton .Human { background: transparent url('images/human.jpg') top left no-repeat; }
+.bigButton .Orc { background: transparent url('images/orc.jpg') top left no-repeat; }
+.bigButton .Troll { background: transparent url('images/troll.jpg') top left no-repeat; }
+.bigButton .Goblin { background: transparent url('images/goblin.jpg') top left no-repeat; }
+
 .mainSection { padding: 2em 0; }
 .formInput  .statChooser { width: 2em; }
 #logIn h1 { display: none; }
