@@ -58,6 +58,13 @@ abstract class Database
 	public $Maps;
 
 	/**
+	 * Reference to object that contains Item related queries
+	 *
+	 * @var Items
+	 */
+	public $Items;
+
+	/**
 	 * Constructor for the abstract Database class
 	 *
 	 * Throws an exception when connection fails
