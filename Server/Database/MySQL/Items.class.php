@@ -2,7 +2,7 @@
 
 namespace Database\MySQL;
 
-define('SQL_LOADINVENTORY', 'SELECT i.ItemId, i.Name, i.Description FROM `items` i INNER JOIN `inventories` in ON i.inventoryId=in.inventoryId WHERE in.characterId=?');
+define('SQL_LOADINVENTORY', 'SELECT i.itemId, i.name, i.description, i.itemType, i.createdOn, ie.sockets, ie.slots, ie.slotType FROM `items` i INNER JOIN `inventories` in ON i.inventoryId=in.inventoryId LEFT JOIN `item_equippables` ie ON i.itemId=ie.itemId LEFT JOIN `item_socketables` is ON i.itemId=is.itemId WHERE in.characterId=? AND is.socketedIn IS NULL');
 
 /**
  * Class that holds definitions for Item query functions
@@ -50,7 +50,7 @@ class Items
 		while($Continue)
 		{
 			$AnItem = new \Entities\Item();
-			$Query->bind_result($AnItem->ItemId, $AnItem->Name, $AnItem->Description);
+			$Query->bind_result($AnItem->ItemId, $AnItem->Name, $AnItem->Description, $AnItem->Type, $AnItem->CreatedOn, $AnItem->Sockets, $AnItem->Slots, $AnItem->SlotType);
 			$Continue = $Query->Fetch();
 			if($Continue)
 			{

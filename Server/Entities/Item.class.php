@@ -20,7 +20,7 @@ class Item
 	/**
 	 * Name
 	 *
-	 * @var userName
+	 * @var Name
 	 */
 	public $Name;
 
@@ -30,6 +30,90 @@ class Item
 	 * @var description
 	 */
 	public $Description;
+
+	/**
+	 * Type
+	 *
+	 * @var type
+	 */
+	public $Type;
+
+	/**
+	 * CreatedOn
+	 *
+	 * @var createdOn
+	 */
+	public $CreatedOn;
+
+	/**
+	 * Sockets
+	 *
+	 * @var sockets
+	 */
+	public $Sockets;
+
+	/**
+	 * SocketedIn
+	 *
+	 * @var socketedIn
+	 */
+	public $SocketedIn;
+
+	/**
+	 * Slots
+	 *
+	 * @var slots
+	 */
+	public $Slots;
+
+	/**
+	 * SlotType
+	 *
+	 * @var slotType
+	 */
+	public $SlotType;
+
+	/**
+	 * OnEquip
+	 *
+	 * @var onEquip
+	 */
+	public $OnEquip;
+
+	/**
+	 * OnUnequip
+	 *
+	 * @var onUnequip
+	 */
+	public $OnUnequip;
+
+	/**
+	 * OnAttack
+	 *
+	 * @var onAttack
+	 */
+	public $OnAttack;
+
+	/**
+	 * OnDefend
+	 *
+	 * @var onDefend
+	 */
+	public $OnDefend;
+
+	/**
+	 * OnSocket
+	 *
+	 * @var onSocket
+	 */
+	public $OnSocket;
+
+	/**
+	 * OnUse
+	 *
+	 * @var onUse
+	 */
+	public $OnUse;
 }
 
 ?>
