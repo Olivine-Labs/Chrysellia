@@ -254,6 +254,52 @@ class Character
 	public $VitalityBonus;
 
 	/**
+	 * ArmorClass
+	 *
+	 * The item class of the item in the armor slot
+	 *
+	 * @var $ArmorClass
+	 */
+	public $ArmorClass;
+
+	/**
+	 * RightHandClass
+	 *
+	 * The item class of the item in the Right Hand slot
+	 *
+	 * @var $RightHandClass
+	 */
+	public $RightHandClass;
+
+	/**
+	 * LeftHandClass
+	 *
+	 * The item class of the item in the LEft Hand slot
+	 *
+	 * @var $LeftHandClass
+	 */
+	public $LeftHandClass;
+
+	/**
+	 * Spell1Class
+	 *
+	 * The item class of the item in the spell1 slot
+	 *
+	 * @var $Spell1Class
+	 */
+	public $Spell1Class;
+
+	/**
+	 * Spell2Class
+	 *
+	 * The item class of the item in the spell2 slot
+	 *
+	 * @var $Spell2Class
+	 */
+	public $Spell2Class;
+
+
+	/**
 	 * RacialStrength
 	 *
 	 * A character's racial strength, used during leveling
@@ -316,6 +362,59 @@ class Character
 	 */
 	public $Gold;
 
+	/**
+	 * Armor
+	 *
+	 * The ID of the item equipped in the armor slot
+	 *
+	 * @var $Armor
+	 */
+	public $Armor;
+
+	/**
+	 * RightHand
+	 *
+	 * The item equipped in the righthand slot
+	 *
+	 * @var $RightHand
+	 */
+	public $RightHand;
+
+	/**
+	 * LeftHand
+	 *
+	 * The item equipped in the lefthand slot
+	 *
+	 * @var $LeftHand
+	 */
+	public $LeftHand;
+
+	/**
+	 * Spell1
+	 *
+	 * The item equipped in the Spell1 slot
+	 *
+	 * @var $Spell1
+	 */
+	public $Spell1;
+
+	/**
+	 * Spell2
+	 *
+	 * The item equipped in the Spell2 slot
+	 *
+	 * @var $Spell2
+	 */
+	public $Spell2;
+
+	/**
+	 * Accessory
+	 *
+	 * The item equipped in the Accessory slot
+	 *
+	 * @var $Accessory
+	 */
+	public $Accessory;
 
 	/**
 	 * Default constructor for the Account Class
