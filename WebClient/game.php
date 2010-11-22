@@ -211,6 +211,7 @@
 		<script src="./js/jquery.watermark.min.js"></script>
 		<script src="./js/jcarousel-lite.js"></script>
 		<script src="./js/jquery-easing.js"></script>
+		<script src="./js/jquery.cookie.js"></script>
 		<script src="./Core/jquery-md5.js" type="text/javascript"></script>
 		<script src="./Core/json.js" type="text/javascript"></script>
 		

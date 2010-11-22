@@ -1,3 +1,28 @@
+<?php
+
+define('FACEBOOK_APP_ID', '119442588120693');
+define('FACEBOOK_SECRET', '394479c493bac0ee777a8d9cf61ac4fd');
+
+function get_facebook_cookie($app_id, $application_secret) {
+  $args = array();
+  parse_str(trim($_COOKIE['fbs_' . $app_id], '\\"'), $args);
+  ksort($args);
+  $payload = '';
+  foreach ($args as $key => $value) {
+    if ($key != 'sig') {
+      $payload .= $key . '=' . $value;
+    }
+  }
+  if (md5($payload . $application_secret) != $args['sig']) {
+    return null;
+  }
+  return $args;
+}
+
+$cookie = get_facebook_cookie(FACEBOOK_APP_ID, FACEBOOK_SECRET);
+
+?>
+
 <!DOCTYPE html>
 
 <html lang="en">
@@ -172,6 +197,8 @@
 		<div id="playNow" style="display:none">
 			<section class="register">
 				<h1>Register</h1>
+				<p><a id="fbregister" href="#">Log in with Facebook</a></p>
+				<p><em>or</em></p>
 				<form action="submitaction.php" method="post"  id="registerForm">
 					<div class="formRow">
 						<div class="formLabel">
@@ -250,6 +277,8 @@
 			</section>
 			<section class="logIn">
 				<h1>Log In</h1>
+				<p><a id="fblogin" href="#">Log in with Facebook</a></p>
+				<p><em>or</em></p>
 				<form action="submitaction.php" method="post"  id="loginForm">
 					<div class="formRow">
 						<div class="formLabel">
@@ -290,6 +319,7 @@
 		
 		<!-- Here come the plugins -->
 		<script src="./js/jquery.watermark.min.js"></script>
+		<script src="./js/jquery.cookie.js"></script>
 		<script src="./Core/jquery-md5.js" type="text/javascript"></script>
 		<script src="./Core/json.js" type="text/javascript"></script>
 				
@@ -301,5 +331,8 @@
 		<!-- Page setup -->
 		<script src="./js/startup.js"></script>
 		<script src="./js/index-startup.js"></script>
+		
+		<div id="fb-root"></div>
+		<script src="http://connect.facebook.net/en_US/all.js"></script>
 	</body>
 </html>

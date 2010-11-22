@@ -26,27 +26,7 @@ $(function(){
 		}
 		
 		if(validRegistration){
-			vc.as.Register(username, $.md5(password), email, function(r){
-				switch(r.Result){
-					case ER_SUCCESS:
-						alert("Your account has been created! You can now log in.");
-						$("#li_username").val(username);
-						$("input", $(".register")).val('');
-						$("#li_password").focus();
-						break;
-					case ER_BADDATA:
-					case ER_MALFORMED:
-					case ER_DBERROR:
-						alert("Please check username and password requirements and try again.");
-						break;
-					case ER_ALREADYEXISTS:
-						alert("An account with that username or email already exists!");
-						break;
-					default:
-						alert("An error has occured. Try again later.");
-						break;
-				}
-			});
+			RegisterAccount(username, password, email);
 		}
 		
 		return false;
@@ -78,6 +58,77 @@ $(function(){
 		
 		return false;
 	});
+	
+	FB.init({appId: '119442588120693', status: true, cookie: true, xfbml: true});
+
+	$("#fbregister").click(function(e){
+		e.preventDefault();
+		
+		var username = "";
+		var password = "";
+		var email = "";
+					
+		FB.getLoginStatus(function(response) {
+			if (!response.session) {
+				FB.login(function(response) {
+					
+					if (response.session) {
+						username = response.session.uid;
+						password = response.session.access_token;
+
+						if (response.perms) {
+							FB.api('/me', function(response) {
+								email = response.email;
+								RegisterAccount(username, password, email);
+							});
+						} else {
+						  // user is logged in, but did not grant any permissions
+						}
+					} else {
+						// cancelled
+					}
+				}, {perms:'read_stream,publish_stream,offline_access,email,create_event,user_birthday'});
+			}else{
+				username = response.session.uid;
+				password = response.session.access_token;
+				
+				FB.api('/me', function(response) {
+					email = response.email;
+					RegisterAccount(username, password, email);
+				});
+			}
+		});
+	});
+
+	$("#fblogin").click(function(e){
+		e.preventDefault();
+		
+		FB.getLoginStatus(function(response) {
+			if (!response.session) {
+				FB.login(function(response) {
+					if (response.session) {
+						username = response.session.uid;
+						password = response.session.access_token;
+						
+						vc.as.Login(username, $.md5(password), function(r){
+							ProcessLogin(r.Result);
+						});
+						
+					} else {
+						// cancelled
+					}
+				});
+			}else{
+				username = response.session.uid;
+				password = response.session.access_token;
+				
+				vc.as.Login(username, $.md5(password), function(r){
+					ProcessLogin(r.Result);
+				});
+			}
+		});
+	});
+
 });
 
 function ProcessLogin(result){
@@ -88,13 +139,36 @@ function ProcessLogin(result){
 		case ER_BADDATA:
 		case ER_MALFORMED:
 		case ER_DBERROR:
-			alert("Please check username and password and try again.");
+			alert("Please check login information and try again.");
 			break;
 		case ER_ACCESSDENIED:
-			alert("Username or password not found.");
+			alert("An account with those credentials was not found.");
 			break;
 		default:
 			alert("An error has occured. Try again later.");
 			break;
 	}
+}
+
+function RegisterAccount(username, password, email){
+	vc.as.Register(username, $.md5(password), email, function(r){
+		switch(r.Result){
+			case ER_SUCCESS:
+				vc.as.Login(username, $.md5(password), function(r){
+					ProcessLogin(r.Result);
+				});
+				break;
+			case ER_BADDATA:
+			case ER_MALFORMED:
+			case ER_DBERROR:
+				alert("Please check username and password requirements and try again.");
+				break;
+			case ER_ALREADYEXISTS:
+				alert("An account with that Facebook login already exists!");
+				break;
+			default:
+				alert("An error has occured. Try again later.");
+				break;
+		}
+	});
 }

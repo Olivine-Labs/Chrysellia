@@ -268,6 +268,7 @@
 		<!-- Here come the plugins -->
 		<script src="./js/jquery.watermark.min.js"></script>
 		<script src="./js/jquery.selectmenu.js"></script>
+		<script src="./js/jquery.cookie.js"></script>
 		<script src="./Core/json.js" type="text/javascript"></script>
 		
 		<!-- Data Libraries -->
