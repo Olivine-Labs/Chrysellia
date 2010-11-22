@@ -21,8 +21,18 @@ $(function(){
 		autoOpen: false, 
 		buttons: { 
 			"Create Character": function() { 
-				$(this).dialog("close"); 
-				$("#createCharacterForm").submit();
+				var str = $("#startingStr").val() * 1;
+				var dex = $("#startingDex").val() * 1;
+				var intel = $("#startingInt").val() * 1;
+				var wis = $("#startingWis").val() * 1;
+				var vit = $("#startingVit").val() * 1;
+
+				if((str + dex + intel + wis + vit) != 25){
+					$(".selectStats > em").addClass("ui-state-error");
+				}else{
+					$(this).dialog("close"); 
+					$("#createCharacterForm").submit();
+				}
 			}, 
 			
 			Cancel: function() { 
@@ -76,19 +86,12 @@ $(function(){
 			return; 
 		}
 		
-		if((str + dex + intel + wis + vit) != 25){
-			$(".selectStats > em").addClass("ui-state-error");
-			alert("Please use all 25 stat points.");
-			return;
-		}
-		
 		vc.cs.Create(name, gender, pin, race.Id, str, dex, intel, wis, vit, function(r){
 			switch(r.Result){
 				case ER_SUCCESS:
 					vc.cs.List(LoadCharacterList);
-					alert("Your character has been created!");
-					$(".statChooser").val(0);
 					$("#raceSelection").fadeOut(500, function(){ $("#accountSelection").fadeIn(500); });
+					$(".statChooser").val(0);
 					break;
 				case ER_BADDATA:
 				case ER_MALFORMED:
@@ -223,7 +226,7 @@ function LoadCharacterList(list){
 function SelectCharacter(chardata){
 	switch(chardata.Result){
 		case ER_SUCCESS:
-			window.location = "./game.php";
+			$("#accountSelection").fadeOut(500, function(){ window.location = "./game.php"; });
 			break;
 		case ER_BADDATA:
 		case ER_MALFORMED:

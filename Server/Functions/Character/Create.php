@@ -6,6 +6,8 @@
 define('CHANNEL_GENERAL', 'CHAN_00000000000000000000001');
 define('CHANNEL_TRADE', 'CHAN_00000000000000000000002');
 
+define('STARTING_GOLD', '150');
+
 $Get = (object)Array('Data'=>'');
 if(isset($_GET['Data']))
 {
@@ -51,6 +53,7 @@ if(
 			$ACharacter->Wisdom = $ARace->Wisdom + $ACharacter->RacialWisdom;
 			$ACharacter->Vitality = $ARace->Vitality + $ACharacter->RacialVitality;
 			$ACharacter->Health = $ACharacter->Vitality;
+			$ACharacter->Gold = STARTING_GOLD;
 
 			try
 			{
