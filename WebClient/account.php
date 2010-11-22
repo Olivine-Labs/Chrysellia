@@ -281,5 +281,8 @@
 		<script src="./Core/core-CharacterService.js"></script>
 		<script src="./js/startup.js"></script>
 		<script src="./js/account-startup.js"></script>
+		
+		<div id="fb-root"></div>
+		<script src="http://connect.facebook.net/en_US/all.js"></script>
 	</body>
 </html>

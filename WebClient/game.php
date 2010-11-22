@@ -229,5 +229,8 @@
 		<script src="./Core/core-Interface.js"></script>
 		<script src="./js/startup.js"></script>
 		<script src="./js/game-startup.js"></script>
+		
+		<div id="fb-root"></div>
+		<script src="http://connect.facebook.net/en_US/all.js"></script>
 	</body>
 </html>

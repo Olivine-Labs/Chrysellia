@@ -271,3 +271,12 @@ input.watermark {
 .raceList .bigButton .description { font-size: 12pt; font-family: 'Crimson Text', Georgia, 'Times New Roman', serif; }
 .raceList .icon { clear: left; }
 .raceStats { display: block; width: 80px; float: left; }
+
+a.fb_button, a.fb_button:link, a.fb_button:hover, a.fb_button:active {
+	color: #fff;
+	font-family: "lucida grande", tahoma, verdana, arial, sans-serif;
+	font-size: 11px;
+}
+
+.or { display: block; background-color: #eee; border-top: solid 1px #ddd; border-bottom: solid 1px #ddd; padding: 2px 0; text-align: center; margin: .25em 0; }
+.register form, .logIn form { padding-top: .25em; }

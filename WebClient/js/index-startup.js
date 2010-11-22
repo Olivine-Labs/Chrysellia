@@ -3,7 +3,11 @@ $(function(){
 	
 	$("#btnPlayNow, .playNow").click(function(e){
 		e.preventDefault();
-		$("#playNow").dialog("open");
+		if($.cookie("l")=="true"){
+			window.location = "./account.php";
+		}else{
+			$("#playNow").dialog("open");
+		}
 	});
 	
 	
@@ -38,11 +42,11 @@ $(function(){
 		if($("ui-state-error:visible", $(".logIn")).length > 0){
 			return false;
 		}
+		var username = $("#li_username").val();
+		var password = $("#li_password").val();
 		
-		vc.as.Login($("#li_username").val(), $.md5($("#li_password").val()), function(r){
-			ProcessLogin(r.Result);
-		});
-		
+		LogInAccount(username, password);
+
 		return false;
 	});
 	
@@ -52,9 +56,10 @@ $(function(){
 			return false;
 		}
 		
-		vc.as.Login($("#quickLogin_un").val(), $.md5($("#quickLogin_pw").val()), function(r){
-			ProcessLogin(r.Result);
-		});
+		var username = $("#quickLogin_un").val();
+		var password = $("#quickLogin_pw").val();
+		
+		LogInAccount(username, password);
 		
 		return false;
 	});
@@ -103,6 +108,10 @@ $(function(){
 	$("#fblogin").click(function(e){
 		e.preventDefault();
 		
+		var username = "";
+		var password = "";
+		var email = "";
+							
 		FB.getLoginStatus(function(response) {
 			if (!response.session) {
 				FB.login(function(response) {
@@ -110,10 +119,7 @@ $(function(){
 						username = response.session.uid;
 						password = response.session.access_token;
 						
-						vc.as.Login(username, $.md5(password), function(r){
-							ProcessLogin(r.Result);
-						});
-						
+						LogInAccount(username, password);						
 					} else {
 						// cancelled
 					}
@@ -121,33 +127,34 @@ $(function(){
 			}else{
 				username = response.session.uid;
 				password = response.session.access_token;
-				
-				vc.as.Login(username, $.md5(password), function(r){
-					ProcessLogin(r.Result);
-				});
+						
+				LogInAccount(username, password);
 			}
 		});
 	});
 
 });
 
-function ProcessLogin(result){
-	switch(result){
-		case ER_SUCCESS:
-			window.location = "./account.php";
-			break;
-		case ER_BADDATA:
-		case ER_MALFORMED:
-		case ER_DBERROR:
-			alert("Please check login information and try again.");
-			break;
-		case ER_ACCESSDENIED:
-			alert("An account with those credentials was not found.");
-			break;
-		default:
-			alert("An error has occured. Try again later.");
-			break;
-	}
+function LogInAccount(username, password){
+	vc.as.Login(username, $.md5(password), function(r){
+		switch(r.Result){
+			case ER_SUCCESS:
+				$.cookie("l",true)
+				window.location = "./account.php";
+				break;
+			case ER_BADDATA:
+			case ER_MALFORMED:
+			case ER_DBERROR:
+				alert("Please check login information and try again.");
+				break;
+			case ER_ACCESSDENIED:
+				alert("An account with those credentials was not found.");
+				break;
+			default:
+				alert("An error has occured. Try again later.");
+				break;
+		}
+	});
 }
 
 function RegisterAccount(username, password, email){

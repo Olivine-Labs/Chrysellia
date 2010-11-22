@@ -197,8 +197,8 @@ $cookie = get_facebook_cookie(FACEBOOK_APP_ID, FACEBOOK_SECRET);
 		<div id="playNow" style="display:none">
 			<section class="register">
 				<h1>Register</h1>
-				<p><a id="fbregister" href="#">Log in with Facebook</a></p>
-				<p><em>or</em></p>
+				<p><a class="fb_button fb_button_medium" id="fbregister" href="#"><span class="fb_button_text">Log In</span></a> and skip registration!</p>
+				<em class="or">or</em>
 				<form action="submitaction.php" method="post"  id="registerForm">
 					<div class="formRow">
 						<div class="formLabel">
@@ -277,8 +277,8 @@ $cookie = get_facebook_cookie(FACEBOOK_APP_ID, FACEBOOK_SECRET);
 			</section>
 			<section class="logIn">
 				<h1>Log In</h1>
-				<p><a id="fblogin" href="#">Log in with Facebook</a></p>
-				<p><em>or</em></p>
+				<p><a class="fb_button fb_button_medium" id="fblogin" href="#"><span class="fb_button_text">Log In</span></a></p>
+				<em class="or">or</em>
 				<form action="submitaction.php" method="post"  id="loginForm">
 					<div class="formRow">
 						<div class="formLabel">
