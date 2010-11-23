@@ -218,6 +218,7 @@
 		<!-- Data Libraries -->
 		<script src="./Core/staticInfo/races.js"></script>
 		<script src="./Core/staticInfo/maps.js"></script>
+		<script src="./Core/staticInfo/items.js"></script>
 				
 		<!-- For the production version, we'll minify and combine our javascript, and keep a plain version for us -->
 		<script src="./Core/core.js"></script>
@@ -226,6 +227,7 @@
 		<script src="./Core/core-CommandService.js"></script>
 		<script src="./Core/core-ChatService.js"></script>
 		<script src="./Core/core-MapService.js"></script>
+		<script src="./Core/core-ItemService.js"></script>
 		<script src="./Core/core-Interface.js"></script>
 		<script src="./js/startup.js"></script>
 		<script src="./js/game-startup.js"></script>
