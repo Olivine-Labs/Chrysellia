@@ -92,7 +92,7 @@ $(function(){
 					} else {
 						// cancelled
 					}
-				}, {perms:'read_stream,publish_stream,offline_access,email,create_event,user_birthday'});
+				}, {perms:'read_stream,publish_stream,offline_access,email,create_event,usvc.ER_birthday'});
 			}else{
 				username = response.session.uid;
 				password = response.session.access_token;
@@ -138,16 +138,16 @@ $(function(){
 function LogInAccount(username, password){
 	vc.as.Login(username, $.md5(password), function(r){
 		switch(r.Result){
-			case ER_SUCCESS:
+			case vc.ER_SUCCESS:
 				$.cookie("l",true)
 				window.location = "./account.php";
 				break;
-			case ER_BADDATA:
-			case ER_MALFORMED:
-			case ER_DBERROR:
+			case vc.ER_BADDATA:
+			case vc.ER_MALFORMED:
+			case vc.ER_DBERROR:
 				alert("Please check login information and try again.");
 				break;
-			case ER_ACCESSDENIED:
+			case vc.ER_ACCESSDENIED:
 				alert("An account with those credentials was not found.");
 				break;
 			default:
@@ -160,17 +160,17 @@ function LogInAccount(username, password){
 function RegisterAccount(username, password, email){
 	vc.as.Register(username, $.md5(password), email, function(r){
 		switch(r.Result){
-			case ER_SUCCESS:
+			case vc.ER_SUCCESS:
 				vc.as.Login(username, $.md5(password), function(r){
 					ProcessLogin(r.Result);
 				});
 				break;
-			case ER_BADDATA:
-			case ER_MALFORMED:
-			case ER_DBERROR:
+			case vc.ER_BADDATA:
+			case vc.ER_MALFORMED:
+			case vc.ER_DBERROR:
 				alert("Please check username and password requirements and try again.");
 				break;
-			case ER_ALREADYEXISTS:
+			case vc.ER_ALREADYEXISTS:
 				alert("An account with that Facebook login already exists!");
 				break;
 			default:

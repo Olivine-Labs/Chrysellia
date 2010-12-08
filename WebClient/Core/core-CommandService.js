@@ -8,29 +8,28 @@
  */
  
 (function( window, undefined ) {
-	// Commands
-	window.ACTION_EMOTE = 0;
-	window.ACTION_JOINCHANNEL = 1;
-	window.ACTION_CHANNEL_CREATE = 2;
-	window.ACTION_CHANNEL_PART = 3;
-	window.ACTION_CHANNEL_SETRIGHTS = 4;
-	
 	var CommandService = function (){};
 	
 	CommandService = CommandService.prototype = {
+		ACTION_EMOTE: 0,
+		ACTION_JOINCHANNEL: 1,
+		ACTION_CHANNEL_CREATE: 2,
+		ACTION_CHANNEL_PART: 3,
+		ACTION_CHANNEL_SETRIGHTS: 4,
+
 		SendChatCommand: function(channel, command, message, callback){
 			switch(command){
 				case ACTION_EMOTE:
-					responseData = { Action: ACTION_EMOTE, Data: JSON.stringify({ Channel: channel, Message: message }) }
+					responseData = { Action: CommandService.ACTION_EMOTE, Data: JSON.stringify({ Channel: channel, Message: message }) }
 					break;
 				default:
-					callback({ Result: ER_MALFORMED, Data: {} });
+					callback({ Result: V2Core.ER_MALFORMED, Data: {} });
 					return;
 					break;
 			}
 			
 			$.getJSON(
-				SERVERCODE_DIRECTORY + "Commands.php",
+				V2Core.SERVERCODE_DIRECTORY + "Commands.php",
 				responseData,
 				function(data) { callback(data); }
 			);

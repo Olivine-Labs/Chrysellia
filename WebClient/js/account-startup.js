@@ -88,17 +88,17 @@ $(function(){
 		
 		vc.cs.Create(name, gender, pin, race.Id, str, dex, intel, wis, vit, function(r){
 			switch(r.Result){
-				case ER_SUCCESS:
+				case vc.ER_SUCCESS:
 					vc.cs.List(LoadCharacterList);
 					$("#raceSelection").fadeOut(500, function(){ $("#accountSelection").fadeIn(500); });
 					$(".statChooser").val(0);
 					break;
-				case ER_BADDATA:
-				case ER_MALFORMED:
-				case ER_DBERROR:
+				case vc.ER_BADDATA:
+				case vc.ER_MALFORMED:
+				case vc.ER_DBERROR:
 					alert("Please check name length and try again.");
 					break;
-				case ER_ALREADYEXISTS:
+				case vc.ER_ALREADYEXISTS:
 					alert("A character with that name already exists!");
 					break;
 				default:
@@ -213,7 +213,7 @@ function CurrentStatBalance(){
 function LoadCharacterList(list){
 	$login = $("#logIn");
 	$(".character", $login).remove();
-	if(list.Result == ER_SUCCESS){
+	if(list.Result == vc.ER_SUCCESS){
 		$.each(list.Data, function(index, charData) {
 			var c = new Character();
 			c.Construct(charData);
@@ -233,15 +233,15 @@ function LoadCharacterList(list){
 
 function SelectCharacter(chardata){
 	switch(chardata.Result){
-		case ER_SUCCESS:
+		case vc.ER_SUCCESS:
 			$("#accountSelection").fadeOut(500, function(){ window.location = "./game.php"; });
 			break;
-		case ER_BADDATA:
-		case ER_MALFORMED:
-		case ER_DBERROR:
+		case vc.ER_BADDATA:
+		case vc.ER_MALFORMED:
+		case vc.ER_DBERROR:
 			alert("Please check name length and try again.");
 			break;
-		case ER_ACCESSDENIED:
+		case vc.ER_ACCESSDENIED:
 			alert("Incorrect PIN Number.");
 		default:
 			alert("An error has occured. Try again later.");

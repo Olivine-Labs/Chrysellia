@@ -8,15 +8,16 @@
  */
  
 (function( window, undefined ) {
-	window.ACTION_MOVE = 0;
 	
 	var MapService = function (){};
 	
 	MapService = MapService.prototype = {
+		ACTION_MOVE: 0,
+	
 		Move: function(x, y, callback){
 			$.getJSON(
-				SERVERCODE_DIRECTORY + "Map.php",
-				{ Action: ACTION_MOVE, Data: JSON.stringify({ X:x, Y:y }) },
+				V2Core.SERVERCODE_DIRECTORY + "Map.php",
+				{ Action: MapService.ACTION_MOVE, Data: JSON.stringify({ X:x, Y:y }) },
 				function(data) { callback(data); }
 			);
 		}

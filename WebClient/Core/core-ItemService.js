@@ -8,42 +8,43 @@
  */
  
 (function( window, undefined ) {
-	window.EQUIP = 0;
-	window.UNEQUIP = 1;
-	window.SENDTRADE = 2;
-	window.ACCEPTTRADE = 3;
 	
 	var ItemService = function (){};
 	
 	ItemService = ItemService.prototype = {
+		ACTION_EQUIP: 0,
+		ACTION_UNEQUIP: 1,
+		ACTION_SEND_TRADE: 2,
+		ACTION_ACCEPT_TRADE: 3,
+	
 		Equip: function(itemId, callback){
 			$.getJSON(
-				SERVERCODE_DIRECTORY + "Items.php",
-				{ Action: EQUIP, Data: JSON.stringify({ Item: itemId }) },
+				V2Core.SERVERCODE_DIRECTORY + "Items.php",
+				{ Action: ItemService.ACTION_EQUIP, Data: JSON.stringify({ Item: itemId }) },
 				function(data) { callback(data); }
 			);
 		},
 		
 		UnEquip: function(itemId, callback){
 			$.getJSON(
-				SERVERCODE_DIRECTORY + "Items.php",
-				{ Action: UNEQUIP, Data: JSON.stringify({ Item: itemId }) },
+				V2Core.SERVERCODE_DIRECTORY + "Items.php",
+				{ Action: ItemService.ACTION_UNEQUIP, Data: JSON.stringify({ Item: itemId }) },
 				function(data) { callback(data); }
 			);
 		},
 		
 		SendTrade: function(tradeId, callback){
 			$.getJSON(
-				SERVERCODE_DIRECTORY + "Items.php",
-				{ Action: SENDTRADE, Data: JSON.stringify({ Trade: tradeId }) },
+				V2Core.SERVERCODE_DIRECTORY + "Items.php",
+				{ Action: ItemService.ACTION_SEND_TRADE, Data: JSON.stringify({ Trade: tradeId }) },
 				function(data) { callback(data); }
 			);
 		},
 		
 		AcceptTrade: function(tradeId, callback){
 			$.getJSON(
-				SERVERCODE_DIRECTORY + "Items.php",
-				{ Action: ACCEPTTRADE, Data: JSON.stringify({ Trade: tradeId }) },
+				V2Core.SERVERCODE_DIRECTORY + "Items.php",
+				{ Action: ItemService.ACTION_ACCEPT_TRADE, Data: JSON.stringify({ Trade: tradeId }) },
 				function(data) { callback(data); }
 			);
 		},

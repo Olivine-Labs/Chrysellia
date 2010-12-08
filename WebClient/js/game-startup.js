@@ -1,7 +1,5 @@
 $(function(){
 	window.chatTabIndex = 0;
-	window.GENERALCHATID = "CHAN_00000000000000000000001";
-	window.TRADECHATID = "CHAN_00000000000000000000002";
 	
 	vc.cs.GetCurrentCharacter(SelectCharacter);
 	
@@ -23,7 +21,7 @@ $(function(){
 
 	$('#chatChannels span.ui-icon-close').live('click', function() {
 		var channelId = $(".channelId", $($(this).siblings("a").attr("href"))).val();
-		if(channelId != GENERALCHATID && channelId !=  TRADECHATID){
+		if(channelId != vc.ch.StaticRooms["General"] && channelId !=  vc.ch.ChatService.StaticRooms["Trade"]){
 			window.ChatToCloseIndex = $('li',$tabs).index($(this).parent()); 
 			vc.ch.PartChannel(channelId, function(){ $tabs.tabs('remove', window.ChatToCloseIndex); });
 		}
@@ -103,7 +101,7 @@ $(function(){
 });
 
 function RefreshMap(data){
-	if(data.Result == ER_SUCCESS){
+	if(data.Result == vc.ER_SUCCESS){
 		MyCharacter.PositionX = data.Data.X;
 		MyCharacter.PositionY = data.Data.Y;
 		BuildMap();
@@ -115,11 +113,11 @@ function SetEnableMovement(enabled){
 }
 
 function CreateChannel(data){
-	if(data.Result == ER_SUCCESS){
+	if(data.Result == vc.ER_SUCCESS){
 		$("#cc_channelName, #cc_channelMOTD").val('');
 		$("#createChannelForm").dialog("close");
 		AddTab(data.Data.Name, data.Data.ChannelId, data.Data.Motd);
-	}else if(data.Result == ER_ALREADYEXISTS){
+	}else if(data.Result == vc.ER_ALREADYEXISTS){
 		alert("Channel name already exists!");
 	}else{
 		alert("An error has occured.");
@@ -127,7 +125,7 @@ function CreateChannel(data){
 }
 
 function JoinChannel(data){
-	if(data.Result == ER_SUCCESS){
+	if(data.Result == vc.ER_SUCCESS){
 		$("#jc_channelName, #cc_channelMOTD").val('');
 		$("#joinChannelForm").dialog("close");
 		AddTab(data.Data.Name, data.Data.ChannelId, data.Data.Motd);
@@ -145,7 +143,7 @@ function AddTab(title, channelId, motd) {
 }
 
 function FillChat(list){
-	if(list.Result == ER_SUCCESS){
+	if(list.Result == vc.ER_SUCCESS){
 		for(var i in list.Data){
 			InsertChat(list.Data[i], i);
 		}
@@ -159,7 +157,7 @@ function FillChat(list){
 function SelectCharacter(data){
 	window.MyCharacter = new Character();
 	
-	if(data.Result == ER_SUCCESS){
+	if(data.Result == vc.ER_SUCCESS){
 		window.MyCharacter.Construct(data.Data);
 		vc.i.UpdateStats();
 	}else{
@@ -208,13 +206,13 @@ function InsertChat(data, channel){
 		var msg = $("<span class='message' />").text(chatobj.Message);
 		
 		switch(chatobj.Type){
-			case CHAT_TYPE_GENERAL:
+			case vc.ch.CHAT_TYPE_GENERAL:
 				$("<div class='chatMessage'><strong>" + chatobj.FromName + "</strong>: </div>").append(msg).prependTo($chatWindow);
 				break;
-			case CHAT_TYPE_EMOTE:
+			case vc.ch.CHAT_TYPE_EMOTE:
 				$("<div class='chatMessage emote'>" + chatobj.FromName + " </div>").append(msg).prependTo($chatWindow);
 				break;
-			case CHAT_TYPE_MOTD: //motd
+			case vc.ch.CHAT_TYPE_MOTD: //motd
 				$("<div class='chatMessage motd'></div>").append(msg).prependTo($chatWindow);
 				break;
 			default:
@@ -233,7 +231,7 @@ function SubmitMessage(){
 		vc.ch.SendMessageToChannel(MyCharacter.CurrentChannel, message, function(){});
 		InsertChat([{ "Type": msgobj.Type, "FromName": MyCharacter.Name, "Message": msgobj.Message }], window.MyCharacter.CurrentChannel);
 	}else{
-		if(msgobj.Type = ACTION_CHANNEL_SETRIGHTS){
+		if(msgobj.Type = cmd.ACTION_CHANNEL_SETRIGHTS){
 			var rights = vc.ch.Utilities.ParseRights(msgobj.Message);
 			vc.ch.SetRights(window.MyCharacter.CurrentChannel, rights.Character, rights.Rights, function(){});
 		}

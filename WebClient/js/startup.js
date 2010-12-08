@@ -1,5 +1,5 @@
 $(function(){
-	SERVERCODE_DIRECTORY = "./Server/";
+	V2Core.SERVERCODE_DIRECTORY = "./Server/";
 
 	vc.CheckVersion(function(v){ if(v !== vc.Version) { alert("Your game file cache is out of date.\nPlease clear your browser's cache."); }  });
 
