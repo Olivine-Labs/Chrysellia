@@ -4,6 +4,7 @@ namespace Database\MySQL;
 
 define('SQL_GETCELL', 'SELECT `isBlocked`, `placeId`, `isPvp` FROM `map_places` WHERE `mapId`=? AND `positionX`=? AND `positionY`=?');
 define('SQL_GETMAP', 'SELECT `name`, `dimensionX`, `dimensionY`, `minLevel`, `maxLevel`, `minAlign`, `maxAlign` FROM `maps` WHERE `mapId`=?');
+define('SQL_INSERTCELL', 'INSERT INTO `map_places` (`mapId`, `placeId`, `positionX`, `positionY`, `isBlocked`, `isPvp`) VALUES (?, ?, ?, ?, ?, ?) ON DUPLICATE KEY UPDATE `placeId`=?, `isBlocked`=?, `isPvp=?`');
 
 /**
  * Abstract class that holds definitions for map query functions
