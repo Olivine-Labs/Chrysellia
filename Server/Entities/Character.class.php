@@ -454,15 +454,15 @@ class Character
 		{
 			if($this->RacialStrength + $this->RacialDexterity + $this->RacialIntelligence + $this->RacialWisdom + $this->RacialVitality != 25)
 			{
-				return false;	
+				return false;
 			}
 
 			if(
-				($RacialStrength + $ARace->Strength > $ARace->StrengthMax) ||
-				($RacialDexterity + $ARace->Dexterity > $ARace->DexterityMax) ||
-				($RacialIntelligence + $ARace->Intelligence > $ARace->IntelligenceMax) ||
-				($RacialWisdom + $ARace->Wisdom > $ARace->WisdomMax) ||
-				($RacialVitality + $ARace->Vitality > $ARace->VitalityMax)
+				($this->RacialStrength + $ARace->Strength > $ARace->StrengthMax) ||
+				($this->RacialDexterity + $ARace->Dexterity > $ARace->DexterityMax) ||
+				($this->RacialIntelligence + $ARace->Intelligence > $ARace->IntelligenceMax) ||
+				($this->RacialWisdom + $ARace->Wisdom > $ARace->WisdomMax) ||
+				($this->RacialVitality + $ARace->Vitality > $ARace->VitalityMax)
 			){
 				return false;
 			}
