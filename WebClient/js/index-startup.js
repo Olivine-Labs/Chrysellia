@@ -94,14 +94,11 @@ $(function(){
 					}
 				}, {perms:'read_stream,publish_stream,offline_access,email,create_event,user_birthday'});
 			}else{
-				alert("gotsession: 3b");
 				username = response.session.uid;
 				password = response.session.access_token;
 				
 				FB.api('/me', function(response) {
-					alert("gotsession: [" + username + "] [" + password + "]");
 					email = response.email;
-					alert("email: [" + email + "]");
 					RegisterAccount(username, password, email);
 				});
 			}

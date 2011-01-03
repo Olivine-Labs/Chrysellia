@@ -74,7 +74,7 @@ if(
 								{
 									if($Database->Chat->SetRights($ACharacter, CHANNEL_TRADE, Array('Read'=>1, 'Write'=>1, 'Moderate'=>0, 'Administrate'=>0, 'isJoined' =>1)))
 									{
-										if($Database->Items->InsertInventoryForCharacter($Character))
+										if($Database->Items->InsertInventoryForCharacter($ACharacter))
 										{
 											if($DefaultItemsList = $Database->Items->LoadRaceDefaultItems($ARace))
 											{
@@ -82,7 +82,7 @@ if(
 												$Index = 0;
 												while(($Run) && ($Index < count($DefaultItemsList)))
 												{
-													if(($Database->Items->Insert($DefaultItemsList[$Index]))
+													if(($Database->Items->Insert($DefaultItemsList[$Index])))
 													{
 														$Run = false;
 													}

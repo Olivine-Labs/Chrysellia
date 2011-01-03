@@ -252,6 +252,10 @@ function LoadCharacterList(list){
 			$('<div class="character"><input type="hidden" value="' + c.CharacterId + '" class="c_id" /><input type="hidden" value="' + c.HasPin + '" class="c_haspin" /><a class="button bigButton" href="#"><span class="characterPortrait ' + c.RaceName().replace(/ /g,'') + '"></span><span class="characterName">' + c.Name + '</span> <span class="characterStats">Lvl ' + level + ' ' + c.AlignName() + c.RaceName() + '</span><ul class="recentActivity"><li class="ra_gold"><span class="icon gold"></span><span>' + c.Gold + '</span></li><li class="ra_location">Located at ' + x + ', ' + y + ' ' + c.CurrentMap.Name + '</li><li class="ra_created">Created: ' + c.CreatedOn + '</li></ul></a></div>').appendTo($login);
 		});
 	}else{
+		if($.cookie("l")=="true"){
+			vc.as.Logout(Logout);
+		}
+		
 		alert("Please login again.");
 		window.location = "./index.php";
 	}
