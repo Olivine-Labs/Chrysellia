@@ -279,6 +279,7 @@
 		<script src="./Core/core.js"></script>
 		<script src="./Core/core-AccountService.js"></script>
 		<script src="./Core/core-CharacterService.js"></script>
+		<script src="./js/jquery.ba-bbq.min.js"></script>
 		<script src="./js/startup.js"></script>
 		<script src="./js/account-startup.js"></script>
 		
