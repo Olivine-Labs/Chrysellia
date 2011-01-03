@@ -82,10 +82,11 @@ if(
 												$Index = 0;
 												while(($Run) && ($Index < count($DefaultItemsList)))
 												{
-													if(($Database->Items->Insert($DefaultItemsList[$Index])))
+													if($Database->Items->Insert($DefaultItemsList[$Index]))
 													{
 														$Run = false;
 													}
+													$Index++;
 												}
 												if($Run)
 													$Success = true;
