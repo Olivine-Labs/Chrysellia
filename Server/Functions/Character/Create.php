@@ -5,6 +5,9 @@
 
 define('CHANNEL_GENERAL', 'CHAN_00000000000000000000001');
 define('CHANNEL_TRADE', 'CHAN_00000000000000000000002');
+define('IT_CONSUMABLE', 0);
+define('IT_SOCKETABLE', 1);
+define('IT_EQUIPPABLE', 2);
 
 define('STARTING_GOLD', '150');
 
@@ -57,7 +60,7 @@ if(
 
 			try
 			{
-				//$Database->startTransaction();
+				$Database->startTransaction();
 				$Success = false;
 				if($Database->Characters->Insert($ACharacter))
 				{
@@ -71,7 +74,23 @@ if(
 								{
 									if($Database->Chat->SetRights($ACharacter, CHANNEL_TRADE, Array('Read'=>1, 'Write'=>1, 'Moderate'=>0, 'Administrate'=>0, 'isJoined' =>1)))
 									{
-										$Success = true;
+										if($Database->Items->InsertInventoryForCharacter($Character))
+										{
+											if($DefaultItemsList = $Database->Items->LoadRaceDefaultItems($ARace))
+											{
+												$Run = true;
+												$Index = 0;
+												while(($Run) && ($Index < count($DefaultItemsList)))
+												{
+													if(($Database->Items->Insert($DefaultItemsList[$Index]))
+													{
+														$Run = false;
+													}
+												}
+												if($Run)
+													$Success = true;
+											}
+										}
 									}
 								}
 							}

@@ -82,7 +82,7 @@ abstract class Database
 	 *   The Password for the UserName provided
 	 *
 	 * @param $Database
-	 *   The Database which contains the Neflaria tables
+	 *   The Database which contains the Chrysellia tables
 	 *
 	 * @throws Exception
 	 */
