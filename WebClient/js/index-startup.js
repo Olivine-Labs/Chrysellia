@@ -137,23 +137,7 @@ $(function(){
 
 function LogInAccount(username, password){
 	vc.as.Login(username, $.md5(password), function(r){
-		switch(r.Result){
-			case vc.ER_SUCCESS:
-				$.cookie("l",true)
-				window.location = "./account.php";
-				break;
-			case vc.ER_BADDATA:
-			case vc.ER_MALFORMED:
-			case vc.ER_DBERROR:
-				alert("Please check login information and try again.");
-				break;
-			case vc.ER_ACCESSDENIED:
-				alert("An account with those credentials was not found.");
-				break;
-			default:
-				alert("An error has occured. Try again later.");
-				break;
-		}
+		ProcessLogin(r.Result);
 	});
 }
 
@@ -178,4 +162,24 @@ function RegisterAccount(username, password, email){
 				break;
 		}
 	});
+}
+
+function ProcessLogin(result){
+	switch(result){
+		case vc.ER_SUCCESS:
+			$.cookie("l",true)
+			window.location = "./account.php";
+			break;
+		case vc.ER_BADDATA:
+		case vc.ER_MALFORMED:
+		case vc.ER_DBERROR:
+			alert("Please check login information and try again.");
+			break;
+		case vc.ER_ACCESSDENIED:
+			alert("An account with those credentials was not found.");
+			break;
+		default:
+			alert("An error has occured. Try again later.");
+			break;
+	}
 }
