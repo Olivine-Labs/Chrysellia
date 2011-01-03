@@ -3,7 +3,7 @@ $(function(){
 	
 	vc.cs.GetCurrentCharacter(SelectCharacter);
 	
-	$("#chatForm").submit(function(e){
+	$("#chatForm").bind("submit", function(e){
 		e.preventDefault();
 		SubmitMessage();
 	});
@@ -30,7 +30,7 @@ $(function(){
 	$("#createChannelForm").dialog({ autoOpen: false, title:"Create Chat Channel", width: 400 });
 	$("#joinChannelForm").dialog({ autoOpen: false, title:"Join Chat Channel", width: 400 });
 	
-	$("#createChannelForm form").submit(function(e){
+	$("#createChannelForm form").bind("submit", function(e){
 		e.preventDefault();
 		
 		var channelName = $("#cc_channelName").val();
@@ -39,19 +39,19 @@ $(function(){
 		vc.ch.CreateChannel(channelName, channelMotd, CreateChannel)
 	});
 	
-	$("#joinChannelForm form").submit(function(e){
+	$("#joinChannelForm form").bind("submit", function(e){
 		e.preventDefault();
 		var channelName = $("#jc_channelName").val();
 		vc.ch.JoinChannel(channelName, JoinChannel);
 	});
 	
-	$("#quickLoginForm .button").click(function(e){
+	$("#quickLoginForm .button").bind("click", function(e){
 		e.preventDefault();
 		vc.as.Logout(Logout);
 	});
 	
-	$("#createChannelLink").click(function(){ $("#createChannelForm").dialog("open"); });
-	$("#joinChannelLink").click(function(){ $("#joinChannelForm").dialog("open"); });
+	$("#createChannelLink").bind("click", function(){ $("#createChannelForm").dialog("open"); });
+	$("#joinChannelLink").bind("click", function(){ $("#joinChannelForm").dialog("open"); });
 	
 	$("#moveNW").button({ icons: { primary: "ui-icon-arrowthick-1-nw" }, text: false });
 	$("#moveN").button({ icons: { primary: "ui-icon-arrowthick-1-n" }, text: false });
@@ -63,7 +63,7 @@ $(function(){
 	$("#moveSE").button({ icons: { primary: "ui-icon-arrowthick-1-se" }, text: false });
 	$("#moveLook").button({ icons: { primary: "ui-icon-search" }, text: false });
 	
-	$("#movementform button").click(function(e){
+	$("#movementform button").bind("click", function(e){
 		e.preventDefault();
 		$this = $(this);
 		
@@ -94,7 +94,7 @@ $(function(){
 		}
 	});
 	
-	$(".accountActions .logOut").click(function(e){
+	$(".accountActions .logOut").bind("click", function(e){
 		e.preventDefault();
 		vc.as.Logout(Logout);
 	});

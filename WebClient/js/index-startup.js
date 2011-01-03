@@ -1,7 +1,7 @@
 $(function(){
 	$("#playNow").dialog({ modal: true, title: "Register or Log In", width: 600, autoOpen: false });
 	
-	$("#btnPlayNow, .playNow").click(function(e){
+	$("#btnPlayNow, .playNow").bind("click", function(e){
 		e.preventDefault();
 		if($.cookie("l")=="true"){
 			window.location = "./account.php";
@@ -11,7 +11,7 @@ $(function(){
 	});
 	
 	
-	$("#registerForm").submit(function(e){
+	$("#registerForm").bind("submit", function(e){
 		e.preventDefault();
 		var validRegistration = true;
 		var username = $("#ca_username").val();
@@ -36,7 +36,7 @@ $(function(){
 		return false;
 	});
 	
-	$("#loginForm").submit(function(e){
+	$("#loginForm").bind("submit", function(e){
 		e.preventDefault();
 		
 		if($("ui-state-error:visible", $(".logIn")).length > 0){
@@ -50,7 +50,7 @@ $(function(){
 		return false;
 	});
 	
-	$("#quickLoginForm").submit(function(e){
+	$("#quickLoginForm").bind("submit", function(e){
 		e.preventDefault();
 		if($("ui-state-error:visible", $("#topLoginForm")).length > 0){
 			return false;
@@ -66,7 +66,7 @@ $(function(){
 	
 	FB.init({appId: '119442588120693', status: true, cookie: true, xfbml: true});
 
-	$("#fbregister").click(function(e){
+	$("#fbregister").bind("click", function(e){
 		e.preventDefault();
 		
 		var username = "";
@@ -108,7 +108,7 @@ $(function(){
 		});
 	});
 
-	$("#fblogin").click(function(e){
+	$("#fblogin").bind("click", function(e){
 		e.preventDefault();
 		
 		var username = "";

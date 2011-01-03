@@ -103,8 +103,8 @@
 								</div>
 								<div class="formInput">
 									<input type="text" id="c_fn" placeholder="Character Name" />
-									<!--<input type="text" id="c_mn" placeholder="Middle Name" />
-									<input type="text" id="c_ln" placeholder="Last Name" />-->
+									<span id="c_checkName_status"></span>
+									<a href="#" id="c_checkName">Check Name</a>
 								</div>
 								<div class="formValidator">
 									<span id="c_name_validator"></span>
@@ -155,7 +155,7 @@
 							<div class="formRow">
 								<div class="formLabel"></div>
 								<div class="formInput">
-									<a href="#" id="submitCreateAccount" class="button createAccount">Continue</a>
+									<button id="submitCreateAccount" class="button createAccount" type="submit">Continue</button>
 								</div>
 							</div>
 						</div>

@@ -34,10 +34,10 @@
 			);
 		},
 		
-		CheckName: function(firstName, middleName, lastName, callback){
+		CheckName: function(name, callback){
 			$.getJSON(
 				V2Core.SERVERCODE_DIRECTORY + "Character.php",
-				{ Action: CharacterService.ACTION_CHECKNAME, Data: JSON.stringify({ FirstName: firstName, MiddleName: middleName, LastName: lastName }) },
+				{ Action: CharacterService.ACTION_CHECKNAME, Data: JSON.stringify({ Name: name }) },
 				function(data) { callback(data); }
 			);
 		},

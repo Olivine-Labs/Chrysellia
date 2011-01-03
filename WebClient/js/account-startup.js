@@ -41,7 +41,7 @@ $(function(){
 		} 
 	});
 	
-	$(".raceList a").click(function(e){
+	$(".raceList a").bind("click", function(e){
 		e.preventDefault();
 		var $this = $(this);
 		var id = $this.children(".r_id").val();
@@ -57,7 +57,7 @@ $(function(){
 		$("#statSelection").dialog("open");
 	});
 	
-	$("#submitCreateAccount").click(function(e){
+	$("#submitCreateAccount").bind("click", function(e){
 		e.preventDefault();
 		
 		var name = $("#c_fn").val();
@@ -66,9 +66,9 @@ $(function(){
 		}
 	});
 	
-	$("#cancelCreation a ").click(function(e){ e.preventDefault(); $("#raceSelection").fadeOut(500, function(){ $("#accountSelection").fadeIn(500); }); });
+	$("#cancelCreation a ").bind("click", function(e){ e.preventDefault(); $("#raceSelection").fadeOut(500, function(){ $("#accountSelection").fadeIn(500); }); });
 	
-	$("#createCharacterForm").submit(function(e){
+	$("#createCharacterForm").bind("submit", function(e){
 		e.preventDefault();
 
 		var name = $("#c_fn").val();
@@ -125,7 +125,7 @@ $(function(){
 	
 	$(".raceSelection").css({ display: "none" });
 	
-	$("#c_race").change(function(){
+	$("#c_race").bind("change", function(){
 		var race = window.Races[$(this).val()];
 		$("#baseStr").text(race.Str);
 		$("#baseDex").text(race.Dex);
@@ -140,22 +140,48 @@ $(function(){
 		$("#raceVitMax").text(race.VitMax);
 	});
 	
-	$(".selectStats .formInput input").change(function(e){
+	$(".selectStats .formInput input").bind("change", function(e){
 		UpdateCreateCharacterStats($(this), e);
 	});
 	
-	$(".selectStats .formInput button").click(function(e){
+	$(".selectStats .formInput button").bind("click", function(e){
 		e.preventDefault();
 		UpdateCreateCharacterStats($(this), e);
 	});
 	
-	$("#quickLoginForm .button").click(function(e){
+	$("#quickLoginForm .button").bind("click", function(e){
 		e.preventDefault();
 		vc.as.Logout(Logout);
 	});
 	
+	$("#c_checkName").bind("click", function(e){
+		e.preventDefault();
+		var name = $("#c_fn").val();
+		
+		if(name == "Character Name"){
+			name = "";
+		}
+		
+		if(name.length > 3 && name.length < 50){
+			vc.cs.CheckName($("#c_fn").val(), UpdateNameAvailability);
+		}else{
+			$("#c_checkName_status").removeClass("available").addClass("unavailable");
+		}
+	});
+	
 	vc.cs.List(LoadCharacterList);
 });
+
+function UpdateNameAvailability(r){
+	switch(r.Result){
+		case vc.ER_SUCCESS:
+			$("#c_checkName_status").removeClass("unavailable").addClass("available");
+			break;
+		default:
+			$("#c_checkName_status").removeClass("available").addClass("unavailable");
+			break;
+	}
+}
 
 function Logout(data){
 	FB.getLoginStatus(function(response) {

@@ -16,7 +16,8 @@ try
 	){
 		$Character = new \Entities\Character();
 		$Character->Name = $Get->Name;
-		if($Character->Verify())
+		$Race = new \Entities\Race();
+		if($Character->Verify($Race))
 		{
 			if(!$Database->Characters->CheckName($Character))
 				$Result->Set('Result', \Protocol\Result::ER_SUCCESS);
