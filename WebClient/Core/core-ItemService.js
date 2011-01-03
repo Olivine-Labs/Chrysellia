@@ -12,10 +12,19 @@
 	var ItemService = function (){};
 	
 	ItemService = ItemService.prototype = {
-		ACTION_EQUIP: 0,
-		ACTION_UNEQUIP: 1,
-		ACTION_SEND_TRADE: 2,
-		ACTION_ACCEPT_TRADE: 3,
+		ACTION_GETINVENTORY: 0,
+		ACTION_EQUIP: 1,
+		ACTION_UNEQUIP: 2,
+		ACTION_SEND_TRADE: 3,
+		ACTION_ACCEPT_TRADE: 4,
+		
+		GetInventory: function(callback){
+			$.getJSON(
+				V2Core.SERVERCODE_DIRECTORY + "Items.php",
+				{ Action: ItemService.ACTION_GETINVENTORY, Data: JSON.stringify({ }) },
+				function(data) { callback(data); }
+			);
+		}
 	
 		Equip: function(itemId, callback){
 			$.getJSON(
@@ -33,10 +42,10 @@
 			);
 		},
 		
-		SendTrade: function(tradeId, callback){
+		SendTrade: function(itemId, gold, playerName, callback){
 			$.getJSON(
 				V2Core.SERVERCODE_DIRECTORY + "Items.php",
-				{ Action: ItemService.ACTION_SEND_TRADE, Data: JSON.stringify({ Trade: tradeId }) },
+				{ Action: ItemService.ACTION_SEND_TRADE, Data: JSON.stringify({ Item: itemId, Gold: gold, Player: playerName }) },
 				function(data) { callback(data); }
 			);
 		},
