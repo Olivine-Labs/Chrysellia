@@ -237,7 +237,7 @@ input.watermark {
 .emote { font-style: italic; }
 #chatForm a.button { margin-right: .5em; }
 .statLabel { font-weight: bold; }
-.stat { margin: .25em 0; width: 50%; float: left; }
+.stat { margin: .25em 0; }
 .stat.name, .stat.level { width: 100%; clear: both; }
 #bottom { margin-bottom: 1em; overflow: auto; }
 #chatForm {
@@ -250,14 +250,14 @@ input.watermark {
 .game .copyright { font-size: .75em; }
 .motd { font-size: 1.1em; font-weight: bold; color: #C08826; }
 .chatMessage{ font-size: 1.1em; line-height: 1.35em; }
-#currentMap { background: transparent url(images/town1.png) top left no-repeat; float: left; }
+#currentMap { background: transparent url(images/town1.png) top left no-repeat; float: left; overflow: hidden; }
 #movement td { padding: 0 0 1px 1px; font-size: 9pt; }
 #currentMap td { border: none; border-collapse: collapse; height: 30px; width: 30px; }
 #currentMap tr { height: 30px; }
 .mapData { font-family: 'DejaWeb', Arial, Helvetica, sans-serif; padding: 0; margin: 0; height: 30px; width: 30px; display: block; text-align: center; }
 .ra_created { font-size: .75em; font-style: italic; }
 .character li.ra_gold { font-size: 18pt; }
-.icon { display: inline-block; height: 24px; width: 24px; margin-right: 6px; text-indent: 1000000%; overflow: hidden; }
+.icon { display: inline-block; height: 24px; margin-right: 6px; padding-left: 32px; padding-top: 5px; }
 .icon.str { background: transparent url(images/stricon.png) top left no-repeat; }
 .icon.dex { background: transparent url(images/dexicon.png) top left no-repeat; }
 .icon.vit { background: transparent url(images/viticon.png) top left no-repeat; }
@@ -271,6 +271,9 @@ input.watermark {
 .raceList .bigButton .description { font-size: 12pt; font-family: 'Crimson Text', Georgia, 'Times New Roman', serif; }
 .raceList .icon { clear: left; }
 .raceStats { display: block; width: 80px; float: left; }
+#statsWindow .statLabel { width: 105px; }
+#statsWindow .stat:nth-child(even) { background: #eee; }
+#myCharacter_Experience { width:100%; height: 15px; display: inline-block; }
 
 a.fb_button, a.fb_button:link, a.fb_button:hover, a.fb_button:active {
 	color: #fff;
@@ -284,3 +287,5 @@ a.fb_button, a.fb_button:link, a.fb_button:hover, a.fb_button:active {
 #c_checkName_status { height: 14px; width: 14px; display: inline-block; background-color: #ccc; position: relative; top: 2px; }
 #c_checkName_status.available { background-color: #090; }
 #c_checkName_status.unavailable { background-color: #900; }
+.statLabel.gold { overflow: hidden; text-indent: 100000px; display: inline-block; width: 24px; padding: 0; }
+#myCharacter_Gold { position: relative; top: -7px; }

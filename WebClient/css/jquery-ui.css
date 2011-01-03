@@ -70,8 +70,8 @@
 .ui-state-default a, .ui-state-default a:link, .ui-state-default a:visited { color: #d7d4c7; text-decoration: none; }
 .ui-state-hover, .ui-widget-content .ui-state-hover, .ui-widget-header .ui-state-hover, .ui-state-focus, .ui-widget-content .ui-state-focus, .ui-widget-header .ui-state-focus { border: 1px solid #c08826; background: #494239 url(images/ui-bg_diagonals-thick_15_494239_40x40.png) 50% 50% repeat; font-weight: normal; color: #d7d4c7; }
 .ui-state-hover a, .ui-state-hover a:hover { color: #d7d4c7; text-decoration: none; }
-.ui-state-active, .ui-widget-content .ui-state-active, .ui-widget-header .ui-state-active { border: 1px solid #aaaaaa; background: #ffffff url(images/greypattern.png) 50% 50% repeat-x; font-weight: normal; color: #212121; }
-.ui-state-active a, .ui-state-active a:link, .ui-state-active a:visited { color: #212121; text-decoration: none; }
+.ui-state-active, .ui-widget-content .ui-state-active, .ui-widget-header .ui-state-active { border: 1px solid #aaaaaa; background: #ffffff url(images/greypattern.png) 50% 50% repeat-x; font-weight: normal; color: #fff; }
+.ui-state-active a, .ui-state-active a:link, .ui-state-active a:visited { color: #fff; text-decoration: none; }
 .ui-widget :active { outline: none; }
 
 /* Interaction Cues
@@ -492,6 +492,8 @@ button.ui-button::-moz-focus-inner { border: 0; padding: 0; } /* reset extra pad
 .ui-tabs .ui-tabs-nav li a, .ui-tabs.ui-tabs-collapsible .ui-tabs-nav li.ui-tabs-selected a { cursor: pointer; } /* first selector in group seems obsolete, but required to overcome bug in Opera applying cursor: text overall if defined elsewhere... */
 .ui-tabs .ui-tabs-panel { display: block; border-width: 0; padding: 1em 1.4em; background: none; }
 .ui-tabs .ui-tabs-hide { display: none !important; }
+.ui-tabs-nav .ui-state-active { background: #fff; color: #000; }
+.ui-tabs-nav .ui-state-active  a {color: #000; font-weight: bold; }
 /*
  * jQuery UI Datepicker 1.8.7
  *

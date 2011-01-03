@@ -1,6 +1,8 @@
 $(function(){
 	window.chatTabIndex = 0;
 	
+	$("#myCharacter_Experience").progressbar();
+	
 	vc.cs.GetCurrentCharacter(SelectCharacter);
 	
 	$("#chatForm").bind("submit", function(e){
@@ -94,9 +96,20 @@ $(function(){
 		}
 	});
 	
+	$("#statsWindow").dialog({ title: "Character Stats", autoOpen: false });
+	$("#itemsWindow").dialog({ title: "Inventory", modal: true, autoOpen: false});
+	
 	$(".accountActions .logOut").bind("click", function(e){
 		e.preventDefault();
 		vc.as.Logout(Logout);
+	});
+	
+	$("#statsWindowButton").bind("click", function(e){
+		$("#statsWindow").dialog("open");
+	});
+	
+	$("#itemsWindowButton").bind("click", function(e){
+		$("#itemsWindow").dialog("open");
 	});
 });
 

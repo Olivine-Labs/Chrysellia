@@ -56,6 +56,10 @@
 				{ Action: CharacterService.ACTION_GETCURRENTCHARACTER, Data: JSON.stringify({ }) },
 				function(data) { callback(data); }
 			);
+		},
+		
+		GetNextLevelExperienceRequirement: function(level){
+			return level*100;
 		}
 	}
 	

@@ -72,34 +72,15 @@
 								<span id="myCharacter_Level"></span></h2>
 							</div>
 							<div class="stat exp">
-								<span class="statLabel" title="Experience">Exp</span>
-								<span id="myCharacter_Experience"></span>
+								<div id="myCharacter_Experience"></div>
 							</div>
 							<div class="stat gold">
 								<span class="statLabel icon gold" title="Gold">Gold</span>
 								<span id="myCharacter_Gold"></span>
 							</div>
-							<div class="stat str">
-								<span class="statLabel icon str" title="Strength">Str</span>
-								<span id="myCharacter_Strength"></span>
-							</div>
-							<div class="stat dex">
-								<span class="statLabel icon dex" title="Dexterity">Dex</span>
-								<span id="myCharacter_Dexterity"></span>
-							</div>
-							<div class="stat wis">
-								<span class="statLabel icon wis" title="Wisdom">Wis</span>
-								<span id="myCharacter_Wisdom"></span>
-							</div>
-							<div class="stat int">
-								<span class="statLabel icon int" title="Intelligence">Int</span>
-								<span id="myCharacter_Intelligence"></span>
-							</div>
-							<div class="stat vit">
-								<span class="statLabel icon vit" title="Vitality">Vit</span>
-								<span id="myCharacter_Vitality"></span>
-							</div>
 						</section>
+						<a href="#" class="button stats" id="statsWindowButton">Stats</a>
+						<a href="#" class="button items" id="itemsWindowButton">Items</a>
 					</div>
 					
 					<div id="topCenter" class="container top grid_6">
@@ -107,7 +88,7 @@
 					</div>
 					
 					<section id="topRight" class="container top grid_3">
-						<h1><span id="currentMapName"></span></h1>
+						<h1 id="currentMapName"></h1>
 						<table id="currentMap"></table>
 						<form action="submitaction.php" id="movementform">
 							<input type="hidden" value="move">
@@ -136,7 +117,7 @@
 				
 				<div id="bottom" class="grid_12 bottom">
 					<form action="submitaction.php" id="chatForm" class="CHAN_00000000000000000000001">
-						<input type="hidden" value="chat">
+						<input type="hidden" value="chat" class="button">
 						Say: 
 						<input type="text" id="chatInput" style="width: 400px;" />
 						<input type="submit" value="Send">
@@ -190,6 +171,33 @@
 					<div class="formInput"><button type="submit" class="button">Join</button></div>
 				</div>
 			</form>
+		</div>
+		
+		<div style="hidden" id="statsWindow" style="display: none;">
+			<div class="stat str">
+				<span class="statLabel icon str" title="Strength">Strength</span>
+				<span id="myCharacter_Strength"></span>
+			</div>
+			<div class="stat dex">
+				<span class="statLabel icon dex" title="Dexterity">Dexterity</span>
+				<span id="myCharacter_Dexterity"></span>
+			</div>
+			<div class="stat wis">
+				<span class="statLabel icon wis" title="Wisdom">Wisdom</span>
+				<span id="myCharacter_Wisdom"></span>
+			</div>
+			<div class="stat int">
+				<span class="statLabel icon int" title="Intelligence">Intelligence</span>
+				<span id="myCharacter_Intelligence"></span>
+			</div>
+			<div class="stat vit">
+				<span class="statLabel icon vit" title="Vitality">Vitality</span>
+				<span id="myCharacter_Vitality"></span>
+			</div>
+		</div>
+		
+		<div style="hidden" id="itemsWindow" style="display: none;">
+			
 		</div>
 		
 		<!--[if IE 8]>
