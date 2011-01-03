@@ -72,8 +72,8 @@ $(function(){
 		var username = "";
 		var password = "";
 		var email = "";
-					
-		FB.getLoginStatus(function(response) {
+		
+		FB.getLoginStatus(function(response) {			
 			if (!response.session) {
 				FB.login(function(response) {
 					
@@ -92,13 +92,16 @@ $(function(){
 					} else {
 						// cancelled
 					}
-				}, {perms:'read_stream,publish_stream,offline_access,email,create_event,usvc.ER_birthday'});
+				}, {perms:'read_stream,publish_stream,offline_access,email,create_event,user_birthday'});
 			}else{
+				alert("gotsession: 3b");
 				username = response.session.uid;
 				password = response.session.access_token;
 				
 				FB.api('/me', function(response) {
+					alert("gotsession: [" + username + "] [" + password + "]");
 					email = response.email;
+					alert("email: [" + email + "]");
 					RegisterAccount(username, password, email);
 				});
 			}
