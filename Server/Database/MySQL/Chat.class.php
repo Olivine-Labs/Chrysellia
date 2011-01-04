@@ -129,6 +129,10 @@ class Chat extends \Database\Chat
 		{
 			$Query->bind_result($Result[$Index]['Message'], $Result[$Index]['FromName'], $Result[$Index]['Type'], $Result[$Index]['SentOn']);
 			$Continue = $Query->Fetch();
+			if($Result[$Index]['Type'] == 2)
+			{
+				$Result[$Index]['Message'] = unserialize($Result[$Index]['Message']);
+			}
 			$Index ++;
 		}
 
