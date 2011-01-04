@@ -3,11 +3,17 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Jan 04, 2011 at 12:57 AM
+-- Generation Time: Jan 03, 2011 at 09:20 PM
 -- Server version: 5.1.36
 -- PHP Version: 5.3.0
 
 SET SQL_MODE="NO_AUTO_VALUE_ON_ZERO";
+
+
+/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
+/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
+/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
+/*!40101 SET NAMES utf8 */;
 
 --
 -- Database: `chrysellia`
@@ -173,34 +179,6 @@ CREATE TABLE IF NOT EXISTS `character_achievements` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `character_equipment`
---
-
-CREATE TABLE IF NOT EXISTS `character_equipment` (
-  `characterId` char(28) NOT NULL,
-  `armor` char(28) DEFAULT NULL,
-  `rightHand` char(28) DEFAULT NULL,
-  `leftHand` char(28) DEFAULT NULL,
-  `spell1` char(28) DEFAULT NULL,
-  `spell2` char(28) DEFAULT NULL,
-  `accessory` char(28) DEFAULT NULL,
-  PRIMARY KEY (`characterId`),
-  UNIQUE KEY `armor` (`armor`),
-  UNIQUE KEY `rightHand` (`rightHand`),
-  UNIQUE KEY `leftHand` (`leftHand`),
-  UNIQUE KEY `spell1` (`spell1`),
-  UNIQUE KEY `spell2` (`spell2`),
-  UNIQUE KEY `accessory` (`accessory`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
---
--- Dumping data for table `character_equipment`
---
-
-
--- --------------------------------------------------------
-
---
 -- Table structure for table `character_locations`
 --
 
@@ -304,11 +282,6 @@ CREATE TABLE IF NOT EXISTS `character_traits` (
   `wisdom` int(10) unsigned NOT NULL DEFAULT '0',
   `vitality` int(10) unsigned NOT NULL DEFAULT '0',
   `health` int(10) unsigned NOT NULL DEFAULT '0',
-  `rightHandClass` float NOT NULL DEFAULT '0',
-  `leftHandClass` float NOT NULL DEFAULT '0',
-  `spell1Class` float NOT NULL DEFAULT '0',
-  `spell2Class` float NOT NULL DEFAULT '0',
-  `armorClass` float NOT NULL DEFAULT '0',
   `experienceBonus` int(11) NOT NULL DEFAULT '0',
   `alignBonus` int(11) NOT NULL DEFAULT '0',
   `strengthBonus` int(11) NOT NULL DEFAULT '0',
@@ -469,7 +442,7 @@ CREATE TABLE IF NOT EXISTS `inventories` (
   `inventoryId` char(28) NOT NULL,
   `characterId` char(28) DEFAULT NULL,
   `clanId` char(28) DEFAULT NULL,
-  `maxSlots` int(10) unsigned NOT NULL,
+  `maxSlots` int(10) unsigned NOT NULL DEFAULT '20',
   PRIMARY KEY (`inventoryId`),
   KEY `characterId` (`characterId`),
   KEY `clanId` (`clanId`)
@@ -493,6 +466,8 @@ CREATE TABLE IF NOT EXISTS `items` (
   `inventoryId` char(28) NOT NULL,
   `name` text NOT NULL,
   `description` text NOT NULL,
+  `buyPrice` float NOT NULL,
+  `sellPrice` float NOT NULL,
   `createdOn` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`itemId`),
   KEY `itemTemplateId` (`itemTemplateId`),
@@ -571,6 +546,7 @@ CREATE TABLE IF NOT EXISTS `item_socketables` (
 
 CREATE TABLE IF NOT EXISTS `item_templates` (
   `itemTemplateId` char(28) NOT NULL,
+  `itemType` int(11) NOT NULL,
   `name` varchar(150) NOT NULL,
   `description` text NOT NULL,
   `buyPrice` float NOT NULL,
@@ -582,6 +558,9 @@ CREATE TABLE IF NOT EXISTS `item_templates` (
 -- Dumping data for table `item_templates`
 --
 
+INSERT INTO `item_templates` (`itemTemplateId`, `itemType`, `name`, `description`, `buyPrice`, `sellPrice`) VALUES
+('ITEM_00000000000000000000001', 2, 'Dagger', 'A small dagger.', 50, 25),
+('ITEM_00000000000000000000002', 2, 'Clothes', 'Simple clothing.', 50, 25);
 
 -- --------------------------------------------------------
 
@@ -622,6 +601,9 @@ CREATE TABLE IF NOT EXISTS `item_template_equippables` (
 -- Dumping data for table `item_template_equippables`
 --
 
+INSERT INTO `item_template_equippables` (`itemTemplateId`, `slots`, `slotType`, `sockets`, `onEquip`, `onUnequip`, `onAttack`, `onDefend`) VALUES
+('ITEM_00000000000000000000001', 1, 0, 1, NULL, NULL, NULL, NULL),
+('ITEM_00000000000000000000002', 1, 1, 1, NULL, NULL, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -916,6 +898,41 @@ CREATE TABLE IF NOT EXISTS `race_abilities` (
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `race_default_items`
+--
+
+CREATE TABLE IF NOT EXISTS `race_default_items` (
+  `raceId` char(28) CHARACTER SET utf8 NOT NULL,
+  `itemTemplateId` char(28) CHARACTER SET utf8 NOT NULL,
+  KEY `raceId` (`raceId`),
+  KEY `itemTemplateId` (`itemTemplateId`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `race_default_items`
+--
+
+INSERT INTO `race_default_items` (`raceId`, `itemTemplateId`) VALUES
+('RACE_00000000000000000000001', 'ITEM_00000000000000000000001'),
+('RACE_00000000000000000000001', 'ITEM_00000000000000000000002'),
+('RACE_00000000000000000000002', 'ITEM_00000000000000000000001'),
+('RACE_00000000000000000000002', 'ITEM_00000000000000000000002'),
+('RACE_00000000000000000000003', 'ITEM_00000000000000000000001'),
+('RACE_00000000000000000000003', 'ITEM_00000000000000000000002'),
+('RACE_00000000000000000000004', 'ITEM_00000000000000000000001'),
+('RACE_00000000000000000000004', 'ITEM_00000000000000000000002'),
+('RACE_00000000000000000000005', 'ITEM_00000000000000000000001'),
+('RACE_00000000000000000000005', 'ITEM_00000000000000000000002'),
+('RACE_00000000000000000000006', 'ITEM_00000000000000000000001'),
+('RACE_00000000000000000000006', 'ITEM_00000000000000000000002'),
+('RACE_00000000000000000000009', 'ITEM_00000000000000000000001'),
+('RACE_00000000000000000000009', 'ITEM_00000000000000000000002'),
+('RACE_00000000000000000000010', 'ITEM_00000000000000000000001'),
+('RACE_00000000000000000000010', 'ITEM_00000000000000000000002');
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `sessions`
 --
 
@@ -932,7 +949,8 @@ CREATE TABLE IF NOT EXISTS `sessions` (
 --
 
 INSERT INTO `sessions` (`sessionId`, `data`, `lastUsedOn`) VALUES
-('oa02jish7rekre0vai09e3ag01', '', '2010-11-18 18:40:16');
+('d2e2cafsqrnpjetkvi1dmcbkv2', '', '2010-11-17 12:35:16'),
+('sb3401iq2adsollijr35s5o0o4', '', '2010-11-17 14:29:05');
 
 -- --------------------------------------------------------
 
@@ -944,35 +962,17 @@ CREATE TABLE IF NOT EXISTS `trades` (
   `tradeId` char(28) NOT NULL,
   `inventoryIdTo` char(28) NOT NULL,
   `inventoryIdFrom` char(28) NOT NULL,
+  `ItemId` char(28) NOT NULL,
   `Cost` bigint(20) unsigned NOT NULL,
   `TradedOn` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`tradeId`),
   KEY `inventoryIdTo` (`inventoryIdTo`),
   KEY `inventoryIdFrom` (`inventoryIdFrom`),
-  KEY `TradedOn` (`TradedOn`)
+  KEY `ItemId` (`ItemId`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `trades`
---
-
-
--- --------------------------------------------------------
-
---
--- Table structure for table `trade_items`
---
-
-CREATE TABLE IF NOT EXISTS `trade_items` (
-  `tradeId` char(28) CHARACTER SET utf8 NOT NULL,
-  `itemId` char(28) CHARACTER SET utf8 NOT NULL,
-  `sendRecv` tinyint(1) NOT NULL,
-  KEY `tradeId` (`tradeId`),
-  KEY `itemId` (`itemId`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
---
--- Dumping data for table `trade_items`
 --
 
 
@@ -1024,18 +1024,6 @@ ALTER TABLE `characters`
 ALTER TABLE `character_achievements`
   ADD CONSTRAINT `character_achievements_ibfk_1` FOREIGN KEY (`characterId`) REFERENCES `characters` (`characterId`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `character_achievements_ibfk_2` FOREIGN KEY (`achievementId`) REFERENCES `achievement_types` (`achievementId`) ON DELETE CASCADE ON UPDATE CASCADE;
-
---
--- Constraints for table `character_equipment`
---
-ALTER TABLE `character_equipment`
-  ADD CONSTRAINT `character_equipment_ibfk_1` FOREIGN KEY (`characterId`) REFERENCES `characters` (`characterId`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `character_equipment_ibfk_2` FOREIGN KEY (`armor`) REFERENCES `items` (`itemId`) ON DELETE SET NULL ON UPDATE CASCADE,
-  ADD CONSTRAINT `character_equipment_ibfk_3` FOREIGN KEY (`rightHand`) REFERENCES `items` (`itemId`) ON DELETE SET NULL ON UPDATE CASCADE,
-  ADD CONSTRAINT `character_equipment_ibfk_4` FOREIGN KEY (`leftHand`) REFERENCES `items` (`itemId`) ON DELETE SET NULL ON UPDATE CASCADE,
-  ADD CONSTRAINT `character_equipment_ibfk_5` FOREIGN KEY (`spell1`) REFERENCES `items` (`itemId`) ON DELETE SET NULL ON UPDATE CASCADE,
-  ADD CONSTRAINT `character_equipment_ibfk_6` FOREIGN KEY (`spell2`) REFERENCES `items` (`itemId`) ON DELETE SET NULL ON UPDATE CASCADE,
-  ADD CONSTRAINT `character_equipment_ibfk_7` FOREIGN KEY (`accessory`) REFERENCES `items` (`itemId`) ON DELETE SET NULL ON UPDATE CASCADE;
 
 --
 -- Constraints for table `character_locations`
@@ -1191,6 +1179,13 @@ ALTER TABLE `races`
 --
 ALTER TABLE `race_abilities`
   ADD CONSTRAINT `race_abilities_ibfk_1` FOREIGN KEY (`raceId`) REFERENCES `races` (`raceId`);
+
+--
+-- Constraints for table `race_default_items`
+--
+ALTER TABLE `race_default_items`
+  ADD CONSTRAINT `race_default_items_ibfk_2` FOREIGN KEY (`itemTemplateId`) REFERENCES `item_templates` (`itemTemplateId`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `race_default_items_ibfk_1` FOREIGN KEY (`raceId`) REFERENCES `races` (`raceId`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `trades`
