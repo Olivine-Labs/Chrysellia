@@ -80,7 +80,7 @@ if(
 												while(($Run) && ($Index < count($DefaultItemsList)))
 												{
 													$DefaultItemsList[$Index]->InventoryId = $InventoryId;
-													if($Database->Items->Insert($DefaultItemsList[$Index]))
+													if(!$Database->Items->Insert($DefaultItemsList[$Index]))
 													{
 														$Run = false;
 													}
