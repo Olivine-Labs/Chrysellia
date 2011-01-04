@@ -16,7 +16,7 @@ function IsProxy($IP)
 					'dnsbl.ahbl.org',
 					'bl.spamcop.net'
 	);
-	if (preg_match("/([0-9]+).([0-9]+).([0-9]+).([0-9]+)/", $IP, $Matches))
+	if (preg_match("/([0-9]+)\.([0-9]+)\.([0-9]+)\.([0-9]+)/", $IP, $Matches))
 	{
 		foreach ($BlackList as $Server) 
 		{
