@@ -61,8 +61,11 @@ $(function(){
 		e.preventDefault();
 		
 		var name = $("#c_fn").val();
-		if(name != "" && name != "Character Name"){
-			$("#accountSelection").fadeOut(500, function(){ $("#raceSelection").fadeIn(500); });
+		if(name.length > 3 && name.length < 50){
+			vc.cs.CheckName($("#c_fn").val(), function(data){ if(data.Result == vc.ER_SUCCESS){ $("#accountSelection").fadeOut(500, function(){ $("#raceSelection").fadeIn(500); }); } else { $("#c_checkName_status").removeClass("available").addClass("unavailable"); } });
+		}else{
+			alert("Please select a character name between 3 and 50 characters.");
+			$("#c_checkName_status").removeClass("available").addClass("unavailable");
 		}
 	});
 	

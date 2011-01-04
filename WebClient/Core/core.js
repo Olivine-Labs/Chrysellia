@@ -70,6 +70,8 @@
 		this.Gold = 0;
 		this.CurrentChannel = "CHAN_00000000000000000000001";
 		this.Channels = new Array();
+		this.Inventories = new Array();
+		this.Inventories["Personal"] = new Array();
 		
 		this.CurrentMap = Maps["MAP_00000000000000000000001"];
 		

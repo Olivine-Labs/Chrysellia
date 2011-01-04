@@ -186,6 +186,8 @@ function SelectCharacter(data){
 	BuildMap();
 	
 	vc.ch.GetMessagesFromChannel(i, FillChat);
+	
+	vc.is.GetInventory(LoadInventory);
 }
 
 function BuildMap(){
@@ -209,6 +211,29 @@ function BuildMap(){
 	}
 	
 	$currentMap.css({ height: 30*MyCharacter.CurrentMap.DimensionY, width: 30*MyCharacter.CurrentMap.DimensionX })
+}
+
+function LoadInventory(data){
+	if(data.Result == vc.ER_SUCCESS){
+		MyCharacter.Inventories["Personal"] = data.Data;
+		for(var i in MyCharacter.Inventories["Personal"]){
+			var item = MyCharacter.Inventories["Personal"][i];
+			var $opt = $("<option value='" + item.ItemId + "'>" + item.Name + "</option>");
+			switch(item.SlotType){
+				case 0:
+					$opt.appendTo($("#lhSelection, #rhSelection"));
+					break;
+				
+				case 1:
+					$opt.appendTo($("#aSelection"));
+					break;
+				
+				case 2:
+					$opt.appendTo($("#s1Selection, #s2Selection"));
+					break;
+			}
+		}
+	}
 }
 
 function InsertChat(data, channel){
