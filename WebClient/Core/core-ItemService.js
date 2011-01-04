@@ -20,15 +20,15 @@
 		
 		GetInventory: function(callback){
 			$.getJSON(
-				V2Core.SERVERCODE_DIRECTORY + "Items.php",
+				V2Core.SERVERCODE_DIRECTORY + "Item.php",
 				{ Action: ItemService.ACTION_GETINVENTORY, Data: JSON.stringify({ }) },
 				function(data) { callback(data); }
 			);
-		}
+		},
 	
 		Equip: function(itemId, callback){
 			$.getJSON(
-				V2Core.SERVERCODE_DIRECTORY + "Items.php",
+				V2Core.SERVERCODE_DIRECTORY + "Item.php",
 				{ Action: ItemService.ACTION_EQUIP, Data: JSON.stringify({ Item: itemId }) },
 				function(data) { callback(data); }
 			);
@@ -36,7 +36,7 @@
 		
 		UnEquip: function(itemId, callback){
 			$.getJSON(
-				V2Core.SERVERCODE_DIRECTORY + "Items.php",
+				V2Core.SERVERCODE_DIRECTORY + "Item.php",
 				{ Action: ItemService.ACTION_UNEQUIP, Data: JSON.stringify({ Item: itemId }) },
 				function(data) { callback(data); }
 			);
@@ -44,7 +44,7 @@
 		
 		SendTrade: function(itemId, gold, playerName, callback){
 			$.getJSON(
-				V2Core.SERVERCODE_DIRECTORY + "Items.php",
+				V2Core.SERVERCODE_DIRECTORY + "Item.php",
 				{ Action: ItemService.ACTION_SEND_TRADE, Data: JSON.stringify({ Item: itemId, Gold: gold, Player: playerName }) },
 				function(data) { callback(data); }
 			);
@@ -52,7 +52,7 @@
 		
 		AcceptTrade: function(tradeId, callback){
 			$.getJSON(
-				V2Core.SERVERCODE_DIRECTORY + "Items.php",
+				V2Core.SERVERCODE_DIRECTORY + "Item.php",
 				{ Action: ItemService.ACTION_ACCEPT_TRADE, Data: JSON.stringify({ Trade: tradeId }) },
 				function(data) { callback(data); }
 			);
