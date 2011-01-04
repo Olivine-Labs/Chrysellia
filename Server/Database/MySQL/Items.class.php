@@ -131,31 +131,36 @@ class Items
 		if($Query->affected_rows > 0)
 		{
 			$Query->close();
-			$Query = null;
+			$Query2 = null;
 			switch($Item->Type)
 			{
 				case IT_CONSUMABLE:
-					$Query = $this->Database->Connection->prepare(SQL_INSERTITEM_CONSUMABLE);
-					$Query->bind_param('ss', $Item->ItemId, $Item->OnUse);
+					$Query2 = $this->Database->Connection->prepare(SQL_INSERTITEM_CONSUMABLE);
+					$Query2->bind_param('ss', $Item->ItemId, $Item->OnUse);
 					break;
 				case IT_SOCKETABLE:
-					$Query = $this->Database->Connection->prepare(SQL_INSERTITEM_SOCKETABLE);
-					$Query->bind_param('sss', $Item->ItemId, $Item->SocketedIn, $Item->OnSocket);
+					$Query2 = $this->Database->Connection->prepare(SQL_INSERTITEM_SOCKETABLE);
+					$Query2->bind_param('sss', $Item->ItemId, $Item->SocketedIn, $Item->OnSocket);
 					break;
 				case IT_EQUIPPABLE:
-					$Query = $this->Database->Connection->prepare(SQL_INSERTITEM_EQUIPPABLE);
-					$Query->bind_param('siiissss', $Item->ItemId, $Item->Sockets, $Item->Slots, $Item->SlotType, $Item->OnEquip, $Item->OnUnequip, $Item->OnAttack, $Item->OnDefend);
+					$Query2 = $this->Database->Connection->prepare(SQL_INSERTITEM_EQUIPPABLE);
+					$Query2->bind_param('siiissss', $Item->ItemId, $Item->Sockets, $Item->Slots, $Item->SlotType, $Item->OnEquip, $Item->OnUnequip, $Item->OnAttack, $Item->OnDefend);
 					break;
 				default:
 					return true;
 					break;
 			}
-			if($Query != null)
-				$Query->Execute();
-			if($Query->affected_rows > 0)
+			if($Query2 != null)
+			{
+				$Query2->Execute();
+				if($Query2->affected_rows > 0)
+					return true;
+				else
+					return false;
+			}else
+			{
 				return true;
-			else
-				return false;
+			}
 		}
 		else
 		{
