@@ -36,7 +36,6 @@ if(
 					define('RIGHT_MODERATE', 2);
 					define('RIGHT_ADMINISTRATE', 3);
 					
-					$Success = true;
 					$TargetRights = $Get->Rights;
 					
 					if(property_exists($TargetRights, 'Read')){
@@ -58,21 +57,24 @@ if(
 					if(property_exists($TargetRights, 'isJoined')){
 						$TargetCharacterRights['isJoined'] = (bool)$TargetRights->isJoined;
 					}
-					
-					if($Success)
+
+					$Success = false;
+					$Database->startTransaction();
+					if($Database->Chat->SetRights($TargetCharacter, $Get->Channel, $TargetCharacterRights))
 					{
-						if($Database->Chat->SetRights($TargetCharacter, $Get->Channel, $TargetCharacterRights))
+						if($Database->Chat->Insert($TargetCharacter, $Get->Channel, $TargetCharacterRights, 1))
 						{
-							$Result->Set('Result', \Protocol\Result::ER_SUCCESS);
-						}
-						else
-						{
-							$Result->Set('Result', \Protocol\Result::ER_DBERROR);
+							$Success = true;
 						}
 					}
-					else
+
+					if($Success)
 					{
-						$Result->Set('Result', \Protocol\Result::ER_MALFORMED);
+						$Result->Set('Result', \Protocol\Result::ER_SUCCESS);
+						$Database->commitTransaction();
+					}else{
+						$Database->rollbackTransaction();
+						$Result->Set('Result', \Protocol\Result::ER_DBERROR);
 					}
 				}
 				else
