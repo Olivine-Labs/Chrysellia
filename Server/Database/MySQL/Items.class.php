@@ -130,15 +130,15 @@ class Items
 			switch($Item->ItemType)
 			{
 				case IT_CONSUMABLE:
-					$Query = $this->Database->Connection->prepare(SQL_INSERTITEMCONSUMABLE);
+					$Query = $this->Database->Connection->prepare(SQL_INSERTITEM_CONSUMABLE);
 					$Query->bind_param('ss', $Item->ItemId, $Item->OnUse);
 					break;
 				case IT_SOCKETABLE:
-					$Query = $this->Database->Connection->prepare(SQL_INSERTITEMSOCKETABLE);
+					$Query = $this->Database->Connection->prepare(SQL_INSERTITEM_SOCKETABLE);
 					$Query->bind_param('sss', $Item->ItemId, $Item->SocketedIn, $Item->OnSocket);
 					break;
 				case IT_EQUIPPABLE:
-					$Query = $this->Database->Connection->prepare(SQL_INSERTITEMEQUIPPABLE);
+					$Query = $this->Database->Connection->prepare(SQL_INSERTITEM_EQUIPPABLE);
 					$Query->bind_param('siiissss', $Item->ItemId, $Item->Sockets, $Item->Slots, $Item->SlotType, $Item->OnEquip, $Item->OnUnequip, $Item->OnAttack, $Item->OnDefend);
 					break;
 				default:
