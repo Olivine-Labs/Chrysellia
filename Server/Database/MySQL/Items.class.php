@@ -11,9 +11,9 @@ define('SQL_LOADITEM_TEMPLATE', 'SELECT it.name, it.description, it.buyPrice, it
 define('SQL_DELETEITEM', 'DELETE FROM `items` WHERE `itemId`=?');
 
 define('SQL_INSERTITEM', 'INSERT INTO  `items` (`itemId`, `itemTemplateId`, `itemType`, `inventoryId`, `name`, `description`, `buyPrice`, `sellPrice`) VALUES (?, ?, ?, ?, ?, ?, ?, ?)');
-define('SQL_INSERTITEM_CONSUMABLE', 'INSERT INTO  `item_consumables` (`itemId`, `onUse`) VALUES (?, ?)');
-define('SQL_INSERTITEM_EQUIPPABLE', 'INSERT INTO  `item_equippables` (`itemId`, `sockets`, `slots`, `slotType`, `onEquip`, `onUnequip`, `onAttack`, `onDefend`) VALUES (?, ?, ?, ?, ?, ?, ?, ?)');
-define('SQL_INSERTITEM_SOCKETABLE', 'INSERT INTO  `item_socketables` (`itemId`, `socketedIn`, `onSocket`) VALUES (?, ?, ?)');
+define('SQL_INSERTITEM_CONSUMABLE', 'INSERT INTO `item_consumables` (`itemId`, `onUse`) VALUES (?, ?)');
+define('SQL_INSERTITEM_EQUIPPABLE', 'INSERT INTO `item_equippables` (`itemId`, `sockets`, `slots`, `slotType`, `onEquip`, `onUnequip`, `onAttack`, `onDefend`) VALUES (?, ?, ?, ?, ?, ?, ?, ?)');
+define('SQL_INSERTITEM_SOCKETABLE', 'INSERT INTO `item_socketables` (`itemId`, `socketedIn`, `onSocket`) VALUES (?, ?, ?)');
 
 define('SQL_INSERTITEM_TEMPLATE', 'INSERT INTO  `item_templates` (`itemTemplateId`, `itemType`, `name`, `description`, `buyPrice`, `sellPrice`) VALUES (?, ?, ?, ?, ?, ?)');
 define('SQL_INSERTITEM_TEMPLATE_CONSUMABLE', 'INSERT INTO  `item_template_consumables` (`itemTemplateId`, `onUse`) VALUES (?, ?)');
@@ -125,13 +125,14 @@ class Items
 	{
 		$Item->ItemId = uniqid('ITEM_', true);
 		$Query = $this->Database->Connection->prepare(SQL_INSERTITEM);
-		$Query->bind_param('ssisssii', $Item->ItemId, $Item->ItemTemplateId, $Item->ItemType, $Item->InventoryId, $Item->Name, $Item->Description, $Item->BuyPrice, $Item->SellPrice);
+		$Query->bind_param('ssisssii', $Item->ItemId, $Item->ItemTemplateId, $Item->Type, $Item->InventoryId, $Item->Name, $Item->Description, $Item->BuyPrice, $Item->SellPrice);
 		$Query->Execute();
 
 		if($Query->affected_rows > 0)
 		{
 			$Query->close();
-			switch($Item->ItemType)
+			$Query = null;
+			switch($Item->Type)
 			{
 				case IT_CONSUMABLE:
 					$Query = $this->Database->Connection->prepare(SQL_INSERTITEM_CONSUMABLE);
@@ -149,7 +150,8 @@ class Items
 					return true;
 					break;
 			}
-			$Query->Execute();
+			if($Query != null)
+				$Query->Execute();
 			if($Query->affected_rows > 0)
 				return true;
 			else
