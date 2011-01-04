@@ -3,17 +3,11 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Jan 03, 2011 at 09:20 PM
+-- Generation Time: Jan 04, 2011 at 01:28 AM
 -- Server version: 5.1.36
 -- PHP Version: 5.3.0
 
 SET SQL_MODE="NO_AUTO_VALUE_ON_ZERO";
-
-
-/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
-/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
-/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
-/*!40101 SET NAMES utf8 */;
 
 --
 -- Database: `chrysellia`
@@ -973,6 +967,25 @@ CREATE TABLE IF NOT EXISTS `trades` (
 
 --
 -- Dumping data for table `trades`
+--
+
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `trade_items`
+--
+
+CREATE TABLE IF NOT EXISTS `trade_items` (
+  `tradeId` char(28) CHARACTER SET utf8 NOT NULL,
+  `itemId` char(28) CHARACTER SET utf8 NOT NULL,
+  `sendRecv` tinyint(1) NOT NULL,
+  KEY `tradeId` (`tradeId`),
+  KEY `itemId` (`itemId`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `trade_items`
 --
 
 
