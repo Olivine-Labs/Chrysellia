@@ -175,7 +175,7 @@ class Items
 		$Query->Execute();
 
 		if($Query->affected_rows > 0)
-			return true;
+			return $InventoryId;
 		else
 			return false;
 	}
