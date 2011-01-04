@@ -20,6 +20,10 @@ try
 						$ACharacter->HasPin = false;
 					$ACharacter->Pin = null;
 					$ACharacter->Channels = $Database->Chat->LoadJoinedChannels($ACharacter);
+					foreach($ACharacter->Channels AS $ChannelId=>&$AChannel)
+					{
+						$AChannel['Permissions'] = $Database->Chat->GetRights($ACharacter, $ChannelId);
+					}
 					$Result->Set('Data', $ACharacter);
 					$Result->Set('Result', \Protocol\Result::ER_SUCCESS);
 				}
