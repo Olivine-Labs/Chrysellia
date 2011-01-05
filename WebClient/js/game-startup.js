@@ -326,7 +326,7 @@ function ProcessSystemMessage(data){
 				$("<div class='chatMessage system'>You are now a mod in this channel.</div>").prependTo($chatWindow);
 			}
 			
-			window.MyCharacter.Channels[data.Data.ChannelId].Permissions = { Read: ChannelInfo.Read, Write: ChannelInfo.Write, Moderate:ChannelInfo.Moderate, Administrate:ChannelInfo.Administrate }
+			window.MyCharacter.Channels[ChannelInfo.ChannelId].Permissions = { Read: ChannelInfo.Read, Write: ChannelInfo.Write, Moderate:ChannelInfo.Moderate, Administrate:ChannelInfo.Administrate }
 		}
 	}
 }

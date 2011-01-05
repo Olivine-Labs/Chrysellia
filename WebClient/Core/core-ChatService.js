@@ -153,7 +153,7 @@
 				charName  = message.substr(6, message.length - 6);
 				rights = { Read: 1, Write: 0, Moderate: 0, Administrate: 0, isJoined:1 };
 			}else if(message.indexOf("/unmute ") == 0){
-				charName  = message.substr(6, message.length - 6);
+				charName  = message.substr(8, message.length - 8);
 				rights = { Read: 1, Write: 1, Moderate: 0, Administrate: 0, isJoined:1 };
 			}else if(message.indexOf("/invite ") == 0){
 				charName  = message.substr(8, message.length - 8);
