@@ -51,7 +51,7 @@ class Chat extends \Database\Chat
 	 * @return Boolean
 	 *   Whether the insert was successful or not.
 	 */
-	public function Insert(\Entities\Character $Character, $ChannelId, $Message, $Type=0, \Entities\Character $CharacterTarget = new \Entities\Character())
+	public function Insert(\Entities\Character $Character, $ChannelId, $Message, $Type=0, \Entities\Character $CharacterTarget = null)
 	{
 		$Query = $this->Database->Connection->prepare(SQL_INSERTMESSAGE);
 		
