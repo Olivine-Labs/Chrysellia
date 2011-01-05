@@ -2,8 +2,8 @@
 
 namespace Database\MySQL;
 
-define('SQL_GETMESSAGES', 'SELECT c.message, c.fromName, c.type, UNIX_TIMESTAMP(c.sentOn) FROM `chat` c INNER JOIN `channel_permissions` p ON p.channelId=c.channelId AND p.characterId=? AND p.characterId != c.characterIdFrom WHERE c.channelId=? AND p.accessRead=1 AND c.sentOn>FROM_UNIXTIME(?) ORDER BY c.sentOn ASC');
-define('SQL_GETSYSTEMMESSAGES', 'SELECT c.message, c.fromName, c.type, UNIX_TIMESTAMP(c.sentOn) FROM `chat` c WHERE c.characterIdTo=? AND c.sentOn>FROM_UNIXTIME(?) ORDER BY c.sentOn ASC');
+define('SQL_GETMESSAGES', 'SELECT c.message, c.fromName, c.type, UNIX_TIMESTAMP(c.sentOn) FROM `chat` c INNER JOIN `channel_permissions` p ON p.channelId=c.channelId AND p.characterId=? AND p.characterId != c.characterIdFrom WHERE c.type!=255 AND c.channelId=? AND p.accessRead=1 AND c.sentOn>FROM_UNIXTIME(?) ORDER BY c.sentOn ASC');
+define('SQL_GETSYSTEMMESSAGES', 'SELECT c.message, c.fromName, c.type, UNIX_TIMESTAMP(c.sentOn) FROM `chat` c WHERE ((c.characterIdTo=?) OR (c.characterIdTo IS NULL)) AND c.type=255 AND c.sentOn>FROM_UNIXTIME(?) ORDER BY c.sentOn ASC');
 define('SQL_JOINCHANNEL', 'SELECT c.channelid, c.name, c.motd FROM `channels` c INNER JOIN `channel_permissions` p ON c.channelId=p.channelId AND p.characterId=? AND p.accessRead=1 WHERE c.Name=?');
 define('SQL_CHANNELGETRIGHTS', 'SELECT p.accessRead, p.accessWrite, p.accessModerator, p.accessAdmin, p.isJoined, c.name FROM `channel_permissions` p INNER JOIN `channels` c ON c.channelId=p.channelId WHERE p.characterId=? AND p.channelId=?');
 define('SQL_INSERTMESSAGE', 'INSERT INTO `chat` (`characterIdFrom`, `characterIdTo`, `channelId`, `message`, `fromName`, `type`) VALUES (?, ?, ?, ?, ?, ?)');
@@ -130,10 +130,7 @@ class Chat extends \Database\Chat
 		{
 			$Query->bind_result($Result[$Index]['Message'], $Result[$Index]['FromName'], $Result[$Index]['Type'], $Result[$Index]['SentOn']);
 			$Continue = $Query->Fetch();
-			if($Result[$Index]['Type'] == 255)
-			{
-				$Result[$Index]['Message'] = unserialize($Result[$Index]['Message']);
-			}
+			$Result[$Index]['Message'] = unserialize($Result[$Index]['Message']);
 			$Index ++;
 		}
 
