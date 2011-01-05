@@ -55,9 +55,9 @@ if(
 						$TargetCharacterRights['Administrate'] = (bool)$TargetRights->Administrate;
 					}
 					
-					if(property_exists($TargetRights, 'isJoined')){
-						$TargetCharacterRights['isJoined'] = (bool)$TargetRights->isJoined;
-					}
+					//if(property_exists($TargetRights, 'isJoined')){
+					//	$TargetCharacterRights['isJoined'] = (bool)$TargetRights->isJoined;
+					//}
 
 					$Success = false;
 					$Database->startTransaction();
