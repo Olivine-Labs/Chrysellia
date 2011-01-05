@@ -148,7 +148,7 @@
 				rights = { Read: 1, Write: 0, Moderate: 0, Administrate: 0, isJoined:1 }
 			}else if(message.indexOf("/invite ") == 0){
 				charName  = message.substr(8, message.length - 8);
-				rights = { Read: 1, Write: 1, Moderate: 0, Administrate: 0, isJoined:1 }
+				rights = { Read: 1, Write: 1, Moderate: 0, Administrate: 0, isJoined:0 }
 			}
 			
 			return { Rights: rights, Character: charName }

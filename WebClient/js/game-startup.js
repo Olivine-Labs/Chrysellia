@@ -105,11 +105,20 @@ $(function(){
 	});
 	
 	$("#statsWindowButton").bind("click", function(e){
+		e.preventDefault();
 		$("#statsWindow").dialog("open");
 	});
 	
 	$("#itemsWindowButton").bind("click", function(e){
+		e.preventDefault();
 		$("#itemsWindow").dialog("open");
+	});
+	
+	$(".chatMessage.system a.joinChannel").bind("click", function(e){
+		e.preventDefault();
+		$this = $(this);
+		var channelName = $this.siblings(".channelName").text();
+		vc.ch.JoinChannel(channelName, JoinChannel);
 	});
 });
 
@@ -237,23 +246,54 @@ function LoadInventory(data){
 }
 
 function InsertChat(data, channel){
-	var $chatWindow = $("input[value='" + channel + "']").parent();
+	var $chatWindow = $("#chatChannels input[value='" + channel + "']").parent();
 	
 	for(x = 0; x< data.length; x++){
 		var chatobj = data[x];
-		var msg = $("<span class='message' />").text(chatobj.Message);
 		
 		switch(chatobj.Type){
 			case vc.ch.CHAT_TYPE_GENERAL:
+				var msg = $("<span class='message' />").text(chatobj.Message);
 				$("<div class='chatMessage'><strong>" + chatobj.FromName + "</strong>: </div>").append(msg).prependTo($chatWindow);
 				break;
 			case vc.ch.CHAT_TYPE_EMOTE:
+				var msg = $("<span class='message' />").text(chatobj.Message);
 				$("<div class='chatMessage emote'>" + chatobj.FromName + " </div>").append(msg).prependTo($chatWindow);
 				break;
-			case vc.ch.CHAT_TYPE_MOTD: //motd
+			case vc.ch.CHAT_TYPE_MOTD: //Channel message of the day
+				var msg = $("<span class='message' />").text(chatobj.Message);
 				$("<div class='chatMessage motd'></div>").append(msg).prependTo($chatWindow);
 				break;
+			case vc.ch.CHAT_TYPE_SYSTEM: //System message, like invites
+				var ChannelInfo = chatobj.Message;
+				
+				if(window.MyCharacter.Channels[ChannelInfo.ChannelId] === undefined){
+					$("<div class='chatMessage system'>" + chatobj.FromName + " invited you to join <span class='channelName'>" + ChannelInfo.Name + "</span>! <a href='#' class='joinChannel'>Click here to join.</a></div>").prependTo($chatWindow);
+				}else{
+					if(window.MyCharacter.Channels[ChannelInfo.ChannelId].Permissions.Write == 1 && ChannelInfo.Permissions.Write == 0){
+						$("<div class='chatMessage system'>You have been muted in this channel.</div>").prependTo($chatWindow);
+					}
+					
+					if(window.MyCharacter.Channels[ChannelInfo.ChannelId].Permissions.Moderate == 1 && ChannelInfo.Permissions.Write == 0){
+						$("<div class='chatMessage system'>You are no longer a mod in this channel.</div>").prependTo($chatWindow);
+					}else if(window.MyCharacter.Channels[ChannelInfo.ChannelId].Permissions.Administrate == 1 && ChannelInfo.Permissions.Administrate == 0){
+						$("<div class='chatMessage system'>You are no longer an admin in this channel.</div>").prependTo($chatWindow);
+					}
+					
+					if(window.MyCharacter.Channels[ChannelInfo.ChannelId].Permissions.Write == 0 && ChannelInfo.Permissions.Write == 1){
+						$("<div class='chatMessage system'>You have been voiced in this channel.</div>").prependTo($chatWindow);
+					}
+					
+					if(window.MyCharacter.Channels[ChannelInfo.ChannelId].Permissions.Administrate == 0 && ChannelInfo.Permissions.Administrate == 1){
+						$("<div class='chatMessage system'>You are now an administrator in this channel.</div>").prependTo($chatWindow);
+					}else if(window.MyCharacter.Channels[ChannelInfo.ChannelId].Permissions.Moderate == 0 && ChannelInfo.Permissions.Moderate == 1){
+						$("<div class='chatMessage system'>You are now a mod in this channel.</div>").prependTo($chatWindow);
+					}
+				}
+				
+				break;
 			default:
+				var msg = $("<span class='message' />").text(chatobj.Message);
 				$("<div class='chatMessage'><strong>" + chatobj.FromName + "</strong>: </div>").append(msg).prependTo($chatWindow);
 				break;
 		}
