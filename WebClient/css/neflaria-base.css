@@ -291,3 +291,4 @@ a.fb_button, a.fb_button:link, a.fb_button:hover, a.fb_button:active {
 #myCharacter_Gold { position: relative; top: -7px; }
 .itemSelection .itemType { display: inline-block; width: 80px; }
 .itemSelection { margin: .25em 0; }
+.newMessage a, .newMessage.ui-state-default a, .newMessage.ui-state-default a:link, .newMessage.ui-state-default a:visited { font-weight: bold; color: #fff; }

@@ -137,6 +137,12 @@
 			}else if(message.indexOf("/invite") == 0){
 				type = vc.CommandService.ACTION_CHANNEL_SETRIGHTS;
 				nonMessageCommand = true;
+			}else if(message.indexOf("/unadmin") == 0){
+				type = vc.CommandService.ACTION_CHANNEL_SETRIGHTS;
+				nonMessageCommand = true;
+			}else if(message.indexOf("/unmod") == 0){
+				type = vc.CommandService.ACTION_CHANNEL_SETRIGHTS;
+				nonMessageCommand = true;
 			}
 			
 			return { Type: type, Message: message, NonMessageCommand: nonMessageCommand };
@@ -161,6 +167,12 @@
 			}else if(message.indexOf("/kick ") == 0){
 				charName  = message.substr(8, message.length - 8);
 				rights = { Read: 0, Write: 0, Moderate: 0, Administrate: 0, isJoined:0 };
+			}else if(message.indexOf("/unadmin ") == 0){
+				charName  = message.substr(9, message.length - 9);
+				rights = { Read: 1, Write: 1, Moderate: 1, Administrate: 0, isJoined:0 };
+			}else if(message.indexOf("/unmod ") == 0){
+				charName  = message.substr(7, message.length - 7);
+				rights = { Read: 1, Write: 1, Moderate: 0, Administrate: 0, isJoined:0 };
 			}
 			
 			return { Rights: rights, Character: charName }

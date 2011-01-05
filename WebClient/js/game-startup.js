@@ -18,6 +18,7 @@ $(function(){
 		},
 		select: function(event, ui){
 			window.MyCharacter.CurrentChannel = $(".channelId", ui.panel).val();
+			$(ui.tab).parent().removeClass("newMessage");
 		}
 	});
 
@@ -260,6 +261,11 @@ function LoadInventory(data){
 
 function InsertChat(data, channel){
 	var $chatWindow = $("#chatChannels input[value='" + channel + "']").parent();
+	var $chatTab = $("a[href='#" + $chatWindow.attr("id") + "']").parent();
+	
+	if(data[0] !== undefined && data[0].Type !=vc.ch.CHAT_TYPE_MOTD && !$chatTab.hasClass("ui-tabs-selected")){
+		$chatTab.addClass("newMessage");
+	}
 	
 	for(x = 0; x< data.length; x++){
 		var chatobj = data[x];
@@ -277,8 +283,6 @@ function InsertChat(data, channel){
 				var msg = $("<span class='message' />").text(chatobj.Message);
 				$("<div class='chatMessage motd'></div>").append(msg).prependTo($chatWindow);
 				break;
-			case vc.ch.CHAT_TYPE_SYSTEM: //System message, like invites
-				
 			default:
 				var msg = $("<span class='message' />").text(chatobj.Message);
 				$("<div class='chatMessage'><strong>" + chatobj.FromName + "</strong>: </div>").append(msg).prependTo($chatWindow);
@@ -304,7 +308,7 @@ function ProcessSystemMessage(data){
 				$("<div class='chatMessage system'>You have been muted in this channel.</div>").prependTo($chatWindow);
 			}
 			
-			if(window.MyCharacter.Channels[ChannelInfo.ChannelId].Permissions.Moderate == 1 && ChannelInfo.Write == 0){
+			if(window.MyCharacter.Channels[ChannelInfo.ChannelId].Permissions.Moderate == 1 && ChannelInfo.Moderate == 0){
 				$("<div class='chatMessage system'>You are no longer a mod in this channel.</div>").prependTo($chatWindow);
 			}else if(window.MyCharacter.Channels[ChannelInfo.ChannelId].Permissions.Administrate == 1 && ChannelInfo.Administrate == 0){
 				$("<div class='chatMessage system'>You are no longer an admin in this channel.</div>").prependTo($chatWindow);
