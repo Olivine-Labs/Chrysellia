@@ -63,7 +63,7 @@ if(
 					$Database->startTransaction();
 					if($Database->Chat->SetRights($TargetCharacter, $Get->Channel, $TargetCharacterRights))
 					{
-						if($Database->Chat->Insert($Character, $Get->Channel, serialize($TargetCharacterRights), 2, $TargetCharacter))
+						if($Database->Chat->Insert($Character, $Get->Channel, $TargetCharacterRights, 255, $TargetCharacter))
 						{
 							$Success = true;
 						}

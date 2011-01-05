@@ -54,7 +54,8 @@ class Chat extends \Database\Chat
 	public function Insert(\Entities\Character $Character, $ChannelId, $Message, $Type=0, \Entities\Character $CharacterTarget = null)
 	{
 		$Query = $this->Database->Connection->prepare(SQL_INSERTMESSAGE);
-		
+		if($Type==255)
+			$Message = serialize($Message);
 		$Query->bind_param('ssssss', $Character->CharacterId, $CharacterTarget->CharacterId, $ChannelId, $Message, $Character->Name, $Type);
 
 		$Query->Execute();
@@ -129,7 +130,7 @@ class Chat extends \Database\Chat
 		{
 			$Query->bind_result($Result[$Index]['Message'], $Result[$Index]['FromName'], $Result[$Index]['Type'], $Result[$Index]['SentOn']);
 			$Continue = $Query->Fetch();
-			if($Result[$Index]['Type'] == 1)
+			if($Result[$Index]['Type'] == 255)
 			{
 				$Result[$Index]['Message'] = unserialize($Result[$Index]['Message']);
 			}
