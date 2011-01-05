@@ -19,7 +19,7 @@
 
 		SendChatCommand: function(channel, command, message, callback){
 			switch(command){
-				case CommandService.ACTION_EMOTE:
+				case ACTION_EMOTE:
 					responseData = { Action: CommandService.ACTION_EMOTE, Data: JSON.stringify({ Channel: channel, Message: message }) }
 					break;
 				default:
