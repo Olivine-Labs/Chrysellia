@@ -25,7 +25,6 @@ $(function(){
 	$('#chatChannels span.ui-icon-close').live('click', function() {
 		var channelId = $(".channelId", $($(this).siblings("a").attr("href"))).val();
 		if(channelId != vc.ch.StaticRooms["General"] && channelId !=  vc.ch.StaticRooms["Trade"]){
-			window.ChatToCloseIndex = $('li',$tabs).index($(this).parent()); 
 			LeaveChannel(channelId);
 		}
 	});
@@ -162,7 +161,10 @@ function JoinChannel(data){
 }
 
 function LeaveChannel(channelId){
-	vc.ch.PartChannel(channelId, function(){ $tabs.tabs('remove', window.ChatToCloseIndex); });
+	var $chatWindow = $("#chatChannels input[value='" + channelId + "']").parent();
+	var $chatTab = $("a[href='#" + $chatWindow.attr("id") + "']").parent();
+	var chatToCloseIndex =  $('li',$tabs).index($chatTab); 
+	vc.ch.PartChannel(channelId, function(){ $tabs.tabs('remove', chatToCloseIndex); });
 	delete window.MyCharacter.Channels[channelId];
 }
 
@@ -301,7 +303,7 @@ function ProcessSystemMessage(data){
 		if(window.MyCharacter.Channels[ChannelInfo.ChannelId] === undefined){
 			$("<div class='chatMessage system'>" + chatobj.FromName + " invited you to join <span class='channelName'>" + ChannelInfo.Name + "</span>! <a href='#' class='joinChannel'>Click here to join.</a></div>").dialog({ title: "Chat Room Invitation" });
 		}else if(window.MyCharacter.Channels[ChannelInfo.ChannelId].Permissions.isJoined == 1 && ChannelInfo.isJoined == 0){
-			
+			LeaveChannel(ChannelInfo.ChannelId);
 			$("<div class='chatMessage system'>You have been kicked from <span class='channelName'>" + ChannelInfo.Name + "</span>!</div>").dialog({ title: "Kicked From Chat Room" });
 		}else{
 			if(window.MyCharacter.Channels[ChannelInfo.ChannelId].Permissions.Write == 1 && ChannelInfo.Write == 0){
