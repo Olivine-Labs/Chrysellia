@@ -19,6 +19,7 @@ if(
 		
 		$Character = new \Entities\Character();
 		$Character->CharacterId = $_SESSION['CharacterId'];
+		$Database->Characters->LoadById($Character);
 
 		$TargetCharacter = new \Entities\Character();
 		$TargetCharacter->Name = $Get->Character;
