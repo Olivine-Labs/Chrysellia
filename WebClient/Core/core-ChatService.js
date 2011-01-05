@@ -55,7 +55,7 @@
 				);
 			}else{
 				if(chatobj.Type == 1){
-					vc.cmd.SendChatCommand(channel, ChatService.ACTION_EMOTE, chatobj.Message, callback);
+					vc.cmd.SendChatCommand(channel, vc.CommandService.ACTION_EMOTE, chatobj.Message, callback);
 				}else{
 					callback({ Result: V2Core.ER_MALFORMED, Data: {} });
 				}
@@ -65,7 +65,7 @@
 		JoinChannel: function(channel, callback){
 			$.getJSON(
 				V2Core.SERVERCODE_DIRECTORY + "Commands.php",
-				{ Action: ChatService.ACTION_JOINCHANNEL, Data: JSON.stringify({ Channel: channel }) },
+				{ Action: vc.CommandService.ACTION_JOINCHANNEL, Data: JSON.stringify({ Channel: channel }) },
 				function(data) { callback(data); }
 			);
 		},
@@ -73,7 +73,7 @@
 		PartChannel: function(channel, callback){
 			$.getJSON(
 				V2Core.SERVERCODE_DIRECTORY + "Commands.php",
-				{ Action: ChatService.ACTION_CHANNEL_PART, Data: JSON.stringify({ Channel: channel }) },
+				{ Action: vc.CommandService.ACTION_CHANNEL_PART, Data: JSON.stringify({ Channel: channel }) },
 				function(data) { callback(data); }
 			);
 		},
@@ -81,7 +81,7 @@
 		CreateChannel: function(name, motd, callback){
 			$.getJSON(
 				V2Core.SERVERCODE_DIRECTORY + "Commands.php",
-				{ Action: ChatService.ACTION_CHANNEL_CREATE, Data: JSON.stringify({ Channel: name, Motd: motd }) },
+				{ Action: vc.CommandService.ACTION_CHANNEL_CREATE, Data: JSON.stringify({ Channel: name, Motd: motd }) },
 				function(data) { callback(data); }
 			);
 		},
@@ -89,7 +89,7 @@
 		SetRights: function(channel, characterName, rights, callback){
 			$.getJSON(
 				V2Core.SERVERCODE_DIRECTORY + "Commands.php",
-				{ Action: ChatService.ACTION_CHANNEL_SETRIGHTS, Data: JSON.stringify({ Channel: channel, Character: characterName, Rights: rights }) },
+				{ Action: vc.CommandService.ACTION_CHANNEL_SETRIGHTS, Data: JSON.stringify({ Channel: channel, Character: characterName, Rights: rights }) },
 				function(data) { callback(data); }
 			);
 		},
@@ -108,28 +108,28 @@
 				type = ChatService.CHAT_TYPE_EMOTE;
 				message = message.substr(3, message.length - 3);
 			}else if(message.indexOf("/join") == 0){
-				type = CommandService.ACTION_JOINCHANNEL;
+				type = vc.CommandService.ACTION_JOINCHANNEL;
 				message = message.substr(5, message.length - 5);
 				nonMessageCommand = true;
 			}else if(message.indexOf("/create") == 0){
-				type = CommandService.ACTION_CHANNEL_CREATE;
+				type = vc.CommandService.ACTION_CHANNEL_CREATE;
 				message = message.substr(7, message.length - 7);
 				nonMessageCommand = true;
 			}else if(message.indexOf("/leave") == 0){
-				type = CommandService.ACTION_CHANNEL_PART;
+				type = vc.CommandService.ACTION_CHANNEL_PART;
 				message = message.substr(1, message.length - 1);
 				nonMessageCommand = true;
 			}else if(message.indexOf("/mod") == 0){
-				type = CommandService.ACTION_CHANNEL_SETRIGHTS;
+				type = vc.CommandService.ACTION_CHANNEL_SETRIGHTS;
 				nonMessageCommand = true;
 			}else if(message.indexOf("/admin") == 0){
-				type = CommandService.ACTION_CHANNEL_SETRIGHTS;
+				type = vc.CommandService.ACTION_CHANNEL_SETRIGHTS;
 				nonMessageCommand = true;
 			}else if(message.indexOf("/mute") == 0){
-				type = CommandService.ACTION_CHANNEL_SETRIGHTS;
+				type = vc.CommandService.ACTION_CHANNEL_SETRIGHTS;
 				nonMessageCommand = true;
 			}else if(message.indexOf("/invite") == 0){
-				type = CommandService.ACTION_CHANNEL_SETRIGHTS;
+				type = vc.CommandService.ACTION_CHANNEL_SETRIGHTS;
 				nonMessageCommand = true;
 			}
 			

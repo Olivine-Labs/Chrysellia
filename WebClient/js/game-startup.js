@@ -23,7 +23,7 @@ $(function(){
 
 	$('#chatChannels span.ui-icon-close').live('click', function() {
 		var channelId = $(".channelId", $($(this).siblings("a").attr("href"))).val();
-		if(channelId != vc.ch.StaticRooms["General"] && channelId !=  vc.ch.ChatService.StaticRooms["Trade"]){
+		if(channelId != vc.ch.StaticRooms["General"] && channelId !=  vc.ch.StaticRooms["Trade"]){
 			window.ChatToCloseIndex = $('li',$tabs).index($(this).parent()); 
 			vc.ch.PartChannel(channelId, function(){ $tabs.tabs('remove', window.ChatToCloseIndex); });
 		}
@@ -269,7 +269,7 @@ function SubmitMessage(){
 		vc.ch.SendMessageToChannel(MyCharacter.CurrentChannel, message, function(){});
 		InsertChat([{ "Type": msgobj.Type, "FromName": MyCharacter.Name, "Message": msgobj.Message }], window.MyCharacter.CurrentChannel);
 	}else{
-		if(msgobj.Type = cmd.ACTION_CHANNEL_SETRIGHTS){
+		if(msgobj.Type = vc.cmd.ACTION_CHANNEL_SETRIGHTS){
 			var rights = vc.ch.Utilities.ParseRights(msgobj.Message);
 			vc.ch.SetRights(window.MyCharacter.CurrentChannel, rights.Character, rights.Rights, function(){});
 		}
