@@ -4,7 +4,7 @@ namespace Database\MySQL;
 
 define('SQL_GETMESSAGES', 'SELECT c.message, c.fromName, c.type, UNIX_TIMESTAMP(c.sentOn) FROM `chat` c INNER JOIN `channel_permissions` p ON p.channelId=c.channelId AND p.characterId=? AND p.characterId != c.characterIdFrom WHERE c.type!=255 AND c.channelId=? AND p.accessRead=1 AND c.sentOn>FROM_UNIXTIME(?) ORDER BY c.sentOn ASC');
 define('SQL_GETSYSTEMMESSAGES', 'SELECT c.message, c.fromName, c.type, UNIX_TIMESTAMP(c.sentOn) FROM `chat` c WHERE ((c.characterIdTo=?) OR (c.characterIdTo IS NULL)) AND c.type=255 AND c.sentOn>FROM_UNIXTIME(?) ORDER BY c.sentOn ASC');
-define('SQL_JOINCHANNEL', 'SELECT c.channelid, c.name, c.motd FROM `channels` c INNER JOIN `channel_permissions` p ON c.channelId=p.channelId AND p.characterId=? AND p.accessRead=1 WHERE c.Name=?');
+define('SQL_JOINCHANNEL', 'SELECT c.channelid, c.name, c.motd, p.accessRead, p.accessWrite, p.accessModerator, p.accessAdmin FROM `channels` c INNER JOIN `channel_permissions` p ON c.channelId=p.channelId AND p.characterId=? AND p.accessRead=1 WHERE c.Name=?');
 define('SQL_CHANNELGETRIGHTS', 'SELECT p.accessRead, p.accessWrite, p.accessModerator, p.accessAdmin, p.isJoined, c.name FROM `channel_permissions` p INNER JOIN `channels` c ON c.channelId=p.channelId WHERE p.characterId=? AND p.channelId=?');
 define('SQL_INSERTMESSAGE', 'INSERT INTO `chat` (`characterIdFrom`, `characterIdTo`, `channelId`, `message`, `fromName`, `type`) VALUES (?, ?, ?, ?, ?, ?)');
 define('SQL_CHANNELSETRIGHTS', 'INSERT INTO `channel_permissions` (`characterId`, `channelId`, `accessRead`,`accessWrite`,`accessModerator`,`accessAdmin`, `isJoined`) VALUES (?, ?, ?, ?, ?, ?, ?) ON DUPLICATE KEY UPDATE `accessRead`=?, `accessWrite`=?, `accessModerator`=?, `accessAdmin`=?, `isJoined`=?');
@@ -192,7 +192,7 @@ class Chat extends \Database\Chat
 		$Query = $this->Database->Connection->prepare(SQL_JOINCHANNEL);
 		$Query->bind_param('ss', $Character->CharacterId, $ChannelName);
 		$Query->Execute();
-		$Query->bind_result($ChannelId, $Name, $Motd);
+		$Query->bind_result($ChannelId, $Name, $Motd, $Read, $Write, $Moderate, $Administrate);
 
 		if($Query->fetch())
 		{
@@ -205,7 +205,7 @@ class Chat extends \Database\Chat
 
 			$Query2->Execute();
 
-			return Array("ChannelId" =>$ChannelId, "Name" => $Name, "Motd" => $Motd);
+			return Array("ChannelId" =>$ChannelId, "Name" => $Name, "Motd" => $Motd, "Read" => $Read, "Write" => $Write, "Moderate" => $Moderate, "Administrate" => $Administrate);
 		}
 		else
 		{
