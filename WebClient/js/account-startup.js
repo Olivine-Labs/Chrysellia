@@ -99,7 +99,7 @@ $(function(){
 				case vc.ER_BADDATA:
 				case vc.ER_MALFORMED:
 				case vc.ER_DBERROR:
-					alert("Please check name length and try again.");
+					alert("A database error has occured..");
 					break;
 				case vc.ER_ALREADYEXISTS:
 					alert("A character with that name already exists!");
