@@ -257,7 +257,7 @@ input.watermark {
 .mapData { font-family: 'DejaWeb', Arial, Helvetica, sans-serif; padding: 0; margin: 0; height: 30px; width: 30px; display: block; text-align: center; }
 .ra_created { font-size: .75em; font-style: italic; }
 .character li.ra_gold { font-size: 18pt; }
-.icon { display: inline-block; height: 24px; margin-right: 6px; padding-left: 32px; padding-top: 5px; }
+.icon { display: inline-block; height: 24px; margin-right: 0px; padding-left: 32px; padding-top: 0px; }
 .icon.str { background: transparent url(images/stricon.png) top left no-repeat; }
 .icon.dex { background: transparent url(images/dexicon.png) top left no-repeat; }
 .icon.vit { background: transparent url(images/viticon.png) top left no-repeat; }
