@@ -39,7 +39,7 @@ if(
 
 					$TargetRights = $Get->Rights;
 					$CanModify = true;
-					if(!($TargetCharacter['Administrate'] && !$Rights['Administrate']))
+					if(!($TargetCharacterRights['Administrate'] && !$Rights['Administrate']))
 					{
 						if(property_exists($TargetRights, 'Read'))
 						{
