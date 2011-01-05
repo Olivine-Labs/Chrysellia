@@ -11,7 +11,7 @@ $(function(){
 	});
 	
 	window.$tabs = $('#chatChannels').tabs({
-		tabTemplate: '<li><a href="#{href}" class="chatChannelLabel}">#{label}</a> <span class="ui-icon ui-icon-close">Remove Tab</span></li>',
+		tabTemplate: '<li><a href="#{href}" class="chatChannelLabel">#{label}</a> <span class="ui-icon ui-icon-close">Remove Tab</span></li>',
 		add: function(event, ui) {
 			$(ui.panel).append('<div />');
 			$tabs.tabs('select', '#' + ui.panel.id);
@@ -25,7 +25,7 @@ $(function(){
 		var channelId = $(".channelId", $($(this).siblings("a").attr("href"))).val();
 		if(channelId != vc.ch.StaticRooms["General"] && channelId !=  vc.ch.StaticRooms["Trade"]){
 			window.ChatToCloseIndex = $('li',$tabs).index($(this).parent()); 
-			vc.ch.PartChannel(channelId, function(){ $tabs.tabs('remove', window.ChatToCloseIndex); });
+			LeaveChannel(channelId);
 		}
 	});
 	
@@ -114,11 +114,12 @@ $(function(){
 		$("#itemsWindow").dialog("open");
 	});
 	
-	$(".chatMessage.system a.joinChannel").bind("click", function(e){
+	$(".chatMessage.system a.joinChannel").live("click", function(e){
 		e.preventDefault();
 		$this = $(this);
 		var channelName = $this.siblings(".channelName").text();
 		vc.ch.JoinChannel(channelName, JoinChannel);
+		$this.parentsUntil(".ui-dialog").parent().dialog("destroy").remove();
 	});
 });
 
@@ -151,9 +152,17 @@ function JoinChannel(data){
 		$("#jc_channelName, #cc_channelMOTD").val('');
 		$("#joinChannelForm").dialog("close");
 		AddTab(data.Data.Name, data.Data.ChannelId, data.Data.Motd);
+		data.Data.Permissions.isJoined = 1;
+		
+		window.MyCharacter.Channels[data.Data.ChannelId] = { Motd: data.Data.Motd, Name: data.Data.Name, Permissions: data.Data.Permissions }
 	}else{
 		alert("An error has occured.");
 	}
+}
+
+function LeaveChannel(channelId){
+	vc.ch.PartChannel(channelId, function(){ $tabs.tabs('remove', window.ChatToCloseIndex); });
+	delete window.MyCharacter.Channels[channelId];
 }
 
 function AddTab(title, channelId, motd) {
@@ -167,7 +176,11 @@ function AddTab(title, channelId, motd) {
 function FillChat(list){
 	if(list.Result == vc.ER_SUCCESS){
 		for(var i in list.Data){
-			InsertChat(list.Data[i], i);
+			if(i!=0){
+				InsertChat(list.Data[i], i);
+			}else{
+				ProcessSystemMessage(list.Data[0]);
+			}
 		}
 	}
 	
@@ -265,37 +278,55 @@ function InsertChat(data, channel){
 				$("<div class='chatMessage motd'></div>").append(msg).prependTo($chatWindow);
 				break;
 			case vc.ch.CHAT_TYPE_SYSTEM: //System message, like invites
-				var ChannelInfo = chatobj.Message;
 				
-				if(window.MyCharacter.Channels[ChannelInfo.ChannelId] === undefined){
-					$("<div class='chatMessage system'>" + chatobj.FromName + " invited you to join <span class='channelName'>" + ChannelInfo.Name + "</span>! <a href='#' class='joinChannel'>Click here to join.</a></div>").prependTo($chatWindow);
-				}else{
-					if(window.MyCharacter.Channels[ChannelInfo.ChannelId].Permissions.Write == 1 && ChannelInfo.Permissions.Write == 0){
-						$("<div class='chatMessage system'>You have been muted in this channel.</div>").prependTo($chatWindow);
-					}
-					
-					if(window.MyCharacter.Channels[ChannelInfo.ChannelId].Permissions.Moderate == 1 && ChannelInfo.Permissions.Write == 0){
-						$("<div class='chatMessage system'>You are no longer a mod in this channel.</div>").prependTo($chatWindow);
-					}else if(window.MyCharacter.Channels[ChannelInfo.ChannelId].Permissions.Administrate == 1 && ChannelInfo.Permissions.Administrate == 0){
-						$("<div class='chatMessage system'>You are no longer an admin in this channel.</div>").prependTo($chatWindow);
-					}
-					
-					if(window.MyCharacter.Channels[ChannelInfo.ChannelId].Permissions.Write == 0 && ChannelInfo.Permissions.Write == 1){
-						$("<div class='chatMessage system'>You have been voiced in this channel.</div>").prependTo($chatWindow);
-					}
-					
-					if(window.MyCharacter.Channels[ChannelInfo.ChannelId].Permissions.Administrate == 0 && ChannelInfo.Permissions.Administrate == 1){
-						$("<div class='chatMessage system'>You are now an administrator in this channel.</div>").prependTo($chatWindow);
-					}else if(window.MyCharacter.Channels[ChannelInfo.ChannelId].Permissions.Moderate == 0 && ChannelInfo.Permissions.Moderate == 1){
-						$("<div class='chatMessage system'>You are now a mod in this channel.</div>").prependTo($chatWindow);
-					}
-				}
-				
-				break;
 			default:
 				var msg = $("<span class='message' />").text(chatobj.Message);
 				$("<div class='chatMessage'><strong>" + chatobj.FromName + "</strong>: </div>").append(msg).prependTo($chatWindow);
 				break;
+		}
+	}
+}
+
+function ProcessSystemMessage(data){
+	for(x = 0; x< data.length; x++){
+		var chatobj = data[x];
+		var ChannelInfo = chatobj.Message;
+		
+		var $chatWindow = $("input[value='" + ChannelInfo.ChannelId + "']").parent();
+		
+		if(window.MyCharacter.Channels[ChannelInfo.ChannelId] === undefined){
+			$("<div class='chatMessage system'>" + chatobj.FromName + " invited you to join <span class='channelName'>" + ChannelInfo.Name + "</span>! <a href='#' class='joinChannel'>Click here to join.</a></div>").dialog({ title: "Chat Room Invitation" });
+		}else if(window.MyCharacter.Channels[ChannelInfo.ChannelId].Permissions.isJoined == 1 && ChannelInfo.isJoined == 0){
+			
+			$("<div class='chatMessage system'>You have been kicked from <span class='channelName'>" + ChannelInfo.Name + "</span>!</div>").dialog({ title: "Kicked From Chat Room" });
+		}else{
+			if(window.MyCharacter.Channels[ChannelInfo.ChannelId].Permissions.Write == 1 && ChannelInfo.Write == 0){
+				$("<div class='chatMessage system'>You have been muted in this channel.</div>").prependTo($chatWindow);
+			}
+			
+			if(window.MyCharacter.Channels[ChannelInfo.ChannelId].Permissions.Moderate == 1 && ChannelInfo.Write == 0){
+				$("<div class='chatMessage system'>You are no longer a mod in this channel.</div>").prependTo($chatWindow);
+			}else if(window.MyCharacter.Channels[ChannelInfo.ChannelId].Permissions.Administrate == 1 && ChannelInfo.Administrate == 0){
+				$("<div class='chatMessage system'>You are no longer an admin in this channel.</div>").prependTo($chatWindow);
+			}
+			
+			if(window.MyCharacter.Channels[ChannelInfo.ChannelId].Permissions.Write == 0 && ChannelInfo.Write == 1){
+				$("<div class='chatMessage system'>You have been voiced in this channel.</div>").prependTo($chatWindow);
+			}
+			
+			if(window.MyCharacter.Channels[ChannelInfo.ChannelId].Permissions.Read == 1 && ChannelInfo.Read == 0){
+				$("<div class='chatMessage system'>You have been deafened in this channel.</div>").prependTo($chatWindow);
+			}else if(window.MyCharacter.Channels[ChannelInfo.ChannelId].Permissions.Read == 0 && ChannelInfo.Read == 1){
+				$("<div class='chatMessage system'>You can now read this channel.</div>").prependTo($chatWindow);
+			}
+			
+			if(window.MyCharacter.Channels[ChannelInfo.ChannelId].Permissions.Administrate == 0 && ChannelInfo.Administrate == 1){
+				$("<div class='chatMessage system'>You are now an administrator in this channel.</div>").prependTo($chatWindow);
+			}else if(window.MyCharacter.Channels[ChannelInfo.ChannelId].Permissions.Moderate == 0 && ChannelInfo.Moderate == 1){
+				$("<div class='chatMessage system'>You are now a mod in this channel.</div>").prependTo($chatWindow);
+			}
+			
+			window.MyCharacter.Channels[data.Data.ChannelId].Permissions = { Read: ChannelInfo.Read, Write: ChannelInfo.Write, Moderate:ChannelInfo.Moderate, Administrate:ChannelInfo.Administrate }
 		}
 	}
 }
