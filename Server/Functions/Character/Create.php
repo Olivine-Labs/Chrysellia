@@ -113,7 +113,6 @@ if(
 				else
 				{
 					$Database->rollbackTransaction();
-					$Result->Set('Result', \Protocol\Result::ER_DBERROR);
 				}
 			}
 			catch(Exception $e)
