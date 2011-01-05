@@ -26,59 +26,70 @@ if(
 
 		if($Rights = $Database->Chat->GetRights($Character, $Get->Channel))
 		{
-			if($Rights['Administrate'])
+			if($Rights['Administrate'] || $Rights['Moderate'])
 			{
 				if($Database->Characters->CheckName($TargetCharacter))
 				{
 					$TargetCharacterRights = $Database->Chat->GetRights($TargetCharacter, $Get->Channel);
-					
+
 					define('RIGHT_READ', 0);
 					define('RIGHT_WRITE', 1);
 					define('RIGHT_MODERATE', 2);
 					define('RIGHT_ADMINISTRATE', 3);
-					
+
 					$TargetRights = $Get->Rights;
-					
-					if(property_exists($TargetRights, 'Read')){
-						$TargetCharacterRights['Read'] = (bool)$TargetRights->Read;
-					}
-					
-					if(property_exists($TargetRights, 'Write')){
-						$TargetCharacterRights['Write'] = (bool)$TargetRights->Write;
-					}
-					
-					if(property_exists($TargetRights, 'Moderate')){
-						$TargetCharacterRights['Moderate'] = (bool)$TargetRights->Moderate;
-					}
-					
-					if(property_exists($TargetRights, 'Administrate')){
-						$TargetCharacterRights['Administrate'] = (bool)$TargetRights->Administrate;
-					}
-					
-					//if(property_exists($TargetRights, 'isJoined')){
-					//	$TargetCharacterRights['isJoined'] = (bool)$TargetRights->isJoined;
-					//}
-
-					$Success = false;
-					$Database->startTransaction();
-					if($Database->Chat->SetRights($TargetCharacter, $Get->Channel, $TargetCharacterRights))
+					$CanModify = true;
+					if(!($TargetCharacter['Administrate'] && !$Rights['Administrate']))
 					{
-						$TargetCharacterRights['ChannelId'] = $Get->Channel;
-						if($Database->Chat->Insert($Character, $Get->Channel, $TargetCharacterRights, 255, $TargetCharacter))
+						if(property_exists($TargetRights, 'Read'))
 						{
-							$Success = true;
+							$TargetCharacterRights['Read'] = (bool)$TargetRights->Read;
 						}
-					}
 
-					if($Success)
+						if(property_exists($TargetRights, 'Write'))
+						{
+							$TargetCharacterRights['Write'] = (bool)$TargetRights->Write;
+						}
+
+						if($Rights['Administrate'])
+						{
+							if(property_exists($TargetRights, 'Moderate'))
+							{
+								$TargetCharacterRights['Moderate'] = (bool)$TargetRights->Moderate;
+							}
+
+							if(property_exists($TargetRights, 'Administrate'))
+							{
+								$TargetCharacterRights['Administrate'] = (bool)$TargetRights->Administrate;
+							}
+						}
+					}else
 					{
-						$Database->commitTransaction();
-						$Result->Set('Result', \Protocol\Result::ER_SUCCESS);
+						$CanModify = false;
 					}
-					else
+					if($CanModify)
 					{
-						$Database->rollbackTransaction();
-						$Result->Set('Result', \Protocol\Result::ER_DBERROR);
+						$Success = false;
+						$Database->startTransaction();
+						if($Database->Chat->SetRights($TargetCharacter, $Get->Channel, $TargetCharacterRights))
+						{
+							$TargetCharacterRights['ChannelId'] = $Get->Channel;
+							if($Database->Chat->Insert($Character, $Get->Channel, $TargetCharacterRights, 255, $TargetCharacter))
+							{
+								$Success = true;
+							}
+						}
+
+						if($Success)
+						{
+							$Database->commitTransaction();
+							$Result->Set('Result', \Protocol\Result::ER_SUCCESS);
+						}
+						else
+						{
+							$Database->rollbackTransaction();
+							$Result->Set('Result', \Protocol\Result::ER_DBERROR);
+						}
 					}
 				}
 				else
