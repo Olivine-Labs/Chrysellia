@@ -51,7 +51,7 @@ class Chat extends \Database\Chat
 	 * @return Boolean
 	 *   Whether the insert was successful or not.
 	 */
-	public function Insert(\Entities\Character $Character, $ChannelId, $Message, $Type=0, \Entities\Character $CharacterTarget = null)
+	public function Insert(\Entities\Character $Character, $ChannelId, $Message, $Type=0, \Entities\Character $CharacterTarget = new \Entities\Character())
 	{
 		$Query = $this->Database->Connection->prepare(SQL_INSERTMESSAGE);
 		
@@ -85,7 +85,7 @@ class Chat extends \Database\Chat
 		$Query = $this->Database->Connection->prepare(SQL_GETMESSAGES);
 		$Query->bind_param('sss', $Character->CharacterId, $ChannelId, $DateForward);
 
-		$Query->Execute();	
+		$Query->Execute();
 		$Continue = true;
 		$Index = 0;
 		$Result = Array();
@@ -129,7 +129,7 @@ class Chat extends \Database\Chat
 		{
 			$Query->bind_result($Result[$Index]['Message'], $Result[$Index]['FromName'], $Result[$Index]['Type'], $Result[$Index]['SentOn']);
 			$Continue = $Query->Fetch();
-			if($Result[$Index]['Type'] == 2)
+			if($Result[$Index]['Type'] == 1)
 			{
 				$Result[$Index]['Message'] = unserialize($Result[$Index]['Message']);
 			}

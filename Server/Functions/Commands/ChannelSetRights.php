@@ -63,7 +63,7 @@ if(
 					$Database->startTransaction();
 					if($Database->Chat->SetRights($TargetCharacter, $Get->Channel, $TargetCharacterRights))
 					{
-						if($Database->Chat->Insert($Character, $Get->Channel, serialize($TargetCharacterRights), 1, $TargetCharacter))
+						if($Database->Chat->Insert($Character, $Get->Channel, serialize($TargetCharacterRights), 2, $TargetCharacter))
 						{
 							$Success = true;
 						}
@@ -71,9 +71,11 @@ if(
 
 					if($Success)
 					{
-						$Result->Set('Result', \Protocol\Result::ER_SUCCESS);
 						$Database->commitTransaction();
-					}else{
+						$Result->Set('Result', \Protocol\Result::ER_SUCCESS);
+					}
+					else
+					{
 						$Database->rollbackTransaction();
 						$Result->Set('Result', \Protocol\Result::ER_DBERROR);
 					}
