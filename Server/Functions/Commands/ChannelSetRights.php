@@ -51,6 +51,14 @@ if(
 							$TargetCharacterRights['Write'] = (bool)$TargetRights->Write;
 						}
 
+						if(property_exists($TargetRights, 'isJoined'))
+						{
+							if(!(bool)$TargetRights->isJoined)
+							{
+								$TargetCharacterRights['isJoined'] = false;
+							}
+						}
+
 						if($Rights['Administrate'])
 						{
 							if(property_exists($TargetRights, 'Moderate'))
