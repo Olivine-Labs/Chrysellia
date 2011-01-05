@@ -205,7 +205,7 @@ class Chat extends \Database\Chat
 
 			$Query2->Execute();
 
-			return Array("ChannelId" =>$ChannelId, "Name" => $Name, "Motd" => $Motd, "Read" => $Read, "Write" => $Write, "Moderate" => $Moderate, "Administrate" => $Administrate);
+			return Array("ChannelId" =>$ChannelId, "Name" => $Name, "Motd" => $Motd, "Permissions"=>array("Read" => $Read, "Write" => $Write, "Moderate" => $Moderate, "Administrate" => $Administrate));
 		}
 		else
 		{
