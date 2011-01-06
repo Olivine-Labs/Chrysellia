@@ -175,7 +175,7 @@ class Items
 
 
 	/**
-	 * Load a character's inventory
+	 * Insert an inventory for a character
 	 *
 	 * @param $Character
 	 *   The Character entity that will be used to load the inventory.	/**
@@ -200,7 +200,14 @@ class Items
 		else
 			return false;
 	}
-	 *   Must have it's character id property set
+
+
+	/**
+	 * Load a character's inventory
+	 *
+	 * @param $Character
+	 *   The Character entity that the inventory will belong to
+	 *   Must have it's character Id property set
 	 *
 	 * @return Array
 	 *   An array containing all the inventory items
