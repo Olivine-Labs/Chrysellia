@@ -95,6 +95,10 @@ CREATE TABLE IF NOT EXISTS `channels` (
 -- Dumping data for table `channels`
 --
 
+INSERT INTO `channels` (`channelId`, `name`, `motd`, `createdOn`) VALUES
+('CHAN_00000000000000000000001', 'General', 'Welcome to Chrysellia!', '2011-01-06 15:35:42'),
+('CHAN_00000000000000000000002', 'Trade', 'Trade chat.', '2011-01-06 15:35:42');
+
 
 -- --------------------------------------------------------
 
