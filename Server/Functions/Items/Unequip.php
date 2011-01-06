@@ -11,7 +11,7 @@ if(isset($_GET['Data']))
 
 try
 {
-	if(isset($Get->ItemId))
+	if(property_exists($Get, 'ItemId'))
 	{
 		$Character = new \Entities\Character();
 		$Character->CharacterId = $_SESSION['CharacterId'];
