@@ -41,7 +41,7 @@ define('SQL_INSERTTRADEITEM', 'INSERT INTO `trade_items` (`trade_id`, `sendRecv`
 
 define('SQL_GETEQUIPPEDITEMS', 'SELECT e.itemId, e.slotType, e.slots, e.slotNumber, i.name, i.description, i.buyPrice, i.sellPrice, i.itemType, i.createdOn, ie.sockets FROM `character_equipment` e INNER JOIN `items` i ON i.itemId=e.itemId INNER JOIN `item_equippables` ie ON ie.itemId=i.itemId WHERE e.characterId=?');
 define('SQL_EQUIPITEM', 'INSERT INTO  `character_equipment` (`characterId`, `itemId`, `slotType`, `slots`, `slotNumber`) VALUES (?, ?, ?, ?, ?)');
-define('SQL_UNEQUIPITEM', 'DELETE FROM `character_equipment` WHERE `itemId`=? AND `characterId`=?');
+define('SQL_UNEQUIPITEM', 'DELETE FROM `character_equipment` WHERE `characterId`=? AND `itemId`=?');
 
 /**
  * Class that holds definitions for Item query functions
