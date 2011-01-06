@@ -11,13 +11,13 @@ if(isset($_GET['Data']))
 
 try
 {
-	$Character = new \Entities\Character();
-	$Character->CharacterId = $_SESSION['CharacterId'];
 	if(isset($Get->ItemId)
 	{
+		$Character = new \Entities\Character();
+		$Character->CharacterId = $_SESSION['CharacterId'];
 		$Item = new \Entities\Item();
 		$Item->ItemId = $Get->ItemId;
-		if($Database->Items->Unequip($Item))
+		if($Database->Items->Unequip($Character, $Item))
 		{
 			$Result->Set('Result', \Protocol\Result::ER_SUCCESS);
 			$Result->Set('Data', $Inventory);
