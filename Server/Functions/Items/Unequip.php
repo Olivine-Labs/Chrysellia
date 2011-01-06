@@ -20,7 +20,6 @@ try
 		if($Database->Items->UnequipItem($Character, $Item))
 		{
 			$Result->Set('Result', \Protocol\Result::ER_SUCCESS);
-			$Result->Set('Data', $Inventory);
 		}else
 		{
 			$Result->Set('Result', \Protocol\Result::ER_DBERROR);
