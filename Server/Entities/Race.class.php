@@ -285,6 +285,34 @@ class Race
 	public $AirMasteryMax;
 
 	/**
+	 * WeaponSlots
+	 *
+	 * @var WeaponSlots
+	 */
+	public $WeaponSlots;
+
+	/**
+	 * ArmorSlots
+	 *
+	 * @var ArmorSlots
+	 */
+	public $ArmorSlots;
+
+	/**
+	 * AccessorySlots
+	 *
+	 * @var AccessorySlots
+	 */
+	public $AccessorySlots;
+
+	/**
+	 * SpellSlots
+	 *
+	 * @var SpellSlots
+	 */
+	public $SpellSlots;
+
+	/**
 	 * Default constructor for the Account Class
 	 */
 	public function __construct()
