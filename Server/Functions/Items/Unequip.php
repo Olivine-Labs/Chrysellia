@@ -13,15 +13,23 @@ try
 {
 	$Character = new \Entities\Character();
 	$Character->CharacterId = $_SESSION['CharacterId'];
-	/*if($Inventory = $Database->Items->LoadInventory($Character))
+	if(isset($Get->ItemId)
 	{
-		$Result->Set('Result', \Protocol\Result::ER_SUCCESS);
-		$Result->Set('Data', $Inventory);
+		$Item = new \Entities\Item();
+		$Item->ItemId = $Get->ItemId;
+		if($Database->Items->Unequip($Item))
+		{
+			$Result->Set('Result', \Protocol\Result::ER_SUCCESS);
+			$Result->Set('Data', $Inventory);
+		}else
+		{
+			$Result->Set('Result', \Protocol\Result::ER_DBERROR);
+		}
 	}
 	else
 	{
-		$Result->Set('Result', \Protocol\Result::ER_DBERROR);
-	}*/
+		$Result->Set('Result', \Protocol\Result::ER_BADDATA);
+	}
 }
 catch(Exception $e)
 {
