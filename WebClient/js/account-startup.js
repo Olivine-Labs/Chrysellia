@@ -92,9 +92,8 @@ $(function(){
 		vc.cs.Create(name, gender, pin, race.Id, str, dex, intel, wis, vit, function(r){
 			switch(r.Result){
 				case vc.ER_SUCCESS:
-					vc.cs.List(LoadCharacterList);
-					$("#raceSelection").fadeOut(500, function(){ $("#accountSelection").fadeIn(500); });
-					$(".statChooser").val(0);
+					vc.cs.List(function(data) { LoadCharacterList(data); $("#logIn .character a:last").click(); });
+					
 					break;
 				case vc.ER_BADDATA:
 				case vc.ER_MALFORMED:

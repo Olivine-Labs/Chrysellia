@@ -72,6 +72,7 @@
 		this.Channels = new Array();
 		this.Inventories = new Array();
 		this.Inventories["Personal"] = new Array();
+		this.Equipment = new Array();
 		
 		this.CurrentMap = Maps["MAP_00000000000000000000001"];
 		
@@ -133,6 +134,7 @@
 			this.Gold = data.Gold;
 			this.Channels = data.Channels;
 			this.CurrentMap = Maps[data.MapId];
+			this.Equipment = data.Equipment;
 		}
 	}
 	

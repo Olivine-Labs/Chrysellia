@@ -197,39 +197,7 @@
 		</div>
 		
 		<div style="hidden" id="itemsWindow" style="display: none;">
-			<form action="sendaction.php" method="post">
-				<div class="itemSelection">
-					<span class="itemType">Left Hand</span>
-					<select id="lhSelection">
-						<option value="0">NONE</option>
-					</select>
-				</div>
-				<div class="itemSelection">
-					<span class="itemType">Right Hand</span>
-					<select id="rhSelection">
-						<option value="0">NONE</option>
-					</select>
-				</div>
-				<div class="itemSelection">
-					<span class="itemType">Spell 1</span>
-					<select id="s1Selection">
-						<option value="0">NONE</option>
-					</select>
-				</div>
-				<div class="itemSelection">
-					<span class="itemType">Spell 2</span>
-					<select id="s2Selection">
-						<option value="0">NONE</option>
-					</select>
-				</div>
-				<div class="itemSelection">
-					<span class="itemType">Armor</span>
-					<select id="aSelection">
-						<option value="0">NONE</option>
-					</select>
-				</div>
-
-			</form>
+			
 		</div>
 		
 		<!--[if IE 8]>

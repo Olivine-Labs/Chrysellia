@@ -121,7 +121,37 @@ $(function(){
 		vc.ch.JoinChannel(channelName, JoinChannel);
 		$this.parentsUntil(".ui-dialog").parent().dialog("destroy").remove();
 	});
+	
+	$("#itemsWindow select").live("change", function(e){
+		$this = $(this);
+		
+		var slotType = $this.attr("class").replace(/itemType_/,'')*1;
+		var slotIndex = $('#itemsWindow select').index($this);
+		
+		if($this.val() == 0){
+			vc.is.UnEquip(window.MyCharacter.Equipment[slotType][slotIndex].ItemId, slotType, slotIndex, UnEquipItem);
+		}else{
+			vc.is.Equip($this.val(), slotType, slotIndex, EquipItem);
+		}
+	});
 });
+
+function EquipItem(data, itemId, slotType, slotIndex){
+	if(data.Result == vc.ER_SUCCESS){
+		for(var i in window.MyCharacter.Inventories["Personal"]){
+			if(window.MyCharacter.Inventories["Personal"][i].ItemId = itemId){
+				window.MyCharacter.Equipment[slotType][slotIndex] = window.MyCharacter.Inventories["Personal"][i];
+				delete window.MyCharacter.Inventories["Personal"][i];
+			}
+		}
+	}
+}
+
+function UnEquipItem(data, itemId, slotType, slotIndex){
+	if(data.Result == vc.ER_SUCCESS){
+		window.MyCharacter.Equipment[slotType][slotIndex] = {};
+	}
+}
 
 function RefreshMap(data){
 	if(data.Result == vc.ER_SUCCESS){
@@ -189,7 +219,7 @@ function FillChat(list){
 	
 	$(".chatMessage:nth-child(n+50)").remove();
 	
-	window.setTimeout(function(){ vc.ch.GetMessagesFromChannel(MyCharacter.CurrentChannel, FillChat); }, 3000);
+	window.setTimeout(function(){ vc.ch.GetMessagesFromChannel(MyCharacter.CurrentChannel, FillChat); }, 4500);
 }
 
 function SelectCharacter(data){
@@ -209,6 +239,7 @@ function SelectCharacter(data){
 	
 	$tabs.tabs('select', 0);
 	BuildMap();
+	BuildInitialInventory();
 	
 	vc.ch.GetMessagesFromChannel(i, FillChat);
 	
@@ -238,24 +269,43 @@ function BuildMap(){
 	$currentMap.css({ height: 30*MyCharacter.CurrentMap.DimensionY, width: 30*MyCharacter.CurrentMap.DimensionX })
 }
 
+function BuildInitialInventory(){
+	var typeMapping = vc.is.TypeMapping;	
+	var thisSlotLength = 0;
+	var slotName = "";
+	var body = window.MyCharacter.Equipment;
+	var currentInventory = [];
+	var item = {};
+	var $select = {};
+	
+	for(var type = 0; type < 4; type++){
+		if(body !== undefined && body[type] !== undefined){
+			currentInventory = body[type];
+			thisSlotLength = currentInventory.length;
+			for(var i in currentInventory){
+				slotName = typeMapping[type] + " " + (i*1 + 1);
+				$select = $("<select class='itemType_" + type + "'><option value='0'>NONE</option></select>");
+				$selectRow = $("<div class='itemSelection' />").append("<span class='itemType'>" + slotName + "</span>").append($select);
+				if(currentInventory[i].ItemId !== null){
+					item = currentInventory[i];
+					$("<option value='" + item.ItemId + "' selected='selected'>" + item.Name + "</option>").appendTo($select);
+				}
+				
+				$("#itemsWindow").append($selectRow);
+			}
+		}
+	}
+}
+
 function LoadInventory(data){
 	if(data.Result == vc.ER_SUCCESS){
-		MyCharacter.Inventories["Personal"] = data.Data;
+		var item = {};
+		var TypeMapping = vc.is.TypeMapping;
+		window.MyCharacter.Inventories["Personal"] = data.Data;
 		for(var i in MyCharacter.Inventories["Personal"]){
-			var item = MyCharacter.Inventories["Personal"][i];
-			var $opt = $("<option value='" + item.ItemId + "'>" + item.Name + "</option>");
-			switch(item.SlotType){
-				case 0:
-					$opt.appendTo($("#lhSelection, #rhSelection"));
-					break;
-				
-				case 1:
-					$opt.appendTo($("#aSelection"));
-					break;
-				
-				case 2:
-					$opt.appendTo($("#s1Selection, #s2Selection"));
-					break;
+			item = MyCharacter.Inventories["Personal"][i];
+			if(item !== undefined && item !== {}){
+				$("<option value='" + item.ItemId + "'>" + item.Name + "</option>").appendTo($("." + TypeMapping[item.SlotType]));
 			}
 		}
 	}

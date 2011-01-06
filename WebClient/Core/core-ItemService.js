@@ -18,6 +18,13 @@
 		ACTION_SEND_TRADE: 3,
 		ACTION_ACCEPT_TRADE: 4,
 		
+		ITEM_TYPE_WEAPONS: 0,
+		ITEM_TYPE_ARMOR: 1,
+		ITEM_TYPE_ACCESSORIES: 2,
+		ITEM_TYPE_SPELLS: 3,
+		
+		TypeMapping: ["Weapon", "Armor", "Accessory", "Spell"],
+		
 		GetInventory: function(callback){
 			$.getJSON(
 				V2Core.SERVERCODE_DIRECTORY + "Item.php",
@@ -26,19 +33,19 @@
 			);
 		},
 	
-		Equip: function(itemId, callback){
+		Equip: function(itemId, slotType, slot, callback){
 			$.getJSON(
 				V2Core.SERVERCODE_DIRECTORY + "Item.php",
-				{ Action: ItemService.ACTION_EQUIP, Data: JSON.stringify({ Item: itemId }) },
-				function(data) { callback(data); }
+				{ Action: ItemService.ACTION_EQUIP, Data: JSON.stringify({ Item: itemId, SlotType: slotType, Slot: slot }) },
+				function(data) { callback(data, itemId, slotType, slot); }
 			);
 		},
 		
-		UnEquip: function(itemId, callback){
+		UnEquip: function(itemId, slotType, slot, callback){
 			$.getJSON(
 				V2Core.SERVERCODE_DIRECTORY + "Item.php",
 				{ Action: ItemService.ACTION_UNEQUIP, Data: JSON.stringify({ Item: itemId }) },
-				function(data) { callback(data); }
+				function(data) { callback(data, itemId, slotType, slot); }
 			);
 		},
 		
