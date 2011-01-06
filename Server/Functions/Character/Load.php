@@ -14,7 +14,7 @@ try
 			{
 				if($Database->Characters->LoadPosition($ACharacter))
 				{
-					if($Character->Equipment = $Database->Items->LoadEquippedItems($ACharacter))
+					if($ACharacter->Equipment = $Database->Items->LoadEquippedItems($ACharacter))
 					{
 						$Race = new \Entities\Race();
 						$Race->RaceId = $ACharacter->RaceId;
@@ -43,11 +43,11 @@ try
 								$EquipmentArray[$TypeIndex][$Index]=new \Entities\Item();
 							}
 						}
-						foreach($Character->Equipment AS $AnItem)
+						foreach($ACharacter->Equipment AS $AnItem)
 						{
 							$EquipmentArray[$AnItem->SlotType][$AnItem->SlotNumber] = $AnItem;
 						}
-						$Character->Equipment = $EquipmentArray;
+						$ACharacter->Equipment = $EquipmentArray;
 						
 						if($ACharacter->Pin > 0)
 							$ACharacter->HasPin = true;
