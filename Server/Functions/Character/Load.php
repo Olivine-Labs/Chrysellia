@@ -16,6 +16,37 @@ try
 				{
 					if($Character->Equipment = $Database->Items->LoadEquippedItems($ACharacter))
 					{
+						$Race = $Database->Race->LoadById($Character->RaceId);
+						$EquipmentArray = Array();
+						for($TypeIndex=0; $TypeIndex < 4; $TypeIndex++)
+						{
+							$Slots = 0;
+							switch($TypeIndex)
+							{
+								case 0:
+									$Slots = $Race->WeaponSlots;
+									break;
+								case 1:
+									$Slots = $Race->ArmorSlots;
+									break;
+								case 2:
+									$Slots = $Race->AccessorySlots;
+									break;
+								case 3:
+									$Slots = $Race->SpellSlots;
+									break;
+							}
+							for($Index = 0; $Index < $Slots; $Index++)
+							{
+								$EquipmentArray[$TypeIndex][$Index]=new \Entities\Item();
+							}
+						}
+						foreach($Character->Equipment AS $AnItem)
+						{
+							$EquipmentArray[$AnItem->SlotType][$AnItem->SlotNumber] = $AnItem;
+						}
+						$Character->Equipment = $EquipmentArray;
+						
 						if($ACharacter->Pin > 0)
 							$ACharacter->HasPin = true;
 						else
