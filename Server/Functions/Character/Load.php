@@ -16,7 +16,7 @@ try
 				{
 					if($Character->Equipment = $Database->Items->LoadEquippedItems($ACharacter))
 					{
-						$Race = $Database->Race->LoadById($Character->RaceId);
+						$Race = $Database->Races->LoadById($ACharacter->RaceId);
 						$EquipmentArray = Array();
 						for($TypeIndex=0; $TypeIndex < 4; $TypeIndex++)
 						{
