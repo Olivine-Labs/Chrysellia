@@ -36,7 +36,7 @@
 		Equip: function(itemId, slotType, slot, callback){
 			$.getJSON(
 				V2Core.SERVERCODE_DIRECTORY + "Item.php",
-				{ Action: ItemService.ACTION_EQUIP, Data: JSON.stringify({ Item: itemId, SlotType: slotType, Slot: slot }) },
+				{ Action: ItemService.ACTION_EQUIP, Data: JSON.stringify({ ItemId: itemId, SlotType: slotType, Slot: slot }) },
 				function(data) { callback(data, itemId, slotType, slot); }
 			);
 		},
@@ -44,7 +44,7 @@
 		UnEquip: function(itemId, slotType, slot, callback){
 			$.getJSON(
 				V2Core.SERVERCODE_DIRECTORY + "Item.php",
-				{ Action: ItemService.ACTION_UNEQUIP, Data: JSON.stringify({ Item: itemId }) },
+				{ Action: ItemService.ACTION_UNEQUIP, Data: JSON.stringify({ ItemId: itemId }) },
 				function(data) { callback(data, itemId, slotType, slot); }
 			);
 		},
@@ -52,7 +52,7 @@
 		SendTrade: function(itemId, gold, playerName, callback){
 			$.getJSON(
 				V2Core.SERVERCODE_DIRECTORY + "Item.php",
-				{ Action: ItemService.ACTION_SEND_TRADE, Data: JSON.stringify({ Item: itemId, Gold: gold, Player: playerName }) },
+				{ Action: ItemService.ACTION_SEND_TRADE, Data: JSON.stringify({ ItemId: itemId, Gold: gold, Player: playerName }) },
 				function(data) { callback(data); }
 			);
 		},
