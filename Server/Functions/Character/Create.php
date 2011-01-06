@@ -86,7 +86,7 @@ if(
 														$Run = false;
 													}else
 													{
-														$Database->Items->EquipItem($Character, $AnItem, 0);
+														$Database->Items->EquipItem($ACharacter, $AnItem, 0);
 													}
 													$Index++;
 												}
