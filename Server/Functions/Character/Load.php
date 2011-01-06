@@ -16,7 +16,9 @@ try
 				{
 					if($Character->Equipment = $Database->Items->LoadEquippedItems($ACharacter))
 					{
-						$Race = $Database->Races->LoadById($ACharacter->RaceId);
+						$Race = new \Entities\Race();
+						$Race->RaceId = $ACharacter->RaceId;
+						$Database->Races->LoadById($Race);
 						$EquipmentArray = Array();
 						for($TypeIndex=0; $TypeIndex < 4; $TypeIndex++)
 						{
