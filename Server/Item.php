@@ -11,6 +11,8 @@ if ( 'GET' == $_SERVER['REQUEST_METHOD'] )
 	if(isset($_SESSION['AccountId']) && isset($_SESSION['CharacterId']))
 	{
 		define('ACTION_GETINVENTORY', 0);
+		define('ACTION_EQUIP', 1);
+		define('ACTION_UNEQUIP', 2);
 
 		if(isset($_GET['Action']))
 		{
@@ -18,6 +20,12 @@ if ( 'GET' == $_SERVER['REQUEST_METHOD'] )
 			{
 				case ACTION_GETINVENTORY:
 					include './Functions/Items/GetInventory.php';
+					break;
+				case ACTION_EQUIP:
+					include './Functions/Items/Equip.php';
+					break;
+				case ACTION_UNEQUIP:
+					include './Functions/Items/Unequip.php';
 					break;
 				default:
 					$Result->Set('Result', \Protocol\Result::ER_BADDATA);
