@@ -14,18 +14,25 @@ try
 			{
 				if($Database->Characters->LoadPosition($ACharacter))
 				{
-					if($ACharacter->Pin > 0)
-						$ACharacter->HasPin = true;
-					else
-						$ACharacter->HasPin = false;
-					$ACharacter->Pin = null;
-					$ACharacter->Channels = $Database->Chat->LoadJoinedChannels($ACharacter);
-					foreach($ACharacter->Channels AS $ChannelId=>&$AChannel)
+					if($Character->Equipment = $Database->Characters->LoadEquippedItems($ACharacter))
 					{
-						$AChannel['Permissions'] = $Database->Chat->GetRights($ACharacter, $ChannelId);
+						if($ACharacter->Pin > 0)
+							$ACharacter->HasPin = true;
+						else
+							$ACharacter->HasPin = false;
+						$ACharacter->Pin = null;
+						$ACharacter->Channels = $Database->Chat->LoadJoinedChannels($ACharacter);
+						foreach($ACharacter->Channels AS $ChannelId=>&$AChannel)
+						{
+							$AChannel['Permissions'] = $Database->Chat->GetRights($ACharacter, $ChannelId);
+						}
+						$Result->Set('Data', $ACharacter);
+						$Result->Set('Result', \Protocol\Result::ER_SUCCESS);
 					}
-					$Result->Set('Data', $ACharacter);
-					$Result->Set('Result', \Protocol\Result::ER_SUCCESS);
+					else
+					{
+						$Result->Set('Result', \Protocol\Result::ER_DBERROR);
+					}
 				}
 				else
 				{

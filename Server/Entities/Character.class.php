@@ -17,6 +17,15 @@ class Character
 	public $CharacterId;
 
 	/**
+	 * Equipment
+	 *
+	 * Array containing equipped items
+	 *
+	 * @var $Equipment
+	 */
+	public $Equipment;
+
+	/**
 	 * Pin
 	 *
 	 * @var $Pin

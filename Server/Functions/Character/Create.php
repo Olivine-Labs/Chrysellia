@@ -79,10 +79,14 @@ if(
 												$Index = 0;
 												while(($Run) && ($Index < count($DefaultItemsList)))
 												{
-													$DefaultItemsList[$Index]->InventoryId = $InventoryId;
-													if(!$Database->Items->Insert($DefaultItemsList[$Index]))
+													$AnItem = $DefaultItemsList[$Index];
+													$AnItem->InventoryId = $InventoryId;
+													if(!$Database->Items->Insert($AnItem))
 													{
 														$Run = false;
+													}else
+													{
+														$Database->Items->EquipItem($Character, $AnItem, 0);
 													}
 													$Index++;
 												}

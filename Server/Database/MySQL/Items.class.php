@@ -39,6 +39,10 @@ define('SQL_INSERTINVENTORYFORCHARACTER', 'INSERT INTO `inventories` (`inventory
 define('SQL_INSERTTRADE', 'INSERT INTO `trades` (`tradeId`, `inventoryTo`, `inventoryFrom`, `cost`, `tradedOn`) VALUES (?, ?, ?, ?, ?)');
 define('SQL_INSERTTRADEITEM', 'INSERT INTO `trade_items` (`trade_id`, `sendRecv`, `itemId`) VALUES (?, ?, ?)');
 
+define('SQL_GETEQUIPPEDITEMS', 'SELECT e.itemId, e.slotType, e.slots, e.slotNumber, i.name, i.description, i.buyPrice, i.sellPrice, i.itemType, i.createdOn, ie.sockets FROM `character_equipment` e INNER JOIN `items` i ON i.itemId=e.itemId INNER JOIN `item_equippables` ie ON ie.itemId=i.itemId WHERE e.characterId=?');
+define('SQL_EQUIPITEM', 'INSERT INTO  `character_equipment` (`characterId`, `itemId`, `slotType`, `slots`, `slotNumber`) VALUES (?, ?, ?, ?, ?)');
+define('SQL_UNEQUIPITEM', 'DELETE FROM `character_equipment` WHERE `itemId`=? AND `characterId`=?);
+
 /**
  * Class that holds definitions for Item query functions
  */
@@ -168,7 +172,13 @@ class Items
 		}
 	}
 
+
+
 	/**
+	 * Load a character's inventory
+	 *
+	 * @param $Character
+	 *   The Character entity that will be used to load the inventory.	/**
 	 * Insert an Inventory for a character
 	 *
 	 * @param $Character
@@ -190,12 +200,6 @@ class Items
 		else
 			return false;
 	}
-
-	/**
-	 * Load a character's inventory
-	 *
-	 * @param $Character
-	 *   The Character entity that will be used to load the inventory.
 	 *   Must have it's character id property set
 	 *
 	 * @return Array
@@ -257,6 +261,94 @@ class Items
 		}
 
 		return $Result;
+	}
+
+	/**
+	 * LoadEquippedItems
+	 *
+	 * @param $Character
+	 *   The character from which we are loading equipped items
+	 *
+	 * @return Array
+	 *   An array containing all the equipped items
+	 */
+	public function LoadEquippedItems(\Entities\Character $Character)
+	{
+		$Query = $this->Database->Connection->prepare(SQL_GETEQUIPPEDITEMS);
+		$Query->bind_param('s', $Character->CharacterId);
+
+		$Query->Execute();
+		$Continue = true;
+		$Result = Array();
+		$Index = 0;
+		while($Continue)
+		{
+			$AnItem = new \Entities\Item();
+			$Query->bind_result($AnItem->ItemId, $AnItem->SlotType, $AnItem->Slots, $AnItem->SlotNumber, $AnItem->Name, $AnItem->Description, $AnItem->BuyPrice, $AnItem->SellPrice, $AnItem->ItemType, $AnItem->CreatedOn, $AnItem->Sockets);
+			$Continue = $Query->Fetch();
+			if($Continue)
+			{
+				$Result[$Index] = $AnItem;
+				$Index++;
+			}
+		}
+
+		return $Result;
+	}
+
+	/**
+	 * Equips an item in a slot
+	 *
+	 * @param $Character
+	 *   The Character entity that will have an item equipped
+	 *   Must have it's characterId property set
+	 *
+	 * @param $Item
+	 *   The Item entity will be equipped
+	 *   Must have it's ItemId, SlotType, and slots properties set 
+	 *
+	 * @param $SlotNumber
+	 *   The slot which the item should be equipped in
+	 *
+	 * @return Boolean
+	 *   Whether or not the insert succeeded
+	 */
+	public function EquipItem(\Entities\Character $Character, \Entities\Item $Item, $SlotNumber)
+	{
+		$Query = $this->Database->Connection->prepare(SQL_EQUIPITEM);
+		$Query->bind_param('ssiii', $Character->CharacterId, $Item->ItemId, $Item->SlotType, $Item->Slots, $SlotNumber);
+		$Query->Execute();
+
+		if($Query->affected_rows > 0)
+			return true;
+		else
+			return false;
+	}
+
+	/**
+	 * Equips an item in a slot
+	 *
+	 * @param $Character
+	 *   The Character entity that will have an item equipped
+	 *   Must have it's characterId property set
+	 *
+	 * @param $Item
+	 *   The Item entity will be equipped
+	 *   Must have it's ItemId, SlotType, and slots properties set 
+	 *
+	 * @return Boolean
+	 *   Whether or not the insert succeeded
+	 */
+	public function UnequipItem(\Entities\Character $Character, \Entities\Item $Item)
+	{
+		$Query = $this->Database->Connection->prepare(SQL_UNEQUIPITEM);
+		$Query->bind_param('ss', $Character->CharacterId, $Item->ItemId);
+		$Query->Execute();
+
+		if($Query->affected_rows > 0)
+			return true;
+		else
+			return false;
 	}
 }
 ?>
