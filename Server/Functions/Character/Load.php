@@ -14,7 +14,7 @@ try
 			{
 				if($Database->Characters->LoadPosition($ACharacter))
 				{
-					if($Character->Equipment = $Database->Characters->LoadEquippedItems($ACharacter))
+					if($Character->Equipment = $Database->Items->LoadEquippedItems($ACharacter))
 					{
 						if($ACharacter->Pin > 0)
 							$ACharacter->HasPin = true;
