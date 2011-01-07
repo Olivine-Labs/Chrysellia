@@ -124,10 +124,10 @@ $(function(){
 	
 	$("#itemsWindow select").live("change", function(e){
 		$this = $(this);
-		
-		var slotType = $this.attr("class").replace(/itemType_/,'')*1;
-		var slotIndex = $('#itemsWindow select').index($this);
-		
+		var itemType = $this.attr("class").split(' ')[0];
+		var slotType = $this.attr("class").split(' ')[1].replace(/itemType_/,'')*1;
+		var slotIndex = $('#itemsWindow select.'+itemType).index($this);
+		alert(slotIndex);
 		if($this.val() == 0){
 			vc.is.UnEquip(window.MyCharacter.Equipment[slotType][slotIndex].ItemId, slotType, slotIndex, UnEquipItem);
 		}else{
