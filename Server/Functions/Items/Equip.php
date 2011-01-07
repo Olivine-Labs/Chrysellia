@@ -45,23 +45,49 @@ try
 								$Slots = $Race->SpellSlots;
 								break;
 						}
-						if($Get->SlotNumber > $Slots)
+						if($Get->SlotNumber + ($Item->Slots - 1) < $Slots)
 						{
 							if($Character->Equipment = $Database->Items->LoadEquippedItems($Character))
 							{
-								$CanEquip = false;
+								$SlotFree = true;
+								$FreeBefore = true;
+								$FreeAfter = true;
 								for($Index = 0; $Index < count($Character->Equipment); $Index++)
 								{
 									$AnItem = $Character->Equipment[$Index];
-									//if($AnItem
+									if($AnItem->SlotType == $Item->SlotType)
+									{
+										if($AnItem->SlotNumber != $Get->SlotNumber)
+										{
+											if(
+												($AnItem->SlotNumber < $Get->SlotNumber) &&
+												($AnItem->SlotNumber + ($AnItem->Slots-1) >= $Get->SlotNumber)
+											){
+												$FreeBefore = false;
+											}else if(
+												($Get->SlotNumber < $AnItem->SlotNumber) &&
+												($Get->SlotNumber + ($Item->Slots - 1) >= $AnItem->SlotNumber)
+											){
+												$FreeAfter = false;
+											}
+										}
+										else
+										{
+											$SlotFree = false;
+											break;
+										}
+									}
 								}
-								if($CanEquip)
+								if($SlotFree && $FreeBefore && $FreeAfter)
 								{
-									
-								}
-								else
-								{
-									
+									if($Database->Items->EquipItem($Character, $Item, $Get->SlotNumber));
+									{
+										$Result->Set('Result', \Protocol\Result::ER_SUCCESS);
+									}
+									else
+									{
+										$Result->Set('Result', \Protocol\Result::ER_DBERROR);
+									}
 								}
 							}
 							else
