@@ -6,7 +6,7 @@ define('IT_CONSUMABLE', 0);
 define('IT_SOCKETABLE', 1);
 define('IT_EQUIPPABLE', 2);
 
-define('SQL_LOADITEM', 'SELECT i.name, i.description, i.buyPrice, i.sellPrice, i.itemType, i.createdOn, ie.masteryType, ie.itemClass, ie.sockets, ie.slots, ie.slotType, is.socketedIn FROM `items` i LEFT JOIN `item_equippables` ie ON i.itemId=ie.itemId LEFT JOIN `item_socketables` is ON i.itemId=is.itemId WHERE i.itemId=?');
+define('SQL_LOADITEM', 'SELECT i.name, i.description, i.buyPrice, i.sellPrice, i.itemType, i.createdOn, ie.masteryType, ie.itemClass, ie.sockets, ie.slots, ie.slotType, isk.socketedIn FROM `items` i LEFT JOIN `item_equippables` ie ON i.itemId=ie.itemId LEFT JOIN `item_socketables` isk ON i.itemId=isk.itemId WHERE i.itemId=?');
 define('SQL_LOADITEM_TEMPLATE', 'SELECT it.name, it.description, it.buyPrice, it.sellPrice, it.itemType, it.createdOn, ite.masteryType, ite.itemClass, ite.sockets, ite.slots, ite.slotType, ite.onEquip, ite.onUnequip, ite.onAttack, ite.onDefend, its.onSocket, itc.onUse FROM `item_templates` it LEFT JOIN `item_template_equippables` ite ON it.itemTemplateId=ite.itemTemplateId LEFT JOIN `item_template_socketables` its ON it.itemTemplateId=its.itemTemplateId LEFT JOIN `item_template_consumables` itc ON itc.itemTemplateId=it.itemTemplateId WHERE it.itemTemplateId=?');
 define('SQL_DELETEITEM', 'DELETE FROM `items` WHERE `itemId`=?');
 
