@@ -7,7 +7,7 @@ define('SQL_GETMAP', 'SELECT `name`, `dimensionX`, `dimensionY`, `minLevel`, `ma
 define('SQL_INSERTCELL', 'INSERT INTO `map_places` (`mapId`, `placeId`, `positionX`, `positionY`, `isBlocked`, `isPvp`) VALUES (?, ?, ?, ?, ?, ?) ON DUPLICATE KEY UPDATE `placeId`=?, `isBlocked`=?, `isPvp=?`');
 
 /**
- * Abstract class that holds definitions for map query functions
+ * class that holds definitions for map query functions
  */
 class Maps extends \Database\Maps
 {
