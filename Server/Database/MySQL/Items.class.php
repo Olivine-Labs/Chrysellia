@@ -6,18 +6,18 @@ define('IT_CONSUMABLE', 0);
 define('IT_SOCKETABLE', 1);
 define('IT_EQUIPPABLE', 2);
 
-define('SQL_LOADITEM', 'SELECT i.name, i.description, i.buyPrice, i.sellPrice, i.itemType, i.createdOn, ie.sockets, ie.slots, ie.slotType, is.socketedIn FROM `items` i LEFT JOIN `item_equippables` ie ON i.itemId=ie.itemId LEFT JOIN `item_socketables` is ON i.itemId=is.itemId WHERE i.itemId=?');
-define('SQL_LOADITEM_TEMPLATE', 'SELECT it.name, it.description, it.buyPrice, it.sellPrice, it.itemType, it.createdOn, ite.sockets, ite.slots, ite.slotType, ite.onEquip, ite.onUnequip, ite.onAttack, ite.onDefend, its.onSocket, itc.onUse FROM `item_templates` it LEFT JOIN `item_template_equippables` ite ON it.itemTemplateId=ite.itemTemplateId LEFT JOIN `item_template_socketables` its ON it.itemTemplateId=its.itemTemplateId LEFT JOIN `item_template_consumables` itc ON itc.itemTemplateId=it.itemTemplateId WHERE it.itemTemplateId=?');
+define('SQL_LOADITEM', 'SELECT i.name, i.description, i.buyPrice, i.sellPrice, i.itemType, i.createdOn, ie.masteryType, ie.itemClass, ie.sockets, ie.slots, ie.slotType, is.socketedIn FROM `items` i LEFT JOIN `item_equippables` ie ON i.itemId=ie.itemId LEFT JOIN `item_socketables` is ON i.itemId=is.itemId WHERE i.itemId=?');
+define('SQL_LOADITEM_TEMPLATE', 'SELECT it.name, it.description, it.buyPrice, it.sellPrice, it.itemType, it.createdOn, ite.masteryType, ite.itemClass, ite.sockets, ite.slots, ite.slotType, ite.onEquip, ite.onUnequip, ite.onAttack, ite.onDefend, its.onSocket, itc.onUse FROM `item_templates` it LEFT JOIN `item_template_equippables` ite ON it.itemTemplateId=ite.itemTemplateId LEFT JOIN `item_template_socketables` its ON it.itemTemplateId=its.itemTemplateId LEFT JOIN `item_template_consumables` itc ON itc.itemTemplateId=it.itemTemplateId WHERE it.itemTemplateId=?');
 define('SQL_DELETEITEM', 'DELETE FROM `items` WHERE `itemId`=?');
 
 define('SQL_INSERTITEM', 'INSERT INTO  `items` (`itemId`, `itemTemplateId`, `itemType`, `inventoryId`, `name`, `description`, `buyPrice`, `sellPrice`) VALUES (?, ?, ?, ?, ?, ?, ?, ?)');
 define('SQL_INSERTITEM_CONSUMABLE', 'INSERT INTO `item_consumables` (`itemId`, `onUse`) VALUES (?, ?)');
-define('SQL_INSERTITEM_EQUIPPABLE', 'INSERT INTO `item_equippables` (`itemId`, `sockets`, `slots`, `slotType`, `onEquip`, `onUnequip`, `onAttack`, `onDefend`) VALUES (?, ?, ?, ?, ?, ?, ?, ?)');
+define('SQL_INSERTITEM_EQUIPPABLE', 'INSERT INTO `item_equippables` (`itemId`, `masteryType`, `itemClass`, `sockets`, `slots`, `slotType`, `onEquip`, `onUnequip`, `onAttack`, `onDefend`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)');
 define('SQL_INSERTITEM_SOCKETABLE', 'INSERT INTO `item_socketables` (`itemId`, `socketedIn`, `onSocket`) VALUES (?, ?, ?)');
 
 define('SQL_INSERTITEM_TEMPLATE', 'INSERT INTO  `item_templates` (`itemTemplateId`, `itemType`, `name`, `description`, `buyPrice`, `sellPrice`) VALUES (?, ?, ?, ?, ?, ?)');
 define('SQL_INSERTITEM_TEMPLATE_CONSUMABLE', 'INSERT INTO  `item_template_consumables` (`itemTemplateId`, `onUse`) VALUES (?, ?)');
-define('SQL_INSERTITEM_TEMPLATE_EQUIPPABLE', 'INSERT INTO  `item_template_equippables` (`itemTemplateId`, `sockets`, `slots`, `slotType`, `onEquip`, `onUnequip`, `onAttack`, `onDefend`) VALUES (?, ?, ?, ?, ?, ?, ?, ?)');
+define('SQL_INSERTITEM_TEMPLATE_EQUIPPABLE', 'INSERT INTO  `item_template_equippables` (`itemTemplateId`, `masteryType`, `itemClass`,  `sockets`, `slots`, `slotType`, `onEquip`, `onUnequip`, `onAttack`, `onDefend`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)');
 define('SQL_INSERTITEM_TEMPLATE_SOCKETABLE', 'INSERT INTO  `item_template_socketables` (`itemTemplateId`, `onSocket`) VALUES (?, ?)');
 
 define('SQL_UPDATEITEM', 'UPDATE `items` SET `name`=?, `description`=?, `buyPrice`=?, `sellPrice`=? WHERE `itemId`=?');
@@ -30,17 +30,17 @@ define('SQL_UPDATEITEM_TEMPLATE_CONSUMABLE', 'UPDATE `item_template_consumables`
 define('SQL_UPDATEITEM_TEMPLATE_EQUIPPABLE', 'UPDATE `item_template_equippables` SET `sockets`=?, `slots`=?, `onEquip`=?, `onUnequip`=?, `onAttack`=?, `onDefend`=? WHERE `itemTemplateId`=?');
 define('SQL_UPDATEITEM_TEMPLATE_SOCKETABLE', 'UPDATE `item_template_socketables` SET `socketedIn`=?, `onSocket`=? WHERE `itemTemplateId`=?');
 
-define('SQL_LOADRACEDEFAULTITEMS', 'SELECT rdi.itemTemplateId, it.name, it.description, it.buyPrice, it.sellPrice, it.itemType, ite.sockets, ite.slots, ite.slotType, ite.onEquip, ite.onUnequip, ite.onAttack, ite.onDefend, its.onSocket, itc.onUse FROM `item_templates` it INNER JOIN `race_default_items` rdi ON rdi.itemTemplateId=it.itemTemplateId LEFT JOIN `item_template_equippables` ite ON it.itemTemplateId=ite.itemTemplateId LEFT JOIN `item_template_socketables` its ON it.itemTemplateId=its.itemTemplateId LEFT JOIN `item_template_consumables` itc ON itc.itemTemplateId=it.itemTemplateId WHERE rdi.raceId=?');
+define('SQL_LOADRACEDEFAULTITEMS', 'SELECT rdi.itemTemplateId, it.name, it.description, it.buyPrice, it.sellPrice, it.itemType, ite.masteryType, ite.itemClass, ite.sockets, ite.slots, ite.slotType, ite.onEquip, ite.onUnequip, ite.onAttack, ite.onDefend, its.onSocket, itc.onUse FROM `item_templates` it INNER JOIN `race_default_items` rdi ON rdi.itemTemplateId=it.itemTemplateId LEFT JOIN `item_template_equippables` ite ON it.itemTemplateId=ite.itemTemplateId LEFT JOIN `item_template_socketables` its ON it.itemTemplateId=its.itemTemplateId LEFT JOIN `item_template_consumables` itc ON itc.itemTemplateId=it.itemTemplateId WHERE rdi.raceId=?');
 
 define('SQL_ITEMCHANGEINVENTORY', 'UPDATE `items` SET `inventoryId`=? WHERE `itemId`=?');
-define('SQL_LOADINVENTORY', 'SELECT i.itemId, i.name, i.description, i.buyPrice, i.sellPrice, i.itemType, i.createdOn, ie.sockets, ie.slots, ie.slotType FROM `items` i INNER JOIN `inventories` inv ON i.inventoryId=inv.inventoryId LEFT JOIN `item_equippables` ie ON i.itemId=ie.itemId LEFT JOIN `item_socketables` isk ON i.itemId=isk.itemId WHERE inv.characterId=? AND isk.socketedIn IS NULL');
+define('SQL_LOADINVENTORY', 'SELECT i.itemId, i.name, i.description, i.buyPrice, i.sellPrice, i.itemType, i.createdOn, ie.masteryType, ie.itemClass, ie.sockets, ie.slots, ie.slotType FROM `items` i INNER JOIN `inventories` inv ON i.inventoryId=inv.inventoryId LEFT JOIN `item_equippables` ie ON i.itemId=ie.itemId LEFT JOIN `item_socketables` isk ON i.itemId=isk.itemId WHERE inv.characterId=? AND isk.socketedIn IS NULL');
 define('SQL_INSERTINVENTORYFORCHARACTER', 'INSERT INTO `inventories` (`inventoryId`, `characterId`) VALUES (?, ?)');
 define('SQL_ITEMGETOWNERSHIP', 'SELECT inv.characterId FROM `inventories` inv INNER JOIN `items` i ON i.inventoryId=inv.inventoryId WHERE i.itemId=?');
 
 define('SQL_INSERTTRADE', 'INSERT INTO `trades` (`tradeId`, `inventoryTo`, `inventoryFrom`, `cost`, `tradedOn`) VALUES (?, ?, ?, ?, ?)');
 define('SQL_INSERTTRADEITEM', 'INSERT INTO `trade_items` (`trade_id`, `sendRecv`, `itemId`) VALUES (?, ?, ?)');
 
-define('SQL_GETEQUIPPEDITEMS', 'SELECT e.itemId, e.slotType, e.slots, e.slotNumber, i.name, i.description, i.buyPrice, i.sellPrice, i.itemType, i.createdOn, ie.sockets FROM `character_equipment` e INNER JOIN `items` i ON i.itemId=e.itemId INNER JOIN `item_equippables` ie ON ie.itemId=i.itemId WHERE e.characterId=? ORDER BY e.slotNumber ASC');
+define('SQL_GETEQUIPPEDITEMS', 'SELECT e.itemId, e.slotType, e.slots, e.slotNumber, i.name, i.description, i.buyPrice, i.sellPrice, i.itemType, i.createdOn, ie.masteryType, ie.itemClass, ie.sockets FROM `character_equipment` e INNER JOIN `items` i ON i.itemId=e.itemId INNER JOIN `item_equippables` ie ON ie.itemId=i.itemId WHERE e.characterId=? ORDER BY e.slotNumber ASC');
 define('SQL_EQUIPITEM', 'INSERT INTO  `character_equipment` (`characterId`, `itemId`, `slotType`, `slots`, `slotNumber`) VALUES (?, ?, ?, ?, ?)');
 define('SQL_UNEQUIPITEM', 'DELETE FROM `character_equipment` WHERE `characterId`=? AND `itemId`=?');
 
@@ -81,11 +81,12 @@ class Items
 	public function LoadById(\Entities\Item $Item)
 	{
 		$Query = $this->Database->Connection->prepare(SQL_LOADITEM);
+		$this->Database->logError();
 		$Query->bind_param('s', $Item->ItemId);
 
 		$Query->Execute();
 		$AnItem = new \Entities\Item();
-		$Query->bind_result($AnItem->Name, $AnItem->Description, $AnItem->BuyPrice, $AnItem->SellPrice, $AnItem->Type, $AnItem->CreatedOn, $AnItem->Sockets, $AnItem->Slots, $AnItem->SlotType);
+		$Query->bind_result($AnItem->Name, $AnItem->Description, $AnItem->BuyPrice, $AnItem->SellPrice, $AnItem->Type, $AnItem->CreatedOn, $AnItem->MasteryType, $AnItem->ItemClass, $AnItem->Sockets, $AnItem->Slots, $AnItem->SlotType);
 		if($Query->Fetch())
 			return true;
 		else
@@ -105,11 +106,12 @@ class Items
 	public function LoadTemplateById(\Entities\Item $Item)
 	{
 		$Query = $this->Database->Connection->prepare(SQL_LOADITEMTEMPLATE);
+		$this->Database->logError();
 		$Query->bind_param('s', $Item->ItemTemplateId);
 
 		$Query->Execute();
 		$AnItem = new \Entities\Item();
-		$Query->bind_result($AnItem->Name, $AnItem->Description, $AnItem->BuyPrice, $AnItem->SellPrice, $AnItem->Type, $AnItem->CreatedOn, $AnItem->Sockets, $AnItem->Slots, $AnItem->SlotType);
+		$Query->bind_result($AnItem->Name, $AnItem->Description, $AnItem->BuyPrice, $AnItem->SellPrice, $AnItem->Type, $AnItem->CreatedOn, $AnItem->MasteryType, $AnItem->ItemClass, $AnItem->Sockets, $AnItem->Slots, $AnItem->SlotType);
 		if($Query->Fetch())
 			return true;
 		else
@@ -130,8 +132,10 @@ class Items
 	{
 		$Item->ItemId = uniqid('ITEM_', true);
 		$Query = $this->Database->Connection->prepare(SQL_INSERTITEM);
+		$this->Database->logError();
 		$Query->bind_param('ssisssii', $Item->ItemId, $Item->ItemTemplateId, $Item->Type, $Item->InventoryId, $Item->Name, $Item->Description, $Item->BuyPrice, $Item->SellPrice);
 		$Query->Execute();
+		$this->Database->logError();
 
 		if($Query->affected_rows > 0)
 		{
@@ -141,15 +145,18 @@ class Items
 			{
 				case IT_CONSUMABLE:
 					$Query2 = $this->Database->Connection->prepare(SQL_INSERTITEM_CONSUMABLE);
+					$this->Database->logError();
 					$Query2->bind_param('ss', $Item->ItemId, $Item->OnUse);
 					break;
 				case IT_SOCKETABLE:
 					$Query2 = $this->Database->Connection->prepare(SQL_INSERTITEM_SOCKETABLE);
+					$this->Database->logError();
 					$Query2->bind_param('sss', $Item->ItemId, $Item->SocketedIn, $Item->OnSocket);
 					break;
 				case IT_EQUIPPABLE:
 					$Query2 = $this->Database->Connection->prepare(SQL_INSERTITEM_EQUIPPABLE);
-					$Query2->bind_param('siiissss', $Item->ItemId, $Item->Sockets, $Item->Slots, $Item->SlotType, $Item->OnEquip, $Item->OnUnequip, $Item->OnAttack, $Item->OnDefend);
+					$this->Database->logError();
+					$Query2->bind_param('siiiiissss', $Item->ItemId, $Item->MasteryType, $Item->ItemClass, $Item->Sockets, $Item->Slots, $Item->SlotType, $Item->OnEquip, $Item->OnUnequip, $Item->OnAttack, $Item->OnDefend);
 					break;
 				default:
 					return true;
@@ -193,6 +200,7 @@ class Items
 	{
 		$InventoryId = uniqid('IVTY_', true);
 		$Query = $this->Database->Connection->prepare(SQL_INSERTINVENTORYFORCHARACTER);
+		$this->Database->logError();
 		$Query->bind_param('ss', $InventoryId, $Character->CharacterId);
 		$Query->Execute();
 
@@ -216,6 +224,7 @@ class Items
 	public function LoadInventory(\Entities\Character $Character)
 	{
 		$Query = $this->Database->Connection->prepare(SQL_LOADINVENTORY);
+		$this->Database->logError();
 		$Query->bind_param('s', $Character->CharacterId);
 
 		$Query->Execute();
@@ -225,7 +234,7 @@ class Items
 		while($Continue)
 		{
 			$AnItem = new \Entities\Item();
-			$Query->bind_result($AnItem->ItemId, $AnItem->Name, $AnItem->Description, $AnItem->BuyPrice, $AnItem->SellPrice, $AnItem->Type, $AnItem->CreatedOn, $AnItem->Sockets, $AnItem->Slots, $AnItem->SlotType);
+			$Query->bind_result($AnItem->ItemId, $AnItem->Name, $AnItem->Description, $AnItem->BuyPrice, $AnItem->SellPrice, $AnItem->Type, $AnItem->CreatedOn, $AnItem->MasteryType, $AnItem->ItemClass, $AnItem->Sockets, $AnItem->Slots, $AnItem->SlotType);
 			$Continue = $Query->Fetch();
 			if($Continue)
 			{
@@ -250,6 +259,7 @@ class Items
 	public function LoadRaceDefaultItems(\Entities\Race $Race)
 	{
 		$Query = $this->Database->Connection->prepare(SQL_LOADRACEDEFAULTITEMS);
+		$this->Database->logError();
 		$Query->bind_param('s', $Race->RaceId);
 
 		$Query->Execute();
@@ -259,7 +269,7 @@ class Items
 		while($Continue)
 		{
 			$AnItem = new \Entities\Item();
-			$Query->bind_result($AnItem->ItemTemplateId, $AnItem->Name, $AnItem->Description, $AnItem->BuyPrice, $AnItem->SellPrice, $AnItem->Type, $AnItem->Sockets, $AnItem->Slots, $AnItem->SlotType, $AnItem->OnEquip, $AnItem->OnUnequip, $AnItem->OnAttack, $AnItem->OnDefend, $AnItem->OnSocket, $AnItem->OnUse);
+			$Query->bind_result($AnItem->ItemTemplateId, $AnItem->Name, $AnItem->Description, $AnItem->BuyPrice, $AnItem->SellPrice, $AnItem->Type, $AnItem->MasteryType, $AnItem->ItemClass,  $AnItem->Sockets, $AnItem->Slots, $AnItem->SlotType, $AnItem->OnEquip, $AnItem->OnUnequip, $AnItem->OnAttack, $AnItem->OnDefend, $AnItem->OnSocket, $AnItem->OnUse);
 			$Continue = $Query->Fetch();
 			if($Continue)
 			{
@@ -283,6 +293,7 @@ class Items
 	public function LoadEquippedItems(\Entities\Character $Character)
 	{
 		$Query = $this->Database->Connection->prepare(SQL_GETEQUIPPEDITEMS);
+		$this->Database->logError();
 		$Query->bind_param('s', $Character->CharacterId);
 
 		$Query->Execute();
@@ -292,7 +303,7 @@ class Items
 		while($Continue)
 		{
 			$AnItem = new \Entities\Item();
-			$Query->bind_result($AnItem->ItemId, $AnItem->SlotType, $AnItem->Slots, $AnItem->SlotNumber, $AnItem->Name, $AnItem->Description, $AnItem->BuyPrice, $AnItem->SellPrice, $AnItem->ItemType, $AnItem->CreatedOn, $AnItem->Sockets);
+			$Query->bind_result($AnItem->ItemId, $AnItem->SlotType, $AnItem->Slots, $AnItem->SlotNumber, $AnItem->Name, $AnItem->Description, $AnItem->BuyPrice, $AnItem->SellPrice, $AnItem->ItemType, $AnItem->CreatedOn, $AnItem->MasteryType, $AnItem->ItemClass, $AnItem->Sockets);
 			$Continue = $Query->Fetch();
 			if($Continue)
 			{
@@ -324,6 +335,7 @@ class Items
 	public function EquipItem(\Entities\Character $Character, \Entities\Item $Item, $SlotNumber)
 	{
 		$Query = $this->Database->Connection->prepare(SQL_EQUIPITEM);
+		$this->Database->logError();
 		$Query->bind_param('ssiii', $Character->CharacterId, $Item->ItemId, $Item->SlotType, $Item->Slots, $SlotNumber);
 		$Query->Execute();
 
@@ -350,6 +362,7 @@ class Items
 	public function UnequipItem(\Entities\Character $Character, \Entities\Item $Item)
 	{
 		$Query = $this->Database->Connection->prepare(SQL_UNEQUIPITEM);
+		$this->Database->logError();
 		$Query->bind_param('ss', $Character->CharacterId, $Item->ItemId);
 		$Query->Execute();
 
@@ -376,6 +389,7 @@ class Items
 	public function CharacterOwnsItem(\Entities\Character $Character, \Entities\Item $Item)
 	{
 		$Query = $this->Database->Connection->prepare(SQL_UNEQUIPITEM);
+		$this->Database->logError();
 		$Query->bind_param('s', $Item->ItemId);
 		$Query->Execute();
 		$Query->bind_result($CharacterId);

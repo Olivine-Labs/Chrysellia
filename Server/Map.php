@@ -5,6 +5,7 @@ header('Content-type: application/json');
 
 require('./Common/Common.inc.php');
 $Result = new \Protocol\Result();
+$Database->Log = $Result;
 
 if ( 'GET' == $_SERVER['REQUEST_METHOD'] )
 {

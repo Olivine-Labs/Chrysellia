@@ -78,6 +78,22 @@ class Database extends \Database\Database
 		$this->Connection->rollback();
 		$this->Connection->autocommit(true);
 	}
+
+	/**
+	 * Rolls back a MySQL database to before a transaction was started.
+	 *
+	 * Causes queries submitted after a startTransaction() call not to be applied to the database.
+	 * Also causes connection to return to autocommit mode.
+	 */
+	public function logError()
+	{
+		if($this->Connection->error)
+		{
+			$this->Log->Set('Error', $this->Connection->error);
+			$this->Log->Output();
+			die();
+		}
+	}
 }
 
 ?>

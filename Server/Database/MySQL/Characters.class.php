@@ -58,6 +58,7 @@ class Characters extends \Database\Characters
 	function LoadById(\Entities\Character $Character)
 	{
 		$Query = $this->Database->Connection->prepare(SQL_GETCHARACTERBYID);
+		$this->Database->logError();
 		$Query->bind_param('s', $Character->CharacterId);
 
 		$Query->Execute();
@@ -83,6 +84,7 @@ class Characters extends \Database\Characters
 	{
 		$Result = Array();
 		$Query = $this->Database->Connection->prepare(SQL_GETCHARACTERSBYACCOUNTID);
+		$this->Database->logError();
 		$Query->bind_param('s', $Account->AccountId);
 
 		$Query->Execute();
@@ -134,6 +136,7 @@ class Characters extends \Database\Characters
 	{
 		$Character->CharacterId = uniqid('CHAR_', true);
 		$Query = $this->Database->Connection->prepare(SQL_INSERTCHARACTER);
+		$this->Database->logError();
 		$Query->bind_param('ssis', $Character->AccountId, $Character->CharacterId, $Character->Pin, $Character->Name);
 		$Query->Execute();
 
@@ -155,6 +158,7 @@ class Characters extends \Database\Characters
 	function LoadTraits(\Entities\Character $Character)
 	{
 		$Query = $this->Database->Connection->prepare(SQL_GETCHARACTERTRAITS);
+		$this->Database->logError();
 		$Query->bind_param('s', $Character->CharacterId);
 
 		$Query->Execute();
@@ -179,6 +183,7 @@ class Characters extends \Database\Characters
 	function InsertTraits(\Entities\Character $Character)
 	{
 		$Query = $this->Database->Connection->prepare(SQL_INSERTCHARACTERTRAITS);
+		$this->Database->logError();
 		$Query->bind_param('ssiiiiiiii', $Character->CharacterId, $Character->RaceId, $Character->Gender, $Character->Strength, $Character->Dexterity, $Character->Intelligence, $Character->Wisdom, $Character->Vitality, $Character->Health, $Character->Gold);
 
 		$Query->Execute();
@@ -201,6 +206,7 @@ class Characters extends \Database\Characters
 	function LoadRaceTraits(\Entities\Character $Character)
 	{
 		$Query = $this->Database->Connection->prepare(SQL_GETCHARACTERTRAITS);
+		$this->Database->logError();
 		$Query->bind_param('s', $Character->CharacterId);
 
 		$Query->Execute();
@@ -225,6 +231,7 @@ class Characters extends \Database\Characters
 	function InsertRaceTraits(\Entities\Character $Character)
 	{
 		$Query = $this->Database->Connection->prepare(SQL_INSERTCHARACTERRACETRAITS);
+		$this->Database->logError();
 		$Query->bind_param('sssssss', $Character->CharacterId, $Character->RacialStrength, $Character->RacialDexterity, $Character->RacialIntelligence, $Character->RacialWisdom, $Character->RacialVitality, $Character->RacialAbilityId);
 
 		$Query->Execute();
@@ -247,6 +254,7 @@ class Characters extends \Database\Characters
 	function LoadPosition(\Entities\Character $Character)
 	{
 		$Query = $this->Database->Connection->prepare(SQL_GETCHARACTERLOCATION);
+		$this->Database->logError();
 		$Query->bind_param('s', $Character->CharacterId);
 
 		$Query->Execute();
@@ -271,6 +279,7 @@ class Characters extends \Database\Characters
 	function UpdatePosition(\Entities\Character $Character)
 	{
 		$Query = $this->Database->Connection->prepare(SQL_UPDATECHARACTERLOCATION);
+		$this->Database->logError();
 		$Query->bind_param('siis', $Character->MapId, $Character->PositionX, $Character->PositionY, $Character->CharacterId);
 
 		$Query->Execute();
@@ -293,6 +302,7 @@ class Characters extends \Database\Characters
 	function UpdatePositionXY(\Entities\Character $Character)
 	{
 		$Query = $this->Database->Connection->prepare(SQL_UPDATECHARACTERLOCATION);
+		$this->Database->logError();
 		$Query->bind_param('sss', $Character->CharacterId, $Character->PositionX, $Character->PositionY);
 
 		$Query->Execute();
@@ -315,6 +325,7 @@ class Characters extends \Database\Characters
 	function InsertPosition(\Entities\Character $Character)
 	{
 		$Query = $this->Database->Connection->prepare(SQL_INSERTCHARACTERLOCATION);
+		$this->Database->logError();
 		$Query->bind_param('ssss', $Character->CharacterId, $Character->MapId, $Character->PositionX, $Character->PositionY);
 
 		$Query->Execute();
@@ -337,6 +348,7 @@ class Characters extends \Database\Characters
 	public function GetCount(\Entities\Account $Account)
 	{
 		$Query = $this->Database->Connection->prepare(SQL_GETCHARACTERCOUNT);
+		$this->Database->logError();
 		$Query->bind_param('s', $Account->AccountId);
 
 		$Query->Execute();
@@ -359,6 +371,7 @@ class Characters extends \Database\Characters
 	public function CheckName(\Entities\Character $Character)
 	{
 		$Query = $this->Database->Connection->prepare(SQL_CHECKCHARACTERNAME);
+		$this->Database->logError();
 		$Query->bind_param('s', $Character->Name);
 
 		$Query->Execute();

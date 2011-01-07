@@ -40,6 +40,7 @@ class Races
 	public function LoadById(\Entities\Race $Race)
 	{
 		$Query = $this->Database->Connection->prepare(SQL_GETRACE);
+		$this->Database->logError();
 		$Query->bind_param('s', $Race->RaceId);
 		$Query->Execute();
 

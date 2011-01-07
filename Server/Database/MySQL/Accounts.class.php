@@ -42,6 +42,7 @@ class Accounts extends \Database\Accounts
 	function Login(\Entities\Account $Account)
 	{
 		$Query = $this->Database->Connection->prepare(SQL_GETACCOUNTBYNAMEPASSWORD);
+		$this->Database->logError();
 		$Query->bind_param('ss', $Account->Name, $Account->Password);
 
 		$Query->Execute();
@@ -66,6 +67,7 @@ class Accounts extends \Database\Accounts
 	function LoadById(\Entities\Account $Account)
 	{
 		$Query = $this->Database->Connection->prepare(SQL_GETACCOUNTBYID);
+		$this->Database->logError();
 		$Query->bind_param('s', $Account->AccountId);
 
 		$Query->Execute();
@@ -91,6 +93,7 @@ class Accounts extends \Database\Accounts
 	{
 		$Account->AccountId = uniqid('ACCT_', true);
 		$Query = $this->Database->Connection->prepare(SQL_INSERTACCOUNT);
+		$this->Database->logError();
 		$Query->bind_param('ssss', $Account->AccountId, $Account->Name, $Account->Password, $Account->Email);
 
 		$Query->Execute();

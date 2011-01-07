@@ -43,6 +43,7 @@ class Sessions extends \Database\Sessions
 	public function Load($Id)
 	{
 		$Query = $this->Database->Connection->prepare(SQL_GETSESSION);
+		$this->Database->logError();
 		$Query->bind_param('s', $Id);
 
 		$Query->Execute();
@@ -67,6 +68,7 @@ class Sessions extends \Database\Sessions
 	public function Replace($Id, $Data)
 	{
 		$Query = $this->Database->Connection->prepare(SQL_REPLACESESSION);
+		$this->Database->logError();
 		$Query->bind_param('sss', $Id, $Data, $Data);
 
 		$Query->Execute();
@@ -89,6 +91,7 @@ class Sessions extends \Database\Sessions
 	public function Delete($Id)
 	{
 		$Query = $this->Database->Connection->prepare(SQL_DELETESESSION);
+		$this->Database->logError();
 		$Query->bind_param('s', $Id);
 
 		$Query->Execute();
@@ -109,6 +112,7 @@ class Sessions extends \Database\Sessions
 	public function Clean($Seconds)
 	{
 		$Query = $this->Database->Connection->prepare(SQL_CLEANSESSIONS);
+		$this->Database->logError();
 		$Query->bind_param('s', $Seconds);
 		$Query->Execute();
 

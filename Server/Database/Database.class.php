@@ -65,6 +65,13 @@ abstract class Database
 	public $Items;
 
 	/**
+	 * Reference a function that handles error messages.
+	 *
+	 * @var Log
+	 */
+	public $Log;
+
+	/**
 	 * Constructor for the abstract Database class
 	 *
 	 * Throws an exception when connection fails

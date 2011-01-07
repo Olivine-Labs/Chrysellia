@@ -47,6 +47,7 @@ class Maps extends \Database\Maps
 	public function LoadCell(\Entities\Map $Map, $PositionX, $PositionY)
 	{
 		$Query = $this->Database->Connection->prepare(SQL_GETCELL);
+		$this->Database->logError();
 		$Query->bind_param('sii', $Map->MapId, $PositionX, $PositionY);
 		$Query->Execute();
 
@@ -75,6 +76,7 @@ class Maps extends \Database\Maps
 	public function LoadMapById(\Entities\Map $Map)
 	{
 		$Query = $this->Database->Connection->prepare(SQL_GETMAP);
+		$this->Database->logError();
 		$Query->bind_param('s', $Map->MapId);
 		$Query->Execute();
 
