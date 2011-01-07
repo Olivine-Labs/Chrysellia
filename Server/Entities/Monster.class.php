@@ -94,6 +94,92 @@ class Monster
 	 * @var $PositionY
 	 */
 	public $PositionY;
+
+	/**
+	 * Health
+	 *
+	 * The monster's hp
+	 *
+	 * @var $Health
+	 */
+	public $Health;
+
+	/**
+	 * Strength
+	 *
+	 * The monster's strength
+	 *
+	 * @var $Strength
+	 */
+	public $Strength;
+
+	/**
+	 * Dexterity
+	 *
+	 * The monster's dex
+	 *
+	 * @var $Dexterity
+	 */
+	public $Dexterity;
+
+	/**
+	 * Intelligence
+	 *
+	 * The monster's int
+	 *
+	 * @var $Intelligence
+	 */
+	public $Intelligence;
+
+	/**
+	 * Wisdom
+	 *
+	 * The monster's wisdom
+	 *
+	 * @var $Wisdom
+	 */
+	public $Wisdom;
+
+	/**
+	 * EXPGiven
+	 *
+	 * The monster's experience given on kill
+	 *
+	 * @var $EXPGiven
+	 */
+	public $EXPGiven;
+
+	/**
+	 * GoldGiven
+	 *
+	 * The monster's gold given on kill
+	 *
+	 * @var $GoldGiven
+	 */
+	public $GoldGiven;
+
+	/**
+	 * Generate Stats
+	 *
+	 * function to generate stats for a mob based on level and bonuses.
+	 *
+	 */
+	public function GenerateStats()
+	{
+		$StatSeed = 25;
+		$Stats = log($StatSeed*$this->Level) * ($this->Level * 10);
+		$StatsHigh = $Stats * 1.1;
+		$StdDev = $StatsHigh - $Stats;
+		$this->Strength = gauss_ms($Stats, $StdDev);
+		$this->Dexterity = gauss_ms($Stats, $StdDev);
+		$this->Intelligence = gauss_ms($Stats, $StdDev);
+		$this->Wisdom = gauss_ms($Stats, $StdDev);
+		$this->Health = gauss_ms($Stats, $StdDev);
+
+		//TODO
+		$this->GoldGiven = 1;
+		$this->ExperienceGiven = 10;
+	}
 }
 
 ?>

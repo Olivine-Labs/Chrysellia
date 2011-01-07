@@ -74,7 +74,7 @@ if(
 			}
 			else
 			{
-				$Result->Set('Result', \Protocol\Result::ER_BADDATA);
+				$Result->Set('Result', \Protocol\Result::ER_DBERROR);
 			}
 		}
 		catch(Exception $e)

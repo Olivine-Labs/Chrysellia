@@ -65,6 +65,13 @@ abstract class Database
 	public $Items;
 
 	/**
+	 * Reference to object that contains Monster related queries
+	 *
+	 * @var Monsters
+	 */
+	public $Monsters;
+
+	/**
 	 * Reference a function that handles error messages.
 	 *
 	 * @var Log

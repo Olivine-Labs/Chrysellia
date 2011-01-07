@@ -3,7 +3,7 @@
 namespace Database\MySQL;
 
 define('SQL_GETCELL', 'SELECT `isBlocked`, `placeId`, `isPvp` FROM `map_places` WHERE `mapId`=? AND `positionX`=? AND `positionY`=?');
-define('SQL_GETMAP', 'SELECT `name`, `dimensionX`, `dimensionY`, `minLevel`, `maxLevel`, `minAlign`, `maxAlign` FROM `maps` WHERE `mapId`=?');
+define('SQL_GETMAP', 'SELECT `name`, `dimensionX`, `dimensionY` FROM `maps` WHERE `mapId`=?');
 define('SQL_INSERTCELL', 'INSERT INTO `map_places` (`mapId`, `placeId`, `positionX`, `positionY`, `isBlocked`, `isPvp`) VALUES (?, ?, ?, ?, ?, ?) ON DUPLICATE KEY UPDATE `placeId`=?, `isBlocked`=?, `isPvp=?`');
 
 /**
@@ -80,7 +80,7 @@ class Maps extends \Database\Maps
 		$Query->bind_param('s', $Map->MapId);
 		$Query->Execute();
 
-		$Query->bind_result($Map->Name, $Map->DimensionX, $Map->DimensionY, $Map->MinLevel, $Map->MaxLevel, $Map->MinAlign, $Map->MaxAlign);
+		$Query->bind_result($Map->Name, $Map->DimensionX, $Map->DimensionY);
 
 		if($Query->fetch()){
 			return true;

@@ -101,7 +101,7 @@ class monsters extends \Database\monsters
 	 * @return Boolean
 	 *   Whether the monster was found or not
 	 */
-	public function IsMonsterInCell(\Entities\Monster $AMonster)
+	public function IsInCell(\Entities\Monster $AMonster)
 	{
 		$Query = $this->Database->Connection->prepare(SQL_ISMONSTERINCELL);
 		$this->Database->logError();

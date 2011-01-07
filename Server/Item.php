@@ -20,13 +20,13 @@ if ( 'GET' == $_SERVER['REQUEST_METHOD'] )
 			switch($_GET['Action'])
 			{
 				case ACTION_GETINVENTORY:
-					include './Functions/Items/GetInventory.php';
+					include './Functions/Item/GetInventory.php';
 					break;
 				case ACTION_EQUIP:
-					include './Functions/Items/Equip.php';
+					include './Functions/Item/Equip.php';
 					break;
 				case ACTION_UNEQUIP:
-					include './Functions/Items/Unequip.php';
+					include './Functions/Item/Unequip.php';
 					break;
 				default:
 					$Result->Set('Result', \Protocol\Result::ER_BADDATA);

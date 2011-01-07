@@ -372,60 +372,6 @@ class Character
 	public $Gold;
 
 	/**
-	 * Armor
-	 *
-	 * The ID of the item equipped in the armor slot
-	 *
-	 * @var $Armor
-	 */
-	public $Armor;
-
-	/**
-	 * RightHand
-	 *
-	 * The item equipped in the righthand slot
-	 *
-	 * @var $RightHand
-	 */
-	public $RightHand;
-
-	/**
-	 * LeftHand
-	 *
-	 * The item equipped in the lefthand slot
-	 *
-	 * @var $LeftHand
-	 */
-	public $LeftHand;
-
-	/**
-	 * Spell1
-	 *
-	 * The item equipped in the Spell1 slot
-	 *
-	 * @var $Spell1
-	 */
-	public $Spell1;
-
-	/**
-	 * Spell2
-	 *
-	 * The item equipped in the Spell2 slot
-	 *
-	 * @var $Spell2
-	 */
-	public $Spell2;
-
-	/**
-	 * Accessory
-	 *
-	 * The item equipped in the Accessory slot
-	 *
-	 * @var $Accessory
-	 */
-	public $Accessory;
-
-	/**
 	 * Default constructor for the Account Class
 	 */
 	public function __construct()
@@ -477,6 +423,62 @@ class Character
 			}
 		} 
 		return true;
+	}
+
+	/**
+	 * Verifies character data, ensures all fields are valid.
+	 */
+	public function Attack(Monster $AMonster, $Weapon=true)
+	{
+		$Result = array();
+		$PlayerWins = false;
+		$EnemyWins = false;
+
+		$PlayerRow = array();
+		foreach($this->Equipment AS $AnItem)
+		{
+			if($Weapon)
+			{
+				if($AnItem->SlotType == 0)
+				{
+					$PlayerRow[count($PlayerRow)-1] = array('Damage'=>10, 'Heal'=>0);
+				}
+			}
+			else
+			{
+				if($AnItem->SlotType == 3)
+				{
+					$PlayerRow[count($PlayerRow)-1] = array('Damage'=>10, 'Heal'=>0);
+				}
+			}
+		}
+		$Result[$this->CharacterId] = $PlayerRow;
+		
+		$MonsterRow = array();
+		$MonsterRow[0] = array('Damage'=>100000, 'Heal'=>50000);
+		$MonsterRow[0] = array('Damage'=>120000, 'Heal'=>49000);
+		$Result[$this->MonsterId] = $MonsterRow;
+
+		$AMonster->Health -= 10;
+		if($AMonster->Health <= 0)
+		{
+			$PlayerWins = true;
+		}
+		else if($this->Health <= 0)
+		{
+			$EnemyWins = true;
+		}
+
+		if($PlayerWins)
+		{
+			$Result['Winner'] = 0;
+			unset($_SESSION['CurrentFight']);
+		}
+		else if($EnemyWins)
+		{
+			$Result['Winner'] = 1;
+		}
+		return $Result;
 	}
 }
 

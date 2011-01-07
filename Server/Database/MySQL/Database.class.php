@@ -43,6 +43,7 @@ class Database extends \Database\Database
 		$this->Races = new Races($this);
 		$this->Maps = new Maps($this);
 		$this->Items = new Items($this);
+		$this->Monsters = new Monsters($this);
 	}
 
 	/**
