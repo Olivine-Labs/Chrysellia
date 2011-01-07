@@ -80,7 +80,7 @@ try
 								}
 								if($SlotFree && $FreeBefore && $FreeAfter)
 								{
-									if($Database->Items->EquipItem($Character, $Item, $Get->SlotNumber));
+									if($Database->Items->EquipItem($Character, $Item, $Get->SlotNumber))
 									{
 										$Result->Set('Result', \Protocol\Result::ER_SUCCESS);
 									}
@@ -104,6 +104,7 @@ try
 					{
 						$Result->Set('Result', \Protocol\Result::ER_DBERROR);
 					}
+				}
 				else
 				{
 					$Result->Set('Result', \Protocol\Result::ER_BADDATA);
