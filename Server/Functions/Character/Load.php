@@ -14,7 +14,7 @@ try
 			{
 				if($Database->Characters->LoadPosition($ACharacter))
 				{
-					if($ACharacter->Equipment = $Database->Items->LoadEquippedItems($ACharacter))
+					if(is_array($ACharacter->Equipment = $Database->Items->LoadEquippedItems($ACharacter)))
 					{
 						$Race = new \Entities\Race();
 						$Race->RaceId = $ACharacter->RaceId;
