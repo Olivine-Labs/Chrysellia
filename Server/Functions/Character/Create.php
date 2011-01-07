@@ -59,6 +59,7 @@ if(
 			{
 				$Database->startTransaction();
 				$Success = false;
+
 				if($Database->Characters->Insert($ACharacter))
 				{
 					if($Database->Characters->InsertTraits($ACharacter))
