@@ -78,14 +78,13 @@ class Items
 	 * @return Boolean
 	 *   Whether or not the load succeeded
 	 */
-	public function LoadById(\Entities\Item $Item)
+	public function LoadById(\Entities\Item $AnItem)
 	{
 		$Query = $this->Database->Connection->prepare(SQL_LOADITEM);
 		$this->Database->logError();
-		$Query->bind_param('s', $Item->ItemId);
+		$Query->bind_param('s', $AnItem->ItemId);
 
 		$Query->Execute();
-		$AnItem = new \Entities\Item();
 		$Query->bind_result($AnItem->Name, $AnItem->Description, $AnItem->BuyPrice, $AnItem->SellPrice, $AnItem->Type, $AnItem->CreatedOn, $AnItem->MasteryType, $AnItem->ItemClass, $AnItem->Sockets, $AnItem->Slots, $AnItem->SlotType, $AnItem->SocketedIn);
 		if($Query->Fetch())
 			return true;

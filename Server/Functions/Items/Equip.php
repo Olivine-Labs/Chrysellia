@@ -30,7 +30,8 @@ try
 				{
 					if($Database->Items->LoadById($Item))
 					{
-						switch($Item->Type)
+						$Slots = 0;
+						switch($Item->SlotType)
 						{
 							case 0:
 								$Slots = $Race->WeaponSlots;
@@ -45,7 +46,8 @@ try
 								$Slots = $Race->SpellSlots;
 								break;
 						}
-						if($Get->SlotNumber + ($Item->Slots - 1) < $Slots)
+
+						if(($Get->SlotNumber + ($Item->Slots - 1) < $Slots) && ($Get->SlotNumber >= 0))
 						{
 							if($Character->Equipment = $Database->Items->LoadEquippedItems($Character))
 							{
