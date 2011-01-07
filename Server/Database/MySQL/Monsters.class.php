@@ -2,8 +2,9 @@
 
 namespace Database\MySQL;
 
-define('SQL_LOADLISTBYCELL', 'SELECT m.monsterId, m.name, m.level, m.experienceBonus, m.goldBonus, m.weaponClass, m.spellClass, m.armorClass FROM `monsters` m INNER JOIN `monster_monsters` mm ON mm.monsterId=m.monsterId WHERE mm.positionX=? AND mm.positionY=? AND mm.mapId=?');
+define('SQL_LOADLISTBYCELL', 'SELECT m.monsterId, m.name, m.level, m.experienceBonus, m.goldBonus, m.weaponClass, m.spellClass, m.armorClass FROM `monsters` m INNER JOIN `monster_monsters` mm ON mm.monsterId=m.monsterId WHERE mm.mapId=? AND mm.positionX=? AND mm.positionY=?');
 define('SQL_LOADBYID', 'SELECT `name`, `level`, `experienceBonus`, `goldBonus`, `weaponClass`, `spellClass`, `armorClass` FROM `monsters` WHERE `monsterId`=?');
+define('SQL_ISMONSTERINCELL', 'SELECT 1 FROM `map_monsters` mm WHERE mm.monsterId=? AND mm.mapId=? AND mm.positionX=? AND mm.positionY=?');
 
 /**
  * class that holds definitions for monster query functions
@@ -82,6 +83,30 @@ class monsters extends \Database\monsters
 		$Query->Execute();
 
 		$Query->bind_result($AMonster->Name, $AMonster->Level, $AMonster->ExperienceBonus, $AMonster->GoldBonus, $AMonster->WeaponClass, $AMonster->SpellClass, $AMonster->ArmorClass);
+
+		if($Query->fetch()){
+			return true;
+		}
+		else{
+			return false;
+		}
+	}
+
+	/**
+	 * Checks to see if a monster is at a cell
+	 *
+	 * @param $Monster
+	 *   The monster
+	 *
+	 * @return Boolean
+	 *   Whether the monster was found or not
+	 */
+	public function IsMonsterInCell(\Entities\Monster $AMonster)
+	{
+		$Query = $this->Database->Connection->prepare(SQL_ISMONSTERINCELL);
+		$this->Database->logError();
+		$Query->bind_param('ssss', $AMonster->MonsterId, $AMonster->MapId, $AMonster->PositionX, $AMonster->PositionY);
+		$Query->Execute();
 
 		if($Query->fetch()){
 			return true;

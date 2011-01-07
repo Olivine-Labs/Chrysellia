@@ -67,6 +67,33 @@ class Monster
 	 * @var ArmorClass
 	 */
 	public $ArmorClass;
+
+	/**
+	 * MapId
+	 *
+	 * The map the monster is currently located on.
+	 *
+	 * @var $MapId
+	 */
+	public $MapId;
+
+	/**
+	 * PositionX
+	 *
+	 * The X value of the monster's coordinates
+	 *
+	 * @var $PositionX
+	 */
+	public $PositionX;
+
+	/**
+	 * PositionY
+	 *
+	 * The Y value of the monster's coordinates
+	 *
+	 * @var $PositionY
+	 */
+	public $PositionY;
 }
 
 ?>
