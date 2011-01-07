@@ -185,9 +185,7 @@ class Characters extends \Database\Characters
 		$Query = $this->Database->Connection->prepare(SQL_INSERTCHARACTERTRAITS);
 		$this->Database->logError();
 		$Query->bind_param('ssiiiiiiii', $Character->CharacterId, $Character->RaceId, $Character->Gender, $Character->Strength, $Character->Dexterity, $Character->Intelligence, $Character->Wisdom, $Character->Vitality, $Character->Health, $Character->Gold);
-
 		$Query->Execute();
-
 		if($Query->affected_rows > 0)
 			return true;
 		else
@@ -235,7 +233,6 @@ class Characters extends \Database\Characters
 		$Query->bind_param('sssssss', $Character->CharacterId, $Character->RacialStrength, $Character->RacialDexterity, $Character->RacialIntelligence, $Character->RacialWisdom, $Character->RacialVitality, $Character->RacialAbilityId);
 
 		$Query->Execute();
-
 		if($Query->affected_rows > 0)
 			return true;
 		else

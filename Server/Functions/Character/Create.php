@@ -61,21 +61,21 @@ if(
 				$Success = false;
 
 				if($Database->Characters->Insert($ACharacter))
-				{
+				{echo("Database->Characters->Insert");
 					if($Database->Characters->InsertTraits($ACharacter))
-					{
+					{echo(" | Database->Characters->InsertTraits");
 						if($Database->Characters->InsertRaceTraits($ACharacter))
-						{
+						{echo("| Database->Characters->InsertRaceTraits");
 							if($Database->Characters->InsertPosition($ACharacter))
-							{
+							{echo("| Database->Characters->InsertPosition");
 								if($Database->Chat->SetRights($ACharacter, CHANNEL_GENERAL, Array('Read'=>1, 'Write'=>1, 'Moderate'=>0, 'Administrate'=>0, 'isJoined' =>1)))
-								{
+								{echo("| Database->hat->SetRights");
 									if($Database->Chat->SetRights($ACharacter, CHANNEL_TRADE, Array('Read'=>1, 'Write'=>1, 'Moderate'=>0, 'Administrate'=>0, 'isJoined' =>1)))
-									{
+									{echo("| Database->Chat->SetRights");
 										if($InventoryId = $Database->Items->InsertInventoryForCharacter($ACharacter))
-										{
+										{echo("| Database->Items->InsertInventoryForCharacter");
 											if($DefaultItemsList = $Database->Items->LoadRaceDefaultItems($ARace))
-											{
+											{echo("| Database->Items->LoadRaceDefaultItems");
 												$Run = true;
 												$Index = 0;
 												while(($Run) && ($Index < count($DefaultItemsList)))
@@ -84,9 +84,11 @@ if(
 													$AnItem->InventoryId = $InventoryId;
 													if(!$Database->Items->Insert($AnItem))
 													{
+													echo("| Database->Items->Insert");
 														$Run = false;
 													}else
 													{
+													echo("| Database->Items->EquipItem");
 														$Database->Items->EquipItem($ACharacter, $AnItem, 0);
 													}
 													$Index++;

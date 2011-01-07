@@ -229,8 +229,8 @@ function SelectCharacter(data){
 		window.MyCharacter.Construct(data.Data);
 		vc.i.UpdateStats();
 	}else{
-		alert("Please login again.");
-		window.location = "./index.html";
+		//alert("Please login again.");
+		//window.location = "./index.php";
 	}
 	
 	for(var i in window.MyCharacter.Channels){

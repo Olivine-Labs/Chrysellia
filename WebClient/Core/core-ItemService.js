@@ -36,7 +36,7 @@
 		Equip: function(itemId, slotType, slot, callback){
 			$.getJSON(
 				V2Core.SERVERCODE_DIRECTORY + "Item.php",
-				{ Action: ItemService.ACTION_EQUIP, Data: JSON.stringify({ ItemId: itemId, SlotType: slotType, Slot: slot }) },
+				{ Action: ItemService.ACTION_EQUIP, Data: JSON.stringify({ ItemId: itemId, SlotNumber: slot }) },
 				function(data) { callback(data, itemId, slotType, slot); }
 			);
 		},
