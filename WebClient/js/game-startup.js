@@ -127,7 +127,6 @@ $(function(){
 		var itemType = $this.attr("class").split(' ')[0];
 		var slotType = $this.attr("class").split(' ')[1].replace(/itemType_/,'')*1;
 		var slotIndex = $('#itemsWindow select.'+itemType).index($this);
-		alert(slotIndex);
 		if($this.val() == 0){
 			vc.is.UnEquip(window.MyCharacter.Equipment[slotType][slotIndex].ItemId, slotType, slotIndex, UnEquipItem);
 		}else{
@@ -139,6 +138,8 @@ $(function(){
 function EquipItem(data, itemId, slotType, slotIndex){
 	if(data.Result == vc.ER_SUCCESS){
 		var item = {};
+		var typeMapping = vc.is.TypeMapping;	
+		
 		for(var i in window.MyCharacter.Inventories["Personal"]){
 			if(window.MyCharacter.Inventories["Personal"][i].ItemId = itemId){
 				window.MyCharacter.Equipment[slotType][slotIndex] = window.MyCharacter.Inventories["Personal"][i];
