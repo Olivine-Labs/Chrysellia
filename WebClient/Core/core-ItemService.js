@@ -63,7 +63,7 @@
 				{ Action: ItemService.ACTION_ACCEPT_TRADE, Data: JSON.stringify({ Trade: tradeId }) },
 				function(data) { callback(data); }
 			);
-		},
+		}
 	}
 	
 	V2Core.ItemService = V2Core.is = ItemService;

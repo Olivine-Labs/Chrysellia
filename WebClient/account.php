@@ -20,12 +20,14 @@
 		
 		<link href='http://fonts.googleapis.com/css?family=Crimson+Text&subset=latin' rel='stylesheet' type='text/css'>
 		
+		<!--
 		<link href="css/html5-reset.css" rel="stylesheet" media="screen" />
 		<link href="css/jquery-ui.css" rel="stylesheet" media="screen" />
-		<link href="css/grid.css" rel="stylesheet" media="screen" />
-		<link href="css/neflaria-base.css" rel="stylesheet" media="screen" />
-		<link href="css/selectmenu.css" rel="stylesheet" media="screen" />
-		
+		<link href="css/grid-fluid.css" rel="stylesheet" media="screen" />
+		<link href="css/neflaria-base.css" rel="stylesheet" media="screen" />-->
+		<link href="css/neflaria.min.css" rel="stylesheet" media="screen" />
+		<link href="css/grid.min.css" rel="stylesheet" media="screen" />
+
 		<!--[if IE 8]>
 		<link href="css/ie8.css" rel="stylesheet" media="screen" />
 		<![endif]-->
@@ -266,21 +268,23 @@
 		<script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.7/jquery-ui.min.js"></script>
 		
 		<!-- Here come the plugins -->
-		<script src="./js/jquery.watermark.min.js"></script>
-		<script src="./js/jquery.selectmenu.js"></script>
+		<!--<script src="./js/jquery.watermark.min.js"></script>
 		<script src="./js/jquery.cookie.js"></script>
-		<script src="./Core/json.js" type="text/javascript"></script>
-		
+		<script src="./Core/json.js" type="text/javascript"></script>-->
+		<script src="./js/plugins.min.js"></script>
+
 		<!-- Data Libraries -->
-		<script src="./Core/staticInfo/races.js"></script>
-		<script src="./Core/staticInfo/maps.js"></script>
+		<!--<script src="./Core/staticInfo/races.js"></script>
+		<script src="./Core/staticInfo/maps.js"></script>-->
+		<script src="./Core/staticInfo/libraries.min.js"></script>
 		
 		<!-- For the production version, we'll minify and combine our javascript, and keep a plain version for us -->
-		<script src="./Core/core.js"></script>
+		<!--<script src="./Core/core.js"></script>
 		<script src="./Core/core-AccountService.js"></script>
 		<script src="./Core/core-CharacterService.js"></script>
-		<script src="./js/startup.js"></script>
+		<script src="./js/startup.js"></script>-->
 		<script src="./js/account-startup.js"></script>
+		<script src="./Core/core.min.js"></script>
 		
 		<div id="fb-root"></div>
 		<script src="http://connect.facebook.net/en_US/all.js"></script>
