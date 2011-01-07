@@ -387,7 +387,7 @@ class Items
 	 */
 	public function CharacterOwnsItem(\Entities\Character $Character, \Entities\Item $Item)
 	{
-		$Query = $this->Database->Connection->prepare(SQL_UNEQUIPITEM);
+		$Query = $this->Database->Connection->prepare(SQL_ITEMGETOWNERSHIP);
 		$this->Database->logError();
 		$Query->bind_param('s', $Item->ItemId);
 		$Query->Execute();
