@@ -125,6 +125,8 @@ $(function(){
 	$("#itemsWindow select").live("change", function(e){
 		$this = $(this);
 		var itemType = $this.attr("class").split(' ')[0];
+		$('#itemsWindow select').attr("disabled", "disabled");
+		
 		var slotType = $this.attr("class").split(' ')[1].replace(/itemType_/,'')*1;
 		var slotIndex = $('#itemsWindow select.'+itemType).index($this);
 		if($this.val() == 0){
@@ -138,24 +140,35 @@ $(function(){
 function EquipItem(data, itemId, slotType, slotIndex){
 	if(data.Result == vc.ER_SUCCESS){
 		var item = {};
-		var typeMapping = vc.is.TypeMapping;	
+		var typeMapping = vc.is.TypeMapping;
 		
 		for(var i in window.MyCharacter.Inventories["Personal"]){
 			if(window.MyCharacter.Inventories["Personal"][i].ItemId = itemId){
 				window.MyCharacter.Equipment[slotType][slotIndex] = window.MyCharacter.Inventories["Personal"][i];
 				delete window.MyCharacter.Inventories["Personal"][i];
-				var item = window.MyCharacter.Equipment[slotType][slotIndex];
-				$("option[value=" + item.ItemId + "]").remove();
-				$("<option value='" + item.ItemId + "'>" + item.Name + "</option>").appendTo($("select." + typeMapping[item.SlotType]).eq(slotIndex));
 			}
 		}
+		
+		var item = window.MyCharacter.Equipment[slotType][slotIndex];
+		$("option[value=" + item.ItemId + "]").remove();
+		$("<option value='" + item.ItemId + "' selected='selected'>" + item.Name + "</option>").appendTo($("select." + typeMapping[item.SlotType]).eq(slotIndex));
 	}
+	
+	$('#itemsWindow select').removeAttr('disabled');
 }
 
 function UnEquipItem(data, itemId, slotType, slotIndex){
 	if(data.Result == vc.ER_SUCCESS){
+		var item = window.MyCharacter.Equipment[slotType][slotIndex];
+		var typeMapping = vc.is.TypeMapping;
+		
+		$("option[value=" + item.ItemId + "]").remove();
+		$("<option value='" + item.ItemId + "'>" + item.Name + "</option>").appendTo($("select." + typeMapping[item.SlotType]));
+		window.MyCharacter.Inventories["Personal"][window.MyCharacter.Inventories["Personal"].length] = item;
 		window.MyCharacter.Equipment[slotType][slotIndex] = {};
 	}
+	
+	$('#itemsWindow select').removeAttr('disabled');
 }
 
 function RefreshMap(data){
