@@ -138,10 +138,14 @@ $(function(){
 
 function EquipItem(data, itemId, slotType, slotIndex){
 	if(data.Result == vc.ER_SUCCESS){
+		var item = {};
 		for(var i in window.MyCharacter.Inventories["Personal"]){
 			if(window.MyCharacter.Inventories["Personal"][i].ItemId = itemId){
 				window.MyCharacter.Equipment[slotType][slotIndex] = window.MyCharacter.Inventories["Personal"][i];
 				delete window.MyCharacter.Inventories["Personal"][i];
+				var item = window.MyCharacter.Equipment[slotType][slotIndex];
+				$("option[value=" + item.ItemId + "]").remove();
+				$("<option value='" + item.ItemId + "'>" + item.Name + "</option>").appendTo($("select." + typeMapping[item.SlotType]).eq(slotIndex));
 			}
 		}
 	}
@@ -271,7 +275,6 @@ function BuildMap(){
 
 function BuildInitialInventory(){
 	var typeMapping = vc.is.TypeMapping;	
-	var thisSlotLength = 0;
 	var slotName = "";
 	var body = window.MyCharacter.Equipment;
 	var currentInventory = [];
@@ -281,14 +284,17 @@ function BuildInitialInventory(){
 	for(var type = 0; type < 4; type++){
 		if(body !== undefined && body[type] !== undefined){
 			currentInventory = body[type];
-			thisSlotLength = currentInventory.length;
 			for(var i in currentInventory){
-				slotName = typeMapping[type] + " " + (i*1 + 1);
-				$select = $("<select class='itemType_" + type + "'><option value='0'>NONE</option></select>");
+				slotName = typeMapping[type];
+				
+				if(currentInventory.length > 1){
+					slotName += " " + (i*1 + 1);
+				}
+				$select = $("<select class='" + typeMapping[type] + " itemType_" + type + "'><option value='0'>NONE</option></select>");
 				$selectRow = $("<div class='itemSelection' />").append("<span class='itemType'>" + slotName + "</span>").append($select);
 				if(currentInventory[i].ItemId !== null){
 					item = currentInventory[i];
-					$("<option value='" + item.ItemId + "' selected='selected'>" + item.Name + "</option>").appendTo($select);
+					$("<option value='" + item.ItemId + "' selected='selected'>" + item.Name + "</option>").prependTo($select);
 				}
 				
 				$("#itemsWindow").append($selectRow);
@@ -300,12 +306,12 @@ function BuildInitialInventory(){
 function LoadInventory(data){
 	if(data.Result == vc.ER_SUCCESS){
 		var item = {};
-		var TypeMapping = vc.is.TypeMapping;
+		var typeMapping = vc.is.TypeMapping;
 		window.MyCharacter.Inventories["Personal"] = data.Data;
 		for(var i in MyCharacter.Inventories["Personal"]){
 			item = MyCharacter.Inventories["Personal"][i];
 			if(item !== undefined && item !== {}){
-				$("<option value='" + item.ItemId + "'>" + item.Name + "</option>").appendTo($("." + TypeMapping[item.SlotType]));
+				$("<option value='" + item.ItemId + "'>" + item.Name + "</option>").appendTo($("select." + typeMapping[item.SlotType]));
 			}
 		}
 	}
