@@ -18,7 +18,7 @@ try
 	{
 		$Character = new \Entities\Character();
 		$Character->CharacterId = $_SESSION['CharacterId'];
-		if($Database->Characters->LoadById($Character))
+		if($Database->Characters->LoadTraits($Character))
 		{
 			$Race = new \Entities\Race();
 			$Race->RaceId = $Character->RaceId;
