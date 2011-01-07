@@ -172,5 +172,5 @@
 		Description: "A small creature with high intelligence and wisdom, with strengths in hammers and fire."
 	}
 
-	window.Races = Races;
+	V2Core.Races = Races;
 })(window);

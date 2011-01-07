@@ -9,5 +9,5 @@
 		Gold: 100
 	}	
 	
-	window.Monsters = Monsters;
+	V2Core.Monsters = Monsters;
 })(window);

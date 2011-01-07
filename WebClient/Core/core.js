@@ -74,10 +74,10 @@
 		this.Inventories["Personal"] = new Array();
 		this.Equipment = new Array();
 		
-		this.CurrentMap = Maps["MAP_00000000000000000000001"];
+		this.CurrentMap = {};
 		
 		this.RaceName = function(){
-			return window.Races[this.RaceId].Name;
+			return V2Core.Races[this.RaceId].Name;
 		}
 		
 		this.GenderName = function(){
@@ -133,7 +133,7 @@
 			this.Health = data.Health;
 			this.Gold = data.Gold;
 			this.Channels = data.Channels;
-			this.CurrentMap = Maps[data.MapId];
+			this.CurrentMap = V2Core.Maps[data.MapId];
 			this.Equipment = data.Equipment;
 		}
 	}

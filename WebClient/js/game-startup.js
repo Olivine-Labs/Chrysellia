@@ -268,7 +268,7 @@ function SelectCharacter(data){
 
 function BuildMap(){
 	$("#currentMapName").text(MyCharacter.CurrentMap.Name);
-	$currentMap = $("#currentMap");
+	var $currentMap = $("#currentMap");
 	$currentMap.empty();
 	
 	for(my = MyCharacter.CurrentMap.DimensionY-1; my >= 0; my--){
@@ -286,7 +286,29 @@ function BuildMap(){
 		$tr.appendTo($currentMap);
 	}
 	
-	$currentMap.css({ height: 30*MyCharacter.CurrentMap.DimensionY, width: 30*MyCharacter.CurrentMap.DimensionX })
+	$currentMap.css({ height: 30*MyCharacter.CurrentMap.DimensionY, width: 30*MyCharacter.CurrentMap.DimensionX });
+	
+	BuildGameWindow();
+}
+
+function BuildGameWindow(){
+	var myLocation = MyCharacter.CurrentMap.Places[MyCharacter.PositionY][MyCharacter.PositionX];
+	var window = $("#topCenter");
+	
+	if(myLocation.Type === undefined){
+		if(myLocation.Monsters !== undefined){
+			var select = $("<select id='monsterList'></select>");
+			select.appendTo(window);
+			
+			var monster = {};
+			var option = {};
+
+			for(m in myLocation.Monsters){
+				monster = V2Core.Monsters[myLocation.Monsters[m]];
+				option = $("<option value='" + monster.Id + "'>" + monster.Name + "</option>").appendTo(select);
+			}
+		}
+	}
 }
 
 function BuildInitialInventory(){

@@ -87,7 +87,7 @@
 					</div>
 					
 					<div id="topCenter" class="container top grid_6">
-						<h1>Game Window</h1>
+						
 					</div>
 					
 					<section id="topRight" class="container top grid_3">
@@ -225,24 +225,24 @@
 		<script src="./Core/jquery-md5.js" type="text/javascript"></script>
 		<script src="./Core/json.js" type="text/javascript"></script>-->
 		<script src="./js/plugins.min.js"></script>
-		
-		<!-- Data Libraries -->
-		<!--<script src="./Core/staticInfo/races.js"></script>
-		<script src="./Core/staticInfo/maps.js"></script>
-		<script src="./Core/staticInfo/monsters.js"></script>
-		<script src="./Core/staticInfo/items.js"></script>-->
-		<script src="./Core/staticInfo/libraries.min.js"></script>
 				
 		<!-- For the production version, we'll minify and combine our javascript, and keep a plain version for us -->
-		<!--<script src="./Core/core.js"></script>
+		<script src="./Core/core.js"></script>
 		<script src="./Core/core-AccountService.js"></script>
 		<script src="./Core/core-CharacterService.js"></script>
 		<script src="./Core/core-CommandService.js"></script>
 		<script src="./Core/core-ChatService.js"></script>
 		<script src="./Core/core-MapService.js"></script>
 		<script src="./Core/core-ItemService.js"></script>
-		<script src="./Core/core-Interface.js"></script>-->
-		<script src="./Core/core.min.js"></script>
+		<script src="./Core/core-Interface.js"></script>
+		<!--<script src="./Core/core.min.js"></script>-->
+		
+		<!-- Data Libraries -->
+		<script src="./Core/staticInfo/races.js"></script>
+		<script src="./Core/staticInfo/maps.js"></script>
+		<script src="./Core/staticInfo/monsters.js"></script>
+		<script src="./Core/staticInfo/items.js"></script>
+		<!--<script src="./Core/staticInfo/libraries.min.js"></script>-->
 		
 		<script src="./js/startup.js"></script>
 		

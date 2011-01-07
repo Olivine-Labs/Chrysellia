@@ -272,19 +272,20 @@
 		<script src="./js/jquery.cookie.js"></script>
 		<script src="./Core/json.js" type="text/javascript"></script>-->
 		<script src="./js/plugins.min.js"></script>
-
-		<!-- Data Libraries -->
-		<!--<script src="./Core/staticInfo/races.js"></script>
-		<script src="./Core/staticInfo/maps.js"></script>-->
-		<script src="./Core/staticInfo/libraries.min.js"></script>
 		
-		<!-- For the production version, we'll minify and combine our javascript, and keep a plain version for us -->
-		<!--<script src="./Core/core.js"></script>
+		 <!--For the production version, we'll minify and combine our javascript, and keep a plain version for us -->
+		<script src="./Core/core.js"></script>
 		<script src="./Core/core-AccountService.js"></script>
 		<script src="./Core/core-CharacterService.js"></script>
-		<script src="./js/startup.js"></script>-->
+		<!--<script src="./Core/core.min.js"></script>-->
+
+		<!-- Data Libraries -->
+		<script src="./Core/staticInfo/races.js"></script>
+		<script src="./Core/staticInfo/maps.js"></script>
+		<!--<script src="./Core/staticInfo/libraries.min.js"></script>-->
+		
+		<script src="./js/startup.js"></script>
 		<script src="./js/account-startup.js"></script>
-		<script src="./Core/core.min.js"></script>
 		
 		<div id="fb-root"></div>
 		<script src="http://connect.facebook.net/en_US/all.js"></script>

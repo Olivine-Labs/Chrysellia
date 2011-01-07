@@ -2,8 +2,8 @@ $(function(){
 	$(".button.plus").button({ icons: { primary: "ui-icon-circle-plus" }, text: false });
 	$(".button.minus").button({ icons: { primary: "ui-icon-circle-minus" }, text: false });
 	
-	for(var i in window.Races){
-		var r = window.Races[i];
+	for(var i in V2Core.Races){
+		var r = V2Core.Races[i];
 		var $race = $('<li class="character raceList"><a class="button bigButton" href="#"><input type="hidden" value="' + i + '" class="r_id" /><span class="characterPortrait ' + r.Name.replace(/ /g,'') + '"></span><span class="characterName">' + r.Name + '</span><span class="raceStats"><span class="icon str" title="Strength"></span><span>' + r.Str + '</span><br /><span class="icon dex" title="Dexterity"></span><span>' + r.Dex + '</span><br /><span class="icon int" title="Intelligence"></span><span>' + r.Int + '</span><br /><span class="icon wis" title="Wisdom"></span><span>' + r.Wis + '</span><br /><span class="icon vit" title="Vitality"></span><span>' + r.Vit + '</span><br /></span><span class="description">' + r.Description + '</span></a></li>');
 		
 		if(r.Align == "good"){
@@ -75,7 +75,7 @@ $(function(){
 		e.preventDefault();
 
 		var name = $("#c_fn").val();
-		var race = window.Races[$("#c_race").val()];
+		var race = V2Core.Races[$("#c_race").val()];
 		var gender = $("#c_gender").val();
 		var str = $("#startingStr").val() * 1;
 		var dex = $("#startingDex").val() * 1;
@@ -128,7 +128,7 @@ $(function(){
 	$(".raceSelection").css({ display: "none" });
 	
 	$("#c_race").bind("change", function(){
-		var race = window.Races[$(this).val()];
+		var race = V2Core.Races[$(this).val()];
 		$("#baseStr").text(race.Str);
 		$("#baseDex").text(race.Dex);
 		$("#baseInt").text(race.Int);

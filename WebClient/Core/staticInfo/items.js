@@ -1,5 +1,5 @@
 (function( window, undefined ) {
 	var ItemTypes = new Array();
 	
-	window.ItemTypes = ItemTypes;
+	V2Core.ItemTypes = ItemTypes;
 })(window);
