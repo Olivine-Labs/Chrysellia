@@ -485,12 +485,12 @@ class Character
 
 		if($PlayerWins)
 		{
-			$this->Experience += $Monster->EXPGiven;
-			$this->Gold += $Monster->GoldGiven;
+			$this->Experience += $AMonster->EXPGiven;
+			$this->Gold += $AMonster->GoldGiven;
 
 			$Result['Winner'] = 0;
-			$Result['Gold'] = $Monster->GoldGiven;
-			$Result['Experience'] = $Monster->EXPGiven;
+			$Result['Gold'] = $AMonster->GoldGiven;
+			$Result['Experience'] = $AMonster->EXPGiven;
 			$Result['LevelUp'] = $this->LevelUp();
 			unset($_SESSION['CurrentFight']);
 		}
