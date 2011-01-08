@@ -88,8 +88,8 @@ class Monster extends Being
 		$this->Wisdom = round(\gauss_ms($Stats, $StdDev));
 		$this->Health = round(\gauss_ms($Stats, $StdDev));
 
-		$ExpSeed = 5;
-		$GoldSeed = 1;
+		$ExpSeed = 1.1;
+		$GoldSeed = 1.01;
 		$this->GoldGiven = round(log($GoldSeed*$this->Level) * ($this->Level * 5) * $this->GoldBonus);
 		$this->EXPGiven = round(log($ExpSeed*$this->Level) * ($this->Level * 5) * $this->ExperienceBonus);
 		$GoldStdDev = $this->GoldGiven - $this->GoldGiven * 0.90;

@@ -23,7 +23,7 @@ define('SQL_UPDATECHARACTERLOCATION', 'UPDATE `character_locations` SET `mapId`=
 define('SQL_UPDATECHARACTERLOCATIONXY', 'UPDATE `character_locations` SET `positionX`=?, `positionY=?` WHERE `characterId`=?');
 define('SQL_INSERTCHARACTERLOCATION', 'INSERT INTO `character_locations` (`characterId`, `mapId`, `positionX`, `positionY`) VALUES (?, ?, ?, ?)');
 
-define('SQL_LOADLISTFORCELL', 'SELECT c.characterId, ct.name, ct.gender, ct.raceId, c.clanId, ct.level, ct.alignGood, ct.alignOrder FROM `characters` c INNER JOIN `character_locations` cl ON cl.characterId=c.characterId INNER JOIN `character_traits` ct ON ct.characterId=c.characterId WHERE cl.mapId=? AND cl.positionX=? AND cl.positionY=?');
+define('SQL_LOADLISTFORCELL', 'SELECT c.characterId, c.name, ct.gender, ct.raceId, c.clanId, ct.level, ct.alignGood, ct.alignOrder FROM `characters` c INNER JOIN `character_locations` cl ON cl.characterId=c.characterId INNER JOIN `character_traits` ct ON ct.characterId=c.characterId WHERE cl.mapId=? AND cl.positionX=? AND cl.positionY=?');
 
 /**
  * Contains properties and methods related to querying our characters table and relations
@@ -401,8 +401,8 @@ class Characters extends \Database\Characters
 		$Query->bind_param('iiiiiiiiiiiiiiiiiiis', $Character->AlignGood, $Character->AlignOrder, $Character->Level, $Character->FreeLevels, $Character->Experience, $Character->Strength, $Character->Dexterity, $Character->Intelligence, $Character->Wisdom, $Character->Vitality, $Character->Health, $Character->ExperienceBonus, $Character->AlignBonus, $Character->StrengthBonus, $Character->DexterityBonus, $Character->IntelligenceBonus, $Character->WisdomBonus, $Character->VitalityBonus, $Character->Gold, $Character->CharacterId);
 
 		$Query->Execute();
-		//die($this->Database->Connection->error);
-		if($Query->affected_rows > 0)
+
+		if($Query->affected_rows > -1)
 			return true;
 		else
 			return false;

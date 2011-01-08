@@ -67,6 +67,7 @@ if(
 								{
 									$Monster->GenerateStats();
 								}
+
 								$Character->Equipment = $Database->Items->LoadEquippedItems($Character);
 								if($AttackResult = $Character->Attack($Monster, $Get->FightType))
 								{
@@ -85,6 +86,7 @@ if(
 	
 									if($Database->Characters->UpdateTraits($Character))
 									{
+										if(!isset($AttackResult['Winner']))
 										$_SESSION['CurrentFight'] = $CurrentFight;
 										$Result->Set('Result', \Protocol\Result::ER_SUCCESS);
 										$Result->Set('Data', $AttackResult);

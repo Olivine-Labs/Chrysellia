@@ -340,6 +340,7 @@ class Character extends Being
 			}
 		}
 		$DamageStat = 0;
+		$TotalDamageDone = 0;
 		$PlayerRow = array();
 		foreach($this->Equipment AS $AnItem)
 		{
@@ -365,8 +366,9 @@ class Character extends Being
 				$ArmorMastery = 0;
 				$EnemyArmorClass = 0;
 				$BaseDamage=pow(1.15,((($AnItem->ItemClass + $this->WeaponClassBonus)-($EnemyArmorClass + $AnEnemy->ArmorClassBonus))-round($ArmorMastery/5)));
-				$ActualDamage=round(\gauss_ms($DamageStat/3, ($DamageStat/3) * 0.1)*$BaseDamage);
-				$ActualDamage *= (1/$NumWeapons^(1.5)) / (2/3);
+				$ActualDamage=\gauss_ms($DamageStat/3, ($DamageStat/3) * 0.1)*$BaseDamage;
+				$ActualDamage = round($ActualDamage * (1/pow($NumWeapons, 1.5)) / (2/3));
+				$TotalDamageDone += $ActualDamage;
 				$PlayerRow[count($PlayerRow)] = array('Damage'=>$ActualDamage, 'Heal'=>0);
 			}
 		}
@@ -377,7 +379,7 @@ class Character extends Being
 		$MonsterRow[0] = array('Damage'=>120000, 'Heal'=>49000);
 		$Result[1] = $MonsterRow;
 
-		$AnEnemy->Health -= 10;
+		$AnEnemy->Health -= $TotalDamageDone;
 		if($AnEnemy->Health <= 0)
 		{
 			$PlayerWins = true;
