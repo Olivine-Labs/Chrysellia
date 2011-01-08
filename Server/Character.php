@@ -16,6 +16,7 @@ if ( 'GET' == $_SERVER['REQUEST_METHOD'] )
 		define('ACTION_CHECKNAME', 2);
 		define('ACTION_SELECTCHARACTER', 3);
 		define('ACTION_GETCURRENTCHARACTER', 4);
+		define('ACTION_LEVELUP', 5);
 
 		if(isset($_GET['Action']))
 		{
@@ -35,6 +36,9 @@ if ( 'GET' == $_SERVER['REQUEST_METHOD'] )
 					break;
 				case ACTION_GETCURRENTCHARACTER:
 					include './Functions/Character/Load.php';
+					break;
+				case ACTION_LEVELUP:
+					include './Functions/Character/LevelUp.php';
 					break;
 				default:
 					$Result->Set('Result', \Protocol\Result::ER_BADDATA);
