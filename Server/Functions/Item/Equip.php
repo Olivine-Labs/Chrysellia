@@ -49,7 +49,7 @@ try
 
 						if(($Get->SlotNumber + ($Item->Slots - 1) < $Slots) && ($Get->SlotNumber >= 0))
 						{
-							if($Character->Equipment = $Database->Items->LoadEquippedItems($Character))
+							if(is_array($Character->Equipment = $Database->Items->LoadEquippedItems($Character)))
 							{
 								$SlotFree = true;
 								$FreeBefore = true;
