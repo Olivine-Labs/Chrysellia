@@ -10,7 +10,7 @@ try
 		$ACharacter->CharacterId = $_SESSION['CharacterId'];
 		if($Database->Characters->LoadById($ACharacter))
 		{
-			if($Database->Characters->LoadTraits($ACharacter))
+			if($Database->Characters->LoadTraits($ACharacter) && $Database->Characters->LoadRaceTraits($ACharacter))
 			{
 				if($Database->Characters->LoadPosition($ACharacter))
 				{
