@@ -426,9 +426,23 @@ class Character
 	}
 
 	/**
+	 * Checks to see if the character leveled up
+	 */
+	public function LevelUp()
+	{
+		$ExperienceToLevel = pow($this->Level + $this->FreeLevels, 8/5) * 1000 * log($this->Level+1);
+		if($this->Experience > $ExperienceToLevel)
+		{
+			$this->FreeLevels += 1;
+			return true;
+		}
+		return false;
+	}
+
+	/**
 	 * Verifies character data, ensures all fields are valid.
 	 */
-	public function Attack(Monster $AMonster, $Weapon=true)
+	public function Attack(Monster $AMonster, $Spell=true)
 	{
 		$Result = array();
 		$PlayerWins = false;
@@ -437,7 +451,7 @@ class Character
 		$PlayerRow = array();
 		foreach($this->Equipment AS $AnItem)
 		{
-			if($Weapon)
+			if(!$Spell)
 			{
 				if($AnItem->SlotType == 0)
 				{
@@ -471,9 +485,13 @@ class Character
 
 		if($PlayerWins)
 		{
+			$this->Experience += $Monster->EXPGiven;
+			$this->Gold += $Monster->GoldGiven;
+
 			$Result['Winner'] = 0;
 			$Result['Gold'] = $Monster->GoldGiven;
 			$Result['Experience'] = $Monster->EXPGiven;
+			$Result['LevelUp'] = $this->LevelUp();
 			unset($_SESSION['CurrentFight']);
 		}
 		else if($EnemyWins)
