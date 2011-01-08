@@ -15,7 +15,7 @@ if(property_exists($Get, 'Channel'))
 	$Character->CharacterId = $_SESSION['CharacterId'];
 	if($Database->Chat->LeaveChannel($Character, $Get->Channel))
 	{
-		unset($_SESSION['Channels'][$ChannelId]);
+		unset($_SESSION['Channels'][$Get->Channel]);
 		$Result->Set('Result', \Protocol\Result::ER_SUCCESS);
 	}
 	else
