@@ -137,7 +137,37 @@ $(function(){
 	});
 	
 	$(window).resize(function(){
-	  $('#chatChannels .ui-tabs-panel').css({'height':(($(window).height())-412)+'px'});
+		$('#chatChannels .ui-tabs-panel').css({'height':(($(window).height())-412)+'px'});
+	});
+	
+	$("#statsWindow button").bind("click", function(e){
+		e.preventDefault();
+		switch($(this).parent().attr("class")){
+			case "stat str":
+				
+				break;
+			
+			case "stat dex":
+				
+				break;
+			
+			case "stat vit":
+				
+				break;
+			
+			case "stat wis":
+				
+				break;
+			
+			case "stat int":
+				
+				break;
+			
+			case "stat all":
+				
+				break;
+			
+		}
 	});
 });
 
@@ -310,8 +340,8 @@ function BuildGameWindow(){
 			var select = $("<select id='monsterList' />");
 			select.appendTo(container);
 			
-			$("<button type='submit' id='attackButton' class='button attack'>Attack</button>").bind("click", function(e){ e.preventDefault(); AttackMonster(0); }).appendTo(container);
-			$("<button type='submit' id='castButton' class='button cast'>Cast</button>").bind("click", function(e){ e.preventDefault(); AttackMonster(1); }).appendTo(container);
+			$("<button type='submit' id='attackButton' class='button attack'>Attack</button>").bind("click", function(e){ e.preventDefault(); AttackMonster(0); }).button().appendTo(container);
+			$("<button type='submit' id='castButton' class='button cast'>Cast</button>").bind("click", function(e){ e.preventDefault(); AttackMonster(1); }).button().appendTo(container);
 			
 			var monster = {};
 			var option = {};
@@ -393,10 +423,19 @@ function AttackRound(data){
 			if(battleObject.Winner == 0){
 				fightResults.append("<div class='result wonFight'><span class='attacker player'>You</span> have defeated the " + MyCharacter.CurrentBattle.Monster.Name + "!</span></div>");
 				MyCharacter.CurrentBattle.State = 2;
+				MyCharacter.Gold += battleObject.Gold;
+				MyCharacter.Experience += battleObject.Experience;
+				
+				vc.i.UpdateStats();
 			}else{
 				fightResults.append("<div class='result lostFight'><span class='attacker enemy'>You</span> were defeated!</span></div>");
 				MyCharacter.CurrentBattle.State = 3;
 			}
+		}
+		
+		if(battleObject.LevelUp !== undefined && battleObject.LevelUp == true){
+			fightResults.append("<div class='result levelUp'><span class='attacker player'>You</span> have levelled up! Don't forget to add your stat points in the stats window!</span></div>");
+			$("#statsWindow button, #statsWindow .stat.all").show();
 		}
 		
 	}else if(data.Result == vc.ER_ACCESSDENIED){

@@ -180,22 +180,31 @@
 			<div class="stat str">
 				<span class="statLabel icon str" title="Strength">Strength</span>
 				<span id="myCharacter_Strength"></span>
+				<button type="submit" class="button" style="display: none;">+</button>
 			</div>
 			<div class="stat dex">
 				<span class="statLabel icon dex" title="Dexterity">Dexterity</span>
 				<span id="myCharacter_Dexterity"></span>
+				<button type="submit" class="button" style="display: none;">+</button>
 			</div>
 			<div class="stat wis">
 				<span class="statLabel icon wis" title="Wisdom">Wisdom</span>
 				<span id="myCharacter_Wisdom"></span>
+				<button type="submit" class="button" style="display: none;">+</button>
 			</div>
 			<div class="stat int">
 				<span class="statLabel icon int" title="Intelligence">Intelligence</span>
 				<span id="myCharacter_Intelligence"></span>
+				<button type="submit" class="button" style="display: none;">+</button>
 			</div>
 			<div class="stat vit">
 				<span class="statLabel icon vit" title="Vitality">Vitality</span>
 				<span id="myCharacter_Vitality"></span>
+				<button type="submit" class="button" style="display: none;">+</button>
+			</div>
+			<div class="stat all" style="display: none;">
+				<span class="statLabel" title="All Stats">All Stats</span>
+				<button type="submit" class="button" style="display: none;">+</button>
 			</div>
 		</div>
 		
