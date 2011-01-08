@@ -170,11 +170,11 @@ class Monster
 		$Stats = log($StatSeed*$this->Level) * ($this->Level * 10);
 		$StatsHigh = $Stats * 1.1;
 		$StdDev = $StatsHigh - $Stats;
-		$this->Strength = gauss_ms($Stats, $StdDev);
-		$this->Dexterity = gauss_ms($Stats, $StdDev);
-		$this->Intelligence = gauss_ms($Stats, $StdDev);
-		$this->Wisdom = gauss_ms($Stats, $StdDev);
-		$this->Health = gauss_ms($Stats, $StdDev);
+		$this->Strength = \gauss_ms($Stats, $StdDev);
+		$this->Dexterity = \gauss_ms($Stats, $StdDev);
+		$this->Intelligence = \gauss_ms($Stats, $StdDev);
+		$this->Wisdom = \gauss_ms($Stats, $StdDev);
+		$this->Health = \gauss_ms($Stats, $StdDev);
 
 		//TODO
 		$this->GoldGiven = 1;
