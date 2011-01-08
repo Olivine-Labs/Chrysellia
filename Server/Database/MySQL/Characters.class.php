@@ -23,6 +23,8 @@ define('SQL_UPDATECHARACTERLOCATION', 'UPDATE `character_locations` SET `mapId`=
 define('SQL_UPDATECHARACTERLOCATIONXY', 'UPDATE `character_locations` SET `positionX`=?, `positionY=?` WHERE `characterId`=?');
 define('SQL_INSERTCHARACTERLOCATION', 'INSERT INTO `character_locations` (`characterId`, `mapId`, `positionX`, `positionY`) VALUES (?, ?, ?, ?)');
 
+define('SQL_LOADLISTFORCELL', 'SELECT c.characterId, ct.name, ct.gender, ct.raceId, c.clanId, ct.level, ct.alignGood, ct.alignOrder FROM `characters` c INNER JOIN `character_locations` cl ON cl.characterId=c.characterId INNER JOIN `character_traits` ct ON ct.characterId=c.characterId WHERE cl.mapId=? AND cl.positionX=? AND cl.positionY=?');
+
 /**
  * Contains properties and methods related to querying our characters table and relations
  */
@@ -404,6 +406,43 @@ class Characters extends \Database\Characters
 			return true;
 		else
 			return false;
+	}
+
+
+	/**
+	 * Loads a list of characters in a cell
+	 *
+	 * @param $Character
+	 *   The Character class that will be filled with data, needs to have it's CharacterId property set
+	 *
+	 * @return Array
+	 *   An Array of \Entities\Character objects
+	 */
+	function LoadListForCell(\Entities\Character $Character)
+	{
+		$Result = Array();
+		$Query = $this->Database->Connection->prepare(SQL_LOADLISTFORCELL);
+		$this->Database->logError();
+		$Query->bind_param('sss', $Character->MapId, $Character->PositionX, $Character->PositionY);
+
+		$Query->Execute();
+
+		$Query->bind_result($CharacterId, $Name, $Gender, $RaceId, $ClanId, $Level, $AlignGood, $AlignOrder);
+
+		while($Query->fetch())
+		{
+			$Character = new \Entities\Character();
+			$Character->CharacterId = $CharacterId;
+			$Character->Name = $Name;
+			$Character->RaceId = $RaceId;
+			$Character->Gender = $Gender;
+			$Character->ClanId = $ClanId;
+			$Character->Level = $Level;
+			$Character->AlignGood = $AlignGood;
+			$Character->AlignOrder = $AlignOrder;
+			array_push($Result, $Character);
+		}
+		return $Result;
 	}
 }
 ?>
