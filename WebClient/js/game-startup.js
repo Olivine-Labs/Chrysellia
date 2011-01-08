@@ -135,6 +135,10 @@ $(function(){
 			vc.is.Equip($this.val(), slotType, slotIndex, EquipItem);
 		}
 	});
+	
+	$(window).resize(function(){
+	  $('#chatChannels .ui-tabs-panel').css({'height':(($(window).height())-412)+'px'});
+	});
 });
 
 function EquipItem(data, itemId, slotType, slotIndex){
@@ -181,6 +185,10 @@ function RefreshMap(data){
 
 function SetEnableMovement(enabled){
 	$("#movementform button").button("option", "disabled", !enabled).removeClass("ui-state-hover");
+}
+
+function SetEnableAttack(enabled){
+	$("#fightForm button").button("option", "disabled", !enabled).removeClass("ui-state-hover");
 }
 
 function CreateChannel(data){
@@ -249,8 +257,8 @@ function SelectCharacter(data){
 		window.MyCharacter.Construct(data.Data);
 		vc.i.UpdateStats();
 	}else{
-		//alert("Please login again.");
-		//window.location = "./index.php";
+		alert("Please login again.");
+		window.location = "./index.php";
 	}
 	
 	for(var i in window.MyCharacter.Channels){
@@ -294,11 +302,16 @@ function BuildMap(){
 function BuildGameWindow(){
 	var myLocation = MyCharacter.CurrentMap.Places[MyCharacter.PositionY][MyCharacter.PositionX];
 	var window = $("#topCenter");
+	window.html('');
 	
 	if(myLocation.Type === undefined){
 		if(myLocation.Monsters !== undefined){
-			var select = $("<select id='monsterList'></select>");
-			select.appendTo(window);
+			var container = $("<form id='fightForm'><h1>Fight!</h1><span class='attackLabel'>Attack:</span></form>");
+			var select = $("<select id='monsterList' />");
+			select.appendTo(container);
+			
+			$("<button type='submit' id='attackButton' class='button attack'>Attack</button>").bind("click", function(e){ e.preventDefault(); AttackMonster(0); }).appendTo(container);
+			$("<button type='submit' id='castButton' class='button cast'>Cast</button>").bind("click", function(e){ e.preventDefault(); AttackMonster(1); }).appendTo(container);
 			
 			var monster = {};
 			var option = {};
@@ -307,7 +320,87 @@ function BuildGameWindow(){
 				monster = V2Core.Monsters[myLocation.Monsters[m]];
 				option = $("<option value='" + monster.Id + "'>" + monster.Name + "</option>").appendTo(select);
 			}
+			
+			container.appendTo(window);
+			
+			var fightResults = $("<div id='fightResults'></div>");
+			fightResults.appendTo(window);
 		}
+	}
+}
+
+function AttackMonster(fightType){
+	SetEnableAttack(false); 
+	window.setTimeout(function(){SetEnableAttack(true)}, 1500);
+	var monsterId = $("#monsterList").val();
+	
+	if(MyCharacter.CurrentBattle !== undefined){
+		if(MyCharacter.CurrentBattle.State == 2){
+			fightResults.html('');
+		}
+		
+		if(MyCharacter.CurrentBattle.State == 3){
+			alert("You can't fight! You're dead!");
+			return;
+		}
+		
+		if(MyCharacter.CurrentBattle.Monster == V2Core.Monsters[monsterId]){
+			MyCharacter.CurrentBattle.State = 1;
+		}else{
+			MyCharacter.CurrentBattle = { Monster: V2Core.Monsters[monsterId], State: 0 }
+		}
+	}else{
+		MyCharacter.CurrentBattle = { Monster: V2Core.Monsters[monsterId], State: 0 }
+	}
+	
+	MyCharacter.CurrentBattle = { Monster: V2Core.Monsters[monsterId], State: 0 }
+	vc.mn.Fight(monsterId, fightType, AttackRound);
+}
+
+function AttackRound(data){
+	if(data.Result == vc.ER_SUCCESS){
+		fightResults = $("#fightResults");
+		
+		var battleObject = data.Data;
+		
+		if(battleObject[0] != []){
+			for(var x = 0; x < battleObject[0].length; x++){
+				var damage = battleObject[0][x].Damage;
+				var heal = battleObject[0][x].Heal;
+				
+				fightResults.append("<div class='result'><span class='attacker player'>You</span> attacked for <span class='damage'>" + battleObject[0][x].Damage + "</span></div>");
+				
+				if(heal > 0){
+					fightResults.append("<div class='result'><span class='attacker player'>You</span> healed for <span class='damage'>" + battleObject[0][x].Heal + "</span></div>");
+				}
+			}
+		}
+		
+		if(battleObject[1] != []){
+			for(var x = 0; x < battleObject[1].length; x++){
+				var damage = battleObject[1][x].Damage;
+				var heal = battleObject[1][x].Heal;
+				
+				fightResults.append("<div class='result'><span class='attacker enemy'>You</span> were attacked for <span class='damage'>" + battleObject[1][x].Damage + "</span></div>");
+				
+				if(heal > 0){
+					fightResults.append("<div class='result'><span class='attacker enemy'>" + MyCharacter.CurrentBattle.Monster.Name + "</span> healed for <span class='damage'>" + battleObject[1][x].Heal + "</span></div>");
+				}
+			}
+		}
+		
+		if(battleObject.Winner !== undefined){
+			if(battleObject.Winner == 0){
+				fightResults.append("<div class='result wonFight'><span class='attacker player'>You</span> have defeated the " + MyCharacter.CurrentBattle.Monster.Name + "!</span></div>");
+				MyCharacter.CurrentBattle.State = 2;
+			}else{
+				fightResults.append("<div class='result lostFight'><span class='attacker enemy'>You</span> were defeated!</span></div>");
+				MyCharacter.CurrentBattle.State = 3;
+			}
+		}
+		
+	}else if(data.Result == vc.ER_ACCESSDENIED){
+		
 	}
 }
 
@@ -339,6 +432,8 @@ function BuildInitialInventory(){
 			}
 		}
 	}
+	
+	$('#chatChannels .ui-tabs-panel').css({'height':(($(window).height())-412)+'px'});
 }
 
 function LoadInventory(data){

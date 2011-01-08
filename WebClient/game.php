@@ -20,13 +20,13 @@
 		
 		<link href='http://fonts.googleapis.com/css?family=Crimson+Text&subset=latin' rel='stylesheet' type='text/css'>
 		
-		<!--
+		
 		<link href="css/html5-reset.css" rel="stylesheet" media="screen" />
 		<link href="css/jquery-ui.css" rel="stylesheet" media="screen" />
 		<link href="css/grid-fluid.css" rel="stylesheet" media="screen" />
-		<link href="css/neflaria-base.css" rel="stylesheet" media="screen" />-->
-		<link href="css/neflaria.min.css" rel="stylesheet" media="screen" />
-		<link href="css/grid-fluid.min.css" rel="stylesheet" media="screen" />
+		<link href="css/neflaria-base.css" rel="stylesheet" media="screen" />
+		<!--<link href="css/neflaria.min.css" rel="stylesheet" media="screen" />
+		<link href="css/grid-fluid.min.css" rel="stylesheet" media="screen" />-->
 		
 		
 		<!--[if IE 8]>
@@ -234,6 +234,7 @@
 		<script src="./Core/core-ChatService.js"></script>
 		<script src="./Core/core-MapService.js"></script>
 		<script src="./Core/core-ItemService.js"></script>
+		<script src="./Core/core-MonsterService.js"></script>
 		<script src="./Core/core-Interface.js"></script>
 		<!--<script src="./Core/core.min.js"></script>-->
 		
