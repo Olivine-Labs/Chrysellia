@@ -70,6 +70,7 @@ if(
 								$Character->Equipment = $Database->Items->LoadEquippedItems($Character);
 								if($AttackResult = $Character->Attack($Monster, $Get->FightType))
 								{
+									$CurrentFight = Array();
 									$CurrentFight['MonsterId'] = $Monster->MonsterId;
 									$CurrentFight['Health'] = $Monster->Health;
 									$CurrentFight['Strength'] = $Monster->Strength;
@@ -78,6 +79,9 @@ if(
 									$CurrentFight['Wisdom'] = $Monster->Wisdom;
 									$CurrentFight['GoldGiven'] = $Monster->GoldGiven;
 									$CurrentFight['ExperienceGiven'] = $Monster->ExperienceGiven;
+									$CurrentFight['MapId'] = $Character->MapId;
+									$CurrentFight['PositionX'] = $Character->PositionX;
+									$CurrentFight['PositionY'] = $Character->PositionY;
 	
 									$_SESSION['CurrentFight'] = $CurrentFight;
 	
