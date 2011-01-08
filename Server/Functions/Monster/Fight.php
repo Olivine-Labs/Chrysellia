@@ -22,7 +22,7 @@ if(
 			if($Database->Characters->LoadPosition($Character))
 			{
 				$Monster = new \Entities\Monster();
-				$Monster->MonsterId = $MonsterId;
+				$Monster->MonsterId = $Get->MonsterId;
 				if($Database->Monsters->IsInCell($Monster))
 				{
 					if($Database->LoadTraits($Character))
