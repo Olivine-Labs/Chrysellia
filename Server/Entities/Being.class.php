@@ -95,6 +95,27 @@ abstract class Being
 	 * @var $Wisdom
 	 */
 	public $Wisdom;
+
+	/**
+	 * WeaponClassBonus
+	 *
+	 * @var $WeaponClassBonus
+	 */
+	public $WeaponClassBonus;
+
+	/**
+	 * ArmorClassBonus
+	 *
+	 * @var $ArmorClassBonus
+	 */
+	public $ArmorClassBonus;
+
+	/**
+	 * SpellClassBonus
+	 *
+	 * @var $SpellClassBonus
+	 */
+	public $SpellClassBonus;
 }
 
 ?>

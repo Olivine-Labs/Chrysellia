@@ -5,7 +5,7 @@ namespace Entities;
 /**
  * Character Class
  */
-class Character
+class Character extends Being
 {
 	/**
 	 * Id
@@ -314,22 +314,56 @@ class Character
 		$PlayerWins = false;
 		$EnemyWins = false;
 
-		$PlayerRow = array();
+		$PlayerArmorClass = 0;
+		$NumWeapons = 0;
+
+		//Get Armor Class for player
 		foreach($this->Equipment AS $AnItem)
 		{
+			$PlayerArmorClass += $AnItem->ArmorClass;
 			if(!$Spell)
 			{
 				if($AnItem->SlotType == 0)
 				{
-					$PlayerRow[count($PlayerRow)] = array('Damage'=>10, 'Heal'=>0);
+					$NumWeapons++;
 				}
 			}
 			else
 			{
 				if($AnItem->SlotType == 3)
 				{
-					$PlayerRow[count($PlayerRow)] = array('Damage'=>10, 'Heal'=>0);
+					$NumWeapons++;
 				}
+			}
+		}
+		$DamageStat = 0;
+		$PlayerRow = array();
+		foreach($this->Equipment AS $AnItem)
+		{
+			$IsWeapon = false;
+			if(!$Spell)
+			{
+				if($AnItem->SlotType == 0)
+				{
+					$IsWeapon = true;
+					$DamageStat = $this->Strength;
+				}
+			}
+			else
+			{
+				if($AnItem->SlotType == 3)
+				{
+					$IsWeapon = true;
+					$DamageStat = $this->Intelligence;
+				}
+			}
+			if($IsWeapon)
+			{
+				$ArmorMastery = 0;
+				$BaseDamage=pow(1.15,((($AnItem->WeaponClass + $this->WeaponClassBonus)-($AnEnemy->ArmorClass + $AnEnemy->ArmorClassBonus))-round($ArmorMastery/5)));
+				$ActualDamage=round(\gauss_ms($DamageStat/3, ($DamageStat/3) * 0.1)*$BaseDamage);
+				$ActualDamage *= (1/$NumWeapons^(1.5)) / (2/3);
+				$PlayerRow[count($PlayerRow)] = array('Damage'=>$ActualDamage, 'Heal'=>0);
 			}
 		}
 		$Result[0] = $PlayerRow;
