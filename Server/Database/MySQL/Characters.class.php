@@ -204,7 +204,7 @@ class Characters extends \Database\Characters
 	 */
 	function LoadRaceTraits(\Entities\Character $Character)
 	{
-		$Query = $this->Database->Connection->prepare(SQL_GETCHARACTERTRAITS);
+		$Query = $this->Database->Connection->prepare(SQL_GETCHARACTERRACETRAITS);
 		$this->Database->logError();
 		$Query->bind_param('s', $Character->CharacterId);
 
