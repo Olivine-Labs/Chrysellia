@@ -55,6 +55,7 @@ try
 					$Character->Wisdom += $Character->RacialWisdom;
 
 					$Character->FreeLevels -= 1;
+					$Character->Level++;
 					if($Database->Characters->UpdateTraits($Character))
 					{
 						$Result->Set('Result', \Protocol\Result::ER_SUCCESS);
