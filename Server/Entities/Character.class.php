@@ -320,7 +320,10 @@ class Character extends Being
 		//Get Armor Class for player
 		foreach($this->Equipment AS $AnItem)
 		{
-			$PlayerArmorClass += $AnItem->ArmorClass;
+			if($AnItem->SlotType == 1)
+			{
+				$PlayerArmorClass += $AnItem->ItemClass;
+			}
 			if(!$Spell)
 			{
 				if($AnItem->SlotType == 0)
@@ -360,7 +363,8 @@ class Character extends Being
 			if($IsWeapon)
 			{
 				$ArmorMastery = 0;
-				$BaseDamage=pow(1.15,((($AnItem->WeaponClass + $this->WeaponClassBonus)-($AnEnemy->ArmorClass + $AnEnemy->ArmorClassBonus))-round($ArmorMastery/5)));
+				$EnemyArmorClass = 0;
+				$BaseDamage=pow(1.15,((($AnItem->ItemClass + $this->WeaponClassBonus)-($EnemyArmorClass + $AnEnemy->ArmorClassBonus))-round($ArmorMastery/5)));
 				$ActualDamage=round(\gauss_ms($DamageStat/3, ($DamageStat/3) * 0.1)*$BaseDamage);
 				$ActualDamage *= (1/$NumWeapons^(1.5)) / (2/3);
 				$PlayerRow[count($PlayerRow)] = array('Damage'=>$ActualDamage, 'Heal'=>0);
