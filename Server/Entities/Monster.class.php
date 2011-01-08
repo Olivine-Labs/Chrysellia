@@ -6,7 +6,7 @@ namespace Entities;
 /**
  * Monster Class
  */
-class Monster
+class Monster extends Being
 {
 	/**
 	 * MonsterId
@@ -16,22 +16,6 @@ class Monster
 	 * @var monsterId
 	 */
 	public $MonsterId;
-
-	/**
-	 * Name
-	 *
-	 * The map's name
-	 *
-	 * @var name
-	 */
-	public $Name;
-
-	/**
-	 * Level
-	 *
-	 * @var Level
-	 */
-	public $Level;
 
 	/**
 	 * ExperienceBonus
@@ -67,78 +51,6 @@ class Monster
 	 * @var ArmorClass
 	 */
 	public $ArmorClass;
-
-	/**
-	 * MapId
-	 *
-	 * The map the monster is currently located on.
-	 *
-	 * @var $MapId
-	 */
-	public $MapId;
-
-	/**
-	 * PositionX
-	 *
-	 * The X value of the monster's coordinates
-	 *
-	 * @var $PositionX
-	 */
-	public $PositionX;
-
-	/**
-	 * PositionY
-	 *
-	 * The Y value of the monster's coordinates
-	 *
-	 * @var $PositionY
-	 */
-	public $PositionY;
-
-	/**
-	 * Health
-	 *
-	 * The monster's hp
-	 *
-	 * @var $Health
-	 */
-	public $Health;
-
-	/**
-	 * Strength
-	 *
-	 * The monster's strength
-	 *
-	 * @var $Strength
-	 */
-	public $Strength;
-
-	/**
-	 * Dexterity
-	 *
-	 * The monster's dex
-	 *
-	 * @var $Dexterity
-	 */
-	public $Dexterity;
-
-	/**
-	 * Intelligence
-	 *
-	 * The monster's int
-	 *
-	 * @var $Intelligence
-	 */
-	public $Intelligence;
-
-	/**
-	 * Wisdom
-	 *
-	 * The monster's wisdom
-	 *
-	 * @var $Wisdom
-	 */
-	public $Wisdom;
 
 	/**
 	 * EXPGiven

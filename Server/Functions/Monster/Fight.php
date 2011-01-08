@@ -83,11 +83,17 @@ if(
 									$CurrentFight['PositionX'] = $Character->PositionX;
 									$CurrentFight['PositionY'] = $Character->PositionY;
 	
-									$_SESSION['CurrentFight'] = $CurrentFight;
-	
-									$Result->Set('Result', \Protocol\Result::ER_SUCCESS);
-									$Result->Set('Data', $AttackResult);
-									$_SESSION['NextAction'] = microtime(true) + 1.50;
+									if($Database->Characters->UpdateTraits($Character))
+									{
+										$_SESSION['CurrentFight'] = $CurrentFight;
+										$Result->Set('Result', \Protocol\Result::ER_SUCCESS);
+										$Result->Set('Data', $AttackResult);
+										$_SESSION['NextAction'] = microtime(true) + 1.50;
+									}
+									else
+									{
+										$Result->Set('Result', \Protocol\Result::ER_DBERROR);
+									}
 								}
 							}
 							else

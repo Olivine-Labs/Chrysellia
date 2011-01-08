@@ -40,13 +40,6 @@ class Character
 	public $HasPin;
 
 	/**
-	 * Name
-	 *
-	 * @var $Name
-	 */
-	public $Name;
-
-	/**
 	 * CreatedOn
 	 *
 	 * The date the character was created
@@ -54,33 +47,6 @@ class Character
 	 * @var $CreatedOn
 	 */
 	public $CreatedOn;
-
-	/**
-	 * MapId
-	 *
-	 * The map the character is currently located on.
-	 *
-	 * @var $MapId
-	 */
-	public $MapId;
-
-	/**
-	 * PositionX
-	 *
-	 * The X value of the character's coordinates
-	 *
-	 * @var $PositionX
-	 */
-	public $PositionX;
-
-	/**
-	 * PositionY
-	 *
-	 * The Y value of the character's coordinates
-	 *
-	 * @var $PositionY
-	 */
-	public $PositionY;
 
 	/**
 	 * RaceId
@@ -119,15 +85,6 @@ class Character
 	public $AlignOrder;
 
 	/**
-	 * Level
-	 *
-	 * A character's level
-	 *
-	 * @var $Level
-	 */
-	public $Level;
-
-	/**
 	 * FreeLevels
 	 *
 	 * A character's levels that need to be "spent"
@@ -146,42 +103,6 @@ class Character
 	public $Experience;
 
 	/**
-	 * Strength
-	 *
-	 * A character's strength
-	 *
-	 * @var $Strength
-	 */
-	public $Strength;
-
-	/**
-	 * Dexterity
-	 *
-	 * A character's Dexterity
-	 *
-	 * @var $Dexterity
-	 */
-	public $Dexterity;
-
-	/**
-	 * Intelligence
-	 *
-	 * A character's Intelligence
-	 *
-	 * @var $Intelligence
-	 */
-	public $Intelligence;
-
-	/**
-	 * Wisdom
-	 *
-	 * A character's Wisdom
-	 *
-	 * @var $Wisdom
-	 */
-	public $Wisdom;
-
-	/**
 	 * Vitality
 	 *
 	 * A character's vitality
@@ -189,15 +110,6 @@ class Character
 	 * @var $Vitality
 	 */
 	public $Vitality;
-
-	/**
-	 * Health
-	 *
-	 * A character's health
-	 *
-	 * @var $Health
-	 */
-	public $Health;
 
 	/**
 	 * ExperienceBonus
@@ -261,52 +173,6 @@ class Character
 	 * @var $VitalityBonus
 	 */
 	public $VitalityBonus;
-
-	/**
-	 * ArmorClass
-	 *
-	 * The item class of the item in the armor slot
-	 *
-	 * @var $ArmorClass
-	 */
-	public $ArmorClass;
-
-	/**
-	 * RightHandClass
-	 *
-	 * The item class of the item in the Right Hand slot
-	 *
-	 * @var $RightHandClass
-	 */
-	public $RightHandClass;
-
-	/**
-	 * LeftHandClass
-	 *
-	 * The item class of the item in the LEft Hand slot
-	 *
-	 * @var $LeftHandClass
-	 */
-	public $LeftHandClass;
-
-	/**
-	 * Spell1Class
-	 *
-	 * The item class of the item in the spell1 slot
-	 *
-	 * @var $Spell1Class
-	 */
-	public $Spell1Class;
-
-	/**
-	 * Spell2Class
-	 *
-	 * The item class of the item in the spell2 slot
-	 *
-	 * @var $Spell2Class
-	 */
-	public $Spell2Class;
-
 
 	/**
 	 * RacialStrength
@@ -442,7 +308,7 @@ class Character
 	/**
 	 * Verifies character data, ensures all fields are valid.
 	 */
-	public function Attack(Monster $AMonster, $Spell=true)
+	public function Attack(Being $AnEnemy, $Spell=true)
 	{
 		$Result = array();
 		$PlayerWins = false;
@@ -473,8 +339,8 @@ class Character
 		$MonsterRow[0] = array('Damage'=>120000, 'Heal'=>49000);
 		$Result[1] = $MonsterRow;
 
-		$AMonster->Health -= 10;
-		if($AMonster->Health <= 0)
+		$AnEnemy->Health -= 10;
+		if($AnEnemy->Health <= 0)
 		{
 			$PlayerWins = true;
 		}
@@ -485,12 +351,12 @@ class Character
 
 		if($PlayerWins)
 		{
-			$this->Experience += $AMonster->EXPGiven;
-			$this->Gold += $AMonster->GoldGiven;
+			$this->Experience += $AnEnemy->EXPGiven;
+			$this->Gold += $AnEnemy->GoldGiven;
 
 			$Result['Winner'] = 0;
-			$Result['Gold'] = $AMonster->GoldGiven;
-			$Result['Experience'] = $AMonster->EXPGiven;
+			$Result['Gold'] = $AnEnemy->GoldGiven;
+			$Result['Experience'] = $AnEnemy->EXPGiven;
 			$Result['LevelUp'] = $this->LevelUp();
 			unset($_SESSION['CurrentFight']);
 		}
