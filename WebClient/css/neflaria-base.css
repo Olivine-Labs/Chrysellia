@@ -239,7 +239,7 @@ input.watermark {
 .statLabel { font-weight: bold; }
 .stat { margin: .25em 0; }
 .stat.name, .stat.level { width: 100%; clear: both; }
-#bottom { margin-bottom: 1em; overflow: auto; }
+#bottom { margin-bottom: 1em; overflow: auto; position: relative; top: -20px; }
 #chatForm {
 	padding: 0 21px;
 	position:relative;
@@ -292,12 +292,13 @@ a.fb_button, a.fb_button:link, a.fb_button:hover, a.fb_button:active {
 .itemSelection .itemType { display: inline-block; width: 80px; }
 .itemSelection { margin: .25em 0; }
 .newMessage a, .newMessage.ui-state-default a, .newMessage.ui-state-default a:link, .newMessage.ui-state-default a:visited { font-weight: bold; color: #fff; }
-#top { height: 200px; }
+#top { height: 230px; }
 #monsterList { margin: 0 .5em; }
-#fightForm h1 { margin: .25em 0; }
+#fightForm h1 { margin: 0 0 .25em 0; }
 #fightForm, #fightResults { text-align: center; }
 #fightResults .result { margin-bottom: .25em; padding: .25em; }
 #fightResults .enemy { color: #900; font-weight: bold; }
 #fightResults .player { color: #090; font-weight: bold; }
 #fightResults .damage { font-weight: bold; }
 #fightForm .button { margin-right: .25em; }
+#topCenter { height: 210px; overflow: auto; }

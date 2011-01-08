@@ -139,6 +139,11 @@
 			this.Channels = data.Channels;
 			this.CurrentMap = V2Core.Maps[data.MapId];
 			this.Equipment = data.Equipment;
+			this.RacialVitality = data.RacialVitality;
+			this.RacialStrength = data.RacialStrength;
+			this.RacialDexterity = data.RacialDexterity
+			this.RacialWisdom = data.RacialWisdom;
+			this.RacialIntelligence = data.RacialIntelligence;
 		}
 	}
 	

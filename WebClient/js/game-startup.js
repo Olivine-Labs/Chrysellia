@@ -175,29 +175,35 @@ function LevelUpResponse(data, stat){
 	if(data.Result == vc.ER_SUCCESS){
 		switch(stat){
 			case 0:
-				MyCharacter.Strength += (12 + MyCharacter.RacialStrength);
-				MyCharacter.Dexterity += (12 + MyCharacter.RacialDexterity);
-				MyCharacter.Vitality += (12 + MyCharacter.RacialVitality);
-				MyCharacter.Intelligence += (12 + MyCharacter.RacialIntelligence);
-				MyCharacter.Wisdom += (12 + MyCharacter.RacialWisdom);
+				MyCharacter.Strength += 12;
+				MyCharacter.Dexterity += 12;
+				MyCharacter.Vitality += 12;
+				MyCharacter.Intelligence += 12;
+				MyCharacter.Wisdom += 12;
 				break;
 			case 1:
-				MyCharacter.Strength += (50 + MyCharacter.RacialStrength);
+				MyCharacter.Strength += 50;
 				break;
 			case 2:
-				MyCharacter.Dexterity += (50 + MyCharacter.RacialDexterity);
+				MyCharacter.Dexterity += 50;
 				break;
 			case 3:
-				MyCharacter.Vitality += (50 + MyCharacter.RacialVitality);
+				MyCharacter.Vitality += 50;
 				break;
 			case 4:
-				MyCharacter.Intelligence += (50 + MyCharacter.RacialIntelligence);
+				MyCharacter.Intelligence += 50;
 				break;
 			case 5:
-				MyCharacter.Wisdom += (50 + MyCharacter.RacialWisdom);
+				MyCharacter.Wisdom += 50;
 				break;
 		}
 		
+		MyCharacter.Strength += MyCharacter.RacialStrength;
+		MyCharacter.Dexterity += MyCharacter.RacialDexterity;
+		MyCharacter.Vitality += MyCharacter.RacialVitality;
+		MyCharacter.Intelligence += MyCharacter.RacialIntelligence;
+		MyCharacter.Wisdom += MyCharacter.RacialWisdom;
+
 		MyCharacter.FreeLevels--;
 		if(MyCharacter.FreeLevels < 1){
 			$("#statsWindow button, #statsWindow .stat.all").hide();
@@ -368,7 +374,7 @@ function BuildMap(){
 function BuildGameWindow(){
 	var myLocation = MyCharacter.CurrentMap.Places[MyCharacter.PositionY][MyCharacter.PositionX];
 	var window = $("#topCenter");
-	window.html('');
+	window.html('&nbsp;');
 	
 	if(myLocation.Type === undefined){
 		if(myLocation.Monsters !== undefined){
