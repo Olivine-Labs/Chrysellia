@@ -35,22 +35,24 @@ if(
 							if($Database->Monsters->LoadById($Monster))
 							{
 								$SameMonster = false;
+								$CurrentFight = null;
 								if(isset($_SESSION['CurrentFight']))
 									$CurrentFight = $_SESSION['CurrentFight'];
-								else
-									$CurrentFight = Array();
-								if(isset($CurrentFight['MonsterId']))
+								if(is_array($CurrentFight))
 								{
-									if(
-										($Monster->MonsterId == $CurrentFight['MonsterId']) &&
-										($CurrentFight['MapId'] == $Character->MapId) &&
-										($CurrentFight['PositionX'] == $Character->PositionX) &&
-										($CurrentFight['PositionY'] == $Character->PositionY)
-									){
-										$SameMonster = true;
+									if(isset($CurrentFight['MonsterId']))
+									{
+										if(
+											($Monster->MonsterId == $CurrentFight['MonsterId']) &&
+											($CurrentFight['MapId'] == $Character->MapId) &&
+											($CurrentFight['PositionX'] == $Character->PositionX) &&
+											($CurrentFight['PositionY'] == $Character->PositionY)
+										){
+											$SameMonster = true;
+										}
 									}
 								}
-	
+
 								if($SameMonster)
 								{
 									$Monster->Health = $CurrentFight['Health'];
