@@ -170,11 +170,11 @@ class Monster
 		$Stats = log($StatSeed*$this->Level) * ($this->Level * 10);
 		$StatsHigh = $Stats * 1.1;
 		$StdDev = $StatsHigh - $Stats;
-		$this->Strength = \gauss_ms($Stats, $StdDev);
-		$this->Dexterity = \gauss_ms($Stats, $StdDev);
-		$this->Intelligence = \gauss_ms($Stats, $StdDev);
-		$this->Wisdom = \gauss_ms($Stats, $StdDev);
-		$this->Health = \gauss_ms($Stats, $StdDev);
+		$this->Strength = round(\gauss_ms($Stats, $StdDev));
+		$this->Dexterity = round(\gauss_ms($Stats, $StdDev));
+		$this->Intelligence = round(\gauss_ms($Stats, $StdDev));
+		$this->Wisdom = round(\gauss_ms($Stats, $StdDev));
+		$this->Health = round(\gauss_ms($Stats, $StdDev));
 
 		$ExpSeed = 5;
 		$GoldSeed = 1;
@@ -182,8 +182,8 @@ class Monster
 		$this->ExperienceGiven = log($ExpSeed*$this->Level) * ($this->Level * 5) * $this->ExperienceBonus;
 		$GoldStdDev = $this->GoldGiven - $this->GoldGiven * 0.90;
 		$ExpStdDev = $this->EXPGiven - $this->EXPGiven * 0.90;
-		$this->GoldGiven = \gauss_ms($this->GoldGiven, $this->GoldStdDev);
-		$this->EXPGiven = \gauss_ms($this->EXPGiven, $this->ExpStdDev);
+		$this->GoldGiven = round(\gauss_ms($this->GoldGiven, $this->GoldStdDev));
+		$this->EXPGiven = round(\gauss_ms($this->EXPGiven, $this->ExpStdDev));
 	}
 }
 
