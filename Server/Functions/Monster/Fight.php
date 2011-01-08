@@ -13,7 +13,7 @@ if(
 	property_exists($Get, 'MonsterId') &&
 	property_exists($Get, 'FightType')
 ){
-	if(($Get->FightType == 0) || ($FightType == 1))
+	if(($Get->FightType == 0) || ($Get->FightType == 1))
 	{
 		try
 		{
@@ -23,9 +23,12 @@ if(
 			{
 				$Monster = new \Entities\Monster();
 				$Monster->MonsterId = $Get->MonsterId;
+				$Monster->MapId = $Character->MapId;
+				$Monster->PositionX = $Character->PositionX;
+				$Monster->PositionY = $Character->PositionY;
 				if($Database->Monsters->IsInCell($Monster))
 				{
-					if($Database->LoadTraits($Character))
+					if($Database->Characters->LoadTraits($Character))
 					{
 						if($Character->Health > 0)
 						{
