@@ -62,8 +62,8 @@
 		LevelUp: function(stat, callback){
 			$.getJSON(
 				V2Core.SERVERCODE_DIRECTORY + "Character.php",
-				{ Action: ACTION_LEVELUP.ACTION_GETCURRENTCHARACTER, Data: JSON.stringify({ Stat: stat }) },
-				function(data) { callback(data); }
+				{ Action: CharacterService.ACTION_LEVELUP, Data: JSON.stringify({ Stat: stat }) },
+				function(data) { callback(data, stat); }
 			);
 		},
 		

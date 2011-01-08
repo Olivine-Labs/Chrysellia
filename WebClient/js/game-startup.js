@@ -144,32 +144,68 @@ $(function(){
 		e.preventDefault();
 		switch($(this).parent().attr("class")){
 			case "stat str":
-				
+				vc.cs.LevelUp(1, LevelUpResponse);
 				break;
 			
 			case "stat dex":
-				
+				vc.cs.LevelUp(2, LevelUpResponse);
 				break;
 			
 			case "stat vit":
-				
-				break;
-			
-			case "stat wis":
-				
+				vc.cs.LevelUp(3, LevelUpResponse);
 				break;
 			
 			case "stat int":
-				
+				vc.cs.LevelUp(4, LevelUpResponse);
+				break;
+			
+			case "stat wis":
+				vc.cs.LevelUp(5, LevelUpResponse);
 				break;
 			
 			case "stat all":
-				
+				vc.cs.LevelUp(0, LevelUpResponse);
 				break;
 			
 		}
 	});
 });
+
+function LevelUpResponse(data, stat){
+	if(data.Result == vc.ER_SUCCESS){
+		switch(stat){
+			case 0:
+				MyCharacter.Strength += (12 + MyCharacter.RacialStrength);
+				MyCharacter.Dexterity += (12 + MyCharacter.RacialDexterity);
+				MyCharacter.Vitality += (12 + MyCharacter.RacialVitality);
+				MyCharacter.Intelligence += (12 + MyCharacter.RacialIntelligence);
+				MyCharacter.Wisdom += (12 + MyCharacter.RacialWisdom);
+				break;
+			case 1:
+				MyCharacter.Strength += (50 + MyCharacter.RacialStrength);
+				break;
+			case 2:
+				MyCharacter.Dexterity += (50 + MyCharacter.RacialDexterity);
+				break;
+			case 3:
+				MyCharacter.Vitality += (50 + MyCharacter.RacialVitality);
+				break;
+			case 4:
+				MyCharacter.Intelligence += (50 + MyCharacter.RacialIntelligence);
+				break;
+			case 5:
+				MyCharacter.Wisdom += (50 + MyCharacter.RacialWisdom);
+				break;
+		}
+		
+		MyCharacter.FreeLevels--;
+		if(MyCharacter.FreeLevels < 1){
+			$("#statsWindow button, #statsWindow .stat.all").hide();
+		}
+		
+		vc.i.UpdateStats();
+	}
+}
 
 function EquipItem(data, itemId, slotType, slotIndex){
 	if(data.Result == vc.ER_SUCCESS){
@@ -426,6 +462,12 @@ function AttackRound(data){
 				MyCharacter.Gold += battleObject.Gold;
 				MyCharacter.Experience += battleObject.Experience;
 				
+				if(battleObject.LevelUp !== undefined && battleObject.LevelUp == true){
+					fightResults.append("<div class='result levelUp'><span class='attacker player'>You</span> have levelled up! Don't forget to add your stat points in the stats window!</span></div>");
+					
+					MyCharacter.FreeLevels++;
+				}
+				
 				vc.i.UpdateStats();
 			}else{
 				fightResults.append("<div class='result lostFight'><span class='attacker enemy'>You</span> were defeated!</span></div>");
@@ -433,10 +475,7 @@ function AttackRound(data){
 			}
 		}
 		
-		if(battleObject.LevelUp !== undefined && battleObject.LevelUp == true){
-			fightResults.append("<div class='result levelUp'><span class='attacker player'>You</span> have levelled up! Don't forget to add your stat points in the stats window!</span></div>");
-			$("#statsWindow button, #statsWindow .stat.all").show();
-		}
+		
 		
 	}else if(data.Result == vc.ER_ACCESSDENIED){
 		

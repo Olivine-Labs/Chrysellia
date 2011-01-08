@@ -110,6 +110,10 @@
 			return goodAlign + spacing + orderAlign;
 		}
 		
+		this.NextLevelAt = function(){
+			return Math.round(Math.pow(this.Level + this.FreeLevels, (8/5)) * 100 * Math.log(this.Level + 1));
+		}
+		
 		this.Construct = function(data){
 			this.CharacterId = data.CharacterId;
 			this.HasPin = data.HasPin;
