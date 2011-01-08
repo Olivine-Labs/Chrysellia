@@ -61,7 +61,7 @@ if(
 									$Monster->Intelligence = $CurrentFight['Intelligence'];
 									$Monster->Wisdom = $CurrentFight['Wisdom'];
 									$Monster->GoldGiven = $CurrentFight['GoldGiven'];
-									$Monster->ExperienceGiven = $CurrentFight['ExperienceGiven'];
+									$Monster->EXPGiven = $CurrentFight['EXPGiven'];
 								}
 								else
 								{
@@ -78,7 +78,7 @@ if(
 									$CurrentFight['Intelligence'] = $Monster->Intelligence;
 									$CurrentFight['Wisdom'] = $Monster->Wisdom;
 									$CurrentFight['GoldGiven'] = $Monster->GoldGiven;
-									$CurrentFight['ExperienceGiven'] = $Monster->ExperienceGiven;
+									$CurrentFight['EXPGiven'] = $Monster->EXPGiven;
 									$CurrentFight['MapId'] = $Character->MapId;
 									$CurrentFight['PositionX'] = $Character->PositionX;
 									$CurrentFight['PositionY'] = $Character->PositionY;

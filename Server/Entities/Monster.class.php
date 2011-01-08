@@ -179,7 +179,7 @@ class Monster
 		$ExpSeed = 5;
 		$GoldSeed = 1;
 		$this->GoldGiven = log($GoldSeed*$this->Level) * ($this->Level * 5) * $this->GoldBonus;
-		$this->ExperienceGiven = log($ExpSeed*$this->Level) * ($this->Level * 5) * $this->ExperienceBonus;
+		$this->EXPGiven = log($ExpSeed*$this->Level) * ($this->Level * 5) * $this->ExperienceBonus;
 		$GoldStdDev = $this->GoldGiven - $this->GoldGiven * 0.90;
 		$ExpStdDev = $this->EXPGiven - $this->EXPGiven * 0.90;
 		$this->GoldGiven = round(\gauss_ms($this->GoldGiven, $this->GoldStdDev));
