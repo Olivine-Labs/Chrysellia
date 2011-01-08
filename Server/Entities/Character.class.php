@@ -457,7 +457,7 @@ class Character
 		$MonsterRow = array();
 		$MonsterRow[0] = array('Damage'=>100000, 'Heal'=>50000);
 		$MonsterRow[0] = array('Damage'=>120000, 'Heal'=>49000);
-		$Result[$this->MonsterId] = $MonsterRow;
+		$Result[$AMonster->MonsterId] = $MonsterRow;
 
 		$AMonster->Health -= 10;
 		if($AMonster->Health <= 0)

@@ -35,8 +35,9 @@ if(
 							if($Database->Monsters->LoadById($Monster))
 							{
 								$SameMonster = false;
-								$CurrentFight = $_SESSION['CurrentFight'];
-								if(!is_array($CurrentFight))
+								if(isset($_SESSION['CurrentFight']))
+									$CurrentFight = $_SESSION['CurrentFight'];
+								else
 									$CurrentFight = Array();
 								if(isset($CurrentFight['MonsterId']))
 								{
@@ -64,7 +65,7 @@ if(
 								{
 									$Monster->GenerateStats();
 								}
-								$Database->Items->LoadEquippedItems($Character);
+								$Character->Equipment = $Database->Items->LoadEquippedItems($Character);
 								if($AttackResult = $Character->Attack($Monster, $Get->FightType))
 								{
 									$CurrentFight['MonsterId'] = $Monster->MonsterId;
