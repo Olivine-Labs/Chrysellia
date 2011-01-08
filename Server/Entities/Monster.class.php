@@ -176,9 +176,14 @@ class Monster
 		$this->Wisdom = \gauss_ms($Stats, $StdDev);
 		$this->Health = \gauss_ms($Stats, $StdDev);
 
-		//TODO
-		$this->GoldGiven = 1;
-		$this->ExperienceGiven = 10;
+		$ExpSeed = 5;
+		$GoldSeed = 1;
+		$this->GoldGiven = log($GoldSeed*$this->Level) * ($this->Level * 5) * $this->GoldBonus;
+		$this->ExperienceGiven = log($ExpSeed*$this->Level) * ($this->Level * 5) * $this->ExperienceBonus;
+		$GoldStdDev = $this->GoldGiven - $this->GoldGiven * 0.90;
+		$ExpStdDev = $this->EXPGiven - $this->EXPGiven * 0.90;
+		$this->GoldGiven = \gauss_ms($this->GoldGiven, $this->GoldStdDev);
+		$this->EXPGiven = \gauss_ms($this->EXPGiven, $this->ExpStdDev);
 	}
 }
 

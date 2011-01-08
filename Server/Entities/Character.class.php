@@ -472,6 +472,8 @@ class Character
 		if($PlayerWins)
 		{
 			$Result['Winner'] = 0;
+			$Result['Gold'] = $Monster->GoldGiven;
+			$Result['Experience'] = $Monster->EXPGiven;
 			unset($_SESSION['CurrentFight']);
 		}
 		else if($EnemyWins)
