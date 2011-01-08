@@ -172,12 +172,20 @@ $(function(){
 });
 
 function ExamineLocation(data){
-	var playersOptGroup = $("<optgroup label='Other Players' />");
-	//for(m in myLocation.Monsters){
-	//	monster = V2Core.Monsters[myLocation.Monsters[m]];
-	//	option = $("<option value='" + monster.Id + "'>" + monster.Name + "</option>").appendTo(playersOptGroup);
-	//}
-	playersOptGroup.appendTo($("#monsterList"));
+	if(data.Result == vc.ER_SUCCESS){
+		var playersOptGroup = $("<optgroup label='Other Players' />");
+		
+		var name = "";
+		var level = "";
+		var pid = "";
+		for(c in data.Data){
+			pid = data.Data[c].CharacterId;
+			name = data.Data[c].Name;
+			level = data.Data[c].Level;
+			option = $("<option value='" + pid + "'>" + name + " (" + level + ")</option>").appendTo(playersOptGroup);
+		}
+		playersOptGroup.appendTo($("#monsterList"));
+	}
 }
 
 function LevelUpResponse(data, stat){
