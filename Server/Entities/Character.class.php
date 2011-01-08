@@ -430,7 +430,7 @@ class Character
 	 */
 	public function LevelUp()
 	{
-		$ExperienceToLevel = pow($this->Level + $this->FreeLevels, 8/5) * 1000 * log($this->Level+1);
+		$ExperienceToLevel = round(pow($this->Level + $this->FreeLevels, 8/5) * 1000 * log($this->Level+1));
 		if($this->Experience > $ExperienceToLevel)
 		{
 			$this->FreeLevels += 1;
