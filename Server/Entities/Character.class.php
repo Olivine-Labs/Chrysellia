@@ -441,14 +441,14 @@ class Character
 			{
 				if($AnItem->SlotType == 0)
 				{
-					$PlayerRow[count($PlayerRow)-1] = array('Damage'=>10, 'Heal'=>0);
+					$PlayerRow[count($PlayerRow)] = array('Damage'=>10, 'Heal'=>0);
 				}
 			}
 			else
 			{
 				if($AnItem->SlotType == 3)
 				{
-					$PlayerRow[count($PlayerRow)-1] = array('Damage'=>10, 'Heal'=>0);
+					$PlayerRow[count($PlayerRow)] = array('Damage'=>10, 'Heal'=>0);
 				}
 			}
 		}
