@@ -52,13 +52,13 @@ $cookie = get_facebook_cookie(FACEBOOK_APP_ID, FACEBOOK_SECRET);
 		
 		<link href='http://fonts.googleapis.com/css?family=Crimson+Text&subset=latin' rel='stylesheet' type='text/css'>
 		
-		<!--
+		
 		<link href="css/html5-reset.css" rel="stylesheet" media="screen" />
 		<link href="css/jquery-ui.css" rel="stylesheet" media="screen" />
-		<link href="css/grid-fluid.css" rel="stylesheet" media="screen" />
-		<link href="css/neflaria-base.css" rel="stylesheet" media="screen" />-->
-		<link href="css/neflaria.min.css" rel="stylesheet" media="screen" />
-		<link href="css/grid.min.css" rel="stylesheet" media="screen" />
+		<link href="css/grid.css" rel="stylesheet" media="screen" />
+		<link href="css/neflaria-base.css" rel="stylesheet" media="screen" />
+		<!--<link href="css/neflaria.min.css" rel="stylesheet" media="screen" />
+		<link href="css/grid.min.css" rel="stylesheet" media="screen" />-->
 		
 		<!--[if IE 8]>
 		<link href="css/ie8.css" rel="stylesheet" media="screen" />
@@ -93,12 +93,12 @@ $cookie = get_facebook_cookie(FACEBOOK_APP_ID, FACEBOOK_SECRET);
 						<ul>
 							<li><a href="index.php" class="selected">Home</a></li>
 							<li><a href="#" class="playNow">Play</a></li>
-							<li><a href="http://v2.neflaria.com">Blog</a></li>
-							<li><a href="#">Manual</a></li>
-							<li><a href="#">Rankings</a></li>
-							<li><a href="http://www.neflaria.com/forum">Forum</a></li>
-							<li><a href="#">Donate</a></li>
-							<li><a href="#">Store</a></li>
+							<li><a href="http://blog.chrysellia.com" target="_blank">Blog</a></li>
+							<li><a href="http://wiki.chrysellia.com" target="_blank">Manual</a></li>
+							<!--<li><a href="#">Rankings</a></li>-->
+							<li><a href="http://www.neflaria.com/forum" target="_blank">Forum</a></li>
+							<li><form target="_blank" method="post" action="https://www.paypal.com/cgi-bin/webscr"><input type="hidden" value="_s-xclick" name="cmd"><input type="hidden" value="U9PMXZHBZPVPJ" name="hosted_button_id"><input type="image" border="0" alt="PayPal - The safer, easier way to pay online!" name="submit" src="./css/images/donate.png" class='donateButton'><img width="1" height="1" border="0" src="https://www.paypal.com/en_US/i/scr/pixel.gif" alt=""></form></li>
+							<!--<li><a href="#">Store</a></li>-->
 						</ul>
 					</nav>
 					

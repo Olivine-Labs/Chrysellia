@@ -60,13 +60,13 @@
 					<nav>
 						<ul>
 							<li><a href="index.php">Home</a></li>
-							<li><a href="#" class="selected">Play</a></li>
-							<li><a href="http://v2.neflaria.com">Blog</a></li>
-							<li><a href="#">Manual</a></li>
-							<li><a href="#">Rankings</a></li>
-							<li><a href="http://www.neflaria.com/forum">Forum</a></li>
+							<li><a href="#" class="playNow" class="selected">Play</a></li>
+							<li><a href="http://blog.chrysellia.com" target="_blank">Blog</a></li>
+							<li><a href="http://wiki.chrysellia.com" target="_blank">Manual</a></li>
+							<!--<li><a href="#">Rankings</a></li>-->
+							<li><a href="http://www.neflaria.com/forum" target="_blank">Forum</a></li>
 							<li><a href="#">Donate</a></li>
-							<li><a href="#">Store</a></li>
+							<!--<li><a href="#">Store</a></li>-->
 						</ul>
 					</nav>
 					

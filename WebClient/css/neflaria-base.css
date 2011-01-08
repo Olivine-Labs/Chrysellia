@@ -132,7 +132,15 @@ input.watermark {
 #top10 { margin: .5em auto; }
 #top10 ul { margin: 0 0 0 1em; float: right; }
 #top10 li { display: inline-block; width: 24px; height: 24px; margin-right: 5px; background-color: #ccc; }
-#top10 h1 { font-size: 12pt; font-weight: normal; display: inline; color: #000; }
+#top10 h1 {     
+color: #000000;
+    display: inline;
+    float: left;
+    font-size: 12pt;
+    font-weight: normal;
+    margin-right: 10px;
+    margin-top: 4px; 
+}
 
 #info { margin-top: 7px; }
 .info { margin-right: 3em; font-family: 'DejaWeb', Arial, Helvetica, sans-serif; }
@@ -152,7 +160,7 @@ input.watermark {
 .pageHeader { margin-top: 2em; }
 .pageHeader h1 { background: url('images/logo.png') top left no-repeat; overflow: hidden; text-indent: 10000%; width: 473px; height: 188px; }
 .pageHeader h2 { display: none; }
-.pageHeader .bigButton { position: relative; left: 325px; top: -35px; }
+.pageHeader .bigButton { position: relative; left: 215px; top: -55px; }
 
 .news > h1 { display: none; }
 .newsItem ul, .newsItem li { margin: .5em 0; }
@@ -302,3 +310,4 @@ a.fb_button, a.fb_button:link, a.fb_button:hover, a.fb_button:active {
 #fightResults .damage { font-weight: bold; }
 #fightForm .button { margin-right: .25em; }
 #topCenter { height: 210px; overflow: auto; }
+input.donateButton { border: 0 none; background: transparent; padding: 0; margin: 0; }
