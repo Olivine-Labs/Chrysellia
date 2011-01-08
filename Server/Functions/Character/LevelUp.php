@@ -18,7 +18,7 @@ try
 		{
 			$Character = new \Entities\Character();
 			$Character->CharacterId = $_SESSION['CharacterId'];
-			if($Database->Characters->LoadTraits($Character))
+			if($Database->Characters->LoadTraits($Character) && $Database->Characters->LoadRaceTraits($Character))
 			{
 				if($Character->FreeLevels > 0)
 				{
@@ -53,7 +53,7 @@ try
 					$Character->Vitality += $Character->RacialVitality;
 					$Character->Intelligence += $Character->RacialIntelligence;
 					$Character->Wisdom += $Character->RacialWisdom;
-
+					$Character->Health = $Character->Vitality;
 					$Character->FreeLevels -= 1;
 					$Character->Level++;
 					if($Database->Characters->UpdateTraits($Character))
