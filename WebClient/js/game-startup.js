@@ -63,7 +63,7 @@ $(function(){
 	$("#moveSW").button({ icons: { primary: "ui-icon-arrowthick-1-sw" }, text: false });
 	$("#moveS").button({ icons: { primary: "ui-icon-arrowthick-1-s" }, text: false });
 	$("#moveSE").button({ icons: { primary: "ui-icon-arrowthick-1-se" }, text: false });
-	$("#moveLook").button({ icons: { primary: "ui-icon-search" }, text: false });
+	$("#moveLook").button({ icons: { primary: "ui-icon-search" }, text: false }).bind("click", function(e){ e.preventDefault(); vc.cs.PlayerListByLocation(ExamineLocation); });
 	
 	$("#movementform button").bind("click", function(e){
 		e.preventDefault();
@@ -137,7 +137,7 @@ $(function(){
 	});
 	
 	$(window).resize(function(){
-		$('#chatChannels .ui-tabs-panel').css({'height':(($(window).height())-412)+'px'});
+		$('#chatChannels .ui-tabs-panel').css({'height':(($(window).height())-432)+'px'});
 	});
 	
 	$("#statsWindow button").bind("click", function(e){
@@ -171,6 +171,15 @@ $(function(){
 	});
 });
 
+function ExamineLocation(data){
+	var playersOptGroup = $("<optgroup label='Other Players' />");
+	//for(m in myLocation.Monsters){
+	//	monster = V2Core.Monsters[myLocation.Monsters[m]];
+	//	option = $("<option value='" + monster.Id + "'>" + monster.Name + "</option>").appendTo(playersOptGroup);
+	//}
+	playersOptGroup.appendTo($("#monsterList"));
+}
+
 function LevelUpResponse(data, stat){
 	if(data.Result == vc.ER_SUCCESS){
 		switch(stat){
@@ -203,6 +212,7 @@ function LevelUpResponse(data, stat){
 		MyCharacter.Vitality += MyCharacter.RacialVitality;
 		MyCharacter.Intelligence += MyCharacter.RacialIntelligence;
 		MyCharacter.Wisdom += MyCharacter.RacialWisdom;
+		MyCharacter.Level++;
 
 		MyCharacter.FreeLevels--;
 		if(MyCharacter.FreeLevels < 1){
@@ -387,11 +397,12 @@ function BuildGameWindow(){
 			
 			var monster = {};
 			var option = {};
-
+			var monstersOptGroup = $("<optgroup label='Monsters' />");
 			for(m in myLocation.Monsters){
 				monster = V2Core.Monsters[myLocation.Monsters[m]];
-				option = $("<option value='" + monster.Id + "'>" + monster.Name + "</option>").appendTo(select);
+				option = $("<option value='" + monster.Id + "'>" + monster.Name + "</option>").appendTo(monstersOptGroup);
 			}
+			monstersOptGroup.appendTo(select);
 			
 			container.appendTo(window);
 			
@@ -479,12 +490,7 @@ function AttackRound(data){
 				fightResults.append("<div class='result lostFight'><span class='attacker enemy'>You</span> were defeated!</span></div>");
 				MyCharacter.CurrentBattle.State = 3;
 			}
-		}
-		
-		
-		
-	}else if(data.Result == vc.ER_ACCESSDENIED){
-		
+		}		
 	}
 }
 
@@ -517,7 +523,7 @@ function BuildInitialInventory(){
 		}
 	}
 	
-	$('#chatChannels .ui-tabs-panel').css({'height':(($(window).height())-412)+'px'});
+	$('#chatChannels .ui-tabs-panel').css({'height':(($(window).height())-432)+'px'});
 }
 
 function LoadInventory(data){
