@@ -8,6 +8,16 @@ namespace Entities;
  */
 abstract class Being
 {
+
+	/**
+	 * Equipment
+	 *
+	 * Array containing equipped items
+	 *
+	 * @var $Equipment
+	 */
+	public $Equipment;
+
 	/**
 	 * Name
 	 *

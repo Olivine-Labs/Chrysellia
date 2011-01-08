@@ -418,12 +418,12 @@ class Characters extends \Database\Characters
 	 * @return Array
 	 *   An Array of \Entities\Character objects
 	 */
-	function LoadListForCell(\Entities\Character $Character)
+	function LoadListForCell(\Entities\Character $ACharacter)
 	{
 		$Result = Array();
 		$Query = $this->Database->Connection->prepare(SQL_LOADLISTFORCELL);
 		$this->Database->logError();
-		$Query->bind_param('sss', $Character->MapId, $Character->PositionX, $Character->PositionY);
+		$Query->bind_param('sss', $ACharacter->MapId, $ACharacter->PositionX, $ACharacter->PositionY);
 
 		$Query->Execute();
 
@@ -431,16 +431,19 @@ class Characters extends \Database\Characters
 
 		while($Query->fetch())
 		{
-			$Character = new \Entities\Character();
-			$Character->CharacterId = $CharacterId;
-			$Character->Name = $Name;
-			$Character->RaceId = $RaceId;
-			$Character->Gender = $Gender;
-			$Character->ClanId = $ClanId;
-			$Character->Level = $Level;
-			$Character->AlignGood = $AlignGood;
-			$Character->AlignOrder = $AlignOrder;
-			array_push($Result, $Character);
+			if($ACharacter->CharacterId != $CharacterId)
+			{
+				$Character = new \Entities\Character();
+				$Character->CharacterId = $CharacterId;
+				$Character->Name = $Name;
+				$Character->RaceId = $RaceId;
+				$Character->Gender = $Gender;
+				$Character->ClanId = $ClanId;
+				$Character->Level = $Level;
+				$Character->AlignGood = $AlignGood;
+				$Character->AlignOrder = $AlignOrder;
+				array_push($Result, $Character);
+			}
 		}
 		return $Result;
 	}

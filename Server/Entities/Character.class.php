@@ -17,15 +17,6 @@ class Character extends Being
 	public $CharacterId;
 
 	/**
-	 * Equipment
-	 *
-	 * Array containing equipped items
-	 *
-	 * @var $Equipment
-	 */
-	public $Equipment;
-
-	/**
 	 * Pin
 	 *
 	 * @var $Pin
@@ -296,7 +287,7 @@ class Character extends Being
 	 */
 	public function LevelUp()
 	{
-		$ExperienceToLevel = round(pow($this->Level + $this->FreeLevels, 8/5) * 1000 * log($this->Level+1));
+		$ExperienceToLevel = round(pow($this->Level + $this->FreeLevels, 8/5) * 100 * log($this->Level+1));
 		if($this->Experience > $ExperienceToLevel)
 		{
 			$this->FreeLevels += 1;
@@ -314,72 +305,131 @@ class Character extends Being
 		$PlayerWins = false;
 		$EnemyWins = false;
 
+		if(get_class($AnEnemy) == 'Entities\Monster')
+		{
+			$AnEnemy->Equipment = array();
+			
+			$Item = new \Entities\Item();
+			$Item->ItemClass = $AnEnemy->WeaponClass;
+			if($AnEnemy->Strength > $AnEnemy->Intelligence)
+			{
+				$Item->SlotType = 0;
+			}else
+			{
+				$Item->SlotType = 3;
+			}
+			$Armor = new \Entities\Item();
+			$Armor->SlotType = 1;
+			$Armor->ItemClass = $AnEnemy->ArmorClass;
+			$AnEnemy->Equipment[0]=$Item;
+			$AnEnemy->Equipment[1]=$Item;
+			$AnEnemy->Equipment[2]=$Armor;
+		}
+
 		$PlayerArmorClass = 0;
 		$NumWeapons = 0;
 
-		//Get Armor Class for player
-		foreach($this->Equipment AS $AnItem)
+		for($Index = 0; $Index < 2; $Index++)
 		{
-			if($AnItem->SlotType == 1)
+			$Being = null;
+			$EnemyBeing = null;
+			$DamageType = 0;
+			if($Index == 1)
 			{
-				$PlayerArmorClass += $AnItem->ItemClass;
-			}
-			if(!$Spell)
-			{
-				if($AnItem->SlotType == 0)
+				$Being = $AnEnemy;
+				$EnemyBeing = $this;
+				if($AnEnemy->Strength > $AnEnemy->Intelligence)
 				{
-					$NumWeapons++;
+					$DamageType = 0;
+				}else
+				{
+					$DamageType  = 1;
 				}
 			}
 			else
 			{
-				if($AnItem->SlotType == 3)
-				{
-					$NumWeapons++;
-				}
+				$EnemyBeing = $AnEnemy;
+				$Being = $this;
+				$DamageType = $Spell;
 			}
-		}
-		$DamageStat = 0;
-		$TotalDamageDone = 0;
-		$PlayerRow = array();
-		foreach($this->Equipment AS $AnItem)
-		{
-			$IsWeapon = false;
-			if(!$Spell)
-			{
-				if($AnItem->SlotType == 0)
-				{
-					$IsWeapon = true;
-					$DamageStat = $this->Strength;
-				}
-			}
-			else
-			{
-				if($AnItem->SlotType == 3)
-				{
-					$IsWeapon = true;
-					$DamageStat = $this->Intelligence;
-				}
-			}
-			if($IsWeapon)
-			{
-				$ArmorMastery = 0;
-				$EnemyArmorClass = 0;
-				$BaseDamage=pow(1.15,((($AnItem->ItemClass + $this->WeaponClassBonus)-($EnemyArmorClass + $AnEnemy->ArmorClassBonus))-round($ArmorMastery/5)));
-				$ActualDamage=\gauss_ms($DamageStat/3, ($DamageStat/3) * 0.1)*$BaseDamage;
-				$ActualDamage = round($ActualDamage * (1/pow($NumWeapons, 1.5)) / (2/3));
-				$TotalDamageDone += $ActualDamage;
-				$PlayerRow[count($PlayerRow)] = array('Damage'=>$ActualDamage, 'Heal'=>0);
-			}
-		}
-		$Result[0] = $PlayerRow;
-		
-		$MonsterRow = array();
-		$MonsterRow[0] = array('Damage'=>100000, 'Heal'=>50000);
-		$MonsterRow[0] = array('Damage'=>120000, 'Heal'=>49000);
-		$Result[1] = $MonsterRow;
 
-		$AnEnemy->Health -= $TotalDamageDone;
+			//Get Armor Class for player
+			foreach($Being->Equipment AS $AnItem)
+			{
+				if($AnItem->SlotType == 1)
+				{
+					$PlayerArmorClass += $AnItem->ItemClass;
+				}
+				if(!$Spell)
+				{
+					if($AnItem->SlotType == 0)
+					{
+						$NumWeapons++;
+					}
+				}
+				else
+				{
+					if($AnItem->SlotType == 3)
+					{
+						$NumWeapons++;
+					}
+				}
+			}
+			$TotalDamageDone = 0;	
+			$PlayerRow = array();	
+			if(max($Being->Dexterity, $Being->Wisdom) > max($EnemyBeing->Dexterity, $EnemyBeing->Intelligence))
+				$PlayerRow["Initiative"] = true;
+			else
+				$PlayerRow["Initiative"] = false;
+
+			foreach($Being->Equipment AS $AnItem)
+			{
+				$DamageStat = 0;
+				$HitStat = 0;
+				$MissStat = 0;
+				$IsWeapon = false;
+				if(!$DamageType)
+				{
+					if($AnItem->SlotType == 0)
+					{
+						$IsWeapon = true;
+						$DamageStat = $Being->Strength;
+						$HitStat = $Being->Dexterity;
+						$MissStat = $EnemyBeing->Dexterity;
+					}
+				}
+				else
+				{
+					if($AnItem->SlotType == 3)
+					{
+						$IsWeapon = true;
+						$DamageStat = $Being->Intelligence;
+						$HitStat = $Being->Wisdom;
+						$MissStat = $EnemyBeing->Wisdom;
+					}
+				}
+				if($IsWeapon)
+				{
+					$ActualDamage=0;
+					$ChanceToHitBonus = 1;
+					$Mastery = 0;
+					$ChanceToHit = ($HitStat/$MissStat*50*(1+$Mastery/100))*$ChanceToHitBonus;
+					if(mt_rand(1,100) < $ChanceToHit)
+					{
+						$ArmorMastery = 0;
+						$EnemyArmorClass = 0;
+						$BaseDamage=pow(1.15,((($AnItem->ItemClass + $Being->WeaponClassBonus)-($EnemyArmorClass + $EnemyBeing->ArmorClassBonus))-round($ArmorMastery/5)));
+						$ActualDamage=\gauss_ms($DamageStat/3, ($DamageStat/3) * 0.1)*$BaseDamage;
+						$ActualDamage = round($ActualDamage * (1/pow($NumWeapons, 1.5)) / (2/3));
+						$TotalDamageDone += $ActualDamage;
+					}
+					$PlayerRow[count($PlayerRow)] = array('Damage'=>$ActualDamage, 'Type'=>$DamageType);
+				}
+			}
+			$Result[$Index] = $PlayerRow;
+			$EnemyBeing->Health -= $TotalDamageDone;
+		}
+
 		if($AnEnemy->Health <= 0)
 		{
 			$PlayerWins = true;
@@ -391,12 +441,19 @@ class Character extends Being
 
 		if($PlayerWins)
 		{
-			$this->Experience += $AnEnemy->EXPGiven;
-			$this->Gold += $AnEnemy->GoldGiven;
-
 			$Result['Winner'] = 0;
-			$Result['Gold'] = $AnEnemy->GoldGiven;
-			$Result['Experience'] = $AnEnemy->EXPGiven;
+			if(get_class($AnEnemy) == 'Entities\Monster')
+			{
+				$this->Experience += $AnEnemy->EXPGiven;
+				$this->Gold += $AnEnemy->GoldGiven;
+				$Result['Gold'] = $AnEnemy->GoldGiven;
+				$Result['Experience'] = $AnEnemy->EXPGiven;
+			}
+			else
+			{
+				$this->Gold += $AnEnemy->Gold;
+				$Result['Gold'] = $AnEnemy->Gold;
+			}
 			$Result['LevelUp'] = $this->LevelUp();
 			unset($_SESSION['CurrentFight']);
 		}
