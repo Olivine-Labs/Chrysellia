@@ -15,6 +15,7 @@ if ( 'GET' == $_SERVER['REQUEST_METHOD'] )
 		{
 			define('ACTION_BUY', 0);
 			define('ACTION_SELL', 1);
+			define('ACTION_REVIVE', 2);
 
 			if(isset($_GET['Action']))
 			{
@@ -25,6 +26,9 @@ if ( 'GET' == $_SERVER['REQUEST_METHOD'] )
 						break;
 					case ACTION_SELL:
 						include './Functions/Places/Sell.php';
+						break;
+					case ACTION_REVIVE:
+						include './Functions/Places/Revive.php';
 						break;
 					default:
 						$Result->Set('Result', \Protocol\Result::ER_BADDATA);

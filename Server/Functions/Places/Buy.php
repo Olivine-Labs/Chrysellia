@@ -14,9 +14,19 @@ if(
 ){
 	$Character = new \Entities\Character();
 	$Character->CharacterId = $_SESSION['CharacterId'];
-	if($Database->Characters->LoadTraits($Character))
+	if($Database->Characters->LoadTraits($Character) && $Database->Characters->LoadPosition($Character))
 	{
-		//TODO
+		if($Cell = $Database->Maps->GetCell($Character->MapId, $Character->PositionX, $Character->PositionY))
+		{
+			if($Cell['PlaceId'] == 'PLAC_00000000000000000000001')
+			{
+				//BUY ITEM
+			}
+		}
+		else
+		{
+			$Result->Set('Result', \Protocol\Result::ER_DBERROR);
+		}
 	}
 	else
 	{
