@@ -283,11 +283,19 @@ class Character extends Being
 	}
 
 	/**
+	 * EXP per level calculation
+	 */
+	public function CalculateExpToLevel($Level)
+	{
+		return round(pow($Level, 8/5) * 100 * log($Level+1));
+	}
+
+	/**
 	 * Checks to see if the character leveled up
 	 */
 	public function LevelUp()
 	{
-		$ExperienceToLevel = round(pow($this->Level + $this->FreeLevels, 8/5) * 100 * log($this->Level+1));
+		$ExperienceToLevel = $this->CalculateExpToLevel($this->Level + $this->FreeLevels);
 		if($this->Experience > $ExperienceToLevel)
 		{
 			$this->FreeLevels += 1;
@@ -501,6 +509,7 @@ class Character extends Being
 			{
 				$this->Gold += $AnEnemy->Gold;
 				$Result['Gold'] = $AnEnemy->Gold;
+				$AnEnemy->Gold = 0;
 			}
 			$Result['LevelUp'] = $this->LevelUp();
 			unset($_SESSION['CurrentFight']);
@@ -508,6 +517,11 @@ class Character extends Being
 		else if($EnemyWins)
 		{
 			$Result['Winner'] = 1;
+			$NextLevel = $this->CalculateExpToLevel($this->Level + $this->FreeLevels);
+			$LastLevel = $this->CalculateExpToLevel($this->Level + $this->FreeLevels - 1))
+			$this->Experience -= Max(($NextLevel - $LastLevel) * 0.1, $LastLevel);
+			$this->Gold = 0;
+			unset($_SESSION['CurrentFight']);
 		}
 
 		return $Result;
