@@ -424,6 +424,7 @@ function AttackMonster(fightType){
 	SetEnableAttack(false); 
 	window.setTimeout(function(){SetEnableAttack(true)}, 1500);
 	var monsterId = $("#monsterList").val();
+	var fightResults = $("#fightResults");
 	
 	if(MyCharacter.CurrentBattle !== undefined){
 		if(MyCharacter.CurrentBattle.State == 2){
@@ -448,55 +449,68 @@ function AttackMonster(fightType){
 	vc.mn.Fight(monsterId, fightType, AttackRound);
 }
 
+function DisplayBattle(battleObject, fightResults){
+	var attackClass = ["player","enemy"]
+	var damageLabel = ["attacked", "casted", "healed"]
+	var name = "";
+	var battleResult = {};
+	var round = $("<div class='round' />").css({ 'opacity' : 0 });
+	
+	for(r in battleObject){
+		if(isInteger(r)){
+			if(battleObject[r].Actor == 0){
+				name = MyCharacter.Name;
+			}else{
+				name = MyCharacter.CurrentBattle.Monster.Name;
+			}
+			
+			if(battleObject[r].Damage > 0){
+				battleResult = $("<div class='result''><span class='attacker " + attackClass[battleObject[r].Actor] + "'>" + name + "</span> attacked for <span class='damage'>" + battleObject[r].Damage + "</span></div>");
+			}else{
+				battleResult = $("<div class='result'><span class='attacker " + attackClass[battleObject[r].Actor] + "'>" + name + "</span> <span class='damage'>missed</span></div>");
+			}
+			round.append(battleResult);
+			
+		}
+	}
+	
+	fightResults.append(round);
+	round.animate({ opacity: 1 }, 250);
+	
+	if(battleObject.Winner !== undefined){
+		if(battleObject.Winner == 0){
+			fightResults.append("<div class='result wonFight'><span class='attacker player'>You</span> have defeated the " + MyCharacter.CurrentBattle.Monster.Name + "!</span></div>");
+			MyCharacter.CurrentBattle.State = 2;
+			MyCharacter.Gold += battleObject.Gold;
+			MyCharacter.Experience += battleObject.Experience;
+			
+			if(battleObject.LevelUp !== undefined && battleObject.LevelUp == true){
+				fightResults.append("<div class='result levelUp'><span class='attacker player'>You</span> have levelled up! Don't forget to add your stat points in the stats window!</span></div>");
+				
+				MyCharacter.FreeLevels++;
+			}
+			
+			vc.i.UpdateStats();
+		}else{
+			fightResults.append("<div class='result lostFight'><span class='attacker enemy'>You</span> were defeated!</span></div>");
+			MyCharacter.CurrentBattle.State = 3;
+		}
+	}
+}
+
 function AttackRound(data){
 	if(data.Result == vc.ER_SUCCESS){
-		fightResults = $("#fightResults");
-		
-		var attackClass = ["player","enemy"]
-		var damageLabel = ["attacked", "casted", "healed"]
+		var fightResults = $("#fightResults");
 		var battleObject = data.Data;
-		var name = "";
-		var battleResult = {};
-		for(r in battleObject){
-			if(isInteger(r)){
-				if(battleObject[r].Actor == 0){
-					name = MyCharacter.Name;
-				}else{
-					name = MyCharacter.CurrentBattle.Monster.Name;
-				}
-				
-				$(".result", fightResults).fadeOut(250);
-				
-				if(battleObject[r].Damage > 0){
-					battleResult = $("<div class='result''><span class='attacker " + attackClass[battleObject[r].Actor] + "'>" + name + "</span> attacked for <span class='damage'>" + battleObject[r].Damage + "</span></div>");
-				}else{
-					battleResult = $("<div class='result'><span class='attacker " + attackClass[battleObject[r].Actor] + "'>" + name + "</span> <span class='damage'>missed</span></div>");
-				}
-				battleresult.css({ 'opacity' : 0 }).
-				fightResults.append(battleResult);
-				battleresult.fadeIn(250);
-			}
-		}
 		
-		if(battleObject.Winner !== undefined){
-			if(battleObject.Winner == 0){
-				fightResults.append("<div class='result wonFight'><span class='attacker player'>You</span> have defeated the " + MyCharacter.CurrentBattle.Monster.Name + "!</span></div>");
-				MyCharacter.CurrentBattle.State = 2;
-				MyCharacter.Gold += battleObject.Gold;
-				MyCharacter.Experience += battleObject.Experience;
-				
-				if(battleObject.LevelUp !== undefined && battleObject.LevelUp == true){
-					fightResults.append("<div class='result levelUp'><span class='attacker player'>You</span> have levelled up! Don't forget to add your stat points in the stats window!</span></div>");
-					
-					MyCharacter.FreeLevels++;
-				}
-				
-				vc.i.UpdateStats();
-			}else{
-				fightResults.append("<div class='result lostFight'><span class='attacker enemy'>You</span> were defeated!</span></div>");
-				MyCharacter.CurrentBattle.State = 3;
-			}
-		}			
+		if($(".result", fightResults).length > 0){
+			$(".result", fightResults).animate({ opacity: 0 }, 250, function(){ 
+				$(this).remove();
+				DisplayBattle(battleObject, fightResults);				
+			});
+		}else{
+			DisplayBattle(battleObject, fightResults);
+		}
 	}
 }
 
