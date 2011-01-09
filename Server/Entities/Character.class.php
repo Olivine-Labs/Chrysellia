@@ -517,9 +517,22 @@ class Character extends Being
 		else if($EnemyWins)
 		{
 			$Result['Winner'] = 1;
-			$NextLevel = $this->CalculateExpToLevel($this->Level + $this->FreeLevels);
-			$LastLevel = $this->CalculateExpToLevel($this->Level + $this->FreeLevels - 1))
-			$this->Experience -= Max(($NextLevel - $LastLevel) * 0.1, $LastLevel);
+			$LastReviveTime = 0;
+			if(isset($_SESSION['LastReviveTime']))
+				$LastReviveTime = $_SESSION['LastReviveTime'];
+			$RevivePenaltyMultiplier = 0;
+			if(isset($_SESSION['RevivePenaltyMultiplier']))
+				$RevivePenaltyMultiplier = 0;
+
+			if($LastReviveTime + (60*5) >= time())
+			{
+				$_SESSION['RevivePenaltyMultiplier']++;
+			}
+			else
+			{
+				unset($_SESSION['RevivePenaltyMultiplier']);
+			}
+
 			$this->Gold = 0;
 			unset($_SESSION['CurrentFight']);
 		}
