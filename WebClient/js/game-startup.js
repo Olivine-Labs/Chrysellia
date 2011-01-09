@@ -465,7 +465,7 @@ function DisplayBattle(battleObject, fightResults){
 			}
 			
 			if(battleObject[r].Damage > 0){
-				battleResult = $("<div class='result''><span class='attacker " + attackClass[battleObject[r].Actor] + "'>" + name + "</span> attacked for <span class='damage'>" + battleObject[r].Damage + "</span></div>");
+				battleResult = $("<div class='result'><span class='attacker " + attackClass[battleObject[r].Actor] + "'>" + name + "</span> attacked for <span class='damage'>" + battleObject[r].Damage + "</span></div>");
 			}else{
 				battleResult = $("<div class='result'><span class='attacker " + attackClass[battleObject[r].Actor] + "'>" + name + "</span> <span class='damage'>missed</span></div>");
 			}
@@ -503,8 +503,8 @@ function AttackRound(data){
 		var fightResults = $("#fightResults");
 		var battleObject = data.Data;
 		
-		if($(".result", fightResults).length > 0){
-			$(".result", fightResults).animate({ opacity: 0 }, 250, function(){ 
+		if($(".round", fightResults).length > 0){
+			$(".round", fightResults).animate({ opacity: 0 }, 250, function(){ 
 				$(this).remove();
 				DisplayBattle(battleObject, fightResults);				
 			});
