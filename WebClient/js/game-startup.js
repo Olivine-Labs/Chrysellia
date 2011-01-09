@@ -455,9 +455,6 @@ function AttackRound(data){
 		var attackClass = ["player","enemy"]
 		var damageLabel = ["attacked", "casted", "healed"]
 		var battleObject = data.Data;
-		//"0":{"Damage":172,"Actor":0,"Type":0},
-		//"1":{"Damage":0,"Actor":1,"Type":0},
-		//"2":{"Damage":0,"Actor":1,"Type":0},"Winner":0,"Gold":6,"Experience":37,"LevelUp":false}
 		var name = "";
 		
 		for(r in battleObject){
