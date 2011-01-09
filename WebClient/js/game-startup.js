@@ -452,31 +452,23 @@ function AttackRound(data){
 	if(data.Result == vc.ER_SUCCESS){
 		fightResults = $("#fightResults");
 		
+		var attackClass = ["player","enemy"]
+		var damageLabel = ["attacked", "casted", "healed"]
 		var battleObject = data.Data;
+		//"0":{"Damage":172,"Actor":0,"Type":0},
+		//"1":{"Damage":0,"Actor":1,"Type":0},
+		//"2":{"Damage":0,"Actor":1,"Type":0},"Winner":0,"Gold":6,"Experience":37,"LevelUp":false}
+		var name = "";
 		
-		if(battleObject[0] != []){
-			for(var x = 0; x < battleObject[0].length; x++){
-				var damage = battleObject[0][x].Damage;
-				var heal = battleObject[0][x].Heal;
-				
-				fightResults.append("<div class='result'><span class='attacker player'>You</span> attacked for <span class='damage'>" + battleObject[0][x].Damage + "</span></div>");
-				
-				if(heal > 0){
-					fightResults.append("<div class='result'><span class='attacker player'>You</span> healed for <span class='damage'>" + battleObject[0][x].Heal + "</span></div>");
+		for(r in battleObject){
+			if(isInteger(r)){
+				if(battleObject[r].Actor == 0){
+					name = MyCharacter.Name;
+				}else{
+					name = MyCharacter.CurrentBattle.Monster.Name;
 				}
-			}
-		}
-		
-		if(battleObject[1] != []){
-			for(var x = 0; x < battleObject[1].length; x++){
-				var damage = battleObject[1][x].Damage;
-				var heal = battleObject[1][x].Heal;
 				
-				fightResults.append("<div class='result'><span class='attacker enemy'>You</span> were attacked for <span class='damage'>" + battleObject[1][x].Damage + "</span></div>");
-				
-				if(heal > 0){
-					fightResults.append("<div class='result'><span class='attacker enemy'>" + MyCharacter.CurrentBattle.Monster.Name + "</span> healed for <span class='damage'>" + battleObject[1][x].Heal + "</span></div>");
-				}
+				fightResults.append("<div class='result'><span class='attacker " + attackClass[battleObject[r].Actor] + "'>" + name + "</span> attacked for <span class='damage'>" + battleObject[r].Damage + "</span></div>");
 			}
 		}
 		
@@ -498,7 +490,7 @@ function AttackRound(data){
 				fightResults.append("<div class='result lostFight'><span class='attacker enemy'>You</span> were defeated!</span></div>");
 				MyCharacter.CurrentBattle.State = 3;
 			}
-		}		
+		}			
 	}
 }
 
@@ -652,4 +644,8 @@ function Logout(data){
 	$.cookie("l",false);
 	
 	window.location = "./index.php";
+}
+
+function isInteger(s) {
+  return (s.toString().search(/^-?[0-9]+$/) == 0);
 }
