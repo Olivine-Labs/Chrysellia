@@ -456,7 +456,7 @@ function AttackRound(data){
 		var damageLabel = ["attacked", "casted", "healed"]
 		var battleObject = data.Data;
 		var name = "";
-		
+		var battleResult = {};
 		for(r in battleObject){
 			if(isInteger(r)){
 				if(battleObject[r].Actor == 0){
@@ -465,11 +465,16 @@ function AttackRound(data){
 					name = MyCharacter.CurrentBattle.Monster.Name;
 				}
 				
+				$(".result", fightResults).fadeOut(250);
+				
 				if(battleObject[r].Damage > 0){
-					fightResults.append("<div class='result'><span class='attacker " + attackClass[battleObject[r].Actor] + "'>" + name + "</span> attacked for <span class='damage'>" + battleObject[r].Damage + "</span></div>");
+					battleResult = $("<div class='result''><span class='attacker " + attackClass[battleObject[r].Actor] + "'>" + name + "</span> attacked for <span class='damage'>" + battleObject[r].Damage + "</span></div>");
 				}else{
-					fightResults.append("<div class='result'><span class='attacker " + attackClass[battleObject[r].Actor] + "'>" + name + "</span> <span class='damage'>missed</span></div>");
+					battleResult = $("<div class='result'><span class='attacker " + attackClass[battleObject[r].Actor] + "'>" + name + "</span> <span class='damage'>missed</span></div>");
 				}
+				battleresult.css({ 'opacity' : 0 }).
+				fightResults.append(battleResult);
+				battleresult.fadeIn(250);
 			}
 		}
 		
