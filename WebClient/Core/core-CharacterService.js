@@ -74,10 +74,6 @@
 				{ Action: CharacterService.ACTION_LOADLISTFORCELL, Data: JSON.stringify({ }) },
 				function(data) { callback(data); }
 			);
-		},
-		
-		GetNextLevelExperienceRequirement: function(level){
-			return level*100;
 		}
 	}
 	

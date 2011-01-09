@@ -90,8 +90,11 @@ class Monster extends Being
 
 		$ExpSeed = 1.1;
 		$GoldSeed = 1.01;
-		$this->GoldGiven = round(log($GoldSeed*$this->Level) * ($this->Level * 5) * $this->GoldBonus);
-		$this->EXPGiven = round(log($ExpSeed*$this->Level) * ($this->Level * 5) * $this->ExperienceBonus);
+		$this->GoldGiven = round(log($GoldSeed*$this->Level) * ($this->Level * 5) + $this->GoldBonus);
+		//$this->EXPGiven = round(log($ExpSeed*$this->Level) * ($this->Level * 5) * $this->ExperienceBonus);
+		//Math.round(Math.pow(this.Level + this.FreeLevels, (8/5)) * 100 * Math.log(this.Level + 1));
+		
+		$this->EXPGiven = round(pow($this->Level, (8/5)) * 10 * log($this->Level+1) + $this->ExperienceBonus);
 		$GoldStdDev = $this->GoldGiven - $this->GoldGiven * 0.90;
 		$ExpStdDev = $this->EXPGiven - $this->EXPGiven * 0.90;
 		$this->GoldGiven = round(\gauss_ms($this->GoldGiven, $GoldStdDev));
