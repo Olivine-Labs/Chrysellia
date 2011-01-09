@@ -468,7 +468,11 @@ function AttackRound(data){
 					name = MyCharacter.CurrentBattle.Monster.Name;
 				}
 				
-				fightResults.append("<div class='result'><span class='attacker " + attackClass[battleObject[r].Actor] + "'>" + name + "</span> attacked for <span class='damage'>" + battleObject[r].Damage + "</span></div>");
+				if(battleObject[r].Damage > 0){
+					fightResults.append("<div class='result'><span class='attacker " + attackClass[battleObject[r].Actor] + "'>" + name + "</span> attacked for <span class='damage'>" + battleObject[r].Damage + "</span></div>");
+				}else{
+					fightResults.append("<div class='result'><span class='attacker " + attackClass[battleObject[r].Actor] + "'>" + name + "</span> <span class='damage'>missed</span></div>");
+				}
 			}
 		}
 		
