@@ -302,8 +302,6 @@ class Character extends Being
 	public function Attack(Being $AnEnemy, $Spell=true)
 	{
 		$Result = array();
-		$PlayerWins = false;
-		$EnemyWins = false;
 
 		if(get_class($AnEnemy) == 'Entities\Monster')
 		{
@@ -375,7 +373,7 @@ class Character extends Being
 					}
 				}
 			}
-			$TotalDamageDone = 0;	
+
 			$PlayerRow = array();	
 
 			foreach($Being->Equipment AS $AnItem)
@@ -417,7 +415,6 @@ class Character extends Being
 						$BaseDamage=pow(1.15,((($AnItem->ItemClass + $Being->WeaponClassBonus)-($EnemyArmorClass + $EnemyBeing->ArmorClassBonus))-round($ArmorMastery/5)));
 						$ActualDamage=\gauss_ms($DamageStat/3, ($DamageStat/3) * 0.1)*$BaseDamage;
 						$ActualDamage = round($ActualDamage * (1/pow($NumWeapons, 1.5)) / (2/3));
-						$TotalDamageDone += $ActualDamage;
 					}
 					$InitStat = max($Being->Dexterity, $Being->Wisdom);
 					$EnemyInitStat = max($EnemyBeing->Dexterity, $EnemyBeing->Intelligence);
@@ -440,17 +437,54 @@ class Character extends Being
 						$Result[count($Result)] = $PlayerRow;
 				}
 			}
-
-			$EnemyBeing->Health -= $TotalDamageDone;
 		}
 
-		if($AnEnemy->Health <= 0)
+		$PlayerWins = false;
+		$EnemyWins = false;
+		$Length = count($Result);
+		for($Index = 0; $Index < $Length; $Index++)
 		{
-			$PlayerWins = true;
-		}
-		else if($this->Health <= 0)
-		{
-			$EnemyWins = true;
+			if(isset($Result[$Index]))
+			{
+				unset($Result[$Index]['Initiative']);
+				$ArrayItem = $Result[$Index];
+				if($ArrayItem['Actor'] == 0)
+				{
+					if(!$EnemyWins)
+					{
+						if(($ArrayItem['Type'] == 0) || ($ArrayItem['Type'] == 1))
+							$AnEnemy->Health -= $ArrayItem['Damage'];
+						else if($ArrayItem['Type'] == 2)
+							$this->Health += $ArrayItem['Damage'];
+					}
+					else
+					{
+						unset($Result[$Index]);
+					}
+				}
+				else
+				{
+					if(!$PlayerWins)
+					{
+						if(($ArrayItem['Type'] == 0) || ($ArrayItem['Type'] == 1))
+							$this->Health -= $ArrayItem['Damage'];
+						else if($ArrayItem['Type'] == 2)
+							$AnEnemy->Health += $ArrayItem['Damage'];
+						}
+					else
+					{
+						unset($Result[$Index]);
+					}
+				}
+				if($AnEnemy->Health <= 0)
+				{
+					$PlayerWins = true;
+				}
+				else if($this->Health <= 0)
+				{
+					$EnemyWins = true;
+				}
+			}
 		}
 
 		if($PlayerWins)
@@ -474,11 +508,6 @@ class Character extends Being
 		else if($EnemyWins)
 		{
 			$Result['Winner'] = 1;
-		}
-
-		foreach($Result AS &$ArrayItem)
-		{
-			unset($ArrayItem['Initiative']);
 		}
 
 		return $Result;
