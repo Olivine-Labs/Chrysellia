@@ -377,10 +377,6 @@ class Character extends Being
 			}
 			$TotalDamageDone = 0;	
 			$PlayerRow = array();	
-			if(max($Being->Dexterity, $Being->Wisdom) > max($EnemyBeing->Dexterity, $EnemyBeing->Intelligence))
-				$PlayerRow["Initiative"] = true;
-			else
-				$PlayerRow["Initiative"] = false;
 
 			foreach($Being->Equipment AS $AnItem)
 			{
@@ -423,10 +419,28 @@ class Character extends Being
 						$ActualDamage = round($ActualDamage * (1/pow($NumWeapons, 1.5)) / (2/3));
 						$TotalDamageDone += $ActualDamage;
 					}
-					$PlayerRow[count($PlayerRow)] = array('Damage'=>$ActualDamage, 'Type'=>$DamageType);
+					$InitStat = max($Being->Dexterity, $Being->Wisdom);
+					$EnemyInitStat = max($EnemyBeing->Dexterity, $EnemyBeing->Intelligence);
+					$Initiative = \gauss_ms($InitStat, $InitStat * 0.2) - \gauss_ms($EnemyInitStat, $EnemyInitStat * 0.2);
+					$Inserted = false;
+					$PlayerRow = array('Damage'=>$ActualDamage, 'Actor'=>$Index, 'Type'=>$DamageType, 'Initiative'=>$Initiative);
+					if(count($Result))
+					{
+						for($ArrayIndex = 0; $ArrayIndex < count($Result); $ArrayIndex++)
+						{
+							if($Initiative > $Result[$ArrayIndex]["Initiative"])
+							{
+								array_splice($Result, $ArrayIndex, 0, array($PlayerRow));
+								$Inserted =true;
+								break;
+							}
+						}
+					}
+					if(!$Inserted)
+						$Result[count($Result)] = $PlayerRow;
 				}
 			}
-			$Result[$Index] = $PlayerRow;
+
 			$EnemyBeing->Health -= $TotalDamageDone;
 		}
 
@@ -461,6 +475,12 @@ class Character extends Being
 		{
 			$Result['Winner'] = 1;
 		}
+
+		foreach($Result AS &$ArrayItem)
+		{
+			unset($ArrayItem['Initiative']);
+		}
+
 		return $Result;
 	}
 }
