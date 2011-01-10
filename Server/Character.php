@@ -18,6 +18,7 @@ if ( 'GET' == $_SERVER['REQUEST_METHOD'] )
 		define('ACTION_GETCURRENTCHARACTER', 4);
 		define('ACTION_LEVELUP', 5);
 		define('ACTION_LOADLISTFORCELL', 6);
+		define('ACTION_FIGHT', 7);
 
 		if(isset($_GET['Action']))
 		{
@@ -43,6 +44,9 @@ if ( 'GET' == $_SERVER['REQUEST_METHOD'] )
 					break;
 				case ACTION_LOADLISTFORCELL:
 					include './Functions/Character/LoadListForCell.php';
+					break;
+				case ACTION_FIGHT:
+					include './Functions/Character/Fight.php';
 					break;
 				default:
 					$Result->Set('Result', \Protocol\Result::ER_BADDATA);
