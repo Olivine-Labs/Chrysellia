@@ -552,7 +552,14 @@ class Character extends Being
 
 			if($LastReviveTime + (60*5) >= time())
 			{
-				$_SESSION['RevivePenaltyMultiplier'] += 1;
+				if(isset($_SESSION['RevivePenaltyMultiplier']))
+				{
+					$_SESSION['RevivePenaltyMultiplier']++;
+				}
+				else
+				{
+					$_SESSION['RevivePenaltyMultiplier']=1;
+				}
 			}
 			else
 			{
