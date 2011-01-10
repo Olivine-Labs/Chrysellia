@@ -425,7 +425,7 @@ class Character extends Being
 						$ActualDamage = round($ActualDamage * (1/pow($NumWeapons, 1.5)) / (2/3));
 					}
 					$InitStat = max($Being->Dexterity, $Being->Wisdom);
-					$EnemyInitStat = max($EnemyBeing->Dexterity, $EnemyBeing->Intelligence);
+					$EnemyInitStat = max($EnemyBeing->Dexterity, $EnemyBeing->Wisdom);
 					$Initiative = \gauss_ms($InitStat, $InitStat * 0.2) - \gauss_ms($EnemyInitStat, $EnemyInitStat * 0.2);
 					$Inserted = false;
 					$PlayerRow = array('Damage'=>$ActualDamage, 'Actor'=>$Index, 'Type'=>$DamageType, 'Initiative'=>$Initiative);
