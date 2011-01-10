@@ -10,7 +10,7 @@ if(isset($_GET['Data']))
 }
 
 if(
-	property_exists($Get, 'MonsterId') &&
+	property_exists($Get, 'CharacterId') &&
 	property_exists($Get, 'FightType')
 ){
 	if(($Get->FightType == 0) || ($Get->FightType == 1))
