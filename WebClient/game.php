@@ -48,9 +48,9 @@
 		<div id="messages">
 			<div class="container_12">
 				<div class="grid_12" id="info">
-					<span id="latestStatus" class="info">Latest status: You just dropped a Drf**!</span>
+					<span id="latestStatus" class="info"></span>
 					<span id="latestPM" class="info">
-						<a href="#">Matt</a>: Dude, I need more cola. (<a href="#">more</a>)
+						
 					</span>
 					
 					<div class="accountActions">

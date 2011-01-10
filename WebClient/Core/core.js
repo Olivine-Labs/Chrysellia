@@ -41,6 +41,10 @@
 					callback(responseText);
 			   }
 			});
+		},
+		
+		CalculateLevelRequiredExp: function(level, freelevels){
+			return Math.round(Math.pow(level + freelevels, (8/5)) * 100 * Math.log(level + 1));
 		}
 	};
 	
@@ -111,7 +115,7 @@
 		}
 		
 		this.NextLevelAt = function(){
-			return Math.round(Math.pow(this.Level + this.FreeLevels, (8/5)) * 100 * Math.log(this.Level + 1));
+			return vc.CalculateLevelRequiredExp(this.Level, 0);
 		}
 		
 		this.Construct = function(data){

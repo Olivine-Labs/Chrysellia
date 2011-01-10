@@ -109,6 +109,11 @@ $(function(){
 		$("#statsWindow").dialog("open");
 	});
 	
+	$(".chooseStats").live("click", function(e){
+		e.preventDefault();
+		$("#statsWindow").dialog("open");
+	});
+	
 	$("#itemsWindowButton").bind("click", function(e){
 		e.preventDefault();
 		$("#itemsWindow").dialog("open");
@@ -142,6 +147,8 @@ $(function(){
 	
 	$("#statsWindow button").bind("click", function(e){
 		e.preventDefault();
+		$(".chooseStats").remove();
+		
 		switch($(this).parent().attr("class")){
 			case "stat str":
 				vc.cs.LevelUp(1, LevelUpResponse);
@@ -485,7 +492,7 @@ function DisplayBattle(battleObject, fightResults){
 			MyCharacter.Experience += battleObject.Experience;
 			
 			if(battleObject.LevelUp !== undefined && battleObject.LevelUp == true){
-				fightResults.append("<div class='result levelUp'><span class='attacker player'>You</span> have levelled up! Don't forget to add your stat points in the stats window!</span></div>");
+				fightResults.append("<div class='result levelUp'><span class='attacker player'>You</span> have levelled up! <a href='#' class='chooseStats button'>Choose Stats</a></span></div>");
 				
 				MyCharacter.FreeLevels++;
 			}

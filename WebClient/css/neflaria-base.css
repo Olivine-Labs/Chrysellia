@@ -28,7 +28,7 @@ input:focus {
 	background-color: #eee;
 }
 
-a.button { padding: 3px 5px; }
+a.button, input.button { padding: 0.3em 0.75em }
 
 a.button, a.button:hover, a.button:link, a.button:visited, a.button:active, button.button, input.button{
 	-moz-border-radius: 4px;
@@ -142,7 +142,7 @@ color: #000000;
     margin-top: 4px; 
 }
 
-#info { margin-top: 7px; }
+#info { margin-top: 4px; }
 .info { margin-right: 3em; font-family: 'DejaWeb', Arial, Helvetica, sans-serif; }
 
 #messages { background: url(images/greypattern.png) #666; color: #fff; height: 30px; border-bottom: solid 2px #202020; }
@@ -311,3 +311,14 @@ a.fb_button, a.fb_button:link, a.fb_button:hover, a.fb_button:active {
 #fightForm .button { margin-right: .25em; }
 #topCenter { height: 210px; overflow: auto; }
 input.donateButton { border: 0 none; background: transparent; padding: 0; margin: 0; }
+#movement {
+	position: absolute;
+	opacity: .5;
+}
+
+#movement:hover {
+	position: absolute;
+	opacity: .75;
+}
+
+#movement td { height: 61px; width: 59px; }
