@@ -51,6 +51,7 @@ if(
 				{
 					$Database->commitTransaction();
 					$Result->Set('Result', \Protocol\Result::ER_SUCCESS);
+					$Result->Set('Data', $Item);
 				}
 				else
 				{
