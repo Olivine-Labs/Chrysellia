@@ -25,6 +25,7 @@ class Session
 
 	public function Start()
 	{
+		session_name('ChryselliaSessionId');
 		session_start();
 	}
 
