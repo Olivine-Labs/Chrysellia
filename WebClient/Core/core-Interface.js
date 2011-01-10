@@ -10,7 +10,8 @@
 			$("#myCharacter_Intelligence").text(window.MyCharacter.Intelligence);
 			$("#myCharacter_Vitality").text(window.MyCharacter.Vitality);
 			$("#myCharacter_Gold").text(window.MyCharacter.Gold);
-			$("#myCharacter_Experience").progressbar("value", (((window.MyCharacter.Experience*1 - vc.CalculateLevelRequiredExp(window.MyCharacter.Level-1, 0)) / (MyCharacter.NextLevelAt() - vc.CalculateLevelRequiredExp(window.MyCharacter.Level-1, 0)) ) * 100)).attr("title", window.MyCharacter.Experience + " / " + MyCharacter.NextLevelAt());
+			$("#myCharacter_Experience").progressbar("value", (((window.MyCharacter.Experience*1 - vc.CalculateLevelRequiredExp(window.MyCharacter.Level-1, 0)) / (window.MyCharacter.NextLevelAt() - vc.CalculateLevelRequiredExp(window.MyCharacter.Level-1, 0)) ) * 100)).attr("title", window.MyCharacter.Experience + " / " + window.MyCharacter.NextLevelAt());
+			$("#myCharacter_Health").progressbar("value", ((window.MyCharacter.Health / window.MyCharacter.Vitality) * 100)).attr("title", window.MyCharacter.Health + " / " + window.MyCharacter.Vitality);
 			$("#myCharacter_Level").text(window.MyCharacter.Level);
 			
 			if(MyCharacter.FreeLevels>0){

@@ -281,7 +281,7 @@ color: #000000;
 .raceStats { display: block; width: 80px; float: left; }
 #statsWindow .statLabel { width: 105px; }
 #statsWindow .stat:nth-child(even), .itemSelection:nth-child(even) { background: #ddd; }
-#myCharacter_Experience { width:100%; height: 15px; display: inline-block; }
+#myCharacter_Experience, #myCharacter_Health { width:75%; height: 15px; display: inline-block; }
 
 a.fb_button, a.fb_button:link, a.fb_button:hover, a.fb_button:active {
 	color: #fff;
@@ -322,3 +322,5 @@ input.donateButton { border: 0 none; background: transparent; padding: 0; margin
 }
 
 #movement td { height: 61px; width: 59px; }
+
+form label { display: inline-block; width: 50px; }

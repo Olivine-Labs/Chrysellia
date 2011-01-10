@@ -122,6 +122,7 @@ if(
 		catch(Exception $e)
 		{
 			$Result->Set('Result', \Protocol\Result::ER_DBERROR);
+			$Result->Set('Error', $e->getMessage);
 		}
 	}
 	else

@@ -16,6 +16,10 @@
 		ACTION_BUY: 0,
 		ACTION_SELL: 1,
 		ACTION_REVIVE: 2,
+		
+		PLACE_TYPE_STORE: 0,
+		PLACE_TYPE_BANK: 1,
+		PLACE_TYPE_SHRINE: 2,
 	
 		Move: function(x, y, callback){
 			$.getJSON(
@@ -25,26 +29,26 @@
 			);
 		},
 		
-		Buy: function(x, y, callback){
+		Buy: function(itemTemplateId, callback){
 			$.getJSON(
 				V2Core.SERVERCODE_DIRECTORY + "Places.php",
-				{ Action: MapService.ACTION_MOVE, Data: JSON.stringify({ X:x, Y:y }) },
+				{ Action: MapService.ACTION_BUY, Data: JSON.stringify({ ItemTemplateId: itemTemplateId }) },
 				function(data) { callback(data); }
 			);
 		},
 		
-		Sell: function(x, y, callback){
+		Sell: function(itemId, callback){
 			$.getJSON(
 				V2Core.SERVERCODE_DIRECTORY + "Places.php",
-				{ Action: MapService.ACTION_MOVE, Data: JSON.stringify({ X:x, Y:y }) },
+				{ Action: MapService.ACTION_SELL, Data: JSON.stringify({ ItemId: itemId }) },
 				function(data) { callback(data); }
 			);
 		},
 		
-		Revive: function(x, y, callback){
+		Revive: function(callback){
 			$.getJSON(
 				V2Core.SERVERCODE_DIRECTORY + "Places.php",
-				{ Action: MapService.ACTION_MOVE, Data: JSON.stringify({ X:x, Y:y }) },
+				{ Action: MapService.ACTION_REVIVE, Data: JSON.stringify({ }) },
 				function(data) { callback(data); }
 			);
 		}

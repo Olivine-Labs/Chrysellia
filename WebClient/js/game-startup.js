@@ -2,6 +2,7 @@ $(function(){
 	window.chatTabIndex = 0;
 	
 	$("#myCharacter_Experience").progressbar();
+	$("#myCharacter_Health").progressbar();
 	
 	vc.cs.GetCurrentCharacter(SelectCharacter);
 	
@@ -398,8 +399,8 @@ function BuildMap(){
 
 function BuildGameWindow(){
 	var myLocation = MyCharacter.CurrentMap.Places[MyCharacter.PositionY][MyCharacter.PositionX];
-	var window = $("#topCenter");
-	window.html('&nbsp;');
+	var topWindow = $("#topCenter");
+	topWindow.html('&nbsp;');
 	
 	if(myLocation.Type === undefined){
 		if(myLocation.Monsters !== undefined){
@@ -419,17 +420,38 @@ function BuildGameWindow(){
 			}
 			monstersOptGroup.appendTo(select);
 			
-			container.appendTo(window);
+			container.appendTo(topWindow);
 			
 			var fightResults = $("<div id='fightResults'></div>");
-			fightResults.appendTo(window);
+			fightResults.appendTo(topWindow);
 		}
+	}else{
+		switch(myLocation.Type){
+			case 0: //store
+				BuildShop(topWindow);
+				break;
+				
+			case 1: //shrine
+				BuildShop(topWindow);
+				break;
+				
+			case 2: //bank
+				break;
+		}
+	}
+}
+
+function ReviveCharacter(data){
+	if(data.Result == vc.ER_SUCCESS){
+		MyCharacter.Health = MyCharacter.Vitality;
+		vc.i.UpdateStats();
+		BuildGameWindow();
 	}
 }
 
 function AttackMonster(fightType){
 	SetEnableAttack(false); 
-	window.setTimeout(function(){SetEnableAttack(true)}, 1500);
+	
 	var monsterId = $("#monsterList").val();
 	var fightResults = $("#fightResults");
 	
@@ -466,7 +488,8 @@ function DisplayBattle(battleObject, fightResults){
 	for(r in battleObject){
 		if(isInteger(r)){
 			if(battleObject[r].Actor == 0){
-				name = MyCharacter.Name;
+				name = "You";
+				MyCharacter.Health-= battleObject[r].Damage;
 			}else{
 				name = MyCharacter.CurrentBattle.Monster.Name;
 			}
@@ -476,8 +499,8 @@ function DisplayBattle(battleObject, fightResults){
 			}else{
 				battleResult = $("<div class='result'><span class='attacker " + attackClass[battleObject[r].Actor] + "'>" + name + "</span> <span class='damage'>missed</span></div>");
 			}
-			round.append(battleResult);
 			
+			round.append(battleResult);
 		}
 	}
 	
@@ -493,7 +516,6 @@ function DisplayBattle(battleObject, fightResults){
 			
 			if(battleObject.LevelUp !== undefined && battleObject.LevelUp == true){
 				fightResults.append("<div class='result levelUp'><span class='attacker player'>You</span> have levelled up! <a href='#' class='chooseStats button'>Choose Stats</a></span></div>");
-				
 				MyCharacter.FreeLevels++;
 			}
 			
@@ -506,6 +528,7 @@ function DisplayBattle(battleObject, fightResults){
 }
 
 function AttackRound(data){
+	window.setTimeout(function(){SetEnableAttack(true)}, 1500);
 	if(data.Result == vc.ER_SUCCESS){
 		var fightResults = $("#fightResults");
 		var battleObject = data.Data;
@@ -519,6 +542,86 @@ function AttackRound(data){
 			DisplayBattle(battleObject, fightResults);
 		}
 	}
+}
+
+function BuildShop(topWindow){
+	var item = {};
+	var myLocation = MyCharacter.CurrentMap.Places[MyCharacter.PositionY][MyCharacter.PositionX];
+	var name = "Shop";
+	var itemTypeLabels = ["Weapons", "Armors"];
+	if(myLocation.Name !== undefined){
+		var name = myLocation.Name;
+	}
+	
+	var container = $("<form id='shopForm'><h1>" + name + "</h1></form>");
+	var itemTypeSelection = $("<select id='itemTypeSelection'></select>").bind("change", function(e){ FilterItemTypes($(this).val()); });
+	var itemSelection = $("<select id='itemSelection'></select>");
+	var buyItem = $("<button id='buyItem'>Purchase</buy>").bind("click", function(e){ e.preventDefault(); vc.ms.Buy($("#itemSelection").val(), PurchaseItem); });
+	var itemInfo = $("<button id='itemInfo'>Info</buy>").bind("click", function(e){ e.preventDefault(); DisplayItemInfo(); });
+	var itemDescription = $("<div id='itemDescription'></div>");
+	var typeContainer = $("<div><label for='itemTypeSelection'>Item Type:</span></div>").append(itemTypeSelection);
+	var itemContainer = $("<div><label for='itemSelection'>Item:</span></div>").append(itemSelection);
+	var currentItem = {};
+	
+	for(i in V2Core.ItemTypes[2]){
+		items = V2Core.ItemTypes[2][i];
+		if(items.length > 0){
+			itemTypeSelection.append("<option value='" + i + "'>" + itemTypeLabels[i] + "</option>");
+		}
+	}
+	container.append(typeContainer).append(itemContainer).append(buyItem).append(itemInfo).append(itemDescription);
+	$(topWindow).append(container);
+	FilterItemTypes($("#itemTypeSelection option:first").val());
+}
+
+function DisplayItemInfo(){
+	var index = $('#itemSelection option').index($(":selected"));
+	if(index < 0){
+		index = 0;
+	}
+	
+	var description = V2Core.ItemTypes[2][$("#itemTypeSelection").val()][index].Description;
+	$("#itemDescription").text(description);
+}
+
+function FilterItemTypes(itemSlotType){
+	var currentItem = {};
+	var itemSelection = $("#itemSelection").empty();
+	var items = V2Core.ItemTypes[2][itemSlotType];
+	
+	for(item in V2Core.ItemTypes[2][itemSlotType]){
+		currentItem = items[item];
+		if(item == 0){
+			var s = " selected='selected'";
+		}
+		
+		itemSelection.append("<option value='" + currentItem.Id + "'" + s + ">" + currentItem.Name + " - " + currentItem.BuyPrice + "</option>");
+	}
+}
+
+function PurchaseItem(data){
+	
+}
+
+function BuildShrine(topWindow){
+	var myLocation = MyCharacter.CurrentMap.Places[MyCharacter.PositionY][MyCharacter.PositionX];
+	var name = "Shrine";
+	
+	if(myLocation.Name !== undefined){
+		var name = myLocation.Name;
+	}
+	
+	var container = $("<form id='shrineForm'><h1>" + name + "</h1></form>");
+	
+	if(MyCharacter.Health > 0){
+		container.append("<h2>Why are you here? You're not dead.</h2>");
+	}else{
+		var reviveButton = $("<button type='submit' id='reviveButton'>Revive</button>");
+		reviveButton.bind("click", function(e){ e.preventDefault(); vc.ms.Revive(ReviveCharacter); });
+		container.append(reviveButton);
+	}
+	
+	$(topWindow).append(container);
 }
 
 function BuildInitialInventory(){

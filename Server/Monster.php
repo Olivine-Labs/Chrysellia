@@ -11,8 +11,8 @@ if ( 'GET' == $_SERVER['REQUEST_METHOD'] )
 {
 	if(isset($_SESSION['AccountId']) && isset($_SESSION['CharacterId']))
 	{
-		if(microtime(true) > $_SESSION['NextAction'])
-		{
+		//if(microtime(true) > $_SESSION['NextAction'])
+		//{
 			define('ACTION_FIGHT', 0);
 
 			if(isset($_GET['Action']))
@@ -31,7 +31,7 @@ if ( 'GET' == $_SERVER['REQUEST_METHOD'] )
 			{
 				$Result->Set('Result', \Protocol\Result::ER_MALFORMED);
 			}
-		}
+		//}
 	}
 	else
 	{
