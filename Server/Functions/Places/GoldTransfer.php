@@ -17,7 +17,7 @@ if(
 	$Character->CharacterId = $_SESSION['CharacterId'];
 	if($Database->Characters->LoadTraits($Character) && $Database->Characters->LoadPosition($Character))
 	{
-		if($Cell = $Database->Maps->GetCell($Character->MapId, $Character->PositionX, $Character->PositionY))
+		if($Cell = $Database->Maps->LoadCell($Character->MapId, $Character->PositionX, $Character->PositionY))
 		{
 			if($Cell['PlaceId'] == 'PLAC_00000000000000000000003')
 			{
