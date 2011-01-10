@@ -14,9 +14,13 @@
 			$("#myCharacter_Health").progressbar("value", ((window.MyCharacter.Health / window.MyCharacter.Vitality) * 100)).attr("title", window.MyCharacter.Health + " / " + window.MyCharacter.Vitality);
 			$("#myCharacter_Level").text(window.MyCharacter.Level);
 			
-			if(MyCharacter.FreeLevels>0){
+			if(MyCharacter.FreeLevels > 0){
 				$("#statsWindow button, #statsWindow .stat.all").show();
 			}
+		},
+		
+		UpdateHealth: function(){
+			$("#myCharacter_Health").progressbar("value", ((window.MyCharacter.Health / window.MyCharacter.Vitality) * 100)).attr("title", window.MyCharacter.Health + " / " + window.MyCharacter.Vitality);
 		}
 	}
 	

@@ -432,7 +432,7 @@ function BuildGameWindow(){
 				break;
 				
 			case 1: //shrine
-				BuildShop(topWindow);
+				BuildShrine(topWindow);
 				break;
 				
 			case 2: //bank
@@ -489,9 +489,10 @@ function DisplayBattle(battleObject, fightResults){
 		if(isInteger(r)){
 			if(battleObject[r].Actor == 0){
 				name = "You";
-				MyCharacter.Health-= battleObject[r].Damage;
 			}else{
 				name = MyCharacter.CurrentBattle.Monster.Name;
+				MyCharacter.Health -= battleObject[r].Damage;
+				vc.i.UpdateHealth();
 			}
 			
 			if(battleObject[r].Damage > 0){
@@ -518,11 +519,13 @@ function DisplayBattle(battleObject, fightResults){
 				fightResults.append("<div class='result levelUp'><span class='attacker player'>You</span> have levelled up! <a href='#' class='chooseStats button'>Choose Stats</a></span></div>");
 				MyCharacter.FreeLevels++;
 			}
-			
 			vc.i.UpdateStats();
 		}else{
 			fightResults.append("<div class='result lostFight'><span class='attacker enemy'>You</span> were defeated!</span></div>");
 			MyCharacter.CurrentBattle.State = 3;
+			MyCharacter.Health = 0;
+			MyCharacter.Gold = 0;
+			vc.i.UpdateStats();
 		}
 	}
 }
@@ -556,11 +559,11 @@ function BuildShop(topWindow){
 	var container = $("<form id='shopForm'><h1>" + name + "</h1></form>");
 	var itemTypeSelection = $("<select id='itemTypeSelection'></select>").bind("change", function(e){ FilterItemTypes($(this).val()); });
 	var itemSelection = $("<select id='itemSelection'></select>");
-	var buyItem = $("<button id='buyItem'>Purchase</buy>").bind("click", function(e){ e.preventDefault(); vc.ms.Buy($("#itemSelection").val(), PurchaseItem); });
+	var buyItem = $("<button id='buyItem'>Purchase</buy>").bind("click", function(e){ e.preventDefault(); BuyItem(); });
 	var itemInfo = $("<button id='itemInfo'>Info</buy>").bind("click", function(e){ e.preventDefault(); DisplayItemInfo(); });
 	var itemDescription = $("<div id='itemDescription'></div>");
-	var typeContainer = $("<div><label for='itemTypeSelection'>Item Type:</span></div>").append(itemTypeSelection);
-	var itemContainer = $("<div><label for='itemSelection'>Item:</span></div>").append(itemSelection);
+	var typeContainer = $("<div><label for='itemTypeSelection'>Shop For:</span></div>").append(itemTypeSelection);
+	var itemContainer = $("<div><label for='itemSelection'>Items:</span></div>").append(itemSelection);
 	var currentItem = {};
 	
 	for(i in V2Core.ItemTypes[2]){
@@ -572,6 +575,13 @@ function BuildShop(topWindow){
 	container.append(typeContainer).append(itemContainer).append(buyItem).append(itemInfo).append(itemDescription);
 	$(topWindow).append(container);
 	FilterItemTypes($("#itemTypeSelection option:first").val());
+}
+
+
+function BuyItem(){
+	if(MyCharacter.Inventories["Personal"].length < 20){
+		vc.ms.Buy($("#itemSelection").val(), PurchaseItem);
+	}
 }
 
 function DisplayItemInfo(){
@@ -595,12 +605,22 @@ function FilterItemTypes(itemSlotType){
 			var s = " selected='selected'";
 		}
 		
-		itemSelection.append("<option value='" + currentItem.Id + "'" + s + ">" + currentItem.Name + " - " + currentItem.BuyPrice + "</option>");
+		itemSelection.append("<option value='" + currentItem.ItemId + "'" + s + ">" + currentItem.Name + " - " + currentItem.BuyPrice + "</option>");
 	}
 }
 
 function PurchaseItem(data){
+	if(data.Result == vc.ER_SUCCESS){
+		var index = $('#itemSelection option').index($(":selected"));
+		if(index < 0){
+			index = 0;
+		}
 	
+		var itemTemplate = V2Core.ItemTypes[2][$("#itemTypeSelection").val()][index];
+		MyCharacter.Inventories["Personal"][MyCharacter.Inventories["Personal"].length] = itemTemplate;
+		BuildInitialInventory();
+		BuildInventoryLists();
+	}
 }
 
 function BuildShrine(topWindow){
@@ -625,6 +645,7 @@ function BuildShrine(topWindow){
 }
 
 function BuildInitialInventory(){
+	$("#itemsWindow select").remove();
 	var typeMapping = vc.is.TypeMapping;	
 	var slotName = "";
 	var body = window.MyCharacter.Equipment;
@@ -658,14 +679,25 @@ function BuildInitialInventory(){
 
 function LoadInventory(data){
 	if(data.Result == vc.ER_SUCCESS){
-		var item = {};
-		var typeMapping = vc.is.TypeMapping;
 		window.MyCharacter.Inventories["Personal"] = data.Data;
-		for(var i in MyCharacter.Inventories["Personal"]){
-			item = MyCharacter.Inventories["Personal"][i];
-			if(item !== undefined && item !== {}){
-				$("<option value='" + item.ItemId + "'>" + item.Name + "</option>").appendTo($("select." + typeMapping[item.SlotType]));
-			}
+		BuildInventoryLists();
+	}
+}
+
+function BuildInventoryLists(){
+	var selects = $("#itemsWindow select");
+	selects.empty();
+	var item = {};
+	var select = {};
+	var items = {};
+	var typeMapping = vc.is.TypeMapping;
+	
+	items = window.MyCharacter.Inventories["Personal"];
+	for(var i in items){
+		item = items[i];
+		if(item !== undefined && item !== {}){
+			select = $("select." + typeMapping[item.SlotType], selects);
+			$("<option value='" + item.ItemId + "'>" + item.Name + "</option>").appendTo($("select." + typeMapping[item.SlotType]));
 		}
 	}
 }
