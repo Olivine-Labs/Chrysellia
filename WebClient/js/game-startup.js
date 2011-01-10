@@ -418,8 +418,8 @@ function BuildGameWindow(){
 			var select = $("<select id='monsterList' />");
 			select.appendTo(container);
 			
-			$("<button type='submit' id='attackButton' class='button attack'>Attack</button>").bind("click", function(e){ e.preventDefault(); AttackMonster(0); }).button().appendTo(container);
-			$("<button type='submit' id='castButton' class='button cast'>Cast</button>").bind("click", function(e){ e.preventDefault(); AttackMonster(1); }).button().appendTo(container);
+			$("<button type='submit' id='attackButton' class='button attack'>Attack</button>").bind("click", function(e){ e.preventDefault(); Attack(0); }).button().appendTo(container);
+			$("<button type='submit' id='castButton' class='button cast'>Cast</button>").bind("click", function(e){ e.preventDefault(); Attack(1); }).button().appendTo(container);
 			
 			var monster = {};
 			var option = {};
@@ -461,33 +461,37 @@ function ReviveCharacter(data){
 	}
 }
 
-function AttackMonster(fightType){
+function Attack(fightType){
 	SetEnableAttack(false); 
 	
-	var monsterId = $("#monsterList").val();
+	var enemyId = $("#monsterList").val();
 	var fightResults = $("#fightResults");
 	
-	if(MyCharacter.CurrentBattle !== undefined){
-		if(MyCharacter.CurrentBattle.State == 2){
-			fightResults.html('');
-		}
-		
-		if(MyCharacter.CurrentBattle.State == 3){
-			alert("You can't fight! You're dead!");
-			return;
-		}
-		
-		if(MyCharacter.CurrentBattle.Monster == V2Core.Monsters[monsterId]){
-			MyCharacter.CurrentBattle.State = 1;
+	if(enemyId.indexOf("MONS") > -1){
+		if(MyCharacter.CurrentBattle !== undefined){
+			if(MyCharacter.CurrentBattle.State == 2){
+				fightResults.html('');
+			}
+			
+			if(MyCharacter.Health < 1){
+				alert("You can't fight! You're dead!");
+				return;
+			}
+			
+			if(MyCharacter.CurrentBattle.Monster == V2Core.Monsters[monsterId]){
+				MyCharacter.CurrentBattle.State = 1;
+			}else{
+				MyCharacter.CurrentBattle = { Monster: V2Core.Monsters[monsterId], State: 0 }
+			}
 		}else{
 			MyCharacter.CurrentBattle = { Monster: V2Core.Monsters[monsterId], State: 0 }
 		}
-	}else{
+		
 		MyCharacter.CurrentBattle = { Monster: V2Core.Monsters[monsterId], State: 0 }
+		vc.mn.Fight(enemyId, fightType, AttackRound);
+	}else if(enemyId.indexOf("CHAR") > -1){
+		vc.cs.Fight(enemyId, fightType, AttackRound);
 	}
-	
-	MyCharacter.CurrentBattle = { Monster: V2Core.Monsters[monsterId], State: 0 }
-	vc.mn.Fight(monsterId, fightType, AttackRound);
 }
 
 function DisplayBattle(battleObject, fightResults){

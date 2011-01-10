@@ -19,6 +19,7 @@
 		ACTION_GETCURRENTCHARACTER: 4,
 		ACTION_LEVELUP: 5,
 		ACTION_LOADLISTFORCELL: 6,
+		ACTION_FIGHT: 7,
 	
 		Create: function(name, gender, pin, raceID, strength, dexterity, intelligence, wisdom, vitality, callback){
 			$.getJSON(
@@ -72,6 +73,14 @@
 			$.getJSON(
 				V2Core.SERVERCODE_DIRECTORY + "Character.php",
 				{ Action: CharacterService.ACTION_LOADLISTFORCELL, Data: JSON.stringify({ }) },
+				function(data) { callback(data); }
+			);
+		},
+		
+		Fight: function(characterId, fightType, callback){
+			$.getJSON(
+				V2Core.SERVERCODE_DIRECTORY + "Character.php",
+				{ Action: CharacterService.ACTION_FIGHT, Data: JSON.stringify({ CharacterId: characterId, FightType: fightType }) },
 				function(data) { callback(data); }
 			);
 		}
