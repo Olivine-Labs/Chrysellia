@@ -16,6 +16,9 @@ if ( 'GET' == $_SERVER['REQUEST_METHOD'] )
 			define('ACTION_BUY', 0);
 			define('ACTION_SELL', 1);
 			define('ACTION_REVIVE', 2);
+			define('ACTION_WITHDRAW', 3);
+			define('ACTION_DEPOSIT', 4);
+			define('ACTION_TRANSFER', 5);
 
 			if(isset($_GET['Action']))
 			{
@@ -29,6 +32,15 @@ if ( 'GET' == $_SERVER['REQUEST_METHOD'] )
 						break;
 					case ACTION_REVIVE:
 						include './Functions/Places/Revive.php';
+						break;
+					case ACTION_REVIVE:
+						include './Functions/Places/Withdraw.php';
+						break;
+					case ACTION_REVIVE:
+						include './Functions/Places/Deposit.php';
+						break;
+					case ACTION_REVIVE:
+						include './Functions/Places/Transfer.php';
 						break;
 					default:
 						$Result->Set('Result', \Protocol\Result::ER_BADDATA);
