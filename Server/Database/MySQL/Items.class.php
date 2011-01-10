@@ -208,6 +208,27 @@ class Items
 			return false;
 	}
 
+	/**
+	 * Insert an inventory for a character
+	 *
+	 * @param $Item
+	 *   The item to be deleted
+	 *
+	 * @return Boolean
+	 *   Whether or not the insert succeeded
+	 */
+	public function Delete(\Entities\Item $Item)
+	{
+		$Query = $this->Database->Connection->prepare(SQL_DELETEITEM);
+		$this->Database->logError();
+		$Query->bind_param('s', $Item->ItemId);
+		$Query->Execute();
+
+		if($Query->affected_rows > 0)
+			return true;
+		else
+			return false;
+	}
 
 	/**
 	 * Load a character's inventory
