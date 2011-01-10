@@ -87,7 +87,7 @@ if(
 									if($Database->Characters->UpdateTraits($Character))
 									{
 										if(!isset($AttackResult['Winner']))
-										$_SESSION['CurrentFight'] = $CurrentFight;
+											$_SESSION['CurrentFight'] = $CurrentFight;
 										$Result->Set('Result', \Protocol\Result::ER_SUCCESS);
 										$Result->Set('Data', $AttackResult);
 										$_SESSION['NextAction'] = microtime(true) + 1.50;
@@ -122,7 +122,6 @@ if(
 		catch(Exception $e)
 		{
 			$Result->Set('Result', \Protocol\Result::ER_DBERROR);
-			$Result->Set('Error', $e->getMessage);
 		}
 	}
 	else

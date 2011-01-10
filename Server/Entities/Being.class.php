@@ -126,6 +126,24 @@ abstract class Being
 	 * @var $SpellClassBonus
 	 */
 	public $SpellClassBonus;
+
+	/**
+	 * AlignGood
+	 *
+	 * A character's align on the "Good/Evil" axis
+	 *
+	 * @var $alignGood
+	 */
+	public $AlignGood;
+
+	/**
+	 * AlignEvil
+	 *
+	 * A character's align on the "Order/Chaos" axis
+	 *
+	 * @var $alignOrder
+	 */
+	public $AlignOrder;
 }
 
 ?>

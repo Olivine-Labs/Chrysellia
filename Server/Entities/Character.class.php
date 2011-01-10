@@ -58,24 +58,6 @@ class Character extends Being
 	public $Gender;
 
 	/**
-	 * AlignGood
-	 *
-	 * A character's align on the "Good/Evil" axis
-	 *
-	 * @var $alignGood
-	 */
-	public $AlignGood;
-
-	/**
-	 * AlignEvil
-	 *
-	 * A character's align on the "Order/Chaos" axis
-	 *
-	 * @var $alignOrder
-	 */
-	public $AlignOrder;
-
-	/**
 	 * FreeLevels
 	 *
 	 * A character's levels that need to be "spent"
@@ -339,7 +321,8 @@ class Character extends Being
 			{
 				$Item->SlotType = 0;
 				$Item->ItemClass = $AnEnemy->WeaponClass;
-			}else
+			}
+			else
 			{
 				$Item->SlotType = 3;
 				$Item->ItemClass = $AnEnemy->SpellClass;
@@ -531,6 +514,31 @@ class Character extends Being
 				$Result['Gold'] = $AnEnemy->Gold;
 				$AnEnemy->Gold = 0;
 			}
+
+			if(mt_rand(0,10000) < 10)
+			{
+				if($AnEnemy->AlignGood >= 0)
+				{
+					$this->AlignGood -= 1;
+					$Result['AlignGood'] = $this->AlignGood;
+				}
+				else
+				{
+					$this->AlignGood += 1;
+					$Result['AlignGood'] = $this->AlignGood;
+				}
+				if($AnEnemy->AlignOrder >= 0)
+				{
+					$this->AlignOrder -= 1;
+				$Result['AlignOrder'] = $this->AlignOrder;
+				}
+				else
+				{
+					$this->AlignOrder += 1;
+					$Result['AlignOrder'] = $this->AlignOrder;
+				}
+			}
+			
 			$Result['LevelUp'] = $this->LevelUp();
 			unset($_SESSION['CurrentFight']);
 		}
