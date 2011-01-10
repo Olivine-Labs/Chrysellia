@@ -13,7 +13,7 @@ try
 {
 	$Character = new \Entities\Character();
 	$Character->CharacterId = $_SESSION['CharacterId'];
-	if($Inventory = $Database->Items->LoadInventory($Character))
+	if(is_array($Inventory = $Database->Items->LoadInventory($Character)))
 	{
 		$Result->Set('Result', \Protocol\Result::ER_SUCCESS);
 		$Result->Set('Data', $Inventory);
