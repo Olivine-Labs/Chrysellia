@@ -102,11 +102,11 @@ class Items
 	 * @return Boolean
 	 *   Whether or not the load succeeded
 	 */
-	public function LoadTemplateById(\Entities\Item $Item)
+	public function LoadTemplateById(\Entities\Item $AnItem)
 	{
 		$Query = $this->Database->Connection->prepare(SQL_LOADITEM_TEMPLATE);
 		$this->Database->logError();
-		$Query->bind_param('s', $Item->ItemTemplateId);
+		$Query->bind_param('s', $AnItem->ItemTemplateId);
 
 		$Query->Execute();
 		$AnItem = new \Entities\Item();
