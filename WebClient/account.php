@@ -20,13 +20,13 @@
 		
 		<link href='http://fonts.googleapis.com/css?family=Crimson+Text&subset=latin' rel='stylesheet' type='text/css'>
 		
-		<!--
+		
 		<link href="css/html5-reset.css" rel="stylesheet" media="screen" />
 		<link href="css/jquery-ui.css" rel="stylesheet" media="screen" />
-		<link href="css/grid-fluid.css" rel="stylesheet" media="screen" />
-		<link href="css/neflaria-base.css" rel="stylesheet" media="screen" />-->
-		<link href="css/neflaria.min.css" rel="stylesheet" media="screen" />
-		<link href="css/grid.min.css" rel="stylesheet" media="screen" />
+		<link href="css/grid.css" rel="stylesheet" media="screen" />
+		<link href="css/neflaria-base.css" rel="stylesheet" media="screen" />
+		<!--<link href="css/neflaria.min.css" rel="stylesheet" media="screen" />
+		<link href="css/grid.min.css" rel="stylesheet" media="screen" />-->
 
 		<!--[if IE 8]>
 		<link href="css/ie8.css" rel="stylesheet" media="screen" />
@@ -64,7 +64,7 @@
 							<li><a href="http://blog.chrysellia.com" target="_blank">Blog</a></li>
 							<li><a href="http://wiki.chrysellia.com" target="_blank">Manual</a></li>
 							<!--<li><a href="#">Rankings</a></li>-->
-							<li><a href="http://www.neflaria.com/forum" target="_blank">Forum</a></li>
+							<li><a href="http://forum.chrysellia.com" target="_blank">Forum</a></li>
 							<li><a href="#">Donate</a></li>
 							<!--<li><a href="#">Store</a></li>-->
 						</ul>
@@ -193,10 +193,10 @@
 					</div>
 					<div class="formInput">
 						<button type="submit" class="button minus">+</button>
-						<span id="baseStr" class="raceBaseStat">20</span> + <input class="statChooser" id="startingStr" maxlength="2" value="0" />
+						<span class="statChooser" id="startingStr">20</span>
 						<button type="submit" class="button plus">-</button>
 						<br />
-						<em>Race max: <span id="raceStrMax">30</span></em>
+						<em><span id="baseStr" class="raceBaseStat">20</span> - <span id="raceStrMax" class="statMax">30</span></em>
 					</div>
 				</div>
 				
@@ -206,10 +206,10 @@
 					</div>
 					<div class="formInput">
 						<button type="submit" class="button minus">+</button>
-						<span id="baseDex" class="raceBaseStat">20</span> + <input class="statChooser" id="startingDex" maxlength="2" value="0" />
+						<span class="statChooser" id="startingDex">20</span>
 						<button type="submit" class="button plus">-</button>
 						<br />
-						<em>Race max: <span id="raceDexMax">30</span></em>
+						<em><span id="baseDex" class="raceBaseStat">20</span> - <span id="raceDexMax" class="statMax">30</span></em>
 					</div>
 				</div>
 				
@@ -219,10 +219,10 @@
 					</div>
 					<div class="formInput">
 						<button type="submit" class="button minus">+</button>
-						<span id="baseInt" class="raceBaseStat">20</span> + <input class="statChooser" id="startingInt" maxlength="2" value="0" />
+						<span class="statChooser" id="startingInt">20</span>
 						<button type="submit" class="button plus">-</button>
 						<br />
-						<em>Race max: <span id="raceIntMax">30</span></em>
+						<em><span id="baseInt" class="raceBaseStat">20</span> - <span id="raceIntMax" class="statMax">30</span></em>
 					</div>
 				</div>
 				
@@ -232,10 +232,10 @@
 					</div>
 					<div class="formInput">
 						<button type="submit" class="button minus">+</button>
-						<span id="baseWis" class="raceBaseStat">20</span> + <input class="statChooser" id="startingWis" maxlength="2" value="0" />
+						<span class="statChooser" id="startingWis">20</span>
 						<button type="submit" class="button plus">-</button>
 						<br />
-						<em>Race max: <span id="raceWisMax">30</span></em>
+						<em><span id="baseWis" class="raceBaseStat">20</span> - <span id="raceWisMax" class="statMax">30</span></em>
 					</div>
 				</div>
 				
@@ -245,10 +245,10 @@
 					</div>
 					<div class="formInput">
 						<button type="submit" class="button minus">+</button>
-						<span id="baseVit" class="raceBaseStat">20</span> + <input class="statChooser" id="startingVit" maxlength="2" value="0" />
+						<span class="statChooser" id="startingVit">20</span>
 						<button type="submit" class="button plus">-</button>
 						<br />
-						<em>Race max: <span id="raceVitMax">30</span></em>
+						<em><span id="baseVit" class="raceBaseStat">20</span> - <span id="raceVitMax" class="statMax">30</span></em>
 					</div>
 				</div>
 			</div>

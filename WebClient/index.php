@@ -97,7 +97,7 @@ include_once('php/simplepie.inc');
 							<li><a href="http://blog.chrysellia.com" target="_blank">Blog</a></li>
 							<li><a href="http://wiki.chrysellia.com" target="_blank">Manual</a></li>
 							<!--<li><a href="#">Rankings</a></li>-->
-							<li><a href="http://www.neflaria.com/forum" target="_blank">Forum</a></li>
+							<li><a href="http://forum.chrysellia.com" target="_blank">Forum</a></li>
 							<li><form target="_blank" method="post" action="https://www.paypal.com/cgi-bin/webscr"><input type="hidden" value="_s-xclick" name="cmd"><input type="hidden" value="U9PMXZHBZPVPJ" name="hosted_button_id"><input type="image" border="0" alt="PayPal - The safer, easier way to pay online!" name="submit" src="./css/images/donate.png" class='donateButton'><img width="1" height="1" border="0" src="https://www.paypal.com/en_US/i/scr/pixel.gif" alt=""></form></li>
 							<!--<li><a href="#">Store</a></li>-->
 						</ul>

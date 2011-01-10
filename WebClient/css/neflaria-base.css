@@ -1,6 +1,7 @@
 body {
 	font-family: Georgia, 'Times New Roman', serif;
 	font-size: 10pt;
+	line-height: 1.25em;
 }
 
 .alternate { font-family: 'DejaWeb', Arial, Helvetica, sans-serif; }
@@ -59,7 +60,7 @@ a.bigButton, a.bigButton:hover, a.bigButton:link, a.bigButton:visited, a.bigButt
 	display: inline-block;
 }
 
-h1, h2, h3, h4, h5, h6 { font-family: 'Crimson Text', Georgia, 'Times New Roman', serif; font-weight: normal; }
+h1, h2, h3, h4, h5, h6 { font-family: 'Crimson Text', Georgia, 'Times New Roman', serif; font-weight: normal; line-height: 1.25em; }
 
 h1 {
 	font-size: 36px;
@@ -142,7 +143,7 @@ color: #000000;
     margin-top: 4px; 
 }
 
-#info { margin-top: 4px; }
+#info { margin-top: 2px; }
 .info { margin-right: 3em; font-family: 'DejaWeb', Arial, Helvetica, sans-serif; }
 
 #messages { background: url(images/greypattern.png) #666; color: #fff; height: 30px; border-bottom: solid 2px #202020; }
@@ -233,7 +234,7 @@ color: #000000;
 .bigButton .Goblin { background: transparent url('images/goblin.jpg') top left no-repeat; }
 
 .mainSection { padding: 2em 0; }
-.formInput  .statChooser { width: 2em; }
+.formInput  .statChooser { font-weight: bold; font-size: 18pt; }
 #logIn h1 { display: none; }
 #createCharacter .formLabel { width: 95px; }
 #createCharacterForm .selectStats .formLabel { font-weight:bold; vertical-align:top; width:3em; }
@@ -274,6 +275,8 @@ color: #000000;
 .icon.int { background: transparent url(images/inticon.png) top left no-repeat; }
 #currentMap .player { display: block; height: 28px; width: 28px; text-indent: 1000000%; background: transparent url(images/humanplayer.png) center left no-repeat; }
 .accountActions { float: right; }
+.accountActions a { margin-right: 1em; }
+.accountActions a.button { margin: 0; }
 #messages .alternateButton  { color: #fff; }
 .raceList .bigButton { width: 100%; }
 .raceList .bigButton .description { font-size: 12pt; font-family: 'Crimson Text', Georgia, 'Times New Roman', serif; }

@@ -21,11 +21,11 @@ $(function(){
 		autoOpen: false, 
 		buttons: { 
 			"Create Character": function() { 
-				var str = $("#startingStr").val() * 1;
-				var dex = $("#startingDex").val() * 1;
-				var intel = $("#startingInt").val() * 1;
-				var wis = $("#startingWis").val() * 1;
-				var vit = $("#startingVit").val() * 1;
+				var str = ($("#startingStr").text() * 1) - V2Core.Races[$("#c_race").val()].Str;
+				var dex = ($("#startingDex").text() * 1) - V2Core.Races[$("#c_race").val()].Dex;
+				var intel = ($("#startingInt").text() * 1) - V2Core.Races[$("#c_race").val()].Int;
+				var wis = ($("#startingWis").text() * 1) - V2Core.Races[$("#c_race").val()].Wis;
+				var vit = ($("#startingVit").text() * 1) - V2Core.Races[$("#c_race").val()].Vit;
 
 				if((str + dex + intel + wis + vit) != 25){
 					$(".selectStats > em").addClass("ui-state-error");
@@ -45,13 +45,6 @@ $(function(){
 		e.preventDefault();
 		var $this = $(this);
 		var id = $this.children(".r_id").val();
-		
-		$("#startingStr").val(0);
-		$("#startingDex").val(0);
-		$("#startingInt").val(0);
-		$("#startingWis").val(0);
-		$("#startingVit").val(0);
-		
 		$("#c_race").val(id).change();
 		$("#startingStr").change();
 		$("#statSelection").dialog("open");
@@ -77,11 +70,11 @@ $(function(){
 		var name = $("#c_fn").val();
 		var race = V2Core.Races[$("#c_race").val()];
 		var gender = $("#c_gender").val();
-		var str = $("#startingStr").val() * 1;
-		var dex = $("#startingDex").val() * 1;
-		var intel = $("#startingInt").val() * 1;
-		var wis = $("#startingWis").val() * 1;
-		var vit = $("#startingVit").val() * 1;
+		var str = ($("#startingStr").text() * 1) - V2Core.Races[$("#c_race").val()].Str;
+		var dex = ($("#startingDex").text() * 1) - V2Core.Races[$("#c_race").val()].Dex;
+		var intel = ($("#startingInt").text() * 1) - V2Core.Races[$("#c_race").val()].Int;
+		var wis = ($("#startingWis").text() * 1) - V2Core.Races[$("#c_race").val()].Wis;
+		var vit = ($("#startingVit").text() * 1) - V2Core.Races[$("#c_race").val()].Vit;
 		var pin = $("#c_pin").val();
 		
 		if(name == "Character Name") { 
@@ -135,6 +128,12 @@ $(function(){
 		$("#baseWis").text(race.Wis);
 		$("#baseVit").text(race.Vit);
 		
+		$("#startingStr").text(race.Str);
+		$("#startingDex").text(race.Dex);
+		$("#startingInt").text(race.Int);
+		$("#startingWis").text(race.Wis);
+		$("#startingVit").text(race.Vit);
+
 		$("#raceStrMax").text(race.StrMax);
 		$("#raceDexMax").text(race.DexMax);
 		$("#raceIntMax").text(race.IntMax);
@@ -202,21 +201,22 @@ function UpdateCreateCharacterStats(ui, e){
 	var currentBalance = CurrentStatBalance();
 	var currentStatValue = 0;
 	var currentStatMax = 0;
+	var currentStatMin = 0;
 	var raceBaseStat = 0;
 	
 	if(ui.hasClass("minus")){
-		currentStatValue = ui.siblings(".statChooser").val() *1;
+		currentStatValue = ui.siblings(".statChooser").text() *1;
+		currentStatMin = ui.siblings("em").children(".raceBaseStat").text() * 1;
 		
-		if(currentStatValue-1 >= 0){
-			ui.siblings("input").val(currentStatValue-1);
+		if(currentStatValue-1 >= currentStatMin){
+			ui.siblings(".statChooser").text(currentStatValue-1);
 		}
 	}else if(ui.hasClass("plus")){
-		currentStatValue = ui.siblings(".statChooser").val() *1;
-		currentStatMax = ui.siblings("em").children("span").text() * 1;
-		raceBaseStat = ui.siblings(".raceBaseStat").text() * 1;
+		currentStatValue = ui.siblings(".statChooser").text() *1;
+		currentStatMax = ui.siblings("em").children(".statMax").text() * 1;
 		
-		if(currentStatValue + raceBaseStat + 1 <= currentStatMax && currentBalance > 0){
-			ui.siblings("input").val(currentStatValue+1);
+		if(currentStatValue + 1 <= currentStatMax && currentBalance > 0){
+			ui.siblings(".statChooser").text(currentStatValue+1);
 		}
 	}
 	
@@ -232,10 +232,10 @@ function CurrentStatBalance(){
 	var used = 0;
 	
 	$(".statChooser").each(function(){
-		used += ($(this).val() *1);
+		used += ($(this).text() *1);
 	});
-	
-	return 25 - used;
+
+	return 25 - (used - 125);
 }
 
 function LoadCharacterList(list){
