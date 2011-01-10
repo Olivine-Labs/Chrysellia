@@ -114,6 +114,20 @@ class Item
 	 * @var onUse
 	 */
 	public $OnUse;
+
+	/**
+	 * BuyPrice
+	 *
+	 * @var BuyPrice
+	 */
+	public $BuyPrice;
+
+	/**
+	 * SellPrice
+	 *
+	 * @var SellPrice
+	 */
+	public $SellPrice;
 }
 
 ?>
