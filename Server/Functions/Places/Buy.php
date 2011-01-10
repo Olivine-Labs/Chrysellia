@@ -30,7 +30,7 @@ if(
 					if($Character->Gold > $Item->BuyPrice)
 					{	
 						$Character->Gold -= $Item->BuyPrice;
-						if($Database->Items->Insert($Item))
+						if($Database->Items->Insert($Item) && $Database->Characters->UpdateTraits($Character))
 						{
 							$Success = true;
 						}
