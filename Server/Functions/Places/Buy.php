@@ -29,12 +29,16 @@ if(
 				$Item->InventoryId = $Character->InventoryId;
 				if($Database->Items->LoadTemplateById($Item))
 				{
-					if($Character->Gold > $Item->BuyPrice)
+					if($Character->Gold >= $Item->BuyPrice)
 					{	
 						$Character->Gold -= $Item->BuyPrice;
 						if($Database->Items->Insert($Item) && $Database->Characters->UpdateTraits($Character))
 						{
 							$Success = true;
+						}
+						else
+						{
+							$Result->Set('Result', \Protocol\Result::ER_DBERROR);
 						}
 					}
 				}
@@ -51,7 +55,6 @@ if(
 				else
 				{
 					$Database->rollbackTransaction();
-					$Result->Set('Result', \Protocol\Result::ER_DBERROR);
 				}
 			}
 		}
