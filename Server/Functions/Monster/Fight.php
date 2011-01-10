@@ -26,6 +26,7 @@ if(
 				$Monster->MapId = $Character->MapId;
 				$Monster->PositionX = $Character->PositionX;
 				$Monster->PositionY = $Character->PositionY;
+				
 				if($Database->Monsters->IsInCell($Monster))
 				{
 					if($Database->Characters->LoadTraits($Character))
@@ -47,7 +48,7 @@ if(
 											($CurrentFight['MapId'] == $Character->MapId) &&
 											($CurrentFight['PositionX'] == $Character->PositionX) &&
 											($CurrentFight['PositionY'] == $Character->PositionY)
-										){
+										){ 
 											$SameMonster = true;
 										}
 									}

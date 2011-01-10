@@ -448,9 +448,14 @@ function BuildGameWindow(){
 				break;
 				
 			case 2: //bank
+				BuildBank(topWindow);
 				break;
 		}
 	}
+}
+
+function Buildbank(topWindow){
+
 }
 
 function ReviveCharacter(data){
@@ -478,16 +483,16 @@ function Attack(fightType){
 				return;
 			}
 			
-			if(MyCharacter.CurrentBattle.Monster == V2Core.Monsters[monsterId]){
+			if(MyCharacter.CurrentBattle.Monster == V2Core.Monsters[enemyId]){
 				MyCharacter.CurrentBattle.State = 1;
 			}else{
-				MyCharacter.CurrentBattle = { Monster: V2Core.Monsters[monsterId], State: 0 }
+				MyCharacter.CurrentBattle = { Monster: V2Core.Monsters[enemyId], State: 0 }
 			}
 		}else{
-			MyCharacter.CurrentBattle = { Monster: V2Core.Monsters[monsterId], State: 0 }
+			MyCharacter.CurrentBattle = { Monster: V2Core.Monsters[enemyId], State: 0 }
 		}
 		
-		MyCharacter.CurrentBattle = { Monster: V2Core.Monsters[monsterId], State: 0 }
+		MyCharacter.CurrentBattle = { Monster: V2Core.Monsters[enemyId], State: 0 }
 		vc.mn.Fight(enemyId, fightType, AttackRound);
 	}else if(enemyId.indexOf("CHAR") > -1){
 		vc.cs.Fight(enemyId, fightType, AttackRound);

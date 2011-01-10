@@ -1,5 +1,5 @@
 <?php
-
+date_default_timezone_set('America/New_York');
 define('FACEBOOK_APP_ID', '119442588120693');
 define('FACEBOOK_SECRET', '394479c493bac0ee777a8d9cf61ac4fd');
 
@@ -28,6 +28,7 @@ function get_facebook_cookie($app_id, $application_secret)
 
 $cookie = get_facebook_cookie(FACEBOOK_APP_ID, FACEBOOK_SECRET);
 
+include_once('php/simplepie.inc');
 ?>
 
 <!DOCTYPE html>
@@ -76,7 +77,7 @@ $cookie = get_facebook_cookie(FACEBOOK_APP_ID, FACEBOOK_SECRET);
 		<link rel="alternate" type="application/rss+xml" title="Neflaria News RSS Feed" href="http://v2.neflaria.com/blog/feed/" />
 	</head>
 	<body>
-		<div id="messages">
+		<!--<div id="messages">
 			<div class="container_12">
 				<div class="grid_12" id="info">
 					<span class="info">Online: <span id="onlines">0</span></span>
@@ -84,7 +85,7 @@ $cookie = get_facebook_cookie(FACEBOOK_APP_ID, FACEBOOK_SECRET);
 				</div>
 			</div>
 			<div class="clear"></div>
-		</div>
+		</div>-->
 		
 		<div id="navigation">
 			<div class="container_12">
@@ -161,33 +162,73 @@ $cookie = get_facebook_cookie(FACEBOOK_APP_ID, FACEBOOK_SECRET);
 					
 					<div class="clear"></div>
 					
-					<section class="grid_4 news">
+					<section class="grid_8 news">
 						<h1>News</h1>
 						<section class="mainNews newsItem">
 							<h1>Chrysellia Beta Open</h1>
-							<em class="alternate"><date></date> - by <a href="#">ajacksified</a></em>
-							<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla dignissim vehicula risus, vel scelerisque erat fermentum quis. Ut aliquam, augue pharetra facilisis dignissim, mauris lectus hendrerit erat, nec dapibus purus arcu id est. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque vulputate faucibus purus, eget egestas justo semper vitae. Nam velit neque, pulvinar vitae rhoncus luctus, ullamcorper at augue.</p>
-							<a href="#" class="alternate">Chrysellia Developer Blog</a>
+							<em class="alternate"><date>1/11/10</date> - by Silwar Naiilo</em>
+							<p>
+								Chrysellia is finally in beta! Here's a few points to remember:
+								<ul>
+									<li>
+										Chrysellia was developed for the <a href="https://gaming.mozillalabs.com/" target="_blank">Mozilla Labs Game On</a> 
+										competition. As such, Chrysellia is NOT feature-complete. We took the game to the point of playability, with most 
+										of the features of Neflaria, and we plan on adding a whole lot more after the juding period. Things like:
+										<ul>
+											<li>Extended Clan Wars</li>
+											<li>New Continents to Explore</li>
+											<li>New Races, Weapons, Spells, and Armors</li>
+											<li>Storyline Quests</li>
+										</ul>
+									</li>
+									<li>
+										Chrysellia is in beta and you may run into a bug or two. Tell Silwar Naiilo or Sexy Lingerie and you'll find 
+										help as quickly as possible. Due to the rules of the gaming competition, however, we can't actually <em>fix</em>
+										bugs until the judging period has ended.
+									</li>
+									<li>
+										Chrysellia is run entirely by donations. If you enjoy the game, please consider donating towards our servers.
+										That means less lag and better availability.
+									</li>
+									<li>
+										Keep up with the <a href="http://blog.chrysellia.com">Chrysellia blog</a> for updates and answers to questions!
+									</li>
+								</ul>
+							</p>
 						</section>
 						
 						<section class="secondaryNews newsItem">
-							<h1>More News</h1>
-							<ul>
-								<li class="alternate"><a href="#">Chrysellia Developer Blog</a> - (<date></date>)</li>
-								<li class="alternate"><a href="#">Chrysellia Developer Blog</a> - (<date></date>)</li>
-								<li class="alternate"><a href="#">Chrysellia Developer Blog</a> - (<date></date>)</li>
-								<li class="alternate"><a href="#">Chrysellia Developer Blog</a> - (<date></date>)</li>
-							</ul>
-							<a href="#" class="alternate">Subscribe to RSS</a> - <a href="#" class="alternate">Archive</a>
+							<h1>News</h1>
+							<?php
+								$newsFeed = new SimplePie();
+
+								$newsFeed->set_feed_url("http://blog.chrysellia.com/atom/");
+								$newsFeed->set_item_limit(4);
+
+								$newsFeedSuccess = $newsFeed->init();
+								$newsFeed->handle_content_type();
+								
+								if ($newsFeedSuccess):
+									?>
+									<ul>
+										<?php 
+										foreach($newsFeed->get_items() as $item){
+										?>
+											<li class="alternate"><a href="<?php if ($item->get_permalink()) echo $item->get_permalink() ?>"><?php echo $item->get_title(); ?></a> - (<date><?php echo $item->get_date('j M Y, g:i a'); ?></date>)</li>
+										<?php } ?>
+									</ul>
+									<a href="http://blog.chrysellia.com/atom/" class="alternate">Subscribe to RSS</a> - <a href="http://www.twitter.com/neflaria">@Neflaria</a> on twitter
+								<?php endif; ?>
 						</section>
 					</section>
 					
+					<!--
 					<section class="grid_4 fromManual">
 						<h1>From the Manual</h1>
 						<h2>Race Choices</h2>
-						<p>Nulla molestie neque vitae est volutpat a viverra dui commodo. Aliquam commodo tempor vehicula. Vestibulum tincidunt, urna condimentum commodo bibendum, urna dolor laoreet ante, sit amet adipiscing mi velit quis justo. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Proin convallis turpis nec quam dignissim nec vehicula dolor adipiscing.</p>
+						<p></p>
 						<a href="#" class="alternate">Visit the Manual</a>
-					</section>
+					</section>-->
 				</div>
 				
 				<div class="grid_4 goodx"></div>
@@ -198,9 +239,8 @@ $cookie = get_facebook_cookie(FACEBOOK_APP_ID, FACEBOOK_SECRET);
 		
 		<footer class="copyright">
 			<div class="container_12">
-				&copy; 2010 <a href="#">Chrysolite Foundation</a>, all rights reserved. <a href="#">Terms of Service</a> - <a href="#">Privacy Policy</a> - <a href="#">Contact</a>
-				<br />
-				Chrysellia is built on the <a href="#">Chrysolite Game Engine</a>, available under <a href="#">BSD Licensing</a>.
+				&copy; 2010 <a href="mailto:silwarnaiilo@neflaria.com">Jack Lawson</a> and <a href="mailto:sexylingerie@neflaria.com">Drew Ditthardt</a>, 
+				all rights reserved. <a href="tos.html">Terms of Service</a> - <a href="pp.html">Privacy Policy</a> - <a href="mailto:administration@neflaria.com">Contact</a>
 			</div>
 		</footer>
 		
@@ -327,6 +367,23 @@ $cookie = get_facebook_cookie(FACEBOOK_APP_ID, FACEBOOK_SECRET);
 		<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.4/jquery.min.js"></script>
 		<script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.7/jquery-ui.min.js"></script>
 		
+		<!--[if lte IE 8]>
+		<div id='incompatible'>
+			Internet Explorer version 8 and leser are unsupported for the duration of 
+			Chrysellia's beta. For the best experience, use another browser. Try
+			<a href="http://http://www.google.com/chrome">Chrome</a>, 
+			<a href="http://www.mozilla.com/en-US/firefox/">Firefox</a>, 
+			<a href="http://www.apple.com/safari/">Safari</a>, or 
+			<a href="http://www.opera.com">Opera</a>.
+		</div>
+		
+		<script type='text/javascript'>
+			$(function(){
+				$("#incompatible").dialog({ modal: true, title: "Unsupported Browser" });
+			});
+		</script>
+		<![endif]-->
+		
 		<!-- Here come the plugins -->
 		<!-- <script src="./js/jquery.watermark.min.js"></script>
 		<script src="./js/jquery.cookie.js"></script>
@@ -346,5 +403,6 @@ $cookie = get_facebook_cookie(FACEBOOK_APP_ID, FACEBOOK_SECRET);
 		
 		<div id="fb-root"></div>
 		<script src="http://connect.facebook.net/en_US/all.js"></script>
+		
 	</body>
 </html>

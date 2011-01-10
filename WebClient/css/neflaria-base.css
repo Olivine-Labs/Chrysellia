@@ -315,7 +315,7 @@ a.fb_button, a.fb_button:link, a.fb_button:hover, a.fb_button:active {
 input.donateButton { border: 0 none; background: transparent; padding: 0; margin: 0; }
 #movement {
 	position: absolute;
-	opacity: .5;
+	opacity: .25;
 }
 
 #movement:hover {
@@ -323,7 +323,7 @@ input.donateButton { border: 0 none; background: transparent; padding: 0; margin
 	opacity: .75;
 }
 
-#movement td { height: 61px; width: 59px; }
+#movement td { height: 50px; width: 50px; vertical-align: middle; text-align: center; }
 
 form label { display: inline-block; margin-right: .5em; }
 #sellForm, #buyForm { margin-top: 1em; }
@@ -331,3 +331,6 @@ form label { display: inline-block; margin-right: .5em; }
 #sellForm > div, #buyForm > div { float: left; }
 #sellForm select, #buyForm select{ margin-left: .5em; }
 #sellForm button, #buyForm button{ margin-left: .5em; }
+.mainNews ul { list-style: circle; margin-left: 1.5em; }
+.tos ul, .tos ol { margin-left: 1.5em; }
+.tos p { margin-bottom: 1em; }
