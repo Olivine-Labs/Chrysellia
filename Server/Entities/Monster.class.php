@@ -90,8 +90,8 @@ class Monster extends Being
 
 		$ExpSeed = 1.1;
 		$GoldSeed = 1.01;
-		$this->GoldGiven = round(log($GoldSeed*$this->Level) * ($this->Level * 5) + $this->GoldBonus);
-		
+		$this->GoldGiven = round(log($GoldSeed*($this->Level+1)) * 0.5 * ($this->Level * 5) + $this->GoldBonus);
+
 		$this->EXPGiven = round(pow($this->Level, (7/5)) * 8 * log($this->Level+1.1) + $this->ExperienceBonus);
 		$GoldStdDev = $this->GoldGiven - $this->GoldGiven * 0.90;
 		$ExpStdDev = $this->EXPGiven - $this->EXPGiven * 0.90;
