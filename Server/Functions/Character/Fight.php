@@ -30,52 +30,53 @@ if(
 						($Character->PositionX == $EnemyCharacter->PositionX) &&
 						($Character->PositionY == $EnemyCharacter->PositionY)
 					){
-						if($Database->Characters->LoadTraits($Character))
+						if($Database->Characters->LoadTraits($Character) && $Database->Characters->LoadTraits($EnemyCharacter))
 						{
 							if(($Character->Health > 0) && ($EnemyCharacter->Health > 0))
 							{
-								if($Database->Character->LoadTraits($EnemyCharacter))
+								$SameMonster = false;
+								//$CurrentFight = null;
+								//if(isset($_SESSION['CurrentFight']))
+								//	$CurrentFight = $_SESSION['CurrentFight'];
+
+								$Character->Equipment = $Database->Items->LoadEquippedItems($Character);
+								$EnemyCharacter->Equipment = $Database->Items->LoadEquippedItems($EnemyCharacter);
+
+								if($AttackResult = $Character->Attack($EnemyCharacter, $Get->FightType))
 								{
-									$SameMonster = false;
-									//$CurrentFight = null;
-									//if(isset($_SESSION['CurrentFight']))
-									//	$CurrentFight = $_SESSION['CurrentFight'];
-
-									$Character->Equipment = $Database->Items->LoadEquippedItems($Character);
-									$EnemyCharacter->Equipment = $Database->Items->LoadEquippedItems($EnemyCharacter);
-
-									if($AttackResult = $Character->Attack($EnemyCharacter, $Get->FightType))
+									$Success = false;
+									$Database->startTransaction();
+									if($Database->Characters->UpdateTraits($Character) && $Database->Characters->UpdateTraits($EnemyCharacter))
 									{
-										$Success = false;
-										$Database->startTransaction();
-										if($Database->Characters->UpdateTraits($Character) && $Database->Characters->UpdateTraits($EnemyCharacter))
+										$Database->Characters->LoadById($Character);
+										$Message['AttackedBy'] = $Character->Name;
+										$Message['BattleData'] = $AttackResult;
+										$Message['MessageType'] = 1;
+										if($Database->Chat->Insert($Character, 'CHAN_00000000000000000000001', $Message, 255, $EnemyCharacter))
 										{
-											$Database->Characters->LoadById($Character);
-											$Message['AttackedBy'] = $Character->Name;
-											$Message['BattleData'] = $AttackResult;
-											$Message['MessageType'] = 1;
-											if($Database->Chat->Insert($EnemyCharacter, 0, $Message, 255, $TargetCharacter))
-											{
-												$Success = true;
-											}
-										}
-										if($Success)
-										{
-											$Result->Set('Result', \Protocol\Result::ER_SUCCESS);
-											$Result->Set('Data', $AttackResult);
-											$_SESSION['NextAction'] = microtime(true) + 1.50;
-											$Database->commitTransaction();
+											$Success = true;
 										}
 										else
 										{
 											$Result->Set('Result', \Protocol\Result::ER_DBERROR);
-											$Database->rollbackTransaction();
 										}
 									}
-								}
-								else
-								{
-									$Result->Set('Result', \Protocol\Result::ER_DBERROR);
+									else
+									{
+										$Result->Set('Result', \Protocol\Result::ER_DBERROR);
+									}
+
+									if($Success)
+									{
+										$Result->Set('Result', \Protocol\Result::ER_SUCCESS);
+										$Result->Set('Data', $AttackResult);
+										$_SESSION['NextAction'] = microtime(true) + 1.50;
+										$Database->commitTransaction();
+									}
+									else
+									{
+										$Database->rollbackTransaction();
+									}
 								}
 							}
 						}
