@@ -41,7 +41,7 @@
 			$.getJSON(
 				V2Core.SERVERCODE_DIRECTORY + "Places.php",
 				{ Action: MapService.ACTION_SELL, Data: JSON.stringify({ ItemId: itemId }) },
-				function(data) { callback(data); }
+				function(data) { callback(data, itemId); }
 			);
 		},
 		

@@ -187,10 +187,12 @@ function ExamineLocation(data){
 		var level = "";
 		var pid = "";
 		for(c in data.Data){
-			pid = data.Data[c].CharacterId;
-			name = data.Data[c].Name;
-			level = data.Data[c].Level;
-			option = $("<option value='" + pid + "'>" + name + " (" + level + ")</option>").appendTo(playersOptGroup);
+			if(c != "remove"){
+				pid = data.Data[c].CharacterId;
+				name = data.Data[c].Name;
+				level = data.Data[c].Level;
+				option = $("<option value='" + pid + "'>" + name + " (" + level + ")</option>").appendTo(playersOptGroup);
+			}
 		}
 		playersOptGroup.appendTo($("#monsterList"));
 	}
@@ -245,9 +247,11 @@ function EquipItem(data, itemId, slotType, slotIndex){
 		var typeMapping = vc.is.TypeMapping;
 		
 		for(var i in window.MyCharacter.Inventories["Personal"]){
-			if(window.MyCharacter.Inventories["Personal"][i].ItemId == itemId){
-				window.MyCharacter.Equipment[slotType][slotIndex] = window.MyCharacter.Inventories["Personal"][i];
-				delete window.MyCharacter.Inventories["Personal"][i];
+			if(i != "remove"){
+				if(window.MyCharacter.Inventories["Personal"][i].ItemId == itemId){
+					window.MyCharacter.Equipment[slotType][slotIndex] = window.MyCharacter.Inventories["Personal"][i];
+					window.MyCharacter.Inventories["Personal"].remove(i);
+				}
 			}
 		}
 		
@@ -325,7 +329,7 @@ function LeaveChannel(channelId){
 	var $chatTab = $("a[href='#" + $chatWindow.attr("id") + "']").parent();
 	var chatToCloseIndex =  $('li',$tabs).index($chatTab); 
 	vc.ch.PartChannel(channelId, function(){ $tabs.tabs('remove', chatToCloseIndex); });
-	delete window.MyCharacter.Channels[channelId];
+	window.MyCharacter.Channels.remove(channelId);
 }
 
 function AddTab(title, channelId, motd) {
@@ -339,10 +343,12 @@ function AddTab(title, channelId, motd) {
 function FillChat(list){
 	if(list.Result == vc.ER_SUCCESS){
 		for(var i in list.Data){
-			if(i!=0){
-				InsertChat(list.Data[i], i);
-			}else{
-				ProcessSystemMessage(list.Data[0]);
+			if(i != "remove"){
+				if(i!=0){
+					InsertChat(list.Data[i], i);
+				}else{
+					ProcessSystemMessage(list.Data[0]);
+				}
 			}
 		}
 	}
@@ -364,11 +370,12 @@ function SelectCharacter(data){
 	}
 	
 	for(var i in window.MyCharacter.Channels){
-		AddTab(window.MyCharacter.Channels[i].Name, i, window.MyCharacter.Channels[i].Motd);
+		if(i != "remove"){
+			AddTab(window.MyCharacter.Channels[i].Name, i, window.MyCharacter.Channels[i].Motd);
+		}
 	}
 	
 	$tabs.tabs('select', 0);
-	BuildMap();
 	
 	vc.ch.GetMessagesFromChannel(i, FillChat);
 	
@@ -418,8 +425,10 @@ function BuildGameWindow(){
 			var option = {};
 			var monstersOptGroup = $("<optgroup label='Monsters' />");
 			for(m in myLocation.Monsters){
-				monster = V2Core.Monsters[myLocation.Monsters[m]];
-				option = $("<option value='" + monster.Id + "'>" + monster.Name + "</option>").appendTo(monstersOptGroup);
+				if(m != "remove"){
+					monster = V2Core.Monsters[myLocation.Monsters[m]];
+					option = $("<option value='" + monster.Id + "'>" + monster.Name + "</option>").appendTo(monstersOptGroup);
+				}
 			}
 			monstersOptGroup.appendTo(select);
 			
@@ -565,55 +574,55 @@ function BuildShop(topWindow){
 	var buyForm = $("<form id='buyForm'></form>");
 	var itemTypeSelection = $("<select id='itemTypeSelection'></select>").bind("change", function(e){ FilterItemTypes($(this).val()); });
 	var itemSelection = $("<select id='itemSelection'></select>");
-	var buttonList = $("<div class='buttonList' />");
 	var buyItem = $("<button id='buyItem'>Purchase</buy>").bind("click", function(e){ e.preventDefault(); BuyItem(); });
-	var itemInfo = $("<button id='itemInfo'>Info</buy>").bind("click", function(e){ e.preventDefault(); DisplayItemInfo(); });
-	
-	buttonList.append(buyItem).append(itemInfo);
+	var itemInfo = $("<button id='itemInfo'>Info</buy>").bind("click", function(e){ e.preventDefault(); var index = $('#itemSelection option').index($(":selected")); if(index < 0){ index = 0; } DisplayItemInfo(vc.ItemTypes[2][$("#itemTypeSelection").val()][index]); });
 	
 	var itemDescription = $("<div id='itemDescription'></div>");
-	var typeContainer = $("<div><label for='itemTypeSelection'>Shop For:</span></div>").append(itemTypeSelection);
-	var itemContainer = $("<div><label for='itemSelection'>Items:</span></div>").append(itemSelection);
+	var typeContainer = $("<div><label for='itemTypeSelection'>Shop For:</span></div>").append(itemTypeSelection).append(itemSelection);
 	var currentItem = {};
 	
-	for(i in V2Core.ItemTypes[2]){
-		items = V2Core.ItemTypes[2][i];
-		if(items.length > 0){
+	for(i in vc.ItemTypes[2]){
+		if(i != "remove"){
+			items = vc.ItemTypes[2][i];
 			itemTypeSelection.append("<option value='" + i + "'>" + itemTypeLabels[i] + "</option>");
 		}
 	}
-	buyForm.append(typeContainer).append(itemContainer).append(buttonList).append(itemDescription);
+	buyForm.append(typeContainer).append(buyItem).append(itemInfo).append(itemDescription);
 	topWindow.append(buyForm);
 	
 	var sellForm = $("<form id='sellForm'></form>");
 	var sellSelection = $("<select id='sellSelection'></select>");
 	
-	var currentItem = {};
+	var currentItem = {};		
+
 	for(i in MyCharacter.Inventories["Personal"]){
-		if(i == 0){
-			var s = " selected='selected'";
+		if(i != "remove"){
+			if(i == 0){
+				var s = " selected='selected'";
+			}
+			
+			currentItem = MyCharacter.Inventories["Personal"][i];
+			sellSelection.append("<option value='" + currentItem.ItemId + "'" + s + ">" + currentItem.Name + " - " + currentItem.SellPrice + "</option>");
 		}
-		
-		currentItem = MyCharacter.Inventories["Personal"][i];
-		sellSelection.append("<option value='" + currentItem.ItemId + "'" + s + ">" + currentItem.Name + " - " + currentItem.SellPrice + "</option>");
 	}
 	
-	var sellItem = $("<button id='buyItem'>Sell</buy>").bind("click", function(e){ e.preventDefault(); SellItem(); });
-	var sellInfo = $("<button id='sellInfo'>Info</buy>").bind("click", function(e){ e.preventDefault(); DisplaySellItemInfo(); });
+	var sellItem = $("<button id='sellItem'>Sell</buy>").bind("click", function(e){ e.preventDefault(); SellItem(); });
+	var sellInfo = $("<button id='sellInfo'>Info</buy>").bind("click", function(e){ e.preventDefault(); var index = $('#sellSelection option').index($(":selected")); if(index < 0){ index = 0; } DisplayItemInfo(MyCharacter.Inventories["Personal"][index]); });
 	var sellDescription = $("<div id='sellDescription'></div>");
 	var sellContainer = $("<div><label for='sellSelection'>Sell:</span></div>").append(sellSelection);
-	var buttonList = $("<div class='buttonList' />");
-	buttonList.append(sellItem).append(sellInfo);
-	sellForm.append(sellContainer).append(buttonList).append(sellDescription);
+	sellForm.append(sellContainer).append(sellItem).append(sellInfo).append(sellDescription);
 	topWindow.append(sellForm);
 	FilterItemTypes($("#itemTypeSelection option:first").val());
 }
 
 function SellItem(){
-	vc.ms.Sell($("#sellSelection").val(), ProcessSale);
+	if($("#sellSelection").val() !== null){
+		itemId = $("#sellSelection").val();
+		vc.ms.Sell(itemId, ProcessSale);
+	}
 }
 
-function DisplayItemInfo(){
+function DisplayItemInfo(item){
 	var index = $('#itemSelection option').index($(":selected"));
 	if(index < 0){
 		index = 0;
@@ -622,30 +631,6 @@ function DisplayItemInfo(){
 	var description = MyCharacter.Inventories["Personal"][index].Description;
 	$("#itemDescription").text(description);
 }
-
-function DisplaySellItemInfo(){
-	var index = $('#sellSelection option').index($(":selected"));
-	if(index < 0){
-		index = 0;
-	}
-	
-	var description = MyCharacter.Inventories["Personal"][index].Description;
-	$("#sellDescription").text(description);
-}
-
-function ProcessSale(data){
-	if(data.Result = vc.ER_SUCCESS){
-		var index = $('#sellSelection option').index($(":selected"));
-		if(index < 0){
-			index = 0;
-		}
-	
-		delete MyCharacter.Inventories["Personal"][index];
-		BuildInitialInventory();
-		BuildInventoryLists();
-	}
-}
-
 
 function BuyItem(){
 	if(MyCharacter.Inventories["Personal"].length < 20){
@@ -653,14 +638,10 @@ function BuyItem(){
 	}
 }
 
-function DisplayItemInfo(){
-	var index = $('#itemSelection option').index($(":selected"));
-	if(index < 0){
-		index = 0;
+function DisplayItemInfo(item){
+	if(item !== undefined){
+		$("<div><div class='row'><span class='label'>Name</span><span class='value'>" +  item.Name + "</span></div><div class='row'><span class='label'>IC</span><span class='value'>" +  item.ItemClass + "</span></div><div class='row'><span class='label'>Buy Price</span><span class='value'>" +  item.BuyPrice + "</span></div><div class='row'><span class='label'>Sell Price</span><span class='value'>" +  item.SellPrice + "</span></div></div>").dialog({ title: "Details for " + item.Name });
 	}
-	
-	var description = vc.ItemTypes[2][$("#itemTypeSelection").val()][index].Description;
-	$("#itemDescription").text(description);
 }
 
 function FilterItemTypes(itemSlotType){
@@ -669,26 +650,53 @@ function FilterItemTypes(itemSlotType){
 	var items = V2Core.ItemTypes[2][itemSlotType];
 	
 	for(item in V2Core.ItemTypes[2][itemSlotType]){
-		currentItem = items[item];
-		if(item == 0){
-			var s = " selected='selected'";
+		if(item != "remove"){
+			currentItem = items[item];
+			if(item == 0){
+				var s = " selected='selected'";
+			}
+			
+			itemSelection.append("<option value='" + currentItem.ItemId + "'" + s + ">" + currentItem.Name + " - " + currentItem.BuyPrice + "</option>");
 		}
-		
-		itemSelection.append("<option value='" + currentItem.ItemId + "'" + s + ">" + currentItem.Name + " - " + currentItem.BuyPrice + "</option>");
 	}
 }
 
 function ProcessPurchase(data){
 	if(data.Result == vc.ER_SUCCESS){
-		var index = $('#itemSelection option').index($(":selected"));
-		if(index < 0){
-			index = 0;
-		}
-	
-		var itemTemplate = V2Core.ItemTypes[2][$("#itemTypeSelection").val()][index];
-		MyCharacter.Inventories["Personal"][MyCharacter.Inventories["Personal"].length] = itemTemplate;
+		var item = data.Data;	
+		MyCharacter.Inventories["Personal"][MyCharacter.Inventories["Personal"].length] = item;
+		MyCharacter.Gold -= item.BuyPrice;
+		vc.i.UpdateStats();
 		BuildInitialInventory();
 		BuildInventoryLists();
+		BuildGameWindow()
+	}
+}
+
+function ProcessSale(data, ItemId){
+	if(data.Result == vc.ER_SUCCESS){
+		var item = {};
+		var asdf = 0;
+		
+		for(var i in MyCharacter.Inventories["Personal"]){
+			if(isInteger(i)){
+				if(MyCharacter.Inventories["Personal"][i].ItemId == ItemId){
+					item = MyCharacter.Inventories["Personal"][i];
+				}
+				asdf++;
+			}
+		}
+		
+		asdf--;
+		
+		var price = item.SellPrice;
+		
+		MyCharacter.Inventories["Personal"].remove(asdf);
+		MyCharacter.Gold += price;
+		vc.i.UpdateStats();
+		BuildInitialInventory();
+		BuildInventoryLists();
+		BuildGameWindow()
 	}
 }
 
@@ -714,7 +722,7 @@ function BuildShrine(topWindow){
 }
 
 function BuildInitialInventory(){
-	$("#itemsWindow select").remove();
+	$("#itemsWindow").html('');
 	var typeMapping = vc.is.TypeMapping;	
 	var slotName = "";
 	var body = window.MyCharacter.Equipment;
@@ -726,20 +734,22 @@ function BuildInitialInventory(){
 		if(body !== undefined && body[type] !== undefined){
 			currentInventory = body[type];
 			for(var i in currentInventory){
-				slotName = typeMapping[type];
-				
-				if(currentInventory.length > 1){
-					slotName += " " + (i*1 + 1);
-				}
-				$select = $("<select class='" + typeMapping[type] + " itemType_" + type + "'><option value='0'>NONE</option></select>");
-				$selectRow = $("<div class='itemSelection' />").append("<span class='itemType'>" + slotName + "</span>").append($select);
+				if(i != "remove"){
+					slotName = typeMapping[type];
+					
+					if(currentInventory.length > 1){
+						slotName += " " + (i*1 + 1);
+					}
+					$select = $("<select class='" + typeMapping[type] + " itemType_" + type + "'><option value='0'>NONE</option></select>");
+					$selectRow = $("<div class='itemSelection' />").append("<span class='itemType'>" + slotName + "</span>").append($select);
 
-				if(currentInventory[i].ItemId !== null){
-					item = currentInventory[i];
-					$("<option value='" + item.ItemId + "' selected='selected'>" + item.Name + "</option>").prependTo($select);
+					if(currentInventory[i].ItemId !== null){
+						item = currentInventory[i];
+						$("<option value='" + item.ItemId + "' selected='selected'>" + item.Name + "</option>").prependTo($select);
+					}
+					
+					$("#itemsWindow").append($selectRow);
 				}
-				
-				$("#itemsWindow").append($selectRow);
 			}
 		}
 	}
@@ -753,6 +763,8 @@ function LoadInventory(data){
 		BuildInitialInventory();
 		BuildInventoryLists();
 	}
+	
+	BuildMap();
 }
 
 function BuildInventoryLists(){
@@ -764,10 +776,12 @@ function BuildInventoryLists(){
 	
 	items = window.MyCharacter.Inventories["Personal"];
 	for(var i in items){
-		item = items[i];
-		if(item !== undefined && item !== {}){
-			select = $("select." + typeMapping[item.SlotType], selects);
-			$("<option value='" + item.ItemId + "'>" + item.Name + "</option>").appendTo($("select." + typeMapping[item.SlotType]));
+		if(i != "remove"){
+			item = items[i];
+			if(item !== undefined && item !== {}){
+				select = $("select." + typeMapping[item.SlotType], selects);
+				$("<option value='" + item.ItemId + "'>" + item.Name + "</option>").appendTo($("select." + typeMapping[item.SlotType]));
+			}
 		}
 	}
 }
@@ -780,26 +794,28 @@ function InsertChat(data, channel){
 		$chatTab.addClass("newMessage");
 	}
 	
-	for(x = 0; x< data.length; x++){
-		var chatobj = data[x];
+	for(x = 0; x < data.length; x++){
 		
-		switch(chatobj.Type){
-			case vc.ch.CHAT_TYPE_GENERAL:
-				var msg = $("<span class='message' />").text(chatobj.Message);
-				$("<div class='chatMessage'><strong>" + chatobj.FromName + "</strong>: </div>").append(msg).prependTo($chatWindow);
-				break;
-			case vc.ch.CHAT_TYPE_EMOTE:
-				var msg = $("<span class='message' />").text(chatobj.Message);
-				$("<div class='chatMessage emote'>" + chatobj.FromName + " </div>").append(msg).prependTo($chatWindow);
-				break;
-			case vc.ch.CHAT_TYPE_MOTD: //Channel message of the day
-				var msg = $("<span class='message' />").text(chatobj.Message);
-				$("<div class='chatMessage motd'></div>").append(msg).prependTo($chatWindow);
-				break;
-			default:
-				var msg = $("<span class='message' />").text(chatobj.Message);
-				$("<div class='chatMessage'><strong>" + chatobj.FromName + "</strong>: </div>").append(msg).prependTo($chatWindow);
-				break;
+		var chatobj = data[x];
+		if(chatobj !== undefined){
+			switch(chatobj.Type){
+				case vc.ch.CHAT_TYPE_GENERAL:
+					var msg = $("<span class='message' />").text(chatobj.Message);
+					$("<div class='chatMessage'><strong>" + chatobj.FromName + "</strong>: </div>").append(msg).prependTo($chatWindow);
+					break;
+				case vc.ch.CHAT_TYPE_EMOTE:
+					var msg = $("<span class='message' />").text(chatobj.Message);
+					$("<div class='chatMessage emote'>" + chatobj.FromName + " </div>").append(msg).prependTo($chatWindow);
+					break;
+				case vc.ch.CHAT_TYPE_MOTD: //Channel message of the day
+					var msg = $("<span class='message' />").text(chatobj.Message);
+					$("<div class='chatMessage motd'></div>").append(msg).prependTo($chatWindow);
+					break;
+				default:
+					var msg = $("<span class='message' />").text(chatobj.Message);
+					$("<div class='chatMessage'><strong>" + chatobj.FromName + "</strong>: </div>").append(msg).prependTo($chatWindow);
+					break;
+			}
 		}
 	}
 }
@@ -881,3 +897,10 @@ function Logout(data){
 function isInteger(s) {
   return (s.toString().search(/^-?[0-9]+$/) == 0);
 }
+
+// Array Remove - By John Resig (MIT Licensed)
+Array.prototype.remove = function(from, to) {
+  var rest = this.slice((to || from) + 1 || this.length);
+  this.length = from < 0 ? this.length + from : from;
+  return this.push.apply(this, rest);
+};

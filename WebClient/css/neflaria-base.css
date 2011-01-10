@@ -280,7 +280,9 @@ color: #000000;
 .raceList .icon { clear: left; }
 .raceStats { display: block; width: 80px; float: left; }
 #statsWindow .statLabel { width: 105px; }
-#statsWindow .stat:nth-child(even), .itemSelection:nth-child(even) { background: #ddd; }
+#statsWindow .stat:nth-child(even), .itemSelection:nth-child(even), .row:nth-child(even) { background: #ddd; }
+.row .label { display: inline-block; width: 100px; font-weight: bold; }
+.row { margin-bottom: .25em; padding: .25em; }
 #myCharacter_Experience, #myCharacter_Health { width:75%; height: 15px; display: inline-block; }
 
 a.fb_button, a.fb_button:link, a.fb_button:hover, a.fb_button:active {
@@ -323,6 +325,9 @@ input.donateButton { border: 0 none; background: transparent; padding: 0; margin
 
 #movement td { height: 61px; width: 59px; }
 
-form label { display: inline-block; width: 100px; }
-#sellForm { margin-top: 1em; }
+form label { display: inline-block; margin-right: .5em; }
+#sellForm, #buyForm { margin-top: 1em; }
 #itemDescription, #sellDescription { display: inline; }
+#sellForm > div, #buyForm > div { float: left; }
+#sellForm select, #buyForm select{ margin-left: .5em; }
+#sellForm button, #buyForm button{ margin-left: .5em; }
