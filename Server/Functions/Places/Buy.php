@@ -14,13 +14,43 @@ if(
 ){
 	$Character = new \Entities\Character();
 	$Character->CharacterId = $_SESSION['CharacterId'];
-	if($Database->Characters->LoadTraits($Character) && $Database->Characters->LoadPosition($Character))
+	if($Database->Characters->LoadTraits($Character) && $Database->Characters->LoadPosition($Character) && $Database->Characters->LoadById($Character))
 	{
 		if($Cell = $Database->Maps->GetCell($Character->MapId, $Character->PositionX, $Character->PositionY))
 		{
 			if($Cell['PlaceId'] == 'PLAC_00000000000000000000001')
 			{
-				//BUY ITEM
+				$Success = false;
+				$Database->startTransaction();
+				$Item = new \Entities\Item();
+				$Item->ItemTemplateId = $Get->ItemTemplateId;
+				$Item->InventoryId = $Character->InventoryId;
+				if($Database->Items->LoadTemplate($Item))
+				{
+					if($Character->Gold > $Item->BuyPrice)
+					{	
+						$Character->Gold -= $Item->BuyPrice;
+						if($Database->Items->Insert($Item))
+						{
+							$Success = true;
+						}
+					}
+				}
+				else
+				{
+					$Result->Set('Result', \Protocol\Result::ER_BADDATA);
+				}
+
+				if($Success)
+				{
+					$Database->commitTransaction();
+					$Result->Set('Result', \Protocol\Result::ER_SUCCESS);
+				}
+				else
+				{
+					$Database->rollbackTransaction();
+					$Result->Set('Result', \Protocol\Result::ER_DBERROR);
+				}
 			}
 		}
 		else

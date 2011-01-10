@@ -229,6 +229,24 @@ class Character extends Being
 	public $Gold;
 
 	/**
+	 * Bank
+	 *
+	 * A character's bank
+	 *
+	 * @var $Bank
+	 */
+	public $Bank;
+
+	/**
+	 * InventoryId
+	 *
+	 * A character's inventory
+	 *
+	 * @var $InventoryId
+	 */
+	public $InventoryId;
+
+	/**
 	 * Default constructor for the Account Class
 	 */
 	public function __construct()
@@ -316,13 +334,15 @@ class Character extends Being
 			$AnEnemy->Equipment = array();
 			
 			$Item = new \Entities\Item();
-			$Item->ItemClass = $AnEnemy->WeaponClass;
+			
 			if($AnEnemy->Strength > $AnEnemy->Intelligence)
 			{
 				$Item->SlotType = 0;
+				$Item->ItemClass = $AnEnemy->WeaponClass;
 			}else
 			{
 				$Item->SlotType = 3;
+				$Item->ItemClass = $AnEnemy->SpellClass;
 			}
 			$Armor = new \Entities\Item();
 			$Armor->SlotType = 1;

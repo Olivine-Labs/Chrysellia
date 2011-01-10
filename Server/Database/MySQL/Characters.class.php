@@ -5,13 +5,13 @@ namespace Database\MySQL;
 //Queries
 //Basic
 define('SQL_GETCHARACTERSBYACCOUNTID', 'SELECT c.characterId, c.pin, c.name, c.createdOn, ct.strength, ct.dexterity, ct.intelligence, ct.wisdom, ct.vitality, ct.health, ct.alignGood, ct.alignOrder, ct.raceId, ct.gold, ct.gender, cl.mapId, cl.positionX, cl.positionY, ct.level, ct.freelevels, ct.experience FROM `characters` c INNER JOIN `character_traits` ct ON c.characterId=ct.characterId INNER JOIN `character_locations` cl ON c.characterId=cl.characterId WHERE c.accountId=?');
-define('SQL_GETCHARACTERBYID', 'SELECT `accountId`, `pin`, `name`, `createdOn` FROM `characters` WHERE `characterId`=?');
+define('SQL_GETCHARACTERBYID', 'SELECT c.accountId, c.pin, c.name, c.createdOn, inv.inventoryId FROM `characters` c INNER JOIN `inventories` inv ON c.characterId=inv.characterId WHERE c.characterId=?');
 define('SQL_INSERTCHARACTER', 'INSERT INTO `characters` (`accountId`, `characterId`, `pin`, `name`) VALUES (?, ?, ?, ?)');
 define('SQL_GETCHARACTERCOUNT', 'SELECT count(*) FROM `characters` WHERE `accountId`=?');
 define('SQL_CHECKCHARACTERNAME', 'SELECT `characterId` FROM `characters` WHERE `name`=?');
 
 //Traits
-define('SQL_GETCHARACTERTRAITS', 'SELECT `raceId`, `gender`, `alignGood`, `alignOrder`, `level`, `freelevels`, `experience`, `strength`, `dexterity`, `intelligence`, `wisdom`, `vitality`, `health`, `experienceBonus`, `alignBonus`, `strengthBonus`, `dexterityBonus`, `intelligenceBonus`, `wisdomBonus`, `vitalityBonus`, `gold` FROM `character_traits` WHERE `characterId`=?');
+define('SQL_GETCHARACTERTRAITS', 'SELECT `raceId`, `gender`, `alignGood`, `alignOrder`, `level`, `freelevels`, `experience`, `strength`, `dexterity`, `intelligence`, `wisdom`, `vitality`, `health`, `experienceBonus`, `alignBonus`, `strengthBonus`, `dexterityBonus`, `intelligenceBonus`, `wisdomBonus`, `vitalityBonus`, `gold`, `bank` FROM `character_traits` WHERE `characterId`=?');
 define('SQL_UPDATECHARACTERTRAITS', 'UPDATE `character_traits` SET `alignGood`=?, `alignOrder`=?, `level`=?, `freelevels`=?, `experience`=?, `strength`=?, `dexterity`=?, `intelligence`=?, `wisdom`=?, `vitality`=?, `health`=?, `experienceBonus`=?, `alignBonus`=?, `strengthBonus`=?, `dexterityBonus`=?, `intelligenceBonus`=?, `wisdomBonus`=?, `vitalityBonus`=?, `gold`=? WHERE `characterId`=?');
 define('SQL_GETCHARACTERRACETRAITS', 'SELECT (rt.strength + r.strength) AS `strength`, (rt.dexterity + r.dexterity) AS `dexterity`, (rt.wisdom + r.wisdom) AS `wisdom`, (rt.intelligence + r.intelligence) AS `intelligence`, (rt.vitality + r.vitality) AS `vitality`, `racialAbility` FROM `character_race_traits` rt INNER JOIN `character_traits` ct ON ct.characterId=rt.characterId INNER JOIN `races` r ON r.raceId=ct.raceId  WHERE rt.characterId=?');
 define('SQL_INSERTCHARACTERTRAITS', 'INSERT INTO `character_traits` (`characterId`, `raceId`, `gender`, `strength`, `dexterity`, `intelligence`, `wisdom`, `vitality`, `health`, `gold`) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?)');
@@ -66,7 +66,7 @@ class Characters extends \Database\Characters
 
 		$Query->Execute();
 
-		$Query->bind_result($Character->AccountId, $Character->Pin, $Character->Name, $Character->CreatedOn);
+		$Query->bind_result($Character->AccountId, $Character->Pin, $Character->Name, $Character->CreatedOn, $Character->InventoryId);
 
 		if($Query->fetch())
 			return true;
@@ -166,7 +166,7 @@ class Characters extends \Database\Characters
 
 		$Query->Execute();
 
-		$Query->bind_result($Character->RaceId, $Character->Gender, $Character->AlignGood, $Character->AlignOrder, $Character->Level, $Character->FreeLevels, $Character->Experience, $Character->Strength, $Character->Dexterity, $Character->Intelligence, $Character->Wisdom, $Character->Vitality, $Character->Health, $Character->ExperienceBonus, $Character->AlignBonus, $Character->StrengthBonus, $Character->DexterityBonus, $Character->IntelligenceBonus, $Character->WisdomBonus, $Character->VitalityBonus, $Character->Gold);
+		$Query->bind_result($Character->RaceId, $Character->Gender, $Character->AlignGood, $Character->AlignOrder, $Character->Level, $Character->FreeLevels, $Character->Experience, $Character->Strength, $Character->Dexterity, $Character->Intelligence, $Character->Wisdom, $Character->Vitality, $Character->Health, $Character->ExperienceBonus, $Character->AlignBonus, $Character->StrengthBonus, $Character->DexterityBonus, $Character->IntelligenceBonus, $Character->WisdomBonus, $Character->VitalityBonus, $Character->Gold, $Character->Bank);
 
 		if($Query->fetch())
 			return true;
