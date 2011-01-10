@@ -245,7 +245,7 @@ function EquipItem(data, itemId, slotType, slotIndex){
 		var typeMapping = vc.is.TypeMapping;
 		
 		for(var i in window.MyCharacter.Inventories["Personal"]){
-			if(window.MyCharacter.Inventories["Personal"][i].ItemId = itemId){
+			if(window.MyCharacter.Inventories["Personal"][i].ItemId == itemId){
 				window.MyCharacter.Equipment[slotType][slotIndex] = window.MyCharacter.Inventories["Personal"][i];
 				delete window.MyCharacter.Inventories["Personal"][i];
 			}
@@ -271,6 +271,10 @@ function UnEquipItem(data, itemId, slotType, slotIndex){
 	}
 	
 	$('#itemsWindow select').removeAttr('disabled');
+	
+	if(MyCharacter.CurrentMap.Places[MyCharacter.PositionY][MyCharacter.PositionX].Type == 0){
+		BuildGameWindow()
+	}
 }
 
 function RefreshMap(data){
@@ -365,7 +369,6 @@ function SelectCharacter(data){
 	
 	$tabs.tabs('select', 0);
 	BuildMap();
-	BuildInitialInventory();
 	
 	vc.ch.GetMessagesFromChannel(i, FillChat);
 	
@@ -556,11 +559,18 @@ function BuildShop(topWindow){
 		var name = myLocation.Name;
 	}
 	
-	var container = $("<form id='shopForm'><h1>" + name + "</h1></form>");
+	topWindow.append("<h1>" + name + "</h1>");
+	
+	var container = $("<div id='shopForm'><h1>" + name + "</h1></div>");
+	var buyForm = $("<form id='buyForm'></form>");
 	var itemTypeSelection = $("<select id='itemTypeSelection'></select>").bind("change", function(e){ FilterItemTypes($(this).val()); });
 	var itemSelection = $("<select id='itemSelection'></select>");
+	var buttonList = $("<div class='buttonList' />");
 	var buyItem = $("<button id='buyItem'>Purchase</buy>").bind("click", function(e){ e.preventDefault(); BuyItem(); });
 	var itemInfo = $("<button id='itemInfo'>Info</buy>").bind("click", function(e){ e.preventDefault(); DisplayItemInfo(); });
+	
+	buttonList.append(buyItem).append(itemInfo);
+	
 	var itemDescription = $("<div id='itemDescription'></div>");
 	var typeContainer = $("<div><label for='itemTypeSelection'>Shop For:</span></div>").append(itemTypeSelection);
 	var itemContainer = $("<div><label for='itemSelection'>Items:</span></div>").append(itemSelection);
@@ -572,15 +582,74 @@ function BuildShop(topWindow){
 			itemTypeSelection.append("<option value='" + i + "'>" + itemTypeLabels[i] + "</option>");
 		}
 	}
-	container.append(typeContainer).append(itemContainer).append(buyItem).append(itemInfo).append(itemDescription);
-	$(topWindow).append(container);
+	buyForm.append(typeContainer).append(itemContainer).append(buttonList).append(itemDescription);
+	topWindow.append(buyForm);
+	
+	var sellForm = $("<form id='sellForm'></form>");
+	var sellSelection = $("<select id='sellSelection'></select>");
+	
+	var currentItem = {};
+	for(i in MyCharacter.Inventories["Personal"]){
+		if(i == 0){
+			var s = " selected='selected'";
+		}
+		
+		currentItem = MyCharacter.Inventories["Personal"][i];
+		sellSelection.append("<option value='" + currentItem.ItemId + "'" + s + ">" + currentItem.Name + " - " + currentItem.SellPrice + "</option>");
+	}
+	
+	var sellItem = $("<button id='buyItem'>Sell</buy>").bind("click", function(e){ e.preventDefault(); SellItem(); });
+	var sellInfo = $("<button id='sellInfo'>Info</buy>").bind("click", function(e){ e.preventDefault(); DisplaySellItemInfo(); });
+	var sellDescription = $("<div id='sellDescription'></div>");
+	var sellContainer = $("<div><label for='sellSelection'>Sell:</span></div>").append(sellSelection);
+	var buttonList = $("<div class='buttonList' />");
+	buttonList.append(sellItem).append(sellInfo);
+	sellForm.append(sellContainer).append(buttonList).append(sellDescription);
+	topWindow.append(sellForm);
 	FilterItemTypes($("#itemTypeSelection option:first").val());
+}
+
+function SellItem(){
+	vc.ms.Sell($("#sellSelection").val(), ProcessSale);
+}
+
+function DisplayItemInfo(){
+	var index = $('#itemSelection option').index($(":selected"));
+	if(index < 0){
+		index = 0;
+	}
+	
+	var description = MyCharacter.Inventories["Personal"][index].Description;
+	$("#itemDescription").text(description);
+}
+
+function DisplaySellItemInfo(){
+	var index = $('#sellSelection option').index($(":selected"));
+	if(index < 0){
+		index = 0;
+	}
+	
+	var description = MyCharacter.Inventories["Personal"][index].Description;
+	$("#sellDescription").text(description);
+}
+
+function ProcessSale(data){
+	if(data.Result = vc.ER_SUCCESS){
+		var index = $('#sellSelection option').index($(":selected"));
+		if(index < 0){
+			index = 0;
+		}
+	
+		delete MyCharacter.Inventories["Personal"][index];
+		BuildInitialInventory();
+		BuildInventoryLists();
+	}
 }
 
 
 function BuyItem(){
 	if(MyCharacter.Inventories["Personal"].length < 20){
-		vc.ms.Buy($("#itemSelection").val(), PurchaseItem);
+		vc.ms.Buy($("#itemSelection").val(), ProcessPurchase);
 	}
 }
 
@@ -590,7 +659,7 @@ function DisplayItemInfo(){
 		index = 0;
 	}
 	
-	var description = V2Core.ItemTypes[2][$("#itemTypeSelection").val()][index].Description;
+	var description = vc.ItemTypes[2][$("#itemTypeSelection").val()][index].Description;
 	$("#itemDescription").text(description);
 }
 
@@ -609,7 +678,7 @@ function FilterItemTypes(itemSlotType){
 	}
 }
 
-function PurchaseItem(data){
+function ProcessPurchase(data){
 	if(data.Result == vc.ER_SUCCESS){
 		var index = $('#itemSelection option').index($(":selected"));
 		if(index < 0){
@@ -664,6 +733,7 @@ function BuildInitialInventory(){
 				}
 				$select = $("<select class='" + typeMapping[type] + " itemType_" + type + "'><option value='0'>NONE</option></select>");
 				$selectRow = $("<div class='itemSelection' />").append("<span class='itemType'>" + slotName + "</span>").append($select);
+
 				if(currentInventory[i].ItemId !== null){
 					item = currentInventory[i];
 					$("<option value='" + item.ItemId + "' selected='selected'>" + item.Name + "</option>").prependTo($select);
@@ -680,13 +750,13 @@ function BuildInitialInventory(){
 function LoadInventory(data){
 	if(data.Result == vc.ER_SUCCESS){
 		window.MyCharacter.Inventories["Personal"] = data.Data;
+		BuildInitialInventory();
 		BuildInventoryLists();
 	}
 }
 
 function BuildInventoryLists(){
 	var selects = $("#itemsWindow select");
-	selects.empty();
 	var item = {};
 	var select = {};
 	var items = {};
