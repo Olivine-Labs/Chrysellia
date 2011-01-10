@@ -425,7 +425,7 @@ class Character extends Being
 						$EnemyArmorClass = 0;
 						$BaseDamage=pow(1.15,((($AnItem->ItemClass + $Being->WeaponClassBonus)-($EnemyArmorClass + $EnemyBeing->ArmorClassBonus))-round($ArmorMastery/5)));
 						$ActualDamage=\gauss_ms($DamageStat/3, ($DamageStat/3) * 0.1)*$BaseDamage;
-						$ActualDamage = round($ActualDamage * (1/pow($NumWeapons, 1.5)) / (2/3));
+						$ActualDamage = round($ActualDamage * (1/max(pow($NumWeapons, 1.5), 1)) / (2/3));
 					}
 					$InitStat = max($Being->Dexterity, $Being->Wisdom);
 					$EnemyInitStat = max($EnemyBeing->Dexterity, $EnemyBeing->Wisdom);

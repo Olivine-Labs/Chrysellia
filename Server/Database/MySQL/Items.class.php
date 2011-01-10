@@ -104,7 +104,7 @@ class Items
 	 */
 	public function LoadTemplateById(\Entities\Item $Item)
 	{
-		$Query = $this->Database->Connection->prepare(SQL_LOADITEMTEMPLATE);
+		$Query = $this->Database->Connection->prepare(SQL_LOADITEM_TEMPLATE);
 		$this->Database->logError();
 		$Query->bind_param('s', $Item->ItemTemplateId);
 
