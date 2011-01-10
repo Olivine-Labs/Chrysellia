@@ -109,7 +109,6 @@ class Items
 		$Query->bind_param('s', $AnItem->ItemTemplateId);
 
 		$Query->Execute();
-		$AnItem = new \Entities\Item();
 		$Query->bind_result($AnItem->Name, $AnItem->Description, $AnItem->BuyPrice, $AnItem->SellPrice, $AnItem->Type, $AnItem->MasteryType, $AnItem->ItemClass, $AnItem->Sockets, $AnItem->Slots, $AnItem->SlotType, $AnItem->OnEquip, $AnItem->OnUnequip, $AnItem->OnAttack, $AnItem->OnDefend, $AnItem->OnSocket, $AnItem->OnUse );
 		if($Query->Fetch())
 			return true;
