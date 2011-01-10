@@ -16,7 +16,9 @@ if(
 	$Character->CharacterId = $_SESSION['CharacterId'];
 	if($Database->Characters->LoadTraits($Character) && $Database->Characters->LoadPosition($Character) && $Database->Characters->LoadById($Character))
 	{
-		if($Cell = $Database->Maps->LoadCell($Character->MapId, $Character->PositionX, $Character->PositionY))
+		$Map = new \Entities\Map();
+		$Map->MapId = $Character->MapId;
+		if($Cell = $Database->Maps->LoadCell($Map, $Character->PositionX, $Character->PositionY))
 		{
 			if($Cell['PlaceId'] == 'PLAC_00000000000000000000001')
 			{

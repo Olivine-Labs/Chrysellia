@@ -22,7 +22,9 @@ if($LastReviveTime + 15 * $RevivePenaltyMultiplier < time())
 	$Character->CharacterId = $_SESSION['CharacterId'];
 	if($Database->Characters->LoadTraits($Character) && $Database->Characters->LoadPosition($Character))
 	{
-		if($Cell = $Database->Maps->LoadCell($Character->MapId, $Character->PositionX, $Character->PositionY))
+		$Map = new \Entities\Map();
+		$Map->MapId = $Character->MapId;
+		if($Cell = $Database->Maps->LoadCell($Map, $Character->PositionX, $Character->PositionY))
 		{
 			if($Cell['PlaceId'] == 'PLAC_00000000000000000000002')
 			{
