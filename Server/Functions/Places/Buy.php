@@ -27,7 +27,7 @@ if(
 				$Item = new \Entities\Item();
 				$Item->ItemTemplateId = $Get->ItemTemplateId;
 				$Item->InventoryId = $Character->InventoryId;
-				if($Database->Items->LoadTemplate($Item))
+				if($Database->Items->LoadTemplateById($Item))
 				{
 					if($Character->Gold > $Item->BuyPrice)
 					{	
