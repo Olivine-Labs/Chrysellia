@@ -53,6 +53,7 @@ if(
 											$Database->Characters->LoadById($Character);
 											$Message['AttackedBy'] = $Character->Name;
 											$Message['BattleData'] = $AttackResult;
+											$Message['MessageType'] = 1;
 											if($Database->Chat->Insert($EnemyCharacter, 0, $Message, 255, $TargetCharacter))
 											{
 												$Success = true;
