@@ -630,7 +630,7 @@ function BuildShop(topWindow){
 	var item = {};
 	var myLocation = MyCharacter.CurrentMap.Places[MyCharacter.PositionY][MyCharacter.PositionX];
 	var name = "Shop";
-	var itemTypeLabels = ["Weapons", "Armors"];
+	var itemTypeLabels = ["Weapons", "Armors", "Spells"];
 	if(myLocation.Name !== undefined){
 		var name = myLocation.Name;
 	}
