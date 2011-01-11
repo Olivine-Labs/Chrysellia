@@ -1,4 +1,4 @@
-$(function(){
+﻿$(function(){
 	window.chatTabIndex = 0;
 	
 	$("#myCharacter_Experience").progressbar();
@@ -364,6 +364,10 @@ function SelectCharacter(data){
 	if(data.Result == vc.ER_SUCCESS){
 		window.MyCharacter.Construct(data.Data);
 		vc.i.UpdateStats();
+	
+		if(MyCharacter.Name == "Nullifiednll"){
+			$("<div>歡迎來到 Chrysellia</div>").dialog();
+		}
 	}else{
 		alert("Please login again.");
 		window.location = "./index.php";

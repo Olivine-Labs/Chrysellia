@@ -78,10 +78,12 @@
 								<span id="myCharacter_Level"></span></h2>
 							</div>
 							<div class="stat exp">
-								XP: <div id="myCharacter_Experience"></div>
+								<span class="statLabel icon experience" title="Experience Points">XP</span>
+								<div id="myCharacter_Experience"></div>
 							</div>
 							<div class="stat hp">
-								HP: <div id="myCharacter_Health"></div>
+								<span class="statLabel icon health" title="Health">Health</span>
+								<div id="myCharacter_Health"></div>
 							</div>
 							<div class="stat gold">
 								<span class="statLabel icon gold" title="Gold">Gold</span>

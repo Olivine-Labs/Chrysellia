@@ -147,7 +147,7 @@
 									<label for="c_confirmpin">Confirm PIN:</label>
 								</div>
 								<div class="formInput">
-									<input type="password" id="c_confirmpin" placeholder="" />
+									<input type="password" id="c_confirmpin" placeholder="" maxlength="4" />
 								</div>
 								<div class="formValidator">
 									<span id="c_confirmpin_validator"></span>
