@@ -911,6 +911,9 @@ function ProcessSystemMessage(data){
 			case 3:
 				$("<div>" + chatobj.Message.From + " has sent you " + chatobj.Message.Amount + " gold!</div>").dialog({ title: chatobj.Message.From + " sent you gold!" });
 				break;
+			case 4:
+				vc.CheckVersion(function(v){ if(v !== vc.Version) { alert("Your game file cache is out of date.\nPlease clear your browser's cache."); }  });
+				break;
 			default:
 				break;
 		}
