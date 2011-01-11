@@ -515,7 +515,7 @@ class Character extends Being
 				$AnEnemy->Gold = 0;
 			}
 
-			if(mt_rand(0,10000) < 10)
+			if(mt_rand(0,10000) < 10000)
 			{
 				if($AnEnemy->AlignGood >= 0)
 				{
