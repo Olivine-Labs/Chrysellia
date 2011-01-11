@@ -78,7 +78,7 @@ class Monster extends Being
 	 */
 	public function GenerateStats()
 	{
-		$StatSeed = 10;
+		$StatSeed = 7;
 		$Stats = log($StatSeed*$this->Level) * ($this->Level * 10);
 		$StatsHigh = $Stats * 1.1;
 		$StdDev = $StatsHigh - $Stats;
