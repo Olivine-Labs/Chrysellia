@@ -887,13 +887,14 @@ function InsertChat(data, channel){
 	}
 }
 
+
 function ProcessSystemMessage(data){
 	for(x = 0; x< data.length; x++){
 		var chatobj = data[x];
 		
 		switch(chatobj.Message.MessageType){
 			case 0:
-				DisplayChannelStatusUpdate(chatobj.Message);
+				DisplayChannelStatusUpdate(chatobj.Message, chatobj);
 				break;
 				
 			case 1:
@@ -1004,7 +1005,7 @@ function BuildAttackMessage(Attack, EnemyName, PlayerIsAttacker, fightResults){
 	return fightResults;
 }
 
-function DisplayChannelStatusUpdate(ChannelInfo){
+function DisplayChannelStatusUpdate(ChannelInfo, chatobj){
 	var $chatWindow = $("input[value='" + ChannelInfo.ChannelId + "']").parent();
 	
 	if(window.MyCharacter.Channels[ChannelInfo.ChannelId] === undefined){

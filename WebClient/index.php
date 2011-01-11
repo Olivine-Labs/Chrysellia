@@ -360,9 +360,9 @@ include_once('php/simplepie.inc');
 		<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.4/jquery.min.js"></script>
 		<script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.7/jquery-ui.min.js"></script>
 		
-		<!--[if lte IE 8]>
+		<!--[if IE]>
 		<div id='incompatible'>
-			Internet Explorer version 8 and leser are unsupported for the duration of 
+			Internet Explorer is unsupported for the duration of 
 			Chrysellia's beta. For the best experience, use another browser. Try
 			<a href="http://http://www.google.com/chrome">Chrome</a>, 
 			<a href="http://www.mozilla.com/en-US/firefox/">Firefox</a>, 
