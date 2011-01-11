@@ -259,6 +259,8 @@ function LoadCharacterList(list){
 			vc.as.Logout(Logout);
 		}
 		
+		$.cookie("l")= "false";
+		
 		alert("Please login again.");
 		window.location = "./index.php";
 	}

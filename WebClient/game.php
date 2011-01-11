@@ -223,10 +223,6 @@
 				<span id="myCharacter_Vitality"></span>
 				<button type="submit" class="button" style="display: none;">+</button>
 			</div>
-			<div class="all" style="display: none;">
-				<span class="statLabel all" title="All Stats">All Stats</span>
-				<button type="submit" class="button" style="display: none;">+</button>
-			</div>
 			<div class="stat vit">
 				<span class="statLabel icon health" title="Vitality">Health</span>
 				<span id="myCharacter_Health"></span>

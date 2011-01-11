@@ -98,7 +98,7 @@
 	});
 	
 	$("#statsWindow").dialog({ title: "Character Stats", autoOpen: false });
-	$("#itemsWindow").dialog({ title: "Inventory", modal: true, autoOpen: false});
+	$("#itemsWindow").dialog({ title: "Inventory", autoOpen: false});
 	
 	$(".accountActions .logOut").bind("click", function(e){
 		e.preventDefault();
@@ -181,6 +181,7 @@
 
 function ExamineLocation(data){
 	if(data.Result == vc.ER_SUCCESS){
+		$("optgroup[label='Other Players']").remove();
 		var playersOptGroup = $("<optgroup label='Other Players' />");
 		
 		var name = "";
@@ -329,7 +330,7 @@ function LeaveChannel(channelId){
 	var $chatTab = $("a[href='#" + $chatWindow.attr("id") + "']").parent();
 	var chatToCloseIndex =  $('li',$tabs).index($chatTab); 
 	vc.ch.PartChannel(channelId, function(){ $tabs.tabs('remove', chatToCloseIndex); });
-	window.MyCharacter.Channels.remove(channelId);
+	delete window.MyCharacter.Channels[channelId];
 }
 
 function AddTab(title, channelId, motd) {
@@ -457,28 +458,50 @@ function BuildGameWindow(){
 function SubmitBankTransaction(){
 	var amt = $("#transactionAmount").val();
 	
-	if($("#transactionTypeSelection").val()){
+	if($("#transactionTypeSelection").val() == 0){
 		vc.ms.Deposit(amt, ProcessBankTransaction);
 	}else{
-		vc.ms.Deposit(amt, ProcessBankTransaction);
+		vc.ms.Widthdraw(amt, ProcessBankTransaction);
 	}
 }
 
 function ProcessBankTransaction(data){
 	if(data.Result == vc.ER_SUCCESS){
-		var amt = $("#transactionAmount").val();
+		var amt = $("#transactionAmount").val()*1;
 		$("#transactionAmount").val('')
 		
-		if($("#transactionTypeSelection").val()){
+		if($("#transactionTypeSelection").val() == 0){
 			window.MyCharacter.Gold -= amt;
 			window.MyCharacter.Bank += amt;
 		}else{
 			window.MyCharacter.Gold += amt;
 			window.MyCharacter.Bank -= amt;
 		}
-	}else if(data.Result == vc.ER_BADDATA){
+		
+		$("#bankTransaction h3").text("You have " + window.MyCharacter.Bank + " gold in your account.");
+		
+		vc.i.UpdateStats();
+	}else{
 		alert("You don't have that much gold!");
 	}
+}
+
+function ProcessBankTransfer(data){
+	if(data.Result == vc.ER_SUCCESS){
+		var amt = $("#transferAmount").val()*1;
+		$("#transferAmount, #transferTarget").val('')
+		window.MyCharacter.Bank -= amt;
+		$("#bankTransaction h3").text("You have " + window.MyCharacter.Bank + " gold in your account.");
+		vc.i.UpdateStats();
+	}else{
+		alert("You don't have that much gold!");
+	}
+}
+
+function SubmitBankTransfer(){
+	var amt = $("#transferAmount").val();
+	var name = $("#transferTarget").val();
+	vc.ms.Transfer(amt, name, ProcessBankTransfer);
 }
 
 function BuildBank(topWindow){
@@ -491,12 +514,25 @@ function BuildBank(topWindow){
 	
 	topWindow.append("<h1>" + name + "</h1>");
 	
-	var bankForm = $("<form id='bankForm'></form>");
-	var transactionTypeSelection = $("<select id='transactionTypeSelection'><option value='0'>Deposit</option><option value='0'>Withdraw</option></select>");
+	var bankForm = $("<form id='bankTransactionForm'></form>");
+	var bankTransaction = $("<div id='bankTransaction'><h3>You have " + window.MyCharacter.Bank + " gold in your account.</h3></div>");
+	var transactionTypeSelection = $("<select id='transactionTypeSelection'><option value='0'>Deposit</option><option value='1'>Withdraw</option></select>");
 	var transactionAmount = $("<input type='text' id='transactionAmount' />");
 	var submitTransaction = $("<button id='submitTransaction' class='button'>Submit</buy>").bind("click", function(e){ e.preventDefault(); SubmitBankTransaction(); });
-
-	bankForm.append(transactionTypeSelection).append(transactionAmount).append(submitTransaction);
+	
+	bankTransaction.append(transactionTypeSelection).append(transactionAmount).append(submitTransaction);
+	bankForm.append(bankTransaction);
+	
+	var bankTransferForm = $("<form id='bankTransferForm'></form>");
+	var bankTransfer = $("<div id='bankTransfer'><h3>Transfer</h3></div>");
+	
+	var transferAmount = $("<div class='bankTransfer transferAmount'><label for='transferAmount'>Amount:</label> <input type='text' id='transferAmount' /></div>");
+	var transferTarget = $("<div class='bankTransfer transferTarget'><label for='transferTarget'>Send to:</label> <input type='text' id='transferTarget' /></div>");
+	var submitTransaction = $("<button id='submitTransaction' class='button'>Transfer</buy>").bind("click", function(e){ e.preventDefault(); SubmitBankTransfer(); });
+	
+	bankTransfer.append(transferAmount).append(transferTarget.append(submitTransaction));
+	bankForm.append(bankTransfer);
+	
 	topWindow.append(bankForm);
 }
 
@@ -569,7 +605,7 @@ function BuildShop(topWindow){
 		var name = myLocation.Name;
 	}
 	
-	var container = $("<div id='shopForm'><h1>" + name + "</h1></div>");
+	topWindow.append("<h1>" + name + "</h1>");
 	var buyForm = $("<form id='buyForm'></form>");
 	var itemTypeSelection = $("<select id='itemTypeSelection'></select>").bind("change", function(e){ FilterItemTypes($(this).val()); });
 	var itemSelection = $("<select id='itemSelection'></select>");
@@ -777,7 +813,7 @@ function BuildInventoryLists(){
 	for(var i in items){
 		if(i != "remove"){
 			item = items[i];
-			if(item !== undefined && item !== {}){
+			if(item !== undefined && item !== {} && item.ItemId != "undefined" && item.ItemId !== undefined){
 				select = $("select." + typeMapping[item.SlotType], selects);
 				$("<option value='" + item.ItemId + "'>" + item.Name + "</option>").appendTo($("select." + typeMapping[item.SlotType]));
 			}
@@ -839,7 +875,11 @@ function ProcessSystemMessage(data){
 				
 				BuildAttackMessage(chatobj.Message.BattleData, chatobj.Message.AttackedBy, false, fightResults).dialog({ title: "You Were Attacked!", modal: true, close:function(e){ $("#pvpMessage").remove() } });
 				break;
-				
+			case 2: //trades
+				break;
+			case 3:
+				$("<div>" + chatobj.Message.From + " has sent you " + chatobj.Message.Amount + " gold!</div>").dialog({ title: chatobj.Message.From + " sent you gold!" });
+				break;
 			default:
 				break;
 		}
@@ -996,10 +1036,3 @@ function Logout(data){
 function isInteger(s) {
   return (s.toString().search(/^-?[0-9]+$/) == 0);
 }
-
-// Array Remove - By John Resig (MIT Licensed)
-Array.prototype.remove = function(from, to) {
-  var rest = this.slice((to || from) + 1 || this.length);
-  this.length = from < 0 ? this.length + from : from;
-  return this.push.apply(this, rest);
-};

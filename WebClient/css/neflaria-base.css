@@ -351,3 +351,7 @@ form label { display: inline-block; margin-right: .5em; }
 #pvpMessage { margin-top: 1em; }
 .statLabel.all { margin-left: 32px; } 
 .all button { margin-left: 66px; }
+#bankTransfer { margin-top: 1em; }
+.bankTransfer { float: left; }
+.transferTarget { margin-left: .5em; }
+#bankTransactionForm h3 { margin: .25em 0; }
