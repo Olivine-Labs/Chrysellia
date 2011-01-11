@@ -517,22 +517,22 @@ class Character extends Being
 
 			if(mt_rand(0,10000) < 10000)
 			{
-				if($AnEnemy->AlignGood >= 0)
+				if($AnEnemy->AlignGood > 0)
 				{
 					$this->AlignGood -= 1;
 					$Result['AlignGood'] = $this->AlignGood;
 				}
-				else
+				else if($AnEnemy->AlignGood < 0)
 				{
 					$this->AlignGood += 1;
 					$Result['AlignGood'] = $this->AlignGood;
 				}
-				if($AnEnemy->AlignOrder >= 0)
+				if($AnEnemy->AlignOrder > 0)
 				{
 					$this->AlignOrder -= 1;
 					$Result['AlignOrder'] = $this->AlignOrder;
 				}
-				else
+				else if($AnEnemy->AlignOrder < 0)
 				{
 					$this->AlignOrder += 1;
 					$Result['AlignOrder'] = $this->AlignOrder;
