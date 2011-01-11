@@ -144,7 +144,7 @@
 		Str:30, 
 		Dex: 28, 
 		Int: 20, 
-		Wis: 24, 
+		Wis: 22, 
 		Vit: 25, 
 		StrMax: 50, 
 		DexMax: 48, 

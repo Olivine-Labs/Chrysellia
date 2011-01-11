@@ -237,6 +237,7 @@ function LevelUpResponse(data, stat){
 		if(MyCharacter.FreeLevels < 1){
 			$("#statsWindow button, #statsWindow .all").hide();
 		}
+		MyCharacter.Health = MyCharacter.Vitality;
 		
 		vc.i.UpdateStats();
 	}
