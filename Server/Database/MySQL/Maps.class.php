@@ -2,7 +2,7 @@
 
 namespace Database\MySQL;
 
-define('SQL_GETCELL', 'SELECT `isBlocked`, `placeId`, `isPvp`, `newMapId`, `newMapPositionX`, `newMapPositionY` FROM `map_places` WHERE `mapId`=? AND `positionX`=? AND `positionY`=?');
+define('SQL_GETCELL', 'SELECT `isBlocked`, `placeId`, `isPvp`, `newMapId`, `newPositionX`, `newPositionY` FROM `map_places` WHERE `mapId`=? AND `positionX`=? AND `positionY`=?');
 define('SQL_GETMAP', 'SELECT `name`, `dimensionX`, `dimensionY` FROM `maps` WHERE `mapId`=?');
 define('SQL_INSERTCELL', 'INSERT INTO `map_places` (`mapId`, `placeId`, `positionX`, `positionY`, `isBlocked`, `isPvp`, `newMapId`, `newPositionX`, `newPositionY`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?) ON DUPLICATE KEY UPDATE `placeId`=?, `isBlocked`=?, `isPvp=?`');
 
