@@ -968,8 +968,13 @@ function BuildAttackMessage(Attack, EnemyName, PlayerIsAttacker, fightResults){
 				fightResults.append("<div class='result wonFight'><span class='attacker player'>You</span> have defeated <span class='enemy'>" + EnemyName + "</span>!</span></div>");
 			}
 			
-			MyCharacter.Gold += battleObject.Gold;
-			MyCharacter.Experience += battleObject.Experience;
+			if(battleObject.Gold !== undefined){
+				MyCharacter.Gold += battleObject.Gold;
+			}
+			
+			if(battleObject.Experience !== undefined){
+				MyCharacter.Experience += battleObject.Experience;
+			}
 			
 			if(battleObject.AlignGood !== undefined){
 				MyCharacter.AlignGood = battleObject.AlignGood;
