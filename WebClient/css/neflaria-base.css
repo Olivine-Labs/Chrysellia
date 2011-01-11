@@ -314,11 +314,11 @@ a.fb_button, a.fb_button:link, a.fb_button:hover, a.fb_button:active {
 #top { height: 230px; }
 #monsterList { margin: 0 .5em; }
 #fightForm h1 { margin: 0 0 .25em 0; }
-#fightForm, #fightResults { text-align: center; }
-#fightResults .result { margin-bottom: .25em; padding: .25em; }
-#fightResults .enemy { color: #900; font-weight: bold; }
-#fightResults .player { color: #090; font-weight: bold; }
-#fightResults .damage { font-weight: bold; }
+#fightForm, .fightResults { text-align: center; position: relative; top: -15px; }
+.fightResults .result { margin-bottom: .25em; padding: .25em; }
+.fightResults .enemy { color: #900; font-weight: bold; }
+.fightResults .player { color: #090; font-weight: bold; }
+.fightResults .damage { font-weight: bold; }
 #fightForm .button { margin-right: .25em; }
 #topCenter { height: 210px; overflow: auto; }
 input.donateButton { border: 0 none; background: transparent; padding: 0; margin: 0; }
@@ -335,7 +335,8 @@ input.donateButton { border: 0 none; background: transparent; padding: 0; margin
 #movement td { height: 50px; width: 50px; vertical-align: middle; text-align: center; }
 
 form label { display: inline-block; margin-right: .5em; }
-#sellForm, #buyForm { margin-top: 1em; }
+#topCenter > h1, #topCenter > form { position: relative; top: -15px; }
+#buyForm, #sellForm { margin-top: 1em; }
 #itemDescription, #sellDescription { display: inline; }
 #sellForm > div, #buyForm > div { float: left; }
 #sellForm select, #buyForm select{ margin-left: .5em; }
@@ -343,3 +344,7 @@ form label { display: inline-block; margin-right: .5em; }
 .mainNews ul { list-style: circle; margin-left: 1.5em; }
 .tos ul, .tos ol { margin-left: 1.5em; }
 .tos p { margin-bottom: 1em; }
+#topLeft .name { margin-bottom: 0; }
+#topLeft .level { margin-top: 0; } 
+.exp .ui-widget-header { background-image: url("images/goldpattern.png"); }
+#pvpMessage { margin-top: 1em; }

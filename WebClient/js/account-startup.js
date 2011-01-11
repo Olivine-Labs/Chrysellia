@@ -47,6 +47,7 @@ $(function(){
 		var id = $this.children(".r_id").val();
 		$("#c_race").val(id).change();
 		$("#startingStr").change();
+		$("#remPoints").text('25');
 		$("#statSelection").dialog("open");
 	});
 	

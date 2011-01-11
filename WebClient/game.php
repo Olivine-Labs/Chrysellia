@@ -54,9 +54,9 @@
 					</span>
 					
 					<div class="accountActions">
-						<a href="http://forum.chrysellia.com">Forum</a>
-						<a href="http://wiki.chrysellia.com">Manual</a>
-						<a href="http://blog.chrysellia.com">Blog</a>
+						<a href="http://forum.chrysellia.com" target="_blank">Forum</a>
+						<a href="http://wiki.chrysellia.com" target="_blank">Manual</a>
+						<a href="http://blog.chrysellia.com" target="_blank">Blog</a>
 						<a href="./account.php" class="button alternateButton account">Account</a>
 						<a href="./index.php" class="button alternateButton logOut">Log Out</a>
 					</div>

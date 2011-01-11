@@ -400,7 +400,7 @@ class Characters extends \Database\Characters
 		$this->Database->logError();
 		$Query->bind_param('iiiiiiiiiiiiiiiiiiis', $Character->AlignGood, $Character->AlignOrder, $Character->Level, $Character->FreeLevels, $Character->Experience, $Character->Strength, $Character->Dexterity, $Character->Intelligence, $Character->Wisdom, $Character->Vitality, $Character->Health, $Character->ExperienceBonus, $Character->AlignBonus, $Character->StrengthBonus, $Character->DexterityBonus, $Character->IntelligenceBonus, $Character->WisdomBonus, $Character->VitalityBonus, $Character->Gold, $Character->CharacterId);
 		$Query->Execute();
-
+		
 		if($Query->affected_rows > -1)
 			return true;
 		else

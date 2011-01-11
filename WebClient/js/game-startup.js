@@ -364,10 +364,6 @@ function SelectCharacter(data){
 	if(data.Result == vc.ER_SUCCESS){
 		window.MyCharacter.Construct(data.Data);
 		vc.i.UpdateStats();
-	
-		if(MyCharacter.Name == "Nullifiednll"){
-			$("<div>歡迎來到 Chrysellia</div>").dialog();
-		}
 	}else{
 		alert("Please login again.");
 		window.location = "./index.php";
@@ -438,7 +434,7 @@ function BuildGameWindow(){
 			
 			container.appendTo(topWindow);
 			
-			var fightResults = $("<div id='fightResults'></div>");
+			var fightResults = $("<div id='fightResults' class='fightResults'></div>");
 			fightResults.appendTo(topWindow);
 		}
 	}else{
@@ -836,44 +832,112 @@ function InsertChat(data, channel){
 function ProcessSystemMessage(data){
 	for(x = 0; x< data.length; x++){
 		var chatobj = data[x];
-		var ChannelInfo = chatobj.Message;
 		
-		var $chatWindow = $("input[value='" + ChannelInfo.ChannelId + "']").parent();
-		
-		if(window.MyCharacter.Channels[ChannelInfo.ChannelId] === undefined){
-			$("<div class='chatMessage system'>" + chatobj.FromName + " invited you to join <span class='channelName'>" + ChannelInfo.Name + "</span>! <a href='#' class='joinChannel'>Click here to join.</a></div>").dialog({ title: "Chat Room Invitation" });
-		}else if(window.MyCharacter.Channels[ChannelInfo.ChannelId].Permissions.isJoined == 1 && ChannelInfo.isJoined == 0){
-			LeaveChannel(ChannelInfo.ChannelId);
-			$("<div class='chatMessage system'>You have been kicked from <span class='channelName'>" + ChannelInfo.Name + "</span>!</div>").dialog({ title: "Kicked From Chat Room" });
-		}else{
-			if(window.MyCharacter.Channels[ChannelInfo.ChannelId].Permissions.Write == 1 && ChannelInfo.Write == 0){
-				$("<div class='chatMessage system'>You have been muted in this channel.</div>").prependTo($chatWindow);
-			}
-			
-			if(window.MyCharacter.Channels[ChannelInfo.ChannelId].Permissions.Moderate == 1 && ChannelInfo.Moderate == 0){
-				$("<div class='chatMessage system'>You are no longer a mod in this channel.</div>").prependTo($chatWindow);
-			}else if(window.MyCharacter.Channels[ChannelInfo.ChannelId].Permissions.Administrate == 1 && ChannelInfo.Administrate == 0){
-				$("<div class='chatMessage system'>You are no longer an admin in this channel.</div>").prependTo($chatWindow);
-			}
-			
-			if(window.MyCharacter.Channels[ChannelInfo.ChannelId].Permissions.Write == 0 && ChannelInfo.Write == 1){
-				$("<div class='chatMessage system'>You have been voiced in this channel.</div>").prependTo($chatWindow);
-			}
-			
-			if(window.MyCharacter.Channels[ChannelInfo.ChannelId].Permissions.Read == 1 && ChannelInfo.Read == 0){
-				$("<div class='chatMessage system'>You have been deafened in this channel.</div>").prependTo($chatWindow);
-			}else if(window.MyCharacter.Channels[ChannelInfo.ChannelId].Permissions.Read == 0 && ChannelInfo.Read == 1){
-				$("<div class='chatMessage system'>You can now read this channel.</div>").prependTo($chatWindow);
-			}
-			
-			if(window.MyCharacter.Channels[ChannelInfo.ChannelId].Permissions.Administrate == 0 && ChannelInfo.Administrate == 1){
-				$("<div class='chatMessage system'>You are now an administrator in this channel.</div>").prependTo($chatWindow);
-			}else if(window.MyCharacter.Channels[ChannelInfo.ChannelId].Permissions.Moderate == 0 && ChannelInfo.Moderate == 1){
-				$("<div class='chatMessage system'>You are now a mod in this channel.</div>").prependTo($chatWindow);
-			}
-			
-			window.MyCharacter.Channels[ChannelInfo.ChannelId].Permissions = { Read: ChannelInfo.Read, Write: ChannelInfo.Write, Moderate:ChannelInfo.Moderate, Administrate:ChannelInfo.Administrate }
+		switch(chatobj.Message.MessageType){
+			case 0:
+				DisplayChannelStatusUpdate(chatobj.Message);
+				break;
+				
+			case 1:
+				DisplayPVPMessage(chatobj.Message);
+				break;
+				
+			default:
+				
+				break;
 		}
+	}
+}
+
+function DisplayPVPMessage(Attack){
+	var attackClass = ["player","enemy"]
+	var damageLabel = ["attacked", "casted", "healed"]
+	var name = "";
+	var battleResult = {};
+	var round = $("<div class='round' />");
+	var battleObject = Attack.BattleData;
+	var fightResults = $("<div id='pvpMessage' class='fightResults' />");
+	
+	for(r in battleObject){
+		if(isInteger(r)){
+			if(battleObject[r].Actor == 1){
+				name = "You";
+			}else{
+				name = Attack.AttackedBy;
+				MyCharacter.Health -= battleObject[r].Damage;
+				vc.i.UpdateHealth();
+			}
+			
+			if(battleObject[r].Damage > 0){
+				battleResult = $("<div class='result'><span class='attacker " + attackClass[battleObject[r].Actor] + "'>" + name + "</span> attacked for <span class='damage'>" + battleObject[r].Damage + "</span></div>");
+			}else{
+				battleResult = $("<div class='result'><span class='attacker " + attackClass[battleObject[r].Actor] + "'>" + name + "</span> <span class='damage'>missed</span></div>");
+			}
+			
+			round.append(battleResult);
+		}
+	}
+	
+	fightResults.append(round);
+	
+	if(battleObject.Winner !== undefined){
+		if(battleObject.Winner == 1){
+			fightResults.append("<div class='result wonFight'><span class='attacker player'>You</span> have successfully defended yourself!</span></div>");
+			MyCharacter.Gold += battleObject.Gold;
+			MyCharacter.Experience += battleObject.Experience;
+			
+			if(battleObject.LevelUp !== undefined && battleObject.LevelUp == true){
+				fightResults.append("<div class='result levelUp'><span class='attacker player'>You</span> have levelled up! <a href='#' class='chooseStats button'>Choose Stats</a></span></div>");
+				MyCharacter.FreeLevels++;
+			}
+			vc.i.UpdateStats();
+		}else{
+			fightResults.append("<div class='result lostFight'><span class='attacker enemy'>You</span> were defeated!</span></div>");
+			MyCharacter.Health = 0;
+			MyCharacter.Gold = 0;
+			vc.i.UpdateStats();
+		}
+	}
+	
+	$(fightResults).dialog({ title: "You Were Attacked!", modal: true });
+}
+
+function DisplayChannelStatusUpdate(ChannelInfo){
+	var $chatWindow = $("input[value='" + ChannelInfo.ChannelId + "']").parent();
+	
+	if(window.MyCharacter.Channels[ChannelInfo.ChannelId] === undefined){
+		$("<div class='chatMessage system'>" + chatobj.FromName + " invited you to join <span class='channelName'>" + ChannelInfo.Name + "</span>! <a href='#' class='joinChannel'>Click here to join.</a></div>").dialog({ title: "Chat Room Invitation" });
+	}else if(window.MyCharacter.Channels[ChannelInfo.ChannelId].Permissions.isJoined == 1 && ChannelInfo.isJoined == 0){
+		LeaveChannel(ChannelInfo.ChannelId);
+		$("<div class='chatMessage system'>You have been kicked from <span class='channelName'>" + ChannelInfo.Name + "</span>!</div>").dialog({ title: "Kicked From Chat Room" });
+	}else{
+		if(window.MyCharacter.Channels[ChannelInfo.ChannelId].Permissions.Write == 1 && ChannelInfo.Write == 0){
+			$("<div class='chatMessage system'>You have been muted in this channel.</div>").prependTo($chatWindow);
+		}
+		
+		if(window.MyCharacter.Channels[ChannelInfo.ChannelId].Permissions.Moderate == 1 && ChannelInfo.Moderate == 0){
+			$("<div class='chatMessage system'>You are no longer a mod in this channel.</div>").prependTo($chatWindow);
+		}else if(window.MyCharacter.Channels[ChannelInfo.ChannelId].Permissions.Administrate == 1 && ChannelInfo.Administrate == 0){
+			$("<div class='chatMessage system'>You are no longer an admin in this channel.</div>").prependTo($chatWindow);
+		}
+		
+		if(window.MyCharacter.Channels[ChannelInfo.ChannelId].Permissions.Write == 0 && ChannelInfo.Write == 1){
+			$("<div class='chatMessage system'>You have been voiced in this channel.</div>").prependTo($chatWindow);
+		}
+		
+		if(window.MyCharacter.Channels[ChannelInfo.ChannelId].Permissions.Read == 1 && ChannelInfo.Read == 0){
+			$("<div class='chatMessage system'>You have been deafened in this channel.</div>").prependTo($chatWindow);
+		}else if(window.MyCharacter.Channels[ChannelInfo.ChannelId].Permissions.Read == 0 && ChannelInfo.Read == 1){
+			$("<div class='chatMessage system'>You can now read this channel.</div>").prependTo($chatWindow);
+		}
+		
+		if(window.MyCharacter.Channels[ChannelInfo.ChannelId].Permissions.Administrate == 0 && ChannelInfo.Administrate == 1){
+			$("<div class='chatMessage system'>You are now an administrator in this channel.</div>").prependTo($chatWindow);
+		}else if(window.MyCharacter.Channels[ChannelInfo.ChannelId].Permissions.Moderate == 0 && ChannelInfo.Moderate == 1){
+			$("<div class='chatMessage system'>You are now a mod in this channel.</div>").prependTo($chatWindow);
+		}
+		
+		window.MyCharacter.Channels[ChannelInfo.ChannelId].Permissions = { Read: ChannelInfo.Read, Write: ChannelInfo.Write, Moderate:ChannelInfo.Moderate, Administrate:ChannelInfo.Administrate }
 	}
 }
 
