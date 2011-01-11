@@ -530,7 +530,7 @@ class Character extends Being
 				if($AnEnemy->AlignOrder >= 0)
 				{
 					$this->AlignOrder -= 1;
-				$Result['AlignOrder'] = $this->AlignOrder;
+					$Result['AlignOrder'] = $this->AlignOrder;
 				}
 				else
 				{
