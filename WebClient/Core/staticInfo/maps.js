@@ -4,7 +4,7 @@
 	Maps["MAP_00000000000000000000001"] = { 
 		Id: "MAP_00000000000000000000001", 
 		Name: "Palaor", 
-		PVP: false,
+		PVP: true,
 		DimensionX: 5,
 		DimensionY: 5,
 		MinLevel: 0,
