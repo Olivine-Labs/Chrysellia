@@ -30,7 +30,7 @@
 		ER_DBERROR: 254, //when the database fails
 		ER_ACCESSDENIED: 255, //when they just don't have access.
 		SERVERCODE_DIRECTORY: "./Server/",
-		STATICINFO_DIRECTORY: "./Core/StaticInfo/",
+		STATICINFO_DIRECTORY: "./Core/staticInfo/",
 		
 		CheckVersion: function(callback){
 			$.ajax({
