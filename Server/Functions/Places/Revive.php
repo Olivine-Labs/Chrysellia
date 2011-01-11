@@ -16,8 +16,8 @@ if(isset($_SESSION['LastReviveTime']))
 if(isset($_SESSION['RevivePenaltyMultiplier']))
 	$RevivePenaltyMultiplier = $_SESSION['RevivePenaltyMultiplier'];
 
-if($LastReviveTime + 15 * $RevivePenaltyMultiplier < time())
-{
+//if($LastReviveTime + 15 * $RevivePenaltyMultiplier < time())
+//{
 	$Character = new \Entities\Character();
 	$Character->CharacterId = $_SESSION['CharacterId'];
 	if($Database->Characters->LoadTraits($Character) && $Database->Characters->LoadPosition($Character))
@@ -52,6 +52,6 @@ if($LastReviveTime + 15 * $RevivePenaltyMultiplier < time())
 	{
 		$Result->Set('Result', \Protocol\Result::ER_DBERROR);
 	}
-}
+//}
 
 ?>
