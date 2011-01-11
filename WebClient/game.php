@@ -75,19 +75,19 @@
 							</div>
 							<div class="stat level">
 								<h2><span class="statLabel" title="Level">Level</span>
-								<span id="myCharacter_Level"></span></h2>
+								<span id="myCharacter_LevelTitle"></span></h2>
 							</div>
 							<div class="stat exp">
 								<span class="statLabel icon experience" title="Experience Points">XP</span>
-								<div id="myCharacter_Experience"></div>
+								<div id="myCharacter_ExperienceBar"></div>
 							</div>
 							<div class="stat hp">
 								<span class="statLabel icon health" title="Health">Health</span>
-								<div id="myCharacter_Health"></div>
+								<div id="myCharacter_HealthBar"></div>
 							</div>
 							<div class="stat gold">
 								<span class="statLabel icon gold" title="Gold">Gold</span>
-								<span id="myCharacter_Gold"></span>
+								<span id="myCharacter_CurrentGold"></span>
 							</div>
 						</section>
 						<a href="#" class="button stats" id="statsWindowButton">Stats</a>
@@ -186,6 +186,18 @@
 		</div>
 		
 		<div style="hidden" id="statsWindow" style="display: none;">
+			<div class="stat lvl">
+				<span class="statLabel icon lvl" title="Level">Level</span>
+				<span id="myCharacter_Level"></span>
+			</div>
+			<div class="stat freeLvls">
+				<span class="statLabel icon freeLevels" title="Free Levels">Free Levels</span>
+				<span id="myCharacter_FreeLevels"></span>
+			</div>
+			<div class="stat freeLvls">
+				<span class="statLabel icon alignment" title="Alignment">Alignment</span>
+				<span id="myCharacter_Alignment"></span>
+			</div>
 			<div class="stat str">
 				<span class="statLabel icon str" title="Strength">Strength</span>
 				<span id="myCharacter_Strength"></span>
@@ -211,15 +223,29 @@
 				<span id="myCharacter_Vitality"></span>
 				<button type="submit" class="button" style="display: none;">+</button>
 			</div>
-			<div class="stat all" style="display: none;">
-				<span class="statLabel" title="All Stats">All Stats</span>
+			<div class="all" style="display: none;">
+				<span class="statLabel all" title="All Stats">All Stats</span>
 				<button type="submit" class="button" style="display: none;">+</button>
+			</div>
+			<div class="stat vit">
+				<span class="statLabel icon health" title="Vitality">Health</span>
+				<span id="myCharacter_Health"></span>
+			</div>
+			<div class="stat exp">
+				<span class="statLabel icon experience" title="Experience">Experience</span>
+				<span id="myCharacter_Experience"></span>
+			</div>
+			<div class="stat gold">
+				<span class="statLabel icon gold" title="Gold">Gold</span>
+				<span id="myCharacter_Gold"></span>
+			</div>
+			<div class="stat gold">
+				<span class="statLabel icon bankedGold" title="Bank">Bank</span>
+				<span id="myCharacter_Bank"></span>
 			</div>
 		</div>
 		
-		<div style="hidden" id="itemsWindow" style="display: none;">
-			
-		</div>
+		<div style="hidden" id="itemsWindow" style="display: none;"></div>
 		
 		<!--[if IE 8]>
 		</div>

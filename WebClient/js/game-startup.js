@@ -1,8 +1,8 @@
 ﻿$(function(){
 	window.chatTabIndex = 0;
 	
-	$("#myCharacter_Experience").progressbar();
-	$("#myCharacter_Health").progressbar();
+	$("#myCharacter_ExperienceBar").progressbar();
+	$("#myCharacter_HealthBar").progressbar();
 	
 	vc.cs.GetCurrentCharacter(SelectCharacter);
 	
@@ -234,7 +234,7 @@ function LevelUpResponse(data, stat){
 
 		MyCharacter.FreeLevels--;
 		if(MyCharacter.FreeLevels < 1){
-			$("#statsWindow button, #statsWindow .stat.all").hide();
+			$("#statsWindow button, #statsWindow .all").hide();
 		}
 		
 		vc.i.UpdateStats();
@@ -454,8 +454,50 @@ function BuildGameWindow(){
 	}
 }
 
-function Buildbank(topWindow){
+function SubmitBankTransaction(){
+	var amt = $("#transactionAmount").val();
+	
+	if($("#transactionTypeSelection").val()){
+		vc.ms.Deposit(amt, ProcessBankTransaction);
+	}else{
+		vc.ms.Deposit(amt, ProcessBankTransaction);
+	}
+}
 
+function ProcessBankTransaction(data){
+	if(data.Result == vc.ER_SUCCESS){
+		var amt = $("#transactionAmount").val();
+		$("#transactionAmount").val('')
+		
+		if($("#transactionTypeSelection").val()){
+			window.MyCharacter.Gold -= amt;
+			window.MyCharacter.Bank += amt;
+		}else{
+			window.MyCharacter.Gold += amt;
+			window.MyCharacter.Bank -= amt;
+		}
+	}else if(data.Result == vc.ER_BADDATA){
+		alert("You don't have that much gold!");
+	}
+}
+
+function BuildBank(topWindow){
+	var item = {};
+	var myLocation = MyCharacter.CurrentMap.Places[MyCharacter.PositionY][MyCharacter.PositionX];
+	var name = "Bank";
+	if(myLocation.Name !== undefined){
+		var name = myLocation.Name;
+	}
+	
+	topWindow.append("<h1>" + name + "</h1>");
+	
+	var bankForm = $("<form id='bankForm'></form>");
+	var transactionTypeSelection = $("<select id='transactionTypeSelection'><option value='0'>Deposit</option><option value='0'>Withdraw</option></select>");
+	var transactionAmount = $("<input type='text' id='transactionAmount' />");
+	var submitTransaction = $("<button id='submitTransaction' class='button'>Submit</buy>").bind("click", function(e){ e.preventDefault(); SubmitBankTransaction(); });
+
+	bankForm.append(transactionTypeSelection).append(transactionAmount).append(submitTransaction);
+	topWindow.append(bankForm);
 }
 
 function ReviveCharacter(data){
@@ -526,8 +568,6 @@ function BuildShop(topWindow){
 	if(myLocation.Name !== undefined){
 		var name = myLocation.Name;
 	}
-	
-	topWindow.append("<h1>" + name + "</h1>");
 	
 	var container = $("<div id='shopForm'><h1>" + name + "</h1></div>");
 	var buyForm = $("<form id='buyForm'></form>");
@@ -859,6 +899,14 @@ function BuildAttackMessage(Attack, EnemyName, PlayerIsAttacker, fightResults){
 			
 			MyCharacter.Gold += battleObject.Gold;
 			MyCharacter.Experience += battleObject.Experience;
+			
+			if(battleObject.AlignGood !== undefined){
+				MyCharacter.AlignGood = battleObject.AlignGood;
+			}
+			
+			if(battleObject.AlignOrder !== undefined){
+				MyCharacter.AlignOrder = battleObject.AlignOrder;
+			}
 			
 			if(battleObject.LevelUp !== undefined && battleObject.LevelUp == true){
 				fightResults.append("<div class='result levelUp'><span class='attacker player'>You</span> have levelled up! <a href='#' class='chooseStats button'>Choose Stats</a></span></div>");

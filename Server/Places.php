@@ -33,14 +33,14 @@ if ( 'GET' == $_SERVER['REQUEST_METHOD'] )
 					case ACTION_REVIVE:
 						include './Functions/Places/Revive.php';
 						break;
-					case ACTION_REVIVE:
+					case ACTION_WITHDRAW:
 						include './Functions/Places/Withdraw.php';
 						break;
-					case ACTION_REVIVE:
+					case ACTION_DEPOSIT:
 						include './Functions/Places/Deposit.php';
 						break;
-					case ACTION_REVIVE:
-						include './Functions/Places/Transfer.php';
+					case ACTION_TRANSFER:
+						include './Functions/Places/GoldTransfer.php';
 						break;
 					default:
 						$Result->Set('Result', \Protocol\Result::ER_BADDATA);

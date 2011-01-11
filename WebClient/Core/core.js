@@ -72,6 +72,7 @@
 		this.Vitality = 0;
 		this.Health = 0;
 		this.Gold = 0;
+		this.Bank = 0;
 		this.CurrentChannel = "CHAN_00000000000000000000001";
 		this.Channels = new Array();
 		this.Inventories = new Array();
@@ -96,7 +97,7 @@
 			var goodAlign = "";
 			var orderAlign = "";
 			if(this.AlignGood <= -100){
-				goodAlign = "Evi ";
+				goodAlign = "Evil ";
 			}else if(this.AlignGood >= 100){
 				goodAlign = "Good";
 			}
@@ -107,11 +108,16 @@
 				orderAlign = "Ordered";
 			}
 			
-			var spacing = "";
-			if(goodAlign != ""){
-				spacing = " ";
+			var totalAlign = "Neutral";
+			if(goodAlign != "" || orderAlign != ""){
+				var spacing = "";
+				if(goodAlign != ""){
+					spacing = " ";
+				}
+				totalAlign = goodAlign + spacing + orderAlign;
 			}
-			return goodAlign + spacing + orderAlign;
+			
+			return totalAlign;
 		}
 		
 		this.NextLevelAt = function(){
@@ -120,6 +126,7 @@
 		
 		this.Construct = function(data){
 			this.CharacterId = data.CharacterId;
+			this.Bank = data.Bank;
 			this.HasPin = data.HasPin;
 			this.Name = data.Name;
 			this.CreatedOn = data.CreatedOn;

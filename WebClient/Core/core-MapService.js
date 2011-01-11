@@ -16,6 +16,9 @@
 		ACTION_BUY: 0,
 		ACTION_SELL: 1,
 		ACTION_REVIVE: 2,
+		ACTION_WITHDRAW: 3,
+		ACTION_DEPOSIT: 4,
+		ACTION_TRANSFER: 5,
 		
 		PLACE_TYPE_STORE: 0,
 		PLACE_TYPE_BANK: 1,
@@ -49,6 +52,30 @@
 			$.getJSON(
 				V2Core.SERVERCODE_DIRECTORY + "Places.php",
 				{ Action: MapService.ACTION_REVIVE, Data: JSON.stringify({ }) },
+				function(data) { callback(data); }
+			);
+		},
+		
+		Widthdraw: function(gold, callback){
+			$.getJSON(
+				V2Core.SERVERCODE_DIRECTORY + "Places.php",
+				{ Action: MapService.ACTION_WITHDRAW, Data: JSON.stringify({ Gold: gold }) },
+				function(data) { callback(data); }
+			);
+		},
+		
+		Deposit: function(gold, callback){
+			$.getJSON(
+				V2Core.SERVERCODE_DIRECTORY + "Places.php",
+				{ Action: MapService.ACTION_DEPOSIT, Data: JSON.stringify({ Gold: gold }) },
+				function(data) { callback(data); }
+			);
+		},
+		
+		Transfer: function(gold, name, callback){
+			$.getJSON(
+				V2Core.SERVERCODE_DIRECTORY + "Places.php",
+				{ Action: MapService.ACTION_TRANSFER, Data: JSON.stringify({ Gold: gold, Name: name }) },
 				function(data) { callback(data); }
 			);
 		}

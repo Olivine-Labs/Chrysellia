@@ -240,7 +240,7 @@ color: #000000;
 #createCharacterForm .selectStats .formLabel { font-weight:bold; vertical-align:top; width:3em; }
 .character { margin-bottom: 1em; }
 .character li { font-size: 10pt; float: left; display: block; width: 49%; }
-.character .characterName { display: block; font-size: 20pt; font-family: 'Crimson Text', Georgia, 'Times New Roman', serif; margin-bottom: 10px; }
+.character .characterName { display: block; font-size: 20pt; font-family: 'Crimson Text', Georgia, 'Times New Roman', serif; margin-bottom: 10px; line-height: 1em; }
 .character .characterStats { display: block; font-size: 12pt; }
 .character .recentActivity li { margin-top: 5px; font-family: 'DejaWeb', Arial, Helvetica, sans-serif; } 
 .emote { font-style: italic; }
@@ -248,7 +248,7 @@ color: #000000;
 .statLabel { font-weight: bold; }
 .stat { margin: .25em 0; }
 .stat.name, .stat.level { width: 100%; clear: both; }
-#bottom { margin-bottom: 1em; overflow: auto; position: relative; top: -20px; }
+#bottom { margin-bottom: 1em; overflow: auto;}
 #chatForm {
 	padding: 0 21px;
 	position:relative;
@@ -277,6 +277,9 @@ color: #000000;
 .icon.experience { background: transparent url(images/XP.png) top left no-repeat; }
 .icon.freeLevels { background: transparent url(images/freelvl.png) top left no-repeat; }
 .icon.bankedGold { background: transparent url(images/bankedgold.png) top left no-repeat; }
+.icon.evil { background: transparent url(images/evil.png) top left no-repeat; }
+.icon.good { background: transparent url(images/good.png) top left no-repeat; }
+.icon.lvl { background: transparent url(images/LVL.png) top left no-repeat }
 #currentMap .player { display: block; height: 28px; width: 28px; text-indent: 1000000%; background: transparent url(images/humanplayer.png) center left no-repeat; }
 .accountActions { float: right; }
 .accountActions a { margin-right: 1em; }
@@ -290,7 +293,7 @@ color: #000000;
 #statsWindow .stat:nth-child(even), .itemSelection:nth-child(even), .row:nth-child(even) { background: #ddd; }
 .row .label { display: inline-block; width: 100px; font-weight: bold; }
 .row { margin-bottom: .25em; padding: .25em; }
-#myCharacter_Experience, #myCharacter_Health { width:75%; height: 15px; display: inline-block; margin-bottom: 3px; }
+#myCharacter_ExperienceBar, #myCharacter_HealthBar { width:75%; height: 15px; display: inline-block; margin-bottom: 3px; }
 
 a.fb_button, a.fb_button:link, a.fb_button:hover, a.fb_button:active {
 	color: #fff;
@@ -304,10 +307,8 @@ a.fb_button, a.fb_button:link, a.fb_button:hover, a.fb_button:active {
 #c_checkName_status { height: 14px; width: 14px; display: inline-block; background-color: #ccc; position: relative; top: 2px; }
 #c_checkName_status.available { background-color: #090; }
 #c_checkName_status.unavailable { background-color: #900; }
-.statLabel.gold { overflow: hidden; text-indent: 100000px; display: inline-block; width: 24px; padding: 0; }
-.statLabel.experience { overflow: hidden; text-indent: 100000px; display: inline-block; width: 24px; padding: 0; }
-.statLabel.health { overflow: hidden; text-indent: 100000px; display: inline-block; width: 24px; padding: 0; }
-#myCharacter_Gold { position: relative; top: -7px; font-size: 14pt; }
+#topLeft .statLabel.gold, #topLeft .statLabel.experience, #topLeft .statLabel.health { overflow: hidden; text-indent: 100000px; display: inline-block; width: 24px; padding: 0; }
+#myCharacter_CurrentGold { position: relative; top: -7px; font-size: 14pt; }
 .itemSelection .itemType { display: inline-block; width: 80px; }
 .itemSelection { margin: .25em 0; }
 .newMessage a, .newMessage.ui-state-default a, .newMessage.ui-state-default a:link, .newMessage.ui-state-default a:visited { font-weight: bold; color: #fff; }
@@ -339,7 +340,7 @@ form label { display: inline-block; margin-right: .5em; }
 #buyForm, #sellForm { margin-top: 1em; }
 #itemDescription, #sellDescription { display: inline; }
 #sellForm > div, #buyForm > div { float: left; }
-#sellForm select, #buyForm select{ margin-left: .5em; }
+#sellForm select, #buyForm select, #transactionAmount, #submitTransaction { margin-left: .5em; }
 #sellForm button, #buyForm button{ margin-left: .5em; }
 .mainNews ul { list-style: circle; margin-left: 1.5em; }
 .tos ul, .tos ol { margin-left: 1.5em; }
@@ -348,3 +349,5 @@ form label { display: inline-block; margin-right: .5em; }
 #topLeft .level { margin-top: 0; } 
 .exp .ui-widget-header { background-image: url("images/goldpattern.png"); }
 #pvpMessage { margin-top: 1em; }
+.statLabel.all { margin-left: 32px; } 
+.all button { margin-left: 66px; }
