@@ -37,7 +37,7 @@ define('SQL_LOADINVENTORY', 'SELECT i.itemId, i.name, i.description, i.buyPrice,
 define('SQL_INSERTINVENTORYFORCHARACTER', 'INSERT INTO `inventories` (`inventoryId`, `characterId`) VALUES (?, ?)');
 define('SQL_ITEMGETOWNERSHIP', 'SELECT inv.characterId FROM `inventories` inv INNER JOIN `items` i ON i.inventoryId=inv.inventoryId WHERE i.itemId=?');
 
-define('SQL_INSERTTRADE', 'INSERT INTO `trades` (`tradeId`, `inventoryTo`, `inventoryFrom`, `cost`, `tradedOn`) VALUES (?, ?, ?, ?, ?)');
+define('SQL_INSERTTRADE', 'INSERT INTO `trades` (`tradeId`, `inventoryTo`, `inventoryFrom`, `cost`) VALUES (?, ?, ?, ?)');
 define('SQL_INSERTTRADEITEM', 'INSERT INTO `trade_items` (`trade_id`, `sendRecv`, `itemId`) VALUES (?, ?, ?)');
 
 define('SQL_GETEQUIPPEDITEMS', 'SELECT e.itemId, e.slotType, e.slots, e.slotNumber, i.name, i.description, i.buyPrice, i.sellPrice, i.itemType, i.createdOn, ie.masteryType, ie.itemClass, ie.sockets FROM `character_equipment` e INNER JOIN `items` i ON i.itemId=e.itemId INNER JOIN `item_equippables` ie ON ie.itemId=i.itemId WHERE e.characterId=? ORDER BY e.slotNumber ASC');
@@ -414,6 +414,64 @@ class Items
 		$Query->Fetch();
 		if($CharacterId == $Character->CharacterId)
 			return true;
+		else
+			return false;
+	}
+
+	/**
+	 * Insert a trade between 2 inventory Ids
+	 *
+	 * @param $InventoryIdSource
+	 *   The source InventoryId
+	 *
+	 * @param $InventoryIdDestination
+	 *   The destination InventoryId
+	 *
+	 * @param $Cost
+	 *   The gold to be traded
+	 *
+	 * @return Boolean
+	 *   Whether or not the insert succeeded
+	 */
+	public function InsertTrade($InventoryIdSource, $InventoryIdDestination, $Cost)
+	{
+		$TradeId = uniqid('TRAD_', true);
+		$Query = $this->Database->Connection->prepare(SQL_INSERTTRADE);
+		$this->Database->logError();
+		$Query->bind_param('sssi', $TradeId, $InventoryIdDestination, $InventoryIdSource, $Cost);
+		$Query->Execute();
+
+		if($Query->affected_rows > 0)
+			return $TradeId;
+		else
+			return false;
+	}
+
+	/**
+	 * Insert a trade item
+	 *
+	 * @param $TradeId
+	 *   The source InventoryId
+	 *
+	 * @param $Item
+	 *   The Item to be traded
+	 *
+	 * @param $SendRecv
+	 *   Whether the item is coming or going
+	 *
+	 * @return Boolean
+	 *   Whether or not the insert succeeded
+	 */
+	public function InsertTradeItem($TradeId, \Entities\Item $Item, $SendRecv)
+	{
+		$TradeId = uniqid('TRAD_', true);
+		$Query = $this->Database->Connection->prepare(SQL_INSERTTRADEITEM);
+		$this->Database->logError();
+		$Query->bind_param('sssi', $TradeId, $InventoryIdDestination, $InventoryIdSource, $Cost);
+		$Query->Execute();
+
+		if($Query->affected_rows > 0)
+			return $true;
 		else
 			return false;
 	}
