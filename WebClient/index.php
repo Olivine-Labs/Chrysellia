@@ -311,13 +311,6 @@ include_once('php/simplepie.inc');
 					</div>
 					
 					<div class="formRow">
-						<span class="explanation">
-							Once you've clicked "create", check your e-mail for a confirmation from accounts@neflaria.com. Be sure 
-							to check your spam folder if you don't see anything within 30 minutes. <a href="#">Help?</a>
-						</span>
-					</div>
-					
-					<div class="formRow">
 						<div class="formLabel"></div>
 						<div class="formInput">
 							<button type="submit" id="submitCreateAccount" class="button createAccount">Create</button>
