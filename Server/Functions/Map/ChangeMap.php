@@ -15,7 +15,9 @@ try
 	$Character->CharacterId = $_SESSION['CharacterId'];
 	if($Database->Characters->LoadPosition($Character))
 	{
-		if(is_array($Cell = $Database->Maps->GetCell($Character->MapId, $Character->PositionX, $Character->PositionY)))
+		$Map = new \Entities\Map();
+		$Map->MapId = $Character->MapId;
+		if(is_array($Cell = $Database->Maps->LoadCell($Map->MapId, $Character->PositionX, $Character->PositionY)))
 		{
 			if(isset($Cell['NewMapId']))
 			{
