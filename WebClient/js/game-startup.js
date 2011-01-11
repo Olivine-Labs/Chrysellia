@@ -468,86 +468,36 @@ function ReviveCharacter(data){
 
 function Attack(fightType){
 	SetEnableAttack(false); 
-	
+	$("#fightResults .result").remove();
 	var enemyId = $("#monsterList").val();
 	var fightResults = $("#fightResults");
 	
+	if(MyCharacter.Health < 1){
+		alert("You can't fight! You're dead!");
+		return;
+	}
+			
 	if(enemyId.indexOf("MONS") > -1){
 		if(MyCharacter.CurrentBattle !== undefined){
 			if(MyCharacter.CurrentBattle.State == 2){
 				fightResults.html('');
 			}
 			
-			if(MyCharacter.Health < 1){
-				alert("You can't fight! You're dead!");
-				return;
-			}
-			
-			if(MyCharacter.CurrentBattle.Monster == V2Core.Monsters[enemyId]){
+			if(MyCharacter.CurrentBattle.Enemy == V2Core.Monsters[enemyId]){
 				MyCharacter.CurrentBattle.State = 1;
 			}else{
-				MyCharacter.CurrentBattle = { Monster: V2Core.Monsters[enemyId], State: 0 }
+				MyCharacter.CurrentBattle = { Enemy: V2Core.Monsters[enemyId], State: 0 }
 			}
 		}else{
-			MyCharacter.CurrentBattle = { Monster: V2Core.Monsters[enemyId], State: 0 }
+			MyCharacter.CurrentBattle = { Enemy: V2Core.Monsters[enemyId], State: 0 }
 		}
 		
-		MyCharacter.CurrentBattle = { Monster: V2Core.Monsters[enemyId], State: 0 }
+		MyCharacter.CurrentBattle = { Enemy: V2Core.Monsters[enemyId], State: 0 }
 		vc.mn.Fight(enemyId, fightType, AttackRound);
 	}else if(enemyId.indexOf("CHAR") > -1){
+		
+		MyCharacter.CurrentBattle= { Enemy: { Id:enemyId, Name:$("#monsterList :selected").text() }, State: 0 }
 		vc.cs.Fight(enemyId, fightType, AttackRound);
-	}
-}
-
-function DisplayBattle(battleObject, fightResults){
-	var attackClass = ["player","enemy"]
-	var damageLabel = ["attacked", "casted", "healed"]
-	var name = "";
-	var battleResult = {};
-	var round = $("<div class='round' />").css({ 'opacity' : 0 });
-	
-	for(r in battleObject){
-		if(isInteger(r)){
-			if(battleObject[r].Actor == 0){
-				name = "You";
-			}else{
-				name = MyCharacter.CurrentBattle.Monster.Name;
-				MyCharacter.Health -= battleObject[r].Damage;
-				vc.i.UpdateHealth();
-			}
-			
-			if(battleObject[r].Damage > 0){
-				battleResult = $("<div class='result'><span class='attacker " + attackClass[battleObject[r].Actor] + "'>" + name + "</span> attacked for <span class='damage'>" + battleObject[r].Damage + "</span></div>");
-			}else{
-				battleResult = $("<div class='result'><span class='attacker " + attackClass[battleObject[r].Actor] + "'>" + name + "</span> <span class='damage'>missed</span></div>");
-			}
-			
-			round.append(battleResult);
-		}
-	}
-	
-	fightResults.append(round);
-	round.animate({ opacity: 1 }, 250);
-	
-	if(battleObject.Winner !== undefined){
-		if(battleObject.Winner == 0){
-			fightResults.append("<div class='result wonFight'><span class='attacker player'>You</span> have defeated the " + MyCharacter.CurrentBattle.Monster.Name + "!</span></div>");
-			MyCharacter.CurrentBattle.State = 2;
-			MyCharacter.Gold += battleObject.Gold;
-			MyCharacter.Experience += battleObject.Experience;
-			
-			if(battleObject.LevelUp !== undefined && battleObject.LevelUp == true){
-				fightResults.append("<div class='result levelUp'><span class='attacker player'>You</span> have levelled up! <a href='#' class='chooseStats button'>Choose Stats</a></span></div>");
-				MyCharacter.FreeLevels++;
-			}
-			vc.i.UpdateStats();
-		}else{
-			fightResults.append("<div class='result lostFight'><span class='attacker enemy'>You</span> were defeated!</span></div>");
-			MyCharacter.CurrentBattle.State = 3;
-			MyCharacter.Health = 0;
-			MyCharacter.Gold = 0;
-			vc.i.UpdateStats();
-		}
 	}
 }
 
@@ -560,10 +510,10 @@ function AttackRound(data){
 		if($(".round", fightResults).length > 0){
 			$(".round", fightResults).animate({ opacity: 0 }, 250, function(){ 
 				$(this).remove();
-				DisplayBattle(battleObject, fightResults);				
+				BuildAttackMessage(battleObject, MyCharacter.CurrentBattle.Enemy.Name, true, fightResults);				
 			});
 		}else{
-			DisplayBattle(battleObject, fightResults);
+			BuildAttackMessage(battleObject, MyCharacter.CurrentBattle.Enemy.Name, true, fightResults);
 		}
 	}
 }
@@ -583,8 +533,8 @@ function BuildShop(topWindow){
 	var buyForm = $("<form id='buyForm'></form>");
 	var itemTypeSelection = $("<select id='itemTypeSelection'></select>").bind("change", function(e){ FilterItemTypes($(this).val()); });
 	var itemSelection = $("<select id='itemSelection'></select>");
-	var buyItem = $("<button id='buyItem'>Purchase</buy>").bind("click", function(e){ e.preventDefault(); BuyItem(); });
-	var itemInfo = $("<button id='itemInfo'>Info</buy>").bind("click", function(e){ e.preventDefault(); var index = $('#itemSelection option').index($(":selected")); if(index < 0){ index = 0; } DisplayItemInfo(vc.ItemTypes[2][$("#itemTypeSelection").val()][index]); });
+	var buyItem = $("<button id='buyItem' class='button'>Purchase</buy>").bind("click", function(e){ e.preventDefault(); BuyItem(); });
+	var itemInfo = $("<button id='itemInfo' class='button'>Info</buy>").bind("click", function(e){ e.preventDefault(); var index = $('#itemSelection option').index($(":selected")); if(index < 0){ index = 0; } DisplayItemInfo(vc.ItemTypes[2][$("#itemTypeSelection").val()][index]); });
 	
 	var itemDescription = $("<div id='itemDescription'></div>");
 	var typeContainer = $("<div><label for='itemTypeSelection'>Shop For:</span></div>").append(itemTypeSelection).append(itemSelection);
@@ -615,8 +565,8 @@ function BuildShop(topWindow){
 		}
 	}
 	
-	var sellItem = $("<button id='sellItem'>Sell</buy>").bind("click", function(e){ e.preventDefault(); SellItem(); });
-	var sellInfo = $("<button id='sellInfo'>Info</buy>").bind("click", function(e){ e.preventDefault(); var index = $('#sellSelection option').index($(":selected")); if(index < 0){ index = 0; } DisplayItemInfo(MyCharacter.Inventories["Personal"][index]); });
+	var sellItem = $("<button id='sellItem' class='button'>Sell</buy>").bind("click", function(e){ e.preventDefault(); SellItem(); });
+	var sellInfo = $("<button id='sellInfo' class='button'>Info</buy>").bind("click", function(e){ e.preventDefault(); var index = $('#sellSelection option').index($(":selected")); if(index < 0){ index = 0; } DisplayItemInfo(MyCharacter.Inventories["Personal"][index]); });
 	var sellDescription = $("<div id='sellDescription'></div>");
 	var sellContainer = $("<div><label for='sellSelection'>Sell:</span></div>").append(sellSelection);
 	sellForm.append(sellContainer).append(sellItem).append(sellInfo).append(sellDescription);
@@ -722,7 +672,7 @@ function BuildShrine(topWindow){
 	if(MyCharacter.Health > 0){
 		container.append("<h2>Why are you here? You're not dead.</h2>");
 	}else{
-		var reviveButton = $("<button type='submit' id='reviveButton'>Revive</button>");
+		var reviveButton = $("<button type='submit' id='reviveButton' class='button'>Revive</button>");
 		reviveButton.bind("click", function(e){ e.preventDefault(); vc.ms.Revive(ReviveCharacter); });
 		container.append(reviveButton);
 	}
@@ -839,35 +789,53 @@ function ProcessSystemMessage(data){
 				break;
 				
 			case 1:
-				DisplayPVPMessage(chatobj.Message);
+				var fightResults = {};
+				
+				if($("#pvpMessage").length > 0){
+					fightResults = $("#pvpMessage");
+				}else{
+					fightResults = $("<div id='pvpMessage' class='fightResults' />");
+				}
+				
+				BuildAttackMessage(chatobj.Message.BattleData, chatobj.Message.AttackedBy, false, fightResults).dialog({ title: "You Were Attacked!", modal: true, close:function(e){ $("#pvpMessage").remove() } });
 				break;
 				
 			default:
-				
 				break;
 		}
 	}
 }
 
-function DisplayPVPMessage(Attack){
+function BuildAttackMessage(Attack, EnemyName, PlayerIsAttacker, fightResults){
 	var attackClass = ["player","enemy"]
 	var damageLabel = ["attacked", "casted", "healed"]
 	var name = "";
 	var battleResult = {};
 	var round = $("<div class='round' />");
-	var battleObject = Attack.BattleData;
-	var fightResults = $("<div id='pvpMessage' class='fightResults' />");
+	var battleObject = Attack;
+	
+	if(PlayerIsAttacker){
+		myActor = 0;
+		enemyActor = 1;
+	}else{
+		myActor = 1;
+		enemyActor = 0;
+	}
 	
 	for(r in battleObject){
 		if(isInteger(r)){
-			if(battleObject[r].Actor == 1){
+			if(battleObject[r].Actor == myActor){
 				name = "You";
 			}else{
-				name = Attack.AttackedBy;
+				name = EnemyName;
 				MyCharacter.Health -= battleObject[r].Damage;
 				vc.i.UpdateHealth();
 			}
 			
+			if(myActor == 1){
+				attackClass = ["enemy", "player"]
+			}
+
 			if(battleObject[r].Damage > 0){
 				battleResult = $("<div class='result'><span class='attacker " + attackClass[battleObject[r].Actor] + "'>" + name + "</span> attacked for <span class='damage'>" + battleObject[r].Damage + "</span></div>");
 			}else{
@@ -881,8 +849,14 @@ function DisplayPVPMessage(Attack){
 	fightResults.append(round);
 	
 	if(battleObject.Winner !== undefined){
-		if(battleObject.Winner == 1){
-			fightResults.append("<div class='result wonFight'><span class='attacker player'>You</span> have successfully defended yourself!</span></div>");
+		if(battleObject.Winner == myActor){
+		
+			if(!PlayerIsAttacker){
+				fightResults.append("<div class='result wonFight'><span class='attacker player'>You</span> have successfully defended yourself!</span></div>");
+			}else{
+				fightResults.append("<div class='result wonFight'><span class='attacker player'>You</span> have defeated <span class='enemy'>" + EnemyName + "</span>!</span></div>");
+			}
+			
 			MyCharacter.Gold += battleObject.Gold;
 			MyCharacter.Experience += battleObject.Experience;
 			
@@ -899,7 +873,7 @@ function DisplayPVPMessage(Attack){
 		}
 	}
 	
-	$(fightResults).dialog({ title: "You Were Attacked!", modal: true });
+	return fightResults;
 }
 
 function DisplayChannelStatusUpdate(ChannelInfo){
