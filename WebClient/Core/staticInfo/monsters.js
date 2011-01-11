@@ -3,33 +3,75 @@
 	
 	Monsters["MONS_00000000000000000000001"] = { 
 		Id: "MONS_00000000000000000000001", 
-		Name: "Kobold",
+		Name: "Drunk Beggar",
 		Level: 1
 	},
 	
 	Monsters["MONS_00000000000000000000002"] = { 
 		Id: "MONS_00000000000000000000002", 
-		Name: "Boiling Coffee",
-		Level: 3
+		Name: "Street Urchin",
+		Level: 2
 	},
 	
 	Monsters["MONS_00000000000000000000003"] = { 
 		Id: "MONS_00000000000000000000003", 
-		Name: "Flailing Corpse",
-		Level: 5
+		Name: "Sly Peddler",
+		Level: 3
 	},
 	
 	Monsters["MONS_00000000000000000000004"] = { 
 		Id: "MONS_00000000000000000000004", 
-		Name: "Code Bug",
-		Level: 7
+		Name: "Stray Dog",
+		Level: 4
 	},
 	
 	Monsters["MONS_00000000000000000000005"] = { 
 		Id: "MONS_00000000000000000000005", 
-		Name: "UI Developer",
+		Name: "Cultist Initiate",
+		Level: 5
+	},
+	
+	Monsters["MONS_00000000000000000000006"] = { 
+		Id: "MONS_00000000000000000000001", 
+		Name: "Militia Volunteer",
+		Level: 6
+	},
+	
+	Monsters["MONS_00000000000000000000007"] = { 
+		Id: "MONS_00000000000000000000002", 
+		Name: "Murderous Cultist",
+		Level: 7
+	},
+	
+	Monsters["MONS_00000000000000000000008"] = { 
+		Id: "MONS_00000000000000000000003", 
+		Name: "Street Performer",
+		Level: 8
+	},
+	
+	Monsters["MONS_00000000000000000000009"] = { 
+		Id: "MONS_00000000000000000000004", 
+		Name: "Enticing Ladies",
 		Level: 9
 	},
+	
+	Monsters["MONS_00000000000000000000010"] = { 
+		Id: "MONS_00000000000000000000005", 
+		Name: "Novice Assassin",
+		Level: 10
+	},
+	
+	Monsters["MONS_00000000000000000000011"] = { 
+		Id: "MONS_00000000000000000000004", 
+		Name: "Street Brawler",
+		Level: 11
+	},
+	
+	Monsters["MONS_00000000000000000000012"] = { 
+		Id: "MONS_00000000000000000000005", 
+		Name: "Hired Thug",
+		Level: 12
+	}
 	
 	V2Core.Monsters = Monsters;
 })(window);

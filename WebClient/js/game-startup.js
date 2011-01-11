@@ -451,6 +451,10 @@ function BuildGameWindow(){
 			case 2: //bank
 				BuildBank(topWindow);
 				break;
+				
+			case 3: //exit
+				BuildExit(topWindow);
+				break;
 		}
 	}
 }
@@ -504,8 +508,34 @@ function SubmitBankTransfer(){
 	vc.ms.Transfer(amt, name, ProcessBankTransfer);
 }
 
+
+
+function BuildExit(topWindow){
+	//ChangeMapvar
+	myLocation = MyCharacter.CurrentMap.Places[MyCharacter.PositionY][MyCharacter.PositionX];
+	var name = "Bank";
+	if(myLocation.Name !== undefined){
+		var name = myLocation.Name;
+	}
+	
+	topWindow.append("<h1>" + name + "</h1>");
+	var button = $("<button class='button'>Exit to " + myLocation.ExitTo + "</button>").bind("click", function(e){ e.preventDefault(); vc.ms.ChangeMap(ProcessMapChange); });
+	var buttonContainer = $("<div class='locationExit'/>").append(button);
+	topWindow.append(buttonContainer);
+}
+
+function ProcessMapChange(data){
+	if(data.Result == vc.ER_SUCCESS){
+		window.MyCharacter.CurrentMap = Maps[data.Data.MapId];
+		window.MyCharacter.PositionX = data.Data.PositionX;
+		window.MyCharacter.PositionY =  data.Data.PositionY;
+		BuildMap();
+		BuildGameWindow();
+		vc.i.UpdateStats();
+	}
+}
+
 function BuildBank(topWindow){
-	var item = {};
 	var myLocation = MyCharacter.CurrentMap.Places[MyCharacter.PositionY][MyCharacter.PositionX];
 	var name = "Bank";
 	if(myLocation.Name !== undefined){
@@ -1036,3 +1066,9 @@ function Logout(data){
 function isInteger(s) {
   return (s.toString().search(/^-?[0-9]+$/) == 0);
 }
+// Array Remove - By John Resig (MIT Licensed)
+Array.prototype.remove = function(from, to) {
+  var rest = this.slice((to || from) + 1 || this.length);
+  this.length = from < 0 ? this.length + from : from;
+  return this.push.apply(this, rest);
+};

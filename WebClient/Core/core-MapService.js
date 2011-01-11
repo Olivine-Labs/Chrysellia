@@ -13,6 +13,8 @@
 	
 	MapService = MapService.prototype = {
 		ACTION_MOVE: 0,
+		ACTION_CHANGEMAP: 1,
+		
 		ACTION_BUY: 0,
 		ACTION_SELL: 1,
 		ACTION_REVIVE: 2,
@@ -28,6 +30,14 @@
 			$.getJSON(
 				V2Core.SERVERCODE_DIRECTORY + "Map.php",
 				{ Action: MapService.ACTION_MOVE, Data: JSON.stringify({ X:x, Y:y }) },
+				function(data) { callback(data); }
+			);
+		},
+		
+		ChangeMap: function(callback){
+			$.getJSON(
+				V2Core.SERVERCODE_DIRECTORY + "Map.php",
+				{ Action: MapService.ACTION_CHANGEMAP, Data: JSON.stringify({  }) },
 				function(data) { callback(data); }
 			);
 		},
