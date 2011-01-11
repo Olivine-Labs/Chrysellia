@@ -5,7 +5,7 @@ namespace Database;
 /**
  * Abstract class that holds definitions for monster query functions
  */
-abstract class monsters
+abstract class Monsters
 {
 	/**
 	 * Contains a reference to the parent Database class

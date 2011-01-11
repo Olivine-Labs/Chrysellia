@@ -9,7 +9,7 @@ define('SQL_ISMONSTERINCELL', 'SELECT 1 FROM `map_monsters` mm WHERE mm.monsterI
 /**
  * class that holds definitions for monster query functions
  */
-class monsters extends \Database\monsters
+class monsters extends \Database\Monsters
 {
 	/**
 	 * Contains a reference to the parent Database class
