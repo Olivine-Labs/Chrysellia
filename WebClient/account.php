@@ -20,13 +20,12 @@
 		
 		<link href='http://fonts.googleapis.com/css?family=Crimson+Text&subset=latin' rel='stylesheet' type='text/css'>
 		
-		
-		<link href="css/html5-reset.css" rel="stylesheet" media="screen" />
+		<!--<link href="css/html5-reset.css" rel="stylesheet" media="screen" />
 		<link href="css/jquery-ui.css" rel="stylesheet" media="screen" />
-		<link href="css/grid.css" rel="stylesheet" media="screen" />
-		<link href="css/neflaria-base.css" rel="stylesheet" media="screen" />
-		<!--<link href="css/neflaria.min.css" rel="stylesheet" media="screen" />
-		<link href="css/grid.min.css" rel="stylesheet" media="screen" />-->
+		<link href="css/grid-fluid.css" rel="stylesheet" media="screen" />
+		<link href="css/neflaria-base.css" rel="stylesheet" media="screen" />-->
+		<link href="css/neflaria.min.css" rel="stylesheet" media="screen" />
+		<link href="css/grid.min.css" rel="stylesheet" media="screen" />
 
 		<!--[if IE 8]>
 		<link href="css/ie8.css" rel="stylesheet" media="screen" />
@@ -272,11 +271,17 @@
 		<script src="./Core/json.js" type="text/javascript"></script>-->
 		<script src="./js/plugins.min.js"></script>
 		
-		 <!--For the production version, we'll minify and combine our javascript, and keep a plain version for us -->
+		<!-- For the production version, we'll minify and combine our javascript, and keep a plain version for us
 		<script src="./Core/core.js"></script>
 		<script src="./Core/core-AccountService.js"></script>
 		<script src="./Core/core-CharacterService.js"></script>
-		<!--<script src="./Core/core.min.js"></script>-->
+		<script src="./Core/core-CommandService.js"></script>
+		<script src="./Core/core-ChatService.js"></script>
+		<script src="./Core/core-MapService.js"></script>
+		<script src="./Core/core-ItemService.js"></script>
+		<script src="./Core/core-MonsterService.js"></script>
+		<script src="./Core/core-Interface.js"></script>-->
+		<script src="./Core/core.min.js"></script>
 
 		<!-- Data Libraries -->
 		<script src="./Core/staticInfo/races.js"></script>

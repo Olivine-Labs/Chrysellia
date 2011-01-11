@@ -830,6 +830,7 @@ function LoadInventory(data){
 	}
 	
 	BuildMap();
+	$("#loading").animate({ opacity: 0 }, 500, function(){ $("#loading").remove(); });
 }
 
 function BuildInventoryLists(){
