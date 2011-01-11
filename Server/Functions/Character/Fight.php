@@ -32,7 +32,7 @@ if(
 					){
 						if($Database->Characters->LoadTraits($Character) && $Database->Characters->LoadTraits($EnemyCharacter))
 						{
-							if(($Character->Health > 0) && ($EnemyCharacter->Health > 0))
+							if(($Character->Health > 0) && ($EnemyCharacter->Health > 0) && ($EnemyCharacter->Level >= $Character->Level*0.75))
 							{
 								$SameMonster = false;
 								//$CurrentFight = null;
