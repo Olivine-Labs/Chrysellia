@@ -264,6 +264,11 @@ function LoadCharacterList(list){
 		alert("Please login again.");
 		window.location = "./index.php";
 	}
+	
+	if(list.Data.length == 0){
+		var text = "<p>Often times we view the past as the golden years. Years in which the world was just better, things worked the way they were supposed to. Logic prevailed and insanity was not as close to home as is in the now. At few moments in history do these feelings, this nostalgia, actually hold any meaning in the real world. Few are the times in which today really is worse than yesterday.</p><p>According to the survivors, Neflaria was once a rich continent filled with wonders beyond the dreams of even the most imaginative minds, the pinnacle of civilization. When taken with a grain of salt, we see that this land truly was once prosperous and free of the oppression of evil. As a fledgeling historian, I have tasked myself with solving the riddle that is this land we now live in and what caused the loss of so many priceless objects and more importantly, knowledge. Many survivors speak of the great libraries in Ta'Lorn, the kingdom of light, and the fantastic implements of war created by the Dwarves in their mountain kingdom of Asbarun. Although there is much history in the greatness that was before, I have yet to discover a soul willing to divulge the great evils that brought this once fantastic land to it's proverbial knees.</p><p>My journey begins in Ta'Lorn, where hopefully I will find some clue as the the fate of this once great kingdom...</p>"
+		$("<div>" + text + "</div>").dialog({ modal: true, title: "Welcome to Chrysellia", width: 450, height: 400 });
+	}
 }
 
 function SelectCharacter(chardata){
