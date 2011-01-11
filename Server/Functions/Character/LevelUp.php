@@ -14,7 +14,7 @@ try
 	if(
 		property_exists($Get, 'Stat')
 	){
-		if(($Get->Stat >= 0) && ($Get->Stat < 5))
+		if(($Get->Stat >= 0) && ($Get->Stat <= 5))
 		{
 			$Character = new \Entities\Character();
 			$Character->CharacterId = $_SESSION['CharacterId'];
