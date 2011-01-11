@@ -26,7 +26,7 @@ if(
 				$Database->startTransaction();
 				$Item = new \Entities\Item();
 				$Item->ItemId = $Get->ItemId;
-				if($Database->Items->LoadById($Item) && $Database->Items->ItemGetOwnership($Character, $Item))
+				if($Database->Items->LoadById($Item) && $Database->Items->CharacterOwnsItem($Character, $Item))
 				{
 					$Character->Gold += $Item->SellPrice;
 					if($Database->Items->Delete($Item) && $Database->Characters->UpdateTraits($Character))
