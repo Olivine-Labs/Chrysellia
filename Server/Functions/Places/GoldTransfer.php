@@ -23,7 +23,7 @@ if(
 		{
 			if($Cell['PlaceId'] == 'PLAC_00000000000000000000003')
 			{
-				if($Character->Bank > $Get->Gold)
+				if($Character->Bank >= $Get->Gold)
 				{
 					$TargetCharacter = new \Entities\Character();
 					$TargetCharacter->Name = $Get->Name;
