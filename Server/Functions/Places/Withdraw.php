@@ -18,7 +18,7 @@ if(
 	{
 		$Map = new \Entities\Map();
 		$Map->MapId = $Character->MapId;
-		if($Cell = $Database->Maps->LoadCell($Map, $Character->PositionX, $Character->PositionY))
+		if(is_array($Cell = $Database->Maps->LoadCell($Map, $Character->PositionX, $Character->PositionY)))
 		{
 			if($Cell['PlaceId'] == 'PLAC_00000000000000000000003')
 			{

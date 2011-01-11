@@ -2,9 +2,9 @@
 
 namespace Database\MySQL;
 
-define('SQL_GETCELL', 'SELECT `isBlocked`, `placeId`, `isPvp` FROM `map_places` WHERE `mapId`=? AND `positionX`=? AND `positionY`=?');
+define('SQL_GETCELL', 'SELECT `isBlocked`, `placeId`, `isPvp`, `newMapId`, `newMapPositionX`, `newMapPositionY` FROM `map_places` WHERE `mapId`=? AND `positionX`=? AND `positionY`=?');
 define('SQL_GETMAP', 'SELECT `name`, `dimensionX`, `dimensionY` FROM `maps` WHERE `mapId`=?');
-define('SQL_INSERTCELL', 'INSERT INTO `map_places` (`mapId`, `placeId`, `positionX`, `positionY`, `isBlocked`, `isPvp`) VALUES (?, ?, ?, ?, ?, ?) ON DUPLICATE KEY UPDATE `placeId`=?, `isBlocked`=?, `isPvp=?`');
+define('SQL_INSERTCELL', 'INSERT INTO `map_places` (`mapId`, `placeId`, `positionX`, `positionY`, `isBlocked`, `isPvp`, `newMapId`, `newMapPositionX`, `newMapPositionY`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?) ON DUPLICATE KEY UPDATE `placeId`=?, `isBlocked`=?, `isPvp=?`');
 
 /**
  * class that holds definitions for map query functions
@@ -52,7 +52,7 @@ class Maps extends \Database\Maps
 		$Query->Execute();
 
 		$Result = Array();
-		$Query->bind_result($Result['Blocked'], $Result['PlaceId'], $Result['Pvp']);
+		$Query->bind_result($Result['Blocked'], $Result['PlaceId'], $Result['Pvp'], $Result['NewMapId'], $Result['NewMapPositionX'], $Result['newMapPositionY']);
 
 		if($Query->fetch()){
 			return $Result;
