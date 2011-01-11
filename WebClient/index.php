@@ -247,7 +247,7 @@ include_once('php/simplepie.inc');
 		<div id="playNow" style="display:none">
 			<section class="register">
 				<h1>Register</h1>
-				<p><a class="fb_button fb_button_medium" id="fbregister" href="#"><span class="fb_button_text">Log In</span></a> and skip registration!</p>
+				<p><a class="fb_button fb_button_medium" id="fbregister" href="#"><span class="fb_button_text">Register</span></a> and skip registration!</p>
 				<em class="or">or</em>
 				<form action="submitaction.php" method="post"  id="registerForm">
 					<div class="formRow">
@@ -320,7 +320,7 @@ include_once('php/simplepie.inc');
 			</section>
 			<section class="logIn">
 				<h1>Log In</h1>
-				<p><a class="fb_button fb_button_medium" id="fblogin" href="#"><span class="fb_button_text">Register</span></a></p>
+				<p><a class="fb_button fb_button_medium" id="fblogin" href="#"><span class="fb_button_text">Log In</span></a></p>
 				<em class="or">or</em>
 				<form action="submitaction.php" method="post"  id="loginForm">
 					<div class="formRow">
