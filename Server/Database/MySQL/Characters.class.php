@@ -12,7 +12,7 @@ define('SQL_CHECKCHARACTERNAME', 'SELECT `characterId` FROM `characters` WHERE `
 
 //Traits
 define('SQL_GETCHARACTERTRAITS', 'SELECT `raceId`, `gender`, `alignGood`, `alignOrder`, `level`, `freelevels`, `experience`, `strength`, `dexterity`, `intelligence`, `wisdom`, `vitality`, `health`, `experienceBonus`, `alignBonus`, `strengthBonus`, `dexterityBonus`, `intelligenceBonus`, `wisdomBonus`, `vitalityBonus`, `gold`, `bank` FROM `character_traits` WHERE `characterId`=?');
-define('SQL_UPDATECHARACTERTRAITS', 'UPDATE `character_traits` SET `alignGood`=?, `alignOrder`=?, `level`=?, `freelevels`=?, `experience`=?, `strength`=?, `dexterity`=?, `intelligence`=?, `wisdom`=?, `vitality`=?, `health`=?, `experienceBonus`=?, `alignBonus`=?, `strengthBonus`=?, `dexterityBonus`=?, `intelligenceBonus`=?, `wisdomBonus`=?, `vitalityBonus`=?, `gold`=? WHERE `characterId`=?');
+define('SQL_UPDATECHARACTERTRAITS', 'UPDATE `character_traits` SET `alignGood`=?, `alignOrder`=?, `level`=?, `freelevels`=?, `experience`=?, `strength`=?, `dexterity`=?, `intelligence`=?, `wisdom`=?, `vitality`=?, `health`=?, `experienceBonus`=?, `alignBonus`=?, `strengthBonus`=?, `dexterityBonus`=?, `intelligenceBonus`=?, `wisdomBonus`=?, `vitalityBonus`=?, `gold`=?, `bank`=? WHERE `characterId`=?');
 define('SQL_GETCHARACTERRACETRAITS', 'SELECT (rt.strength + r.strength) AS `strength`, (rt.dexterity + r.dexterity) AS `dexterity`, (rt.wisdom + r.wisdom) AS `wisdom`, (rt.intelligence + r.intelligence) AS `intelligence`, (rt.vitality + r.vitality) AS `vitality`, `racialAbility` FROM `character_race_traits` rt INNER JOIN `character_traits` ct ON ct.characterId=rt.characterId INNER JOIN `races` r ON r.raceId=ct.raceId  WHERE rt.characterId=?');
 define('SQL_INSERTCHARACTERTRAITS', 'INSERT INTO `character_traits` (`characterId`, `raceId`, `gender`, `strength`, `dexterity`, `intelligence`, `wisdom`, `vitality`, `health`, `gold`) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?)');
 define('SQL_INSERTCHARACTERRACETRAITS', 'INSERT INTO `character_race_traits` (`characterId`, `strength`, `dexterity`, `wisdom`, `intelligence`, `vitality`, `racialAbility`) VALUES (?, ?, ?, ?, ?, ?, ?)');
@@ -398,7 +398,7 @@ class Characters extends \Database\Characters
 	{
 		$Query = $this->Database->Connection->prepare(SQL_UPDATECHARACTERTRAITS);
 		$this->Database->logError();
-		$Query->bind_param('iiiiiiiiiiiiiiiiiiis', $Character->AlignGood, $Character->AlignOrder, $Character->Level, $Character->FreeLevels, $Character->Experience, $Character->Strength, $Character->Dexterity, $Character->Intelligence, $Character->Wisdom, $Character->Vitality, $Character->Health, $Character->ExperienceBonus, $Character->AlignBonus, $Character->StrengthBonus, $Character->DexterityBonus, $Character->IntelligenceBonus, $Character->WisdomBonus, $Character->VitalityBonus, $Character->Gold, $Character->CharacterId);
+		$Query->bind_param('iiiiiiiiiiiiiiiiiiiis', $Character->AlignGood, $Character->AlignOrder, $Character->Level, $Character->FreeLevels, $Character->Experience, $Character->Strength, $Character->Dexterity, $Character->Intelligence, $Character->Wisdom, $Character->Vitality, $Character->Health, $Character->ExperienceBonus, $Character->AlignBonus, $Character->StrengthBonus, $Character->DexterityBonus, $Character->IntelligenceBonus, $Character->WisdomBonus, $Character->VitalityBonus, $Character->Gold, $Character->Bank, $Character->CharacterId);
 		$Query->Execute();
 		
 		if($Query->affected_rows > -1)
