@@ -1,6 +1,7 @@
 ﻿$(function(){
 	if($.cookie("theme") == "dark"){
 		$("body").addClass("dark");
+		$("#themeSelect").children("options").eq(1).attr("selected", "selected");
 	}
 	
 	$("#themeSelect").bind("change", function(e){ 

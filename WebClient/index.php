@@ -41,11 +41,9 @@ include_once('php/simplepie.inc');
 
 		<meta name="author" content="silwarnaiilo@neflaria.com" />
 		<meta name="distribution" content="Global" />
-		<meta name="copyright" content="All content copyright 2010 Chrysolite Foundation. All rights reserved." />
-		<!-- todo: remove for beta -->
-		<meta name="robots" content="nofollow" />
+		<meta name="copyright" content="All content copyright 2010 Jack Lawson and Drew Ditthardt. All rights reserved." />
 		
-		<title>Chrysellia</title>
+		<title>Chrysellia (Beta)</title>
 		
 		<!--[if IE]>
 			<script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
@@ -77,7 +75,6 @@ include_once('php/simplepie.inc');
 		<link rel="alternate" type="application/rss+xml" title="Neflaria News RSS Feed" href="http://v2.neflaria.com/blog/feed/" />
 	</head>
 	<body>	
-		<!--<div id="loading" style="width: 100%; height: 100%; background-color: #000; text-align: center; position: absolute; top: 0; left: 0; z-index: 10000;"><div style="margin-top: 100px; color: #fff;"><h1>THIS IS THE TEST SERVER. THIS IS NOT THE RIGHT SERVER. YOU CAN'T PLAY THE GAME HERE. <a href='http://www.chrysellia.com'>http://www.chrysellia.com</a></h1> We are currently experiencing server issues due to the foot of snow dumped on the server. Please be patient.</div></div>-->
 
 		<!--<div id="messages">
 			<div class="container_12">
@@ -121,32 +118,7 @@ include_once('php/simplepie.inc');
 		<section id="top10" class="container_12">
 			<div class="grid_12">
 			<h1>Top 25 (Level):</h1>
-				<ul>
-					<li></li>
-					<li></li>
-					<li></li>
-					<li></li>
-					<li></li>
-					<li></li>
-					<li></li>
-					<li></li>
-					<li></li>
-					<li></li>
-					<li></li>
-					<li></li>
-					<li></li>
-					<li></li>
-					<li></li>
-					<li></li>
-					<li></li>
-					<li></li>
-					<li></li>
-					<li></li>
-					<li></li>
-					<li></li>
-					<li></li>
-					<li></li>
-					<li></li>
+				<ul id="topList">
 				</ul>
 			</div>
 		</section>
@@ -174,9 +146,12 @@ include_once('php/simplepie.inc');
 								<ul>
 									<li>
 										Chrysellia was developed for the <a href="https://gaming.mozillalabs.com/" target="_blank">Mozilla Labs Game On</a> 
-										competition. As such, Chrysellia is NOT feature-complete. We took the game to the point of playability, with most 
-										of the features of Neflaria, and we plan on adding a whole lot more after the juding period. Things like:
+										competition. As such, <strong>Chrysellia is NOT feature-complete</strong> We took the game to the point of playability, 
+										with some of the features of Neflaria, and we plan on adding a whole lot more after the judging period. In other words,
+										Don't come in expecting Neflaria, or a Neflaria replacement YET. We plan on adding like:
 										<ul>
+											<li>18,000 locations and over 50 zones on the first plane of seven</li>
+											<li>Thousands of monsters and items</li>
 											<li>Extended Clan Wars</li>
 											<li>New Continents to Explore</li>
 											<li>New Races, Weapons, Spells, and Armors</li>

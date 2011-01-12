@@ -8,11 +8,9 @@
 
 		<meta name="author" content="silwarnaiilo@neflaria.com" />
 		<meta name="distribution" content="Global" />
-		<meta name="copyright" content="All content copyright 2010 Chrysolite Foundation. All rights reserved." />
-		<!-- todo: remove for beta -->
-		<meta name="robots" content="nofollow" />
+		<meta name="copyright" content="All content copyright 2010 Jack Lawson and Drew Ditthardt. All rights reserved." />
 		
-		<title>Chrysellia</title>
+		<title>Chrysellia (Beta)</title>
 		
 		<!--[if IE]>
 			<script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
