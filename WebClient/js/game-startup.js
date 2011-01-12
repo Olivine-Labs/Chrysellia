@@ -7,8 +7,10 @@
 		$this = $(this);
 		if($this.val() == 0){
 			$("body").removeClass("dark");
+			$.cookie("theme", "light")
 		}else{
 			$("body").addClass("dark");
+			$.cookie("theme", "dark")
 		}
 	});
 	
