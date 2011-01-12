@@ -154,15 +154,15 @@ color: #000000;
 #info { margin-top: 2px; }
 .info { margin-right: 3em; font-family: 'DejaWeb', Arial, Helvetica, sans-serif; }
 
-#messages { background: url(images/greypattern.png) #666; color: #fff; height: 30px; border-bottom: solid 2px #202020; }
+#messages { background: url(images/greypattern.png) #666; color: #fff; height: 34px; border-bottom: solid 2px #202020; }
 #messages a, .copyright a { color: #ff0; }
 
-#navigation { background: #940000; color: #fff; height: 26px; padding-top: 4px; border-top: solid 1px #bf6666 }
-#navigation ul { float: left; }
+#navigation { background: #940000; color: #fff; height: 32px;border-top: solid 1px #bf6666 }
+#navigation ul { float: left;  margin-top: 5px; }
 #navigation li { display: inline-block; margin-right: .5em; }
 #navigation li a { display: inline-block; height: 20px; padding: 3px 10px; color: #fff; text-shadow: 0px 1px 1px #000; }
 #navigation li a.selected { text-shadow: none; color: #940000; background-color: #fff; -webkit-border-top-left-radius: 5px; -webkit-border-top-right-radius: 5px; -moz-border-radius-topleft: 5px; -moz-border-radius-topright: 5px; border-top-left-radius: 5px; border-top-right-radius: 5px; }
-
+.fb_ltr { position: relative; top: 4px; }
 .quickLogin { float: right; }
 .quickLogin .button { position: relative; top: 1px; }
 

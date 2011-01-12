@@ -98,11 +98,12 @@ include_once('php/simplepie.inc');
 							<!--<li><a href="#">Rankings</a></li>-->
 							<li><a href="http://forum.chrysellia.com" target="_blank">Forum</a></li>
 							<li><form target="_blank" method="post" action="https://www.paypal.com/cgi-bin/webscr"><input type="hidden" value="_s-xclick" name="cmd"><input type="hidden" value="U9PMXZHBZPVPJ" name="hosted_button_id"><input type="image" border="0" alt="PayPal - The safer, easier way to pay online!" name="submit" src="./css/images/donate.png" class='donateButton'><img width="1" height="1" border="0" src="https://www.paypal.com/en_US/i/scr/pixel.gif" alt=""></form></li>
+							<li class='fbButton'><script src="http://connect.facebook.net/en_US/all.js#xfbml=1"></script><fb:like href="http://www.chrysellia.com" layout="button_count" show_faces="true" width="100"></fb:like></li>
 							<!--<li><a href="#">Store</a></li>-->
 						</ul>
 					</nav>
 					
-					<div class="quickLogin">
+					<div class="quickLogin" style="display: none;">
 						<form action="submitaction.php" method="post" id="quickLoginForm">
 							<input type="text" placeholder="Username" name="quickLogin_un" id="quickLogin_un" />
 							<input type="password" placeholder="Password" name="quickLogin_pw" id="quickLogin_pw" />
@@ -138,6 +139,12 @@ include_once('php/simplepie.inc');
 					
 					<section class="grid_8 news">
 						<h1>News</h1>
+						<section class="mainNews newsItem">
+							<h1>Whoops, Bugfix</h1>
+							<p>
+								We've fixed a bug that kept people from logging in. And creating accounts. Whoops.
+							</p>
+						</section>
 						<section class="mainNews newsItem">
 							<h1>Chrysellia Beta Open</h1>
 							<em class="alternate"><date>1/11/10</date> - by Silwar Naiilo</em>

@@ -235,8 +235,16 @@ function CurrentStatBalance(){
 	$(".statChooser").each(function(){
 		used += ($(this).text() *1);
 	});
+	
+	var total = 0;
+	var race = V2Core.Races[$("#c_race").val()];
+	total += race.Str;
+	total += race.Dex;
+	total += race.Int;
+	total += race.Wis;
+	total += race.Vit;
 
-	return 25 - (used - 125);
+	return 25 - (used - total);
 }
 
 function LoadCharacterList(list){
@@ -255,11 +263,11 @@ function LoadCharacterList(list){
 			$('<div class="character"><input type="hidden" value="' + c.CharacterId + '" class="c_id" /><input type="hidden" value="' + c.HasPin + '" class="c_haspin" /><a class="button bigButton" href="#"><span class="characterPortrait ' + c.RaceName().replace(/ /g,'') + '"></span><span class="characterName">' + c.Name + '</span> <span class="characterStats">Lvl ' + level + ' ' + c.AlignName() + " " + c.RaceName() + '</span><ul class="recentActivity"><li class="ra_gold"><span class="icon gold"></span><span>' + c.Gold + '</span></li><li class="ra_location">Located at ' + x + ', ' + y + ' ' + c.CurrentMap.Name + '</li><li class="ra_created">Created: ' + c.CreatedOn + '</li></ul></a></div>').appendTo($login);
 		});
 	}else{
-		if($.cookie("l")=="true"){
+		if($.cookie("l") == "true"){
 			vc.as.Logout(Logout);
 		}
 		
-		$.cookie("l")= "false";
+		$.cookie("l", "false");
 		
 		alert("Please login again.");
 		window.location = "./index.php";
