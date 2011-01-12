@@ -22,7 +22,7 @@ if(
 		{
 			if($Cell['PlaceId'] == 'PLAC_00000000000000000000003')
 			{
-				if($Character->Bank >= $Get->Gold)
+				if($Get->Gold > 0 && $Character->Bank >= $Get->Gold)
 				{
 					$Character->Bank -= $Get->Gold;
 					$Character->Gold += $Get->Gold;

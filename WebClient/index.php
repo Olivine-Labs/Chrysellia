@@ -76,7 +76,9 @@ include_once('php/simplepie.inc');
 		<link rel="icon" type="image/png" href="images/favicon.ico" /> 
 		<link rel="alternate" type="application/rss+xml" title="Neflaria News RSS Feed" href="http://v2.neflaria.com/blog/feed/" />
 	</head>
-	<body>
+	<body>	
+		<!--<div id="loading" style="width: 100%; height: 100%; background-color: #000; text-align: center; position: absolute; top: 0; left: 0; z-index: 10000;"><div style="margin-top: 100px; color: #fff;"><h1>THIS IS THE TEST SERVER. THIS IS NOT THE RIGHT SERVER. YOU CAN'T PLAY THE GAME HERE. <a href='http://www.chrysellia.com'>http://www.chrysellia.com</a></h1> We are currently experiencing server issues due to the foot of snow dumped on the server. Please be patient.</div></div>-->
+
 		<!--<div id="messages">
 			<div class="container_12">
 				<div class="grid_12" id="info">

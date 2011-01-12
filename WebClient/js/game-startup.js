@@ -426,9 +426,12 @@ function BuildGameWindow(){
 			var monster = {};
 			var option = {};
 			var monstersOptGroup = $("<optgroup label='Monsters' />");
+			
 			for(m in myLocation.Monsters){
 				if(m != "remove"){
-					monster = V2Core.Monsters[myLocation.Monsters[m]];
+					var monsterId = "MONS_00000000000000000000001";
+					var monsterId = monsterId.substr(0, monsterId.length - (myLocation.Monsters[m] + "").length) + myLocation.Monsters[m];
+					monster = V2Core.Monsters[monsterId];
 					option = $("<option value='" + monster.Id + "'>" + monster.Name + "</option>").appendTo(monstersOptGroup);
 				}
 			}
@@ -462,11 +465,14 @@ function BuildGameWindow(){
 
 function SubmitBankTransaction(){
 	var amt = $("#transactionAmount").val();
-	
-	if($("#transactionTypeSelection").val() == 0){
-		vc.ms.Deposit(amt, ProcessBankTransaction);
+	if(amt < 0){
+		if($("#transactionTypeSelection").val() == 0){
+			vc.ms.Deposit(amt, ProcessBankTransaction);
+		}else{
+			vc.ms.Widthdraw(amt, ProcessBankTransaction);
+		}
 	}else{
-		vc.ms.Widthdraw(amt, ProcessBankTransaction);
+		alert("No.");
 	}
 }
 
