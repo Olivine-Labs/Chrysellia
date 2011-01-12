@@ -46,8 +46,8 @@
 		<div id="messages">
 			<div class="container_12">
 				<div class="grid_12" id="info">
-					<span class="info">You last logged in at 3:00 last Tuesday from around Cincinnati, OH (123.85.987.123).</span>
-					<span class="info"><strong>You have 8 unread private messages on your characters.</strong></span>
+					<span class="info"></span>
+					<span class="info"><strong></strong></span>
 				</div>
 			</div>
 			<div class="clear"></div>

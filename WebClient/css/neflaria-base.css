@@ -4,6 +4,14 @@ body {
 	line-height: 1.25em;
 }
 
+body.game {
+	background-color: #111;
+	color: #fff;
+}
+
+.game section h1 { color: #c33; }
+.game .fightResults .enemy { color: #c33; }
+
 .alternate { font-family: 'DejaWeb', Arial, Helvetica, sans-serif; }
 
 a, a:link, a:visited {
@@ -355,3 +363,10 @@ form label { display: inline-block; margin-right: .5em; }
 .bankTransfer { float: left; }
 .transferTarget { margin-left: .5em; }
 #bankTransactionForm h3 { margin: .25em 0; }
+
+body.game.dark {	background-color: #111;	color: #fff;}
+.game.dark section h1 { color: #c33; }
+.game.dark .fightResults .enemy { color: #c33; }
+.dark .ui-widget-content { background: #222; color: #ccc; }
+.dark #statsWindow .stat:nth-child(even), .dark .itemSelection:nth-child(even), .dark .row:nth-child(even){background:#444;}
+.dark .ui-tabs-nav .ui-state-active, .dark .ui-tabs-nav .ui-state-active .chatChannelLabel { color: #fff; }

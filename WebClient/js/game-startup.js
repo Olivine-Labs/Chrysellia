@@ -1,4 +1,17 @@
 ﻿$(function(){
+	if($.cookie("theme") == "dark"){
+		$("body").addClass("dark");
+	}
+	
+	$("#themeSelect").bind("change", function(e){ 
+		$this = $(this);
+		if($this.val() == 0){
+			$("body").removeClass("dark");
+		}else{
+			$("body").addClass("dark");
+		}
+	});
+	
 	window.chatTabIndex = 0;
 	
 	$("#myCharacter_ExperienceBar").progressbar();
@@ -64,36 +77,30 @@
 	$("#moveSW").button({ icons: { primary: "ui-icon-arrowthick-1-sw" }, text: false });
 	$("#moveS").button({ icons: { primary: "ui-icon-arrowthick-1-s" }, text: false });
 	$("#moveSE").button({ icons: { primary: "ui-icon-arrowthick-1-se" }, text: false });
-	$("#moveLook").button({ icons: { primary: "ui-icon-search" }, text: false }).bind("click", function(e){ e.preventDefault(); vc.cs.PlayerListByLocation(ExamineLocation); });
 	
 	$("#movementform button").bind("click", function(e){
 		e.preventDefault();
 		$this = $(this);
 		
-		if($this.hasClass("look")){
-			
+		var dirx = $this.siblings(".x").val() *1;
+		var diry = $this.siblings(".y").val() *1;
+		var x = dirx + MyCharacter.PositionX *1;
+		var y = diry + MyCharacter.PositionY *1;
+		
+		if(x > (MyCharacter.CurrentMap.DimensionX -1) || MyCharacter.PositionX < 0){
+			x = MyCharacter.PositionX ;
+		}
+		
+		if(y > (MyCharacter.CurrentMap.DimensionY -1) || y < 0){
+			y = MyCharacter.PositionY ;
+		}
+		
+		vc.ms.Move(x, y, RefreshMap);
+		
+		if(dirx+diry == 1 || dirx + diry == -1){
+			window.setTimeout(function(){SetEnableMovement(true)}, 750);
 		}else{
-			SetEnableMovement(false);
-			var dirx = $this.siblings(".x").val() *1;
-			var diry = $this.siblings(".y").val() *1;
-			var x = dirx + MyCharacter.PositionX *1;
-			var y = diry + MyCharacter.PositionY *1;
-			
-			if(x > (MyCharacter.CurrentMap.DimensionX -1) || MyCharacter.PositionX < 0){
-				x = MyCharacter.PositionX ;
-			}
-			
-			if(y > (MyCharacter.CurrentMap.DimensionY -1) || y < 0){
-				y = MyCharacter.PositionY ;
-			}
-			
-			vc.ms.Move(x, y, RefreshMap);
-			
-			if(dirx+diry == 1 || dirx + diry == -1){
-				window.setTimeout(function(){SetEnableMovement(true)}, 750);
-			}else{
-				window.setTimeout(function(){SetEnableMovement(true)}, 1060);
-			}
+			window.setTimeout(function(){SetEnableMovement(true)}, 1060);
 		}
 	});
 	
@@ -138,7 +145,11 @@
 		if($this.val() == 0){
 			vc.is.UnEquip(window.MyCharacter.Equipment[slotType][slotIndex].ItemId, slotType, slotIndex, UnEquipItem);
 		}else{
-			vc.is.Equip($this.val(), slotType, slotIndex, EquipItem);
+			if(MyCharacter.Equipment[slotType][slotIndex] !== {}){
+				vc.is.UnEquip(window.MyCharacter.Equipment[slotType][slotIndex].ItemId, slotType, slotIndex, function(data){vc.is.Equip($this.val(), slotType, slotIndex, EquipItem)} );
+			}else{
+				vc.is.Equip($this.val(), slotType, slotIndex, EquipItem)
+			}
 		}
 	});
 	
@@ -180,6 +191,7 @@
 });
 
 function ExamineLocation(data){
+	$("#moveLook").button("option", "disabled", false);
 	if(data.Result == vc.ER_SUCCESS){
 		$("optgroup[label='Other Players']").remove();
 		var playersOptGroup = $("<optgroup label='Other Players' />");
@@ -319,8 +331,8 @@ function JoinChannel(data){
 		$("#joinChannelForm").dialog("close");
 		AddTab(data.Data.Name, data.Data.ChannelId, data.Data.Motd);
 		data.Data.Permissions.isJoined = 1;
-		
 		window.MyCharacter.Channels[data.Data.ChannelId] = { Motd: data.Data.Motd, Name: data.Data.Name, Permissions: data.Data.Permissions }
+		$('#chatChannels .ui-tabs-panel').css({'height':(($(window).height())-432)+'px'});
 	}else{
 		alert("An error has occured.");
 	}
@@ -422,6 +434,7 @@ function BuildGameWindow(){
 			
 			$("<button type='submit' id='attackButton' class='button attack'>Attack</button>").bind("click", function(e){ e.preventDefault(); Attack(0); }).button().appendTo(container);
 			$("<button type='submit' id='castButton' class='button cast'>Cast</button>").bind("click", function(e){ e.preventDefault(); Attack(1); }).button().appendTo(container);
+			$("<button class='look button' id='moveLook'>PK List</button>").bind("click", function(e){ $(this).button("option", "disabled", true); e.preventDefault(); vc.cs.PlayerListByLocation(ExamineLocation); }).button().appendTo(container);
 			
 			var monster = {};
 			var option = {};
@@ -465,7 +478,7 @@ function BuildGameWindow(){
 
 function SubmitBankTransaction(){
 	var amt = $("#transactionAmount").val();
-	if(amt < 0){
+	if(amt > 0){
 		if($("#transactionTypeSelection").val() == 0){
 			vc.ms.Deposit(amt, ProcessBankTransaction);
 		}else{
@@ -647,7 +660,7 @@ function BuildShop(topWindow){
 	var itemTypeSelection = $("<select id='itemTypeSelection'></select>").bind("change", function(e){ FilterItemTypes($(this).val()); });
 	var itemSelection = $("<select id='itemSelection'></select>");
 	var buyItem = $("<button id='buyItem' class='button'>Purchase</buy>").bind("click", function(e){ e.preventDefault(); BuyItem(); });
-	var itemInfo = $("<button id='itemInfo' class='button'>Info</buy>").bind("click", function(e){ e.preventDefault(); var index = $('#itemSelection option').index($(":selected")); if(index < 0){ index = 0; } DisplayItemInfo(vc.ItemTypes[2][$("#itemTypeSelection").val()][index]); });
+	var itemInfo = $("<button id='itemInfo' class='button'>Info</buy>").bind("click", function(e){ e.preventDefault(); var index = $('#itemSelection option:selected').prevAll().length; if(index < 0){ index = 0; } DisplayItemInfo(vc.ItemTypes[2][$("#itemTypeSelection").val()][index]); });
 	
 	var itemDescription = $("<div id='itemDescription'></div>");
 	var typeContainer = $("<div><label for='itemTypeSelection'>Shop For:</span></div>").append(itemTypeSelection).append(itemSelection);
@@ -679,7 +692,7 @@ function BuildShop(topWindow){
 	}
 	
 	var sellItem = $("<button id='sellItem' class='button'>Sell</buy>").bind("click", function(e){ e.preventDefault(); SellItem(); });
-	var sellInfo = $("<button id='sellInfo' class='button'>Info</buy>").bind("click", function(e){ e.preventDefault(); var index = $('#sellSelection option').index($(":selected")); if(index < 0){ index = 0; } DisplayItemInfo(MyCharacter.Inventories["Personal"][index]); });
+	var sellInfo = $("<button id='sellInfo' class='button'>Info</buy>").bind("click", function(e){ e.preventDefault(); var index = $('#sellSelection option:selected').prevAll().length; if(index < 0){ index = 0; } DisplayItemInfo(MyCharacter.Inventories["Personal"][index]); });
 	var sellDescription = $("<div id='sellDescription'></div>");
 	var sellContainer = $("<div><label for='sellSelection'>Sell:</span></div>").append(sellSelection);
 	sellForm.append(sellContainer).append(sellItem).append(sellInfo).append(sellDescription);
@@ -695,7 +708,7 @@ function SellItem(){
 }
 
 function DisplayItemInfo(item){
-	var index = $('#itemSelection option').index($(":selected"));
+	var index = $('#itemSelection option:selected').prevAll().length;
 	if(index < 0){
 		index = 0;
 	}

@@ -55,6 +55,7 @@
 					</span>
 					
 					<div class="accountActions">
+						Theme: <select id='themeSelect'><option value='0'>Light</option><option value='1'>Dark</option></select>
 						<a href="http://forum.chrysellia.com" target="_blank">Forum</a>
 						<a href="http://wiki.chrysellia.com" target="_blank">Manual</a>
 						<a href="http://blog.chrysellia.com" target="_blank">Blog</a>
@@ -112,7 +113,7 @@
 								</tr>
 								<tr>
 									<td><button class="w" id="moveW">W</button><input type="hidden" class="y" value="0" /><input type="hidden" class="x" value="-1" /></td>
-									<td><button class="look" id="moveLook">Look</button><input type="hidden" class="y" value="0" /><input type="hidden" class="x" value="0" /></td>
+									<td></td>
 									<td><button class="e" id="moveE">E</button><input type="hidden" class="y" value="0" /><input type="hidden" class="x" value="1" /></td>
 								</tr>
 								<tr>
