@@ -501,7 +501,9 @@ class Characters extends \Database\Characters
 		$Query = $this->Database->Connection->prepare(SQL_GETCOUNT);
 		$this->Database->logError();
 		$Query->Execute();
+
 		$Query->bind_result($Count);
+		$Query->fetch();
 		return $Count;
 	}
 }
