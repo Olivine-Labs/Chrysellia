@@ -18,6 +18,9 @@ if ( 'GET' == $_SERVER['REQUEST_METHOD'] )
 				case ACTION_TOP:
 					include './Functions/API/Top.php';
 					break;
+				case ACTION_COUNT:
+					include './Functions/API/Count.php';
+					break;
 				case ACTION_ONLINE:
 					include './Functions/API/Online.php';
 					break;

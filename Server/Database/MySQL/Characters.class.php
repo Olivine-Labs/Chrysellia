@@ -25,6 +25,11 @@ define('SQL_INSERTCHARACTERLOCATION', 'INSERT INTO `character_locations` (`chara
 
 define('SQL_LOADLISTFORCELL', 'SELECT c.characterId, c.name, ct.gender, ct.raceId, c.clanId, ct.level, ct.alignGood, ct.alignOrder FROM `characters` c INNER JOIN `character_locations` cl ON cl.characterId=c.characterId INNER JOIN `character_traits` ct ON ct.characterId=c.characterId WHERE cl.mapId=? AND cl.positionX=? AND cl.positionY=? AND ct.Health > 0');
 
+//API
+define('SQL_LOADTOPLISTASC', 'SELECT c.name, ct.gender, ct.raceId, c.clanId, ct.level, ct.alignGood, ct.alignOrder FROM `characters` c INNER JOIN `character_traits` ct ON ct.characterId=c.characterId WHERE ORDER BY `ct.level` ASC LIMIT ?, ?');
+define('SQL_LOADTOPLISTDESC', 'SELECT c.name, ct.gender, ct.raceId, c.clanId, ct.level, ct.alignGood, ct.alignOrder FROM `characters` c INNER JOIN `character_traits` ct ON ct.characterId=c.characterId WHERE ORDER BY `ct.level` DESC LIMIT ?, ?');
+define('SQL_GETCOUNT', 'SELECT count(*) FROM `characters`');
+
 /**
  * Contains properties and methods related to querying our characters table and relations
  */
@@ -445,6 +450,59 @@ class Characters extends \Database\Characters
 			}
 		}
 		return $Result;
+	}
+
+	/**
+	 * Loads a list of characters for API
+	 *
+	 * @return Array
+	 *   An Array of \Entities\Character objects
+	 */
+	function LoadTopList($NumRows, $Position, $Direction)
+	{
+		$Result = Array();
+		$Query = null;
+
+		if($Direction)
+			$Query = $this->Database->Connection->prepare(SQL_LOADTOPLISTASC);
+		else
+			$Query = $this->Database->Connection->prepare(SQL_LOADTOPLISTDESC);
+
+		$this->Database->logError();
+		$Query->bind_param('ii', $Position, $NumRows);
+
+		$Query->Execute();
+
+		$Query->bind_result($Name, $Gender, $RaceId, $ClanId, $Level, $AlignGood, $AlignOrder);
+
+		while($Query->fetch())
+		{
+			$Character = new \Entities\Character();
+			$Character->Name = $Name;
+			$Character->RaceId = $RaceId;
+			$Character->Gender = $Gender;
+			$Character->ClanId = $ClanId;
+			$Character->Level = $Level;
+			$Character->AlignGood = $AlignGood;
+			$Character->AlignOrder = $AlignOrder;
+			array_push($Result, $Character);
+		}
+		return $Result;
+	}
+
+	/**
+	 * Get total character count
+	 *
+	 * @return int
+	 *   How many characters there are in the db
+	 */
+	function GetCount()
+	{
+		$Query = $this->Database->Connection->prepare(SQL_GETCOUNT);
+		$this->Database->logError();
+		$Query->Execute();
+		$Query->bind_result($Count);
+		return $Count;
 	}
 }
 ?>
