@@ -41,6 +41,7 @@ try
 						$Item->ItemId = $JSONItem['ItemId'];
 						if(!$Database->Items->CharacterOwnsItem($Item))
 						{
+							$Result->Set('Result', \Protocol\Result::ER_BADDATA);
 							$ItemsOwned = false;
 							break;
 						}
@@ -49,6 +50,7 @@ try
 							if(!$Database->Items->InsertTradeItem($TradeId, $Item, 0))
 							{
 								$Success = false;
+								$Result->Set('Result', \Protocol\Result::ER_DBERROR);
 								break;
 							}
 						}
@@ -57,11 +59,21 @@ try
 					if($ItemsOwned && $Success)
 					{
 						$Result->Set('Result', \Protocol\Result::ER_SUCCESS);
-						$Database->commitTransaction();
+						$Data = array('MessageType'=>2, 'TradeId'=>$TradeId, 'Cost'=>$Get->Cost, 'Items'=>array());
+						$Index = 0;
+						foreach($Get->Items AS $JSONItem)
+						{
+							$Item = new \Entities\Item();
+							$Item->ItemId = $JSONItem['ItemId'];
+							$Database->Items->LoadById($Item);
+							$Data['Items'][$Index] = $Item;
+							$Index++;
+						}
+					$Database->Chat->Insert($Character, 'CHAN_00000000000000000000001', $Data, 255, $TargetCharacter);
+					$Database->commitTransaction();
 					}
 					else
 					{
-						$Result->Set('Result', \Protocol\Result::ER_BADDATA);
 						$Database->rollbackTransaction();
 					}
 				}

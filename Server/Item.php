@@ -14,6 +14,8 @@ if ( 'GET' == $_SERVER['REQUEST_METHOD'] )
 		define('ACTION_GETINVENTORY', 0);
 		define('ACTION_EQUIP', 1);
 		define('ACTION_UNEQUIP', 2);
+		define('ACTION_SENDTRADE', 3);
+		define('ACTION_ACCEPTTRADE', 4);
 
 		if(isset($_GET['Action']))
 		{
@@ -27,6 +29,12 @@ if ( 'GET' == $_SERVER['REQUEST_METHOD'] )
 					break;
 				case ACTION_UNEQUIP:
 					include './Functions/Item/Unequip.php';
+					break;
+				case ACTION_SENDTRADE:
+					include './Functions/Item/SendTrade.php';
+					break;
+				case ACTION_ACCEPTTRADE:
+					include './Functions/Item/AcceptTrade.php';
 					break;
 				default:
 					$Result->Set('Result', \Protocol\Result::ER_BADDATA);

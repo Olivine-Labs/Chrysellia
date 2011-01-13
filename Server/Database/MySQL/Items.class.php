@@ -38,7 +38,9 @@ define('SQL_INSERTINVENTORYFORCHARACTER', 'INSERT INTO `inventories` (`inventory
 define('SQL_ITEMGETOWNERSHIP', 'SELECT inv.characterId FROM `inventories` inv INNER JOIN `items` i ON i.inventoryId=inv.inventoryId WHERE i.itemId=? AND i.itemId NOT IN(SELECT `itemId` FROM `character_equipment` WHERE `characterId`=inv.characterId)');
 
 define('SQL_INSERTTRADE', 'INSERT INTO `trades` (`tradeId`, `inventoryTo`, `inventoryFrom`, `cost`) VALUES (?, ?, ?, ?)');
-define('SQL_INSERTTRADEITEM', 'INSERT INTO `trade_items` (`trade_id`, `sendRecv`, `itemId`) VALUES (?, ?, ?)');
+define('SQL_INSERTTRADEITEM', 'INSERT INTO `trade_items` (`tradeId`, `sendRecv`, `itemId`) VALUES (?, ?, ?)');
+define('SQL_LOADTRADE', 'SELECT t.tradeId, ti.sendRecv, t.inventoryTo, t.inventoryFrom, ti.itemId, ti.cost, it.itemTemplateId FROM `trades` t INNER JOIN `trade_items` ti ON t.tradeId=ti.tradeId INNER JOIN `items` i ON i.itemId=ti.itemId WHERE t.tradeId=?');
+define('SQL_DELETETRADE', 'DELETE FROM `trades` WHERE `tradeId`=?');
 
 define('SQL_GETEQUIPPEDITEMS', 'SELECT e.itemId, e.slotType, e.slots, e.slotNumber, i.name, i.description, i.buyPrice, i.sellPrice, i.itemType, i.createdOn, ie.masteryType, ie.itemClass, ie.sockets FROM `character_equipment` e INNER JOIN `items` i ON i.itemId=e.itemId INNER JOIN `item_equippables` ie ON ie.itemId=i.itemId WHERE e.characterId=? ORDER BY e.slotNumber ASC');
 define('SQL_EQUIPITEM', 'INSERT INTO  `character_equipment` (`characterId`, `itemId`, `slotType`, `slots`, `slotNumber`) VALUES (?, ?, ?, ?, ?)');
@@ -471,7 +473,84 @@ class Items
 		$Query->Execute();
 
 		if($Query->affected_rows > 0)
-			return $true;
+			return true;
+		else
+			return false;
+	}
+
+	/**
+	 * Load a trade
+	 *
+	 * @param $TradeId
+	 *   The source InventoryId
+	 *
+	 * @return Boolean
+	 *   Whether or not the insert succeeded
+	 */
+	public function LoadTrade($TradeId)
+	{
+		$Result = array();
+		$Query = $this->Database->Connection->prepare(SQL_LOADTRADE);
+		$this->Database->logError();
+		$Query->bind_param('s', $TradeId);
+		$Query->Execute();
+		$Array = array();
+		$Query->bind_result($Array['TradeId'], $Array['SendRecv'], $Array['InventoryTo'], $Array['InventoryFrom'], $Array['ItemId'], $Array['Cost'], $Array['ItemTemplateId']);
+		while($Query->Fetch())
+			array_push($Result, $Array);
+		}
+		return $Result;
+	}
+
+	/**
+	 * Delete a trade
+	 *
+	 * @param $TradeId
+	 *   The source TradeId
+	 *
+	 * @return Boolean
+	 *   Whether or not the insert succeeded
+	 */
+	public function DeleteTrade($TradeId)
+	{
+		$Result = array();
+		$Query = $this->Database->Connection->prepare(SQL_DELETETRADE);
+		$this->Database->logError();
+		$Query->bind_param('s', $TradeId);
+		$Query->Execute();
+
+		if($Query->affected_rows > 0)
+			return true;
+		else
+			return false;
+	}
+
+	/**
+	 * Change Inventory
+	 *
+	 * @param $Character
+	 *   The Character entity that will have an item equipped
+	 *   Must have it's characterId property set
+	 *
+	 * @param $Item
+	 *   The Item entity will be equipped
+	 *   Must have it's ItemId, SlotType, and slots properties set 
+	 *
+	 * @param $SlotNumber
+	 *   The slot which the item should be equipped in
+	 *
+	 * @return Boolean
+	 *   Whether or not the insert succeeded
+	 */
+	public function ChangeInventory(\Entities\Item $Item, $InventoryId)
+	{
+		$Query = $this->Database->Connection->prepare(SQL_ITEMCHANGEINVENTORY);
+		$this->Database->logError();
+		$Query->bind_param('ss', $Item->ItemId, $InventoryId);
+		$Query->Execute();
+
+		if($Query->affected_rows > 0)
+			return true;
 		else
 			return false;
 	}
