@@ -458,7 +458,7 @@ class Characters extends \Database\Characters
 	 * @return Array
 	 *   An Array of \Entities\Character objects
 	 */
-	function LoadTopList($NumRows, $Position, $Direction)
+	function LoadTopLevelList($NumRows, $Position, $Direction)
 	{
 		$Result = Array();
 		$Query = null;
