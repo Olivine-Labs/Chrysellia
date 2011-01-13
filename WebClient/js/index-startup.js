@@ -1,4 +1,7 @@
 $(function(){
+	
+	FB.init({appId: '119442588120693', status: true, cookie: true, xfbml: true});
+	
 	$("#playNow").dialog({ modal: true, title: "Register or Log In", width: 600, autoOpen: false });
 	
 	$("#btnPlayNow, .playNow").bind("click", function(e){
@@ -63,8 +66,6 @@ $(function(){
 		
 		return false;
 	});
-	
-	FB.init({appId: '119442588120693', status: true, cookie: true, xfbml: true});
 
 	$("#fbregister").bind("click", function(e){
 		e.preventDefault();
@@ -132,8 +133,31 @@ $(function(){
 			}
 		});
 	});
+	
+	vc.api.GetTops(25, 0, 1, ProcessTops);
+	/*$Character = new \Entities\Character();
+			$Character->Name = $Name;
+			$Character->RaceId = $RaceId;
+			$Character->Gender = $Gender;
+			$Character->ClanId = $ClanId;
+			$Character->Level = $Level;
+			$Character->AlignGood = $AlignGood;
+			$Character->AlignOrder = $AlignOrder;*/
 
 });
+
+
+function ProcessTops(data){
+	if(data.Result == vc.ER_SUCCESS){
+		var character = {};
+		var raceName = "";
+		for(var c=0; c < data.Data.length; c++){
+			character = data.Data[c];
+			raceName = vc.Races[character.RaceId].Name;
+			$("#topList").append("<li title='#"+c+": "+character.Name+" " + AlignName(character.AlignGood, character.AlignOrder) + " Level "+character.Level+ " " + raceName + "' class='" + raceName + "'></li>");
+		}
+	}
+}
 
 function LogInAccount(username, password){
 	vc.as.Login(username, $.md5(password), function(r){
@@ -182,4 +206,31 @@ function ProcessLogin(result){
 			alert("An error has occured. Try again later.");
 			break;
 	}
+}
+
+AlignName = function(goodAlign, orderAlign){
+	var goodAlign = "";
+	var orderAlign = "";
+	if(this.AlignGood <= -100){
+		goodAlign = "Evil ";
+	}else if(this.AlignGood >= 100){
+		goodAlign = "Good";
+	}
+	
+	if(this.AlignOrder <= -100){
+		orderAlign = "Chaotic";
+	}else if(this.AlignOrder >= 100){
+		orderAlign = "Ordered";
+	}
+	
+	var totalAlign = "Neutral";
+	if(goodAlign != "" || orderAlign != ""){
+		var spacing = "";
+		if(goodAlign != ""){
+			spacing = " ";
+		}
+		totalAlign = goodAlign + spacing + orderAlign;
+	}
+	
+	return totalAlign;
 }

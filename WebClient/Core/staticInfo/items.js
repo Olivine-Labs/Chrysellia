@@ -47,18 +47,7 @@
 				,{ ItemId: "ITEM_00000000000000000000040", Type: 2, MasteryType: 0, ItemClass: 18, Sockets: 1, Name: "Morkal Armor", Description: "Armor IC 18", BuyPrice: 413620, SellPrice: 206810 }
 			],
 			[	//SlotType: Spells
-				{ 
-					ItemId: "ITEM_00000000000000000000003",
-					Name: "Faerie Fire",
-					Description: "A spell that burns with the power of faeries",
-					BuyPrice: 50,
-					SellPrice: 25,
-					ItemClass: 0,
-					Type: 2,
-					MasteryType: 0,
-					ItemClass: 0,
-					Sockets: 1
-				}
+				{ ItemId: "ITEM_00000000000000000000003", Name: "Faerie Fire", Description: "A spell that burns with the power of faeries", BuyPrice: 50, SellPrice: 25, ItemClass: 0, Type: 2, MasteryType: 0, ItemClass: 0, Sockets: 1 }
 			]
 		]
 	);

@@ -542,6 +542,16 @@ form label{display:inline-block;margin-right:.5em;}
 .bankTransfer{float:left;}
 .transferTarget{margin-left:.5em;}
 #bankTransactionForm h3{margin:.25em 0;}
+li.Aviakan { background-image: url("images/race_24s/aviakan.jpg"); }
+li.Drow { background-image: url("images/race_24s/drow.jpg"); }
+li.Dwarf { background-image: url("images/race_24s/dwarf.jpg"); }
+li.Elf { background-image: url("images/race_24s/elf.jpg"); }
+li.Gargoyle { background-image: url("images/race_24s/gargoyle.jpg"); }
+li.Goblin { background-image: url("images/race_24s/goblin.jpg"); }
+li.Half.Elf { background-image: url("images/race_24s/halfelf.jpg"); }
+li.Human { background-image: url("images/race_24s/human.jpg"); }
+li.Orc { background-image: url("images/race_24s/orc.jpg"); }
+li.Troll { background-image: url("images/race_24s/troll.jpg"); }
 
 body.game.dark {	background-color: #111;	color: #fff;}
 .game.dark section h1 { color: #c33; }
