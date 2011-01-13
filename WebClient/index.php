@@ -141,7 +141,7 @@ include_once('php/simplepie.inc');
 						<h1>News</h1>
 						<section class="mainNews newsItem">
 							<h1>Chrysellia Beta Open</h1>
-							<em class="alternate"><date>1/11/10</date> - by Silwar Naiilo</em>
+							<em class="alternate"><date>1/11/11</date> - by Silwar Naiilo</em>
 							<p>
 								Chrysellia is finally in beta! Here's a few points to remember:
 								<ul>
@@ -377,6 +377,20 @@ include_once('php/simplepie.inc');
 		
 		<div id="fb-root"></div>
 		<script src="http://connect.facebook.net/en_US/all.js"></script>
-		
+		<script type="text/javascript">
+
+		  var _gaq = _gaq || [];
+		  _gaq.push(['_setAccount', 'UA-20727556-1']);
+		  _gaq.push(['_setDomainName', 'none']);
+		  _gaq.push(['_setAllowLinker', true]);
+		  _gaq.push(['_trackPageview']);
+
+		  (function() {
+			var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+			ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+			var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+		  })();
+
+		</script>
 	</body>
 </html>
