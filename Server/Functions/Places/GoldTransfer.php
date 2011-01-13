@@ -29,19 +29,26 @@ if(
 					$TargetCharacter->Name = $Get->Name;
 					if($Database->Characters->CheckName($TargetCharacter))
 					{
-						if($Database->Characters->LoadTraits($TargetCharacter))
+						if($TargetCharacter->CharacterId != $Character->CharacterId)
 						{
-							$TargetCharacter->Bank += $Get->Gold;
-							$Character->Bank -= $Get->Gold;
-							if($Database->Characters->UpdateTraits($Character) && $Database->Characters->UpdateTraits($TargetCharacter))
+							if($Database->Characters->LoadTraits($TargetCharacter))
 							{
-								$Database->Characters->LoadById($Character);
-								$Message['Amount'] = $Get->Gold;
-								$Message['MessageType'] = 3;
-								$Message['From'] = $Character->Name;
-								if($Database->Chat->Insert($Character, 'CHAN_00000000000000000000001', $Message, 255, $TargetCharacter))
+								$TargetCharacter->Bank += $Get->Gold;
+								$Character->Bank -= $Get->Gold;
+								if($Database->Characters->UpdateTraits($Character) && $Database->Characters->UpdateTraits($TargetCharacter))
 								{
-									$Result->Set('Result', \Protocol\Result::ER_SUCCESS);
+									$Database->Characters->LoadById($Character);
+									$Message['Amount'] = $Get->Gold;
+									$Message['MessageType'] = 3;
+									$Message['From'] = $Character->Name;
+									if($Database->Chat->Insert($Character, 'CHAN_00000000000000000000001', $Message, 255, $TargetCharacter))
+									{
+										$Result->Set('Result', \Protocol\Result::ER_SUCCESS);
+									}
+									else
+									{
+										$Result->Set('Result', \Protocol\Result::ER_DBERROR);
+									}
 								}
 								else
 								{
@@ -55,7 +62,7 @@ if(
 						}
 						else
 						{
-							$Result->Set('Result', \Protocol\Result::ER_DBERROR);
+							$Result->Set('Result', \Protocol\Result::ER_BADDATA);
 						}
 					}
 					else
