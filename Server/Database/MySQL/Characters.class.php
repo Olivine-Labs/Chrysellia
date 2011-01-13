@@ -496,7 +496,7 @@ class Characters extends \Database\Characters
 	 * @return int
 	 *   How many characters there are in the db
 	 */
-	function GetCount()
+	function GetTotalCount()
 	{
 		$Query = $this->Database->Connection->prepare(SQL_GETCOUNT);
 		$this->Database->logError();
