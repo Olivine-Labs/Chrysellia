@@ -126,14 +126,13 @@ class Sessions extends \Database\Sessions
 	 * @return int
 	 *   The number of onlines
 	 */
-	public function GetOnline($Id)
+	public function GetOnline()
 	{
 		$Query = $this->Database->Connection->prepare(SQL_GETONLINE);
 		$this->Database->logError();
 		$Query->Execute();
-
 		$Query->bind_result($Count);
-
+		$Query->Fetch();
 		return $Count;
 	}
 }
