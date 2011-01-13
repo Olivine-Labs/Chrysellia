@@ -11,7 +11,7 @@ if(isset($_GET['Data']))
 
 if(
 	property_exists($Get, 'Num') &&
-	property_exists($Get, 'Position')
+	property_exists($Get, 'Position') &&
 	property_exists($Get, 'Sort')
 ){
 	if($Get->Num <= 100)

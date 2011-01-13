@@ -463,7 +463,7 @@ class Characters extends \Database\Characters
 		$Result = Array();
 		$Query = null;
 
-		if($Direction)
+		if(!$Direction)
 			$Query = $this->Database->Connection->prepare(SQL_LOADTOPLISTASC);
 		else
 			$Query = $this->Database->Connection->prepare(SQL_LOADTOPLISTDESC);
