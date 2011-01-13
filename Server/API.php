@@ -10,7 +10,9 @@ $Database->Log = $Result;
 if ( 'GET' == $_SERVER['REQUEST_METHOD'] )
 {
 	define('ACTION_TOP', 0);
-	define('ACTION_ONLINE', 0);
+	define('ACTION_COUNT', 1);
+	define('ACTION_ONLINE', 2);
+
 	if(isset($_GET['Action']))
 	{
 		switch($_GET['Action'])
