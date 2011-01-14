@@ -35,7 +35,7 @@ define('SQL_LOADRACEDEFAULTITEMS', 'SELECT rdi.itemTemplateId, it.name, it.descr
 define('SQL_ITEMCHANGEINVENTORY', 'UPDATE `items` SET `inventoryId`=? WHERE `itemId`=?');
 define('SQL_LOADINVENTORY', 'SELECT i.itemId, i.name, i.description, i.buyPrice, i.sellPrice, i.itemType, i.createdOn, ie.masteryType, ie.itemClass, ie.sockets, ie.slots, ie.slotType FROM `items` i INNER JOIN `inventories` inv ON i.inventoryId=inv.inventoryId LEFT JOIN `item_equippables` ie ON i.itemId=ie.itemId LEFT JOIN `item_socketables` isk ON i.itemId=isk.itemId WHERE inv.characterId=? AND isk.socketedIn IS NULL AND i.itemId NOT IN(SELECT itemId FROM `character_equipment` WHERE `characterId`=inv.characterId)');
 define('SQL_INSERTINVENTORYFORCHARACTER', 'INSERT INTO `inventories` (`inventoryId`, `characterId`) VALUES (?, ?)');
-define('SQL_ITEMGETOWNERSHIP', 'SELECT inv.characterId FROM `inventories` inv INNER JOIN `items` i ON i.inventoryId=inv.inventoryId WHERE i.itemId=? AND i.itemId NOT IN(SELECT `itemId` FROM `character_equipment` WHERE `characterId`=inv.characterId)');
+define('SQL_ITEMGETOWNERSHIP', 'SELECT inv.characterId FROM `inventories` inv INNER JOIN `items` i ON i.inventoryId=inv.inventoryId WHERE i.itemId=? AND i.itemId NOT IN(SELECT `itemId` FROM `character_equipment` WHERE `characterId`=inv.characterId) AND i.itemId NOT IN(SELECT `itemId` FROM `trade_items`)');
 
 define('SQL_INSERTTRADE', 'INSERT INTO `trades` (`tradeId`, `inventoryTo`, `inventoryFrom`, `cost`) VALUES (?, ?, ?, ?)');
 define('SQL_INSERTTRADEITEM', 'INSERT INTO `trade_items` (`tradeId`, `sendRecv`, `itemId`) VALUES (?, ?, ?)');
