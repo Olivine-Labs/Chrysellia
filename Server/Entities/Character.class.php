@@ -261,6 +261,10 @@ class Character extends Being
 			{
 				return false;
 			}
+			$PrevLength = strlen($this->Name);
+			$NewLength = strlen(trim($this->Name));
+			if($NewLength != $PrevLength)
+				return false;
 		}
 		if(isset($this->RacialStrength) && isset($this->RacialDexterity) && isset($this->RacialIntelligence) && isset($this->RacialWisdom) && isset($this->RacialVitality))
 		{
