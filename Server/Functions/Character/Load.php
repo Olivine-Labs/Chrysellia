@@ -60,6 +60,9 @@ try
 							{
 								$AChannel['Permissions'] = $Database->Chat->GetRights($ACharacter, $ChannelId);
 							}
+							$ACharacter->IncomingTrades = $Database->Items->LoadIncomingTrades($ACharacter);
+							$ACharacter->OutgoingTrades = $Database->Items->LoadOutgoingTrades($ACharacter);
+
 							$Result->Set('Data', $ACharacter);
 							$Result->Set('Result', \Protocol\Result::ER_SUCCESS);
 						}

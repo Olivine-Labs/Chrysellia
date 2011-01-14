@@ -69,8 +69,8 @@ try
 							$Data['Items'][$Index] = $Item;
 							$Index++;
 						}
-					$Database->Chat->Insert($Character, 'CHAN_00000000000000000000001', $Data, 255, $TargetCharacter);
-					$Database->commitTransaction();
+						$Database->Chat->Insert($Character, 'CHAN_00000000000000000000001', $Data, 255, $TargetCharacter);
+						$Database->commitTransaction();
 					}
 					else
 					{

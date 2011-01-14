@@ -41,6 +41,8 @@ define('SQL_INSERTTRADE', 'INSERT INTO `trades` (`tradeId`, `inventoryTo`, `inve
 define('SQL_INSERTTRADEITEM', 'INSERT INTO `trade_items` (`tradeId`, `sendRecv`, `itemId`) VALUES (?, ?, ?)');
 define('SQL_LOADTRADE', 'SELECT t.tradeId, ti.sendRecv, t.inventoryTo, t.inventoryFrom, ti.itemId, ti.cost, it.itemTemplateId FROM `trades` t INNER JOIN `trade_items` ti ON t.tradeId=ti.tradeId INNER JOIN `items` i ON i.itemId=ti.itemId WHERE t.tradeId=?');
 define('SQL_DELETETRADE', 'DELETE FROM `trades` WHERE `tradeId`=?');
+define('SQL_LOADINCOMINGTRADES', 'SELECT t.tradeId, ti.sendRecv, t.inventoryTo, t.inventoryFrom, ti.itemId, ti.cost, i.name, i.description, i.buyPrice, i.sellPrice, i.itemType, ie.masteryType, ie.itemClass, ie.sockets, ie.slots, ie.slotType FROM `trades` t INNER JOIN `trade_items` ti ON t.tradeId=ti.tradeId INNER JOIN `items` i ON i.itemId=ti.itemId INNER JOIN `inventories` inv ON inv.inventoryId=t.inventoryIdTo LEFT JOIN `item_equippables` ie ON i.itemId=ie.itemId LEFT JOIN `item_socketables` isk ON i.itemId=isk.itemId WHERE inv.characterId=?');
+define('SQL_LOADOUTGOINGTRADES', 'SELECT t.tradeId, ti.sendRecv, t.inventoryTo, t.inventoryFrom, ti.itemId, ti.cost, i.name, i.description, i.buyPrice, i.sellPrice, i.itemType, ie.masteryType, ie.itemClass, ie.sockets, ie.slots, ie.slotType FROM `trades` t INNER JOIN `trade_items` ti ON t.tradeId=ti.tradeId INNER JOIN `items` i ON i.itemId=ti.itemId INNER JOIN `inventories` inv ON inv.inventoryId=t.inventoryIdFrom LEFT JOIN `item_equippables` ie ON i.itemId=ie.itemId LEFT JOIN `item_socketables` isk ON i.itemId=isk.itemId WHERE inv.characterId=?');
 
 define('SQL_GETEQUIPPEDITEMS', 'SELECT e.itemId, e.slotType, e.slots, e.slotNumber, i.name, i.description, i.buyPrice, i.sellPrice, i.itemType, i.createdOn, ie.masteryType, ie.itemClass, ie.sockets FROM `character_equipment` e INNER JOIN `items` i ON i.itemId=e.itemId INNER JOIN `item_equippables` ie ON ie.itemId=i.itemId WHERE e.characterId=? ORDER BY e.slotNumber ASC');
 define('SQL_EQUIPITEM', 'INSERT INTO  `character_equipment` (`characterId`, `itemId`, `slotType`, `slots`, `slotNumber`) VALUES (?, ?, ?, ?, ?)');
@@ -496,6 +498,54 @@ class Items
 		$Query->Execute();
 		$Array = array();
 		$Query->bind_result($Array['TradeId'], $Array['SendRecv'], $Array['InventoryTo'], $Array['InventoryFrom'], $Array['ItemId'], $Array['Cost'], $Array['ItemTemplateId']);
+		while($Query->Fetch())
+			array_push($Result, $Array);
+		}
+		return $Result;
+	}
+
+	/**
+	 * Load incoming trades
+	 *
+	 * @param $Character
+	 *   A character entity
+	 *
+	 * @return Boolean
+	 *   Whether or not the load succeeded
+	 */
+	public function LoadIncomingTrades(\Entities\Character $Character)
+	{
+		$Result = array();
+		$Query = $this->Database->Connection->prepare(SQL_LOADINCOMINGTRADES);
+		$this->Database->logError();
+		$Query->bind_param('s', $Character->CharacterId);
+		$Query->Execute();
+		$Array = array();
+		$Query->bind_result($Array['TradeId'], $Array['SendRecv'], $Array['InventoryTo'], $Array['InventoryFrom'], $Array['ItemId'], $Array['Cost'], $Array['ItemName'], $Array['Description'], $Array['BuyPrice'], $Array['SellPrice'], $Array['ItemType'], $Array['MasteryType'], $Array['ItemClass'], $Array['Sockets',] $Array['Slots'], $Array['SlotType']);
+		while($Query->Fetch())
+			array_push($Result, $Array);
+		}
+		return $Result;
+	}
+
+	/**
+	 * Load incoming trades
+	 *
+	 * @param $Character
+	 *   A character entity
+	 *
+	 * @return Boolean
+	 *   Whether or not the load succeeded
+	 */
+	public function LoadOutgoingTrades(\Entities\Character $Character)
+	{
+		$Result = array();
+		$Query = $this->Database->Connection->prepare(SQL_LOADINCOMINGTRADES);
+		$this->Database->logError();
+		$Query->bind_param('s', $Character->CharacterId);
+		$Query->Execute();
+		$Array = array();
+		$Query->bind_result($Array['TradeId'], $Array['SendRecv'], $Array['InventoryTo'], $Array['InventoryFrom'], $Array['ItemId'], $Array['Cost'], $Array['ItemName'], $Array['Description'], $Array['BuyPrice'], $Array['SellPrice'], $Array['ItemType'], $Array['MasteryType'], $Array['ItemClass'], $Array['Sockets',] $Array['Slots'], $Array['SlotType']);
 		while($Query->Fetch())
 			array_push($Result, $Array);
 		}

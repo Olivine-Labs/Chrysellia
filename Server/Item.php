@@ -16,6 +16,7 @@ if ( 'GET' == $_SERVER['REQUEST_METHOD'] )
 		define('ACTION_UNEQUIP', 2);
 		define('ACTION_SENDTRADE', 3);
 		define('ACTION_ACCEPTTRADE', 4);
+		define('ACTION_CANCELTRADE', 5);
 
 		if(isset($_GET['Action']))
 		{
@@ -35,6 +36,9 @@ if ( 'GET' == $_SERVER['REQUEST_METHOD'] )
 					break;
 				case ACTION_ACCEPTTRADE:
 					include './Functions/Item/AcceptTrade.php';
+					break;
+				case ACTION_CANCELTRADE:
+					include './Functions/Item/CancelTrade.php';
 					break;
 				default:
 					$Result->Set('Result', \Protocol\Result::ER_BADDATA);

@@ -20,21 +20,9 @@ try
 			$Character = new \Entities\Character();
 			$Character->CharacterId = $_SESSION['CharacterId'];
 			$Database->Characters->LoadById($Character);
-			if($Trade['InventoryToId'] == $Character->InventoryId)
+			if($Trade['InventoryFromId'] == $Character->InventoryId)
 			{
 				$Success = true;
-				$Database->startTransaction();
-				foreach($Trade AS $Row)
-				{
-					$Item = new \Entities\Item();
-					$Item->ItemId = $Trade['ItemId'];
-					if(!$Database->Items->ChangeInventory($Item, $Character->InventoryId))
-					{
-						$Result->Set('Result', \Protocol\Result::ER_DBERROR);
-						$Success = false;
-						break;
-					}
-				}
 
 				if(!$Database->DeleteTrade($Get->TradeId))
 				{
@@ -45,11 +33,6 @@ try
 				if($Success)
 				{
 					$Result->Set('Result', \Protocol\Result::ER_SUCCESS);
-					$Database->commitTransaction();
-				}
-				else
-				{
-					$Database->rollbackTransaction();
 				}
 			}
 			else
