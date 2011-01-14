@@ -499,6 +499,7 @@ class Items
 		$Array = array();
 		$Query->bind_result($Array['TradeId'], $Array['SendRecv'], $Array['InventoryTo'], $Array['InventoryFrom'], $Array['ItemId'], $Array['Cost'], $Array['ItemTemplateId']);
 		while($Query->Fetch())
+		{
 			array_push($Result, $Array);
 		}
 		return $Result;
@@ -521,8 +522,9 @@ class Items
 		$Query->bind_param('s', $Character->CharacterId);
 		$Query->Execute();
 		$Array = array();
-		$Query->bind_result($Array['TradeId'], $Array['SendRecv'], $Array['InventoryTo'], $Array['InventoryFrom'], $Array['ItemId'], $Array['Cost'], $Array['ItemName'], $Array['Description'], $Array['BuyPrice'], $Array['SellPrice'], $Array['ItemType'], $Array['MasteryType'], $Array['ItemClass'], $Array['Sockets',] $Array['Slots'], $Array['SlotType']);
+		$Query->bind_result($Array['TradeId'], $Array['SendRecv'], $Array['InventoryTo'], $Array['InventoryFrom'], $Array['ItemId'], $Array['Cost'], $Array['ItemName'], $Array['Description'], $Array['BuyPrice'], $Array['SellPrice'], $Array['ItemType'], $Array['MasteryType'], $Array['ItemClass'], $Array['Sockets'], $Array['Slots'], $Array['SlotType']);
 		while($Query->Fetch())
+		{
 			array_push($Result, $Array);
 		}
 		return $Result;
@@ -545,8 +547,9 @@ class Items
 		$Query->bind_param('s', $Character->CharacterId);
 		$Query->Execute();
 		$Array = array();
-		$Query->bind_result($Array['TradeId'], $Array['SendRecv'], $Array['InventoryTo'], $Array['InventoryFrom'], $Array['ItemId'], $Array['Cost'], $Array['ItemName'], $Array['Description'], $Array['BuyPrice'], $Array['SellPrice'], $Array['ItemType'], $Array['MasteryType'], $Array['ItemClass'], $Array['Sockets',] $Array['Slots'], $Array['SlotType']);
+		$Query->bind_result($Array['TradeId'], $Array['SendRecv'], $Array['InventoryTo'], $Array['InventoryFrom'], $Array['ItemId'], $Array['Cost'], $Array['ItemName'], $Array['Description'], $Array['BuyPrice'], $Array['SellPrice'], $Array['ItemType'], $Array['MasteryType'], $Array['ItemClass'], $Array['Sockets'], $Array['Slots'], $Array['SlotType']);
 		while($Query->Fetch())
+		{
 			array_push($Result, $Array);
 		}
 		return $Result;
