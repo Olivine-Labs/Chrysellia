@@ -26,8 +26,9 @@ define('SQL_INSERTCHARACTERLOCATION', 'INSERT INTO `character_locations` (`chara
 define('SQL_LOADLISTFORCELL', 'SELECT c.characterId, c.name, ct.gender, ct.raceId, c.clanId, ct.level, ct.alignGood, ct.alignOrder FROM `characters` c INNER JOIN `character_locations` cl ON cl.characterId=c.characterId INNER JOIN `character_traits` ct ON ct.characterId=c.characterId WHERE cl.mapId=? AND cl.positionX=? AND cl.positionY=? AND ct.Health > 0');
 
 //API
-define('SQL_LOADTOPLISTASC', 'SELECT c.name, ct.gender, ct.raceId, c.clanId, ct.level, ct.alignGood, ct.alignOrder FROM `characters` c INNER JOIN `character_traits` ct ON ct.characterId=c.characterId ORDER BY ct.level ASC LIMIT ?, ?');
-define('SQL_LOADTOPLISTDESC', 'SELECT c.name, ct.gender, ct.raceId, c.clanId, ct.level, ct.alignGood, ct.alignOrder FROM `characters` c INNER JOIN `character_traits` ct ON ct.characterId=c.characterId ORDER BY ct.level DESC LIMIT ?, ?');
+define('SQL_LOADTOPLISTASC', 'SELECT c.name, ct.gender, ct.raceId, c.clanId, ct.level, ct.alignGood, ct.alignOrder FROM `characters` c INNER JOIN `character_traits` ct ON ct.characterId=c.characterId');
+define('SQL_LIMIT', ' LIMIT ?, ?');
+define('SQL_ORDERBY', ' ORDER BY ');
 define('SQL_GETCOUNT', 'SELECT count(*) FROM `characters`');
 
 /**
@@ -458,15 +459,33 @@ class Characters extends \Database\Characters
 	 * @return Array
 	 *   An Array of \Entities\Character objects
 	 */
-	function LoadTopLevelList($NumRows, $Position, $Direction)
+	function LoadTopList($NumRows=10, $Position=0, $Direction=0, $ListType=0, $ByRace=null)
 	{
 		$Result = Array();
 		$Query = null;
-
+		$Field = 'ct.level';
+		$DirectionString = ' ASC';
 		if(!$Direction)
-			$Query = $this->Database->Connection->prepare(SQL_LOADTOPLISTASC);
-		else
-			$Query = $this->Database->Connection->prepare(SQL_LOADTOPLISTDESC);
+			$DirectionString=' DESC';
+		$Where='';
+		if(isset($ByRace))
+		{
+			$Where = ' WHERE c.raceId="'.$this->Database->Connection->real_escape_string($ByRace).'"';
+		}
+		switch($ListType)
+		{
+			case 0 :
+				$Field = 'ct.level';
+				break;
+			case 1 :
+				$Field = 'ct.alignGood';
+				break;
+			case 2 :
+				$Field = 'ct.alignOrder';
+				break;
+		}
+
+		$Query = $this->Database->Connection->prepare(SQL_LOADTOPLIST.$Where.SQL_ORDERBY.$Field.$Direction.SQL_LIMIT);
 
 		$this->Database->logError();
 		$Query->bind_param('ii', $Position, $NumRows);
@@ -496,9 +515,14 @@ class Characters extends \Database\Characters
 	 * @return int
 	 *   How many characters there are in the db
 	 */
-	function GetTotalCount()
+	function GetTotalCount($ByRace=null)
 	{
-		$Query = $this->Database->Connection->prepare(SQL_GETCOUNT);
+		$Where='';
+		if(isset($ByRace))
+		{
+			$Where = ' WHERE c.raceId="'.$this->Database->Connection->real_escape_string($ByRace).'"';
+		}
+		$Query = $this->Database->Connection->prepare(SQL_GETCOUNT.$Where);
 		$this->Database->logError();
 		$Query->Execute();
 

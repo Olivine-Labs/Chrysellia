@@ -3,14 +3,27 @@
  * Character Count logic
  */
 
-try
+$Get = (object)Array('Data'=>'');
+if(isset($_GET['Data']))
 {
-	$Result->Set('Data', Array('Count'=>$Database->Characters->GetTotalCount()));
-	$Result->Set('Result', \Protocol\Result::ER_SUCCESS);
+	$Get = json_decode($_GET['Data']);
 }
-catch(Exception $e)
+
+if(property_exists($Get, 'Race'))
 {
-	$Result->Set('Result', \Protocol\Result::ER_DBERROR);
+	try
+	{
+		$Result->Set('Data', Array('Count'=>$Database->Characters->GetTotalCount($Get->Race)));
+		$Result->Set('Result', \Protocol\Result::ER_SUCCESS);
+	}
+	catch(Exception $e)
+	{
+		$Result->Set('Result', \Protocol\Result::ER_DBERROR);
+	}
+}
+else
+{
+	$Result->Set('Result', \Protocol\Result::ER_MALFORMED);
 }
 
 ?>
