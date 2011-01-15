@@ -12,7 +12,7 @@ define('SQL_CHANNELGETJOINEDLIST', 'SELECT p.channelId, c.name, c.motd FROM `cha
 define('SQL_CHANNELSETJOINED', 'INSERT INTO `channel_permissions` (`characterId`, `channelId`, `isJoined`) VALUES (?, ?, ?) ON DUPLICATE KEY UPDATE `isJoined`=?');
 define('SQL_CREATECHANNEL','INSERT INTO `channels` (`channelId`, `name`, `motd`) VALUES (?, ?, ?)');
 define('SQL_UPDATECHANNEL','UPDATE `channels` SET `motd`=?, `defaultAccessRead`=?, `defaultAccessWrite`=? WHERE `channelId`=?');
-
+define('SQL_LOADCHANNEL','SELECT `motd`, `defaultAccessRead`, `defaultAccessWrite` FROM `channels` WHERE `channelId`=?');
 //API
 define('SQL_PUBLICCHANNELLIST', 'SELECT c.channelId, c.name, c.motd FROM `channels` c WHERE c.defaultAccessRead=1 ORDER BY c.name ASC LIMIT ?, ?');
 define('SQL_PUBLICCHANNELCOUNT', 'SELECT count(*) FROM `channels` c WHERE c.defaultAccessRead=1');
@@ -359,6 +359,25 @@ class Chat extends \Database\Chat
 			return true;
 		else
 			return false;
+	}
+
+	/**
+	 * Loads a list of channels
+	 *
+	 * @return Array
+	 *   An array of channels
+	 */
+	public function LoadChannel($ChannelId)
+	{
+		$Query = $this->Database->Connection->prepare(SQL_LOADCHANNEL);
+		$this->Database->logError();
+		$Query->bind_param('s', $ChannelId);
+
+		$Query->Execute();
+		$Query->bind_result($Name, $Motd, $DefaultRead, $DefaultWrite);
+		$Query->Fetch();
+		$Result = Array("Name" => $Name, "Motd" => $Motd, "defaultRead"=>$DefaultRead, "defaultWrite"=>$DefaultWrite);
+		return $Result;
 	}
 
 	/**

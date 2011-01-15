@@ -16,6 +16,7 @@ if ( 'GET' == $_SERVER['REQUEST_METHOD'] )
 		define('ACTION_CHANNEL_CREATE', 2);
 		define('ACTION_CHANNEL_PART', 3);
 		define('ACTION_CHANNEL_SETRIGHTS', 4);
+		define('ACTION_CHANNEL_SETPARAMETERS', 5);
 
 		if(isset($_GET['Action']))
 		{
@@ -35,6 +36,9 @@ if ( 'GET' == $_SERVER['REQUEST_METHOD'] )
 					break;
 				case ACTION_CHANNEL_SETRIGHTS:
 					include './Functions/Commands/ChannelSetRights.php';
+					break;
+				case ACTION_CHANNEL_SETPARAMETERS:
+					include './Functions/Commands/ChannelSetParameters.php';
 					break;
 				default:
 					$Result->Set('Result', \Protocol\Result::ER_BADDATA);
