@@ -15,12 +15,26 @@ if(property_exists($Get, 'Channel'))
 	{
 		$Character = new \Entities\Character();
 		$Character->CharacterId = $_SESSION['CharacterId'];
-		if($Channel = $Database->Chat->JoinChannel($Character, $Get->Channel))
+		if(is_array($Rights = $Database->Chat->GetRightsByName($Character, $Get->Channel)))
 		{
-			$Result->Set('Result', \Protocol\Result::ER_SUCCESS);
-			$Result->Set('Data', $Channel);
-			$_SESSION['Channels'][$Channel["ChannelId"]] = new stdClass();
-			$_SESSION['Channels'][$Channel["ChannelId"]]->LastRefresh = time() - 300;
+			if(!isset($Rights['Read']))
+				$Rights['Read'] = $Rights['defaultRead'];
+
+			if($Rights['Read'])
+			{
+				$Rights['isJoined'] = 1;
+				if($Database->Chat->SetRights($Character->CharacterId, $Rights['ChannelId'], $Rights))
+				{
+					$Result->Set('Result', \Protocol\Result::ER_SUCCESS);
+					$Result->Set('Data', $Channel);
+					$_SESSION['Channels'][$Channel["ChannelId"]] = new stdClass();
+					$_SESSION['Channels'][$Channel["ChannelId"]]->LastRefresh = time() - 300;
+				}
+				else
+				{
+					$Result->Set('Result', \Protocol\Result::ER_DBERROR);
+				}
+			}
 		}
 	}
 	catch(Exception $e)

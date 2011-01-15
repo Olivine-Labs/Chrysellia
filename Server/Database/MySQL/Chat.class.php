@@ -4,13 +4,18 @@ namespace Database\MySQL;
 
 define('SQL_GETMESSAGES', 'SELECT c.message, c.fromName, c.type, UNIX_TIMESTAMP(c.sentOn) FROM `chat` c INNER JOIN `channel_permissions` p ON p.channelId=c.channelId AND p.characterId=? AND p.characterId != c.characterIdFrom WHERE c.type!=255 AND c.channelId=? AND p.accessRead=1 AND c.sentOn>FROM_UNIXTIME(?) ORDER BY c.sentOn ASC');
 define('SQL_GETSYSTEMMESSAGES', 'SELECT c.message, c.fromName, c.type, UNIX_TIMESTAMP(c.sentOn) FROM `chat` c WHERE ((c.characterIdTo=?) OR (c.characterIdTo IS NULL)) AND c.type=255 AND c.sentOn>FROM_UNIXTIME(?) ORDER BY c.sentOn ASC');
-define('SQL_JOINCHANNEL', 'SELECT c.channelid, c.name, c.motd, p.accessRead, p.accessWrite, p.accessModerator, p.accessAdmin FROM `channels` c INNER JOIN `channel_permissions` p ON c.channelId=p.channelId AND p.characterId=? AND p.accessRead=1 WHERE c.Name=?');
-define('SQL_CHANNELGETRIGHTS', 'SELECT p.accessRead, p.accessWrite, p.accessModerator, p.accessAdmin, p.isJoined, c.name FROM `channel_permissions` p right JOIN `channels` c ON (c.channelId=p.channelId AND p.characterId=?) WHERE c.channelId=?');
+define('SQL_CHANNELGETRIGHTS', 'SELECT p.accessRead, p.accessWrite, p.accessModerator, p.accessAdmin, p.isJoined, c.name, c.defaultAccessRead, c.defaultAccessWrite FROM `channel_permissions` p right JOIN `channels` c ON (c.channelId=p.channelId AND p.characterId=?) WHERE c.channelId=?');
+define('SQL_CHANNELGETRIGHTSBYNAME', 'SELECT c.channelId, p.accessRead, p.accessWrite, p.accessModerator, p.accessAdmin, p.isJoined, c.name, c.defaultAccessRead, c.defaultAccessWrite FROM `channel_permissions` p right JOIN `channels` c ON (c.channelId=p.channelId AND p.characterId=?) WHERE c.name=?');
 define('SQL_INSERTMESSAGE', 'INSERT INTO `chat` (`characterIdFrom`, `characterIdTo`, `channelId`, `message`, `fromName`, `type`) VALUES (?, ?, ?, ?, ?, ?)');
 define('SQL_CHANNELSETRIGHTS', 'INSERT INTO `channel_permissions` (`characterId`, `channelId`, `accessRead`,`accessWrite`,`accessModerator`,`accessAdmin`, `isJoined`) VALUES (?, ?, coalesce(?, 0), coalesce(?, 0), coalesce(?, 0), coalesce(?, 0), coalesce(?, 0)) ON DUPLICATE KEY UPDATE `accessRead`=?, `accessWrite`=?, `accessModerator`=?, `accessAdmin`=?, `isJoined`=?');
 define('SQL_CHANNELGETJOINEDLIST', 'SELECT p.channelId, c.name, c.motd FROM `channel_permissions` p INNER JOIN `channels` c ON c.channelId=p.channelId WHERE p.isJoined=1 AND p.characterId=?');
 define('SQL_CHANNELSETJOINED', 'INSERT INTO `channel_permissions` (`characterId`, `channelId`, `isJoined`) VALUES (?, ?, ?) ON DUPLICATE KEY UPDATE `isJoined`=?');
 define('SQL_CREATECHANNEL','INSERT INTO `channels` (`channelId`, `name`, `motd`) VALUES (?, ?, ?)');
+define('SQL_UPDATECHANNEL','UPDATE `channels` SET `motd`=?, `defaultAccessRead`=?, `defaultAccessWrite`=? WHERE `channelId`=?');
+
+//API
+define('SQL_PUBLICCHANNELLIST', 'SELECT c.channelId, c.name, c.motd FROM `channels` c WHERE c.defaultAccessRead=1 ORDER BY c.name ASC LIMIT ?, ?');
+define('SQL_PUBLICCHANNELCOUNT', 'SELECT count(*) FROM `channels` c WHERE c.defaultAccessRead=1');
 
 /**
  * Contains properties and methods related to querying our chat table and relations
@@ -180,46 +185,6 @@ class Chat extends \Database\Chat
 	}
 
 	/**
-	 * Joins a channel
-	 *
-	 * @param $Character
-	 *   The Character object that will be checked for permissions
-	 *
-	 * @param $ChannelName
-	 *   The name of the channel the character wishes to join.
-	 *
-	 * @return Boolean/String
-	 *   ChannelId or false if access is denied
-	 */
-	public function JoinChannel(\Entities\Character $Character, $ChannelName)
-	{
-		$Query = $this->Database->Connection->prepare(SQL_JOINCHANNEL);
-		$this->Database->logError();
-		$Query->bind_param('ss', $Character->CharacterId, $ChannelName);
-		$Query->Execute();
-		$Query->bind_result($ChannelId, $Name, $Motd, $Read, $Write, $Moderate, $Administrate);
-
-		if($Query->fetch())
-		{
-			$Query->close();
-			$Query2 = $this->Database->Connection->prepare(SQL_CHANNELSETJOINED);	
-			$this->Database->logError();		
-			$thisisaone = 1;
-			$thisisanotherone = 1;
-			
-			$Query2->bind_param('ssii', $Character->CharacterId, $ChannelId, $thisisaone, $thisisanotherone);
-
-			$Query2->Execute();
-
-			return Array("ChannelId" =>$ChannelId, "Name" => $Name, "Motd" => $Motd, "Permissions"=>Array("Read" => $Read, "Write" => $Write, "Moderate" => $Moderate, "Administrate" => $Administrate));
-		}
-		else
-		{
-			return false;
-		}
-	}
-
-	/**
 	 * Leaves a channel
 	 *
 	 * @param $Character
@@ -290,12 +255,41 @@ class Chat extends \Database\Chat
 		
 		$Query->Execute();
 		$Result = Array();
-		$Query->bind_result($Result['Read'], $Result['Write'], $Result['Moderate'], $Result['Administrate'], $Result['isJoined'], $Result['Name']);
+		$Query->bind_result($Result['Read'], $Result['Write'], $Result['Moderate'], $Result['Administrate'], $Result['isJoined'], $Result['Name'], $Result['defaultRead'], $Result['defaultWrite']);
 		
 		if($Query->fetch())
 			return $Result;
 		else
-			$Result = Array('Read'=>0, 'Write'=>0, 'Moderate'=>0, 'Administrate'=>0, 'isJoined'=>0, 'Name'=>'');
+			$Result = Array('Read'=>0, 'Write'=>0, 'Moderate'=>0, 'Administrate'=>0, 'isJoined'=>0, 'Name'=>'', 'defaultRead'=>0, 'defaultWrite'=>0);
+			return $Result;
+	}
+
+	/**
+	 * Gets a character's rights to a channel
+	 *
+	 * @param $Character
+	 *   The Character object that will be checked for permissions
+	 *
+	 * @param $ChannelId
+	 *   The id of the channel
+	 *
+	 * @return String
+	 *   An array of rights or false
+	 */
+	public function GetRightsByName(\Entities\Character $Character, $ChannelName)
+	{
+		$Query = $this->Database->Connection->prepare(SQL_CHANNELGETRIGHTSBYNAME);
+		$this->Database->logError();
+		$Query->bind_param('ss', $Character->CharacterId, $ChannelName);
+		
+		$Query->Execute();
+		$Result = Array();
+		$Query->bind_result($Result['ChannelId'], $Result['Read'], $Result['Write'], $Result['Moderate'], $Result['Administrate'], $Result['isJoined'], $Result['Name'], $Result['defaultRead'], $Result['defaultWrite']);
+		
+		if($Query->fetch())
+			return $Result;
+		else
+			$Result = Array('ChannelId'=>null, 'Read'=>0, 'Write'=>0, 'Moderate'=>0, 'Administrate'=>0, 'isJoined'=>0, 'Name'=>'', 'defaultRead'=>0, 'defaultWrite'=>0);
 			return $Result;
 	}
 
@@ -318,6 +312,16 @@ class Chat extends \Database\Chat
 	{
 		$Query = $this->Database->Connection->prepare(SQL_CHANNELSETRIGHTS);
 		$this->Database->logError();
+		if(!isset($Rights['Read']))
+			$Rights['Read'] = 0;
+		if(!isset($Rights['Write']))
+			$Rights['Write'] = 0;
+		if(!isset($Rights['Moderate']))
+			$Rights['Moderate'] = 0;
+		if(!isset($Rights['Administrate']))
+			$Rights['Administrate'] = 0;
+		if(!isset($Rights['isJoined']))
+			$Rights['isJoined'] = 0;
 		$Query->bind_param('ssiiiiiiiiii', $Character->CharacterId, $ChannelId, $Rights['Read'], $Rights['Write'], $Rights['Moderate'], $Rights['Administrate'], $Rights['isJoined'], $Rights['Read'], $Rights['Write'], $Rights['Moderate'], $Rights['Administrate'], $Rights['isJoined']);
 
 		$Query->Execute();
@@ -326,6 +330,81 @@ class Chat extends \Database\Chat
 			return true;
 		else
 			return false;
+	}
+
+	/**
+	 * Updates a channel
+	 *
+	 * @param $Character
+	 *   The Character object that will be checked for permissions
+	 *
+	 * @param $ChannelId
+	 *   The id of the channel
+	 *
+	 * @param $Rights
+	 *   The Rights array
+	 *
+	 * @return Boolean
+	 *   whether or not the insert succeded
+	 */
+	public function UpdateChannel($ChannelId, $Motd, $defaultAccessRead, $defaultAccessWrite)
+	{
+		$Query = $this->Database->Connection->prepare(SQL_UPDATECHANNEL);
+		$this->Database->logError();
+		$Query->bind_param('siis', $Motd, $defaultAccessRead, $defaultAccessWrite, $ChannelId);
+
+		$Query->Execute();
+
+		if($Query->affected_rows > -1)
+			return true;
+		else
+			return false;
+	}
+
+	/**
+	 * Loads a list of channels
+	 *
+	 * @return Array
+	 *   An array of channels
+	 */
+	public function LoadPublicChannelList($NumRows, $Position)
+	{
+		$Query = $this->Database->Connection->prepare(SQL_PUBLICCHANNELLIST);
+		$this->Database->logError();
+		$Query->bind_param('ii', $Position, $NumRows);
+
+		$Query->Execute();
+		$Continue = true;
+		$Result = Array();
+		
+		while($Continue)
+		{
+			$Query->bind_result($ChannelId, $Name, $Motd);
+			if($Continue = $Query->Fetch())
+			{
+				array_push($Result, Array("ChannelId"=> $ChannelId, "Name" => $Name, "Motd" => $Motd));
+			}
+		}
+
+		return $Result;
+	}
+
+	/**
+	 * Loads a list of channels
+	 *
+	 * @return Array
+	 *   An array of channels
+	 */
+	public function LoadPublicChannelCount()
+	{
+		$Query = $this->Database->Connection->prepare(SQL_PUBLICCHANNELCOUNT);
+		$this->Database->logError();
+
+		$Query->Execute();
+		$Query->bind_result($Result);
+		$Query->Fetch();
+
+		return $Result;
 	}
 
 }

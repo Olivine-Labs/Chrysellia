@@ -85,20 +85,6 @@ abstract class Chat
 	abstract public function LoadJoinedChannels(\Entities\Character $Character);
 
 	/**
-	 * Abstract - Joins a channel
-	 *
-	 * @param $Character
-	 *   The Character object that will be checked for permissions
-	 *
-	 * @param $ChannelName
-	 *   The name of the channel the character wishes to join.
-	 *
-	 * @return Boolean/String
-	 *   ChannelId or false if access is denied
-	 */
-	abstract public function JoinChannel(\Entities\Character $Character, $ChannelName);
-
-	/**
 	 * Abstract - Leaves a channel
 	 *
 	 * @param $Character
