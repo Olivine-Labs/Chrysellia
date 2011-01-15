@@ -113,7 +113,6 @@ class Monster extends Being
 		$IntelligenceBonus = 1;
 		$WisdomBonus = 1;
 
-		define('SPEC_ILLUSIONIST', 0);
 		define('SPEC_MERCHANT', 1);
 		define('SPEC_DEFENDER', 2);
 		define('SPEC_ASSASSIN', 3);
@@ -127,16 +126,13 @@ class Monster extends Being
 		define('SPEC_JUDGE', 11);
 		define('SPEC_ANARCHIST', 12);
 		define('SPEC_FOOL', 13);
-
+		define('SPEC_ILLUSIONIST', 14);
+		$this->Special = 0;
 		if(mt_rand(0, 100) > 95)
 		{
 			$this->Special = mt_rand(0, 13);
 			switch($this->Special)
 			{
-				case SPEC_ILLUSIONIST:
-					$this->GoldBonus *= 2;
-					$this->ExperienceBonus *= 2;
-					break;
 				case SPEC_MERCHANT:
 					$this->GoldBonus *= 4;
 					break;
@@ -197,7 +193,10 @@ class Monster extends Being
 					$this->SpellClass -= 1;
 					$this->ArmorClass -= 1;
 					break;
-
+				case SPEC_ILLUSIONIST:
+					$this->GoldBonus *= 2;
+					$this->ExperienceBonus *= 2;
+					break;
 			}
 		}
 
