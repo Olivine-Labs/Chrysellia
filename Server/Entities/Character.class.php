@@ -398,10 +398,13 @@ class Character extends Being
 				$HitStat = 0;
 				$MissStat = 0;
 				$IsWeapon = false;
+				$IsHeal = false;
+				$AttackType = $DamageType;
 				if(!$DamageType)
 				{
 					if($AnItem->SlotType == 0)
 					{
+						$AttackType=0;
 						$IsWeapon = true;
 						$DamageStat = $Being->Strength;
 						$HitStat = $Being->Dexterity;
@@ -412,12 +415,33 @@ class Character extends Being
 				{
 					if($AnItem->SlotType == 3)
 					{
-						$IsWeapon = true;
 						$DamageStat = $Being->Intelligence;
 						$HitStat = $Being->Wisdom;
 						$MissStat = $EnemyBeing->Wisdom;
+						if($AnItem->MasteryType <> 11)
+						{
+							$AttackType = 1;
+							$IsWeapon = true;
+						}
+						else
+						{
+							$AttackType = 2;
+							$IsHeal = true;
+						}
 					}
 				}
+
+				//Initiative - shared between all damage types
+				$Initiative = 0;
+				if($IsWeapon || $IsHeal)
+				{
+					$InitStat = max($Being->Dexterity, $Being->Wisdom);
+					$EnemyInitStat = max($EnemyBeing->Dexterity, $EnemyBeing->Wisdom);
+					$Initiative = \gauss_ms($InitStat, $InitStat * 0.2) - \gauss_ms($EnemyInitStat, $EnemyInitStat * 0.2);
+				}
+
+				//Damage/Heal calculations
+				$ActualDamage = 0;
 				if($IsWeapon)
 				{
 					$ActualDamage=0;
@@ -428,15 +452,25 @@ class Character extends Being
 					{
 						$ArmorMastery = 0;
 						$EnemyArmorClass = 0;
-						$BaseDamage=pow(1.15,((($AnItem->ItemClass + $Being->WeaponClassBonus)-($EnemyArmorClass + $EnemyBeing->ArmorClassBonus))-round($ArmorMastery/5)));
+						$ItemClassBonus = $Being->WeaponClassBonus;
+						if($DamageType)
+							$ItemClassBonus = $Being->SpellClassBonus;
+						$BaseDamage=pow(1.15,((($AnItem->ItemClass + $ItemClassBonus)-($EnemyArmorClass + $EnemyBeing->ArmorClassBonus))-round($ArmorMastery/5)));
 						$ActualDamage=\gauss_ms($DamageStat/3, ($DamageStat/3) * 0.1)*$BaseDamage;
 						$ActualDamage = round($ActualDamage * (1/max(pow($NumWeapons, 1.5), 1)) / (2/3));
 					}
-					$InitStat = max($Being->Dexterity, $Being->Wisdom);
-					$EnemyInitStat = max($EnemyBeing->Dexterity, $EnemyBeing->Wisdom);
-					$Initiative = \gauss_ms($InitStat, $InitStat * 0.2) - \gauss_ms($EnemyInitStat, $EnemyInitStat * 0.2);
+				}
+				else if($IsHeal)
+				{
+					$BaseHeal = $Being->Intelligence/10;
+					$ActualDamage = round((\gauss_ms($BaseHeal, $BaseHeal * 0.2 )*$AnItem->ItemClass)/5);
+				}
+
+				//Insert Damage/Heal into Result array ordered by initiative
+				if($IsWeapon || $IsHeal)
+				{
 					$Inserted = false;
-					$PlayerRow = array('Damage'=>$ActualDamage, 'Actor'=>$Index, 'Type'=>$DamageType, 'Initiative'=>$Initiative);
+					$PlayerRow = array('Damage'=>$ActualDamage, 'Actor'=>$Index, 'Type'=>$AttackType, 'Initiative'=>$Initiative);
 					if(count($Result))
 					{
 						for($ArrayIndex = 0; $ArrayIndex < count($Result); $ArrayIndex++)
