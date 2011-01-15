@@ -63,6 +63,12 @@ if(
 									$Monster->Wisdom = $CurrentFight['Wisdom'];
 									$Monster->GoldGiven = $CurrentFight['GoldGiven'];
 									$Monster->EXPGiven = $CurrentFight['EXPGiven'];
+									$Monster->Special = $CurrentFight['Special'];
+									$Monster->DropBonus = $CurrentFight['DropBonus'];
+									$Monster->MasteryBonus = $CurrentFight['MasteryBonus'];
+									$Monster->WeaponClass = $CurrentFight['WeaponClass'];
+									$Monster->SpellClass = $CurrentFight['SpellClass'];
+									$Monster->Armor = $CurrentFight['ArmorClass'];
 								}
 								else
 								{
@@ -84,6 +90,12 @@ if(
 									$CurrentFight['MapId'] = $Character->MapId;
 									$CurrentFight['PositionX'] = $Character->PositionX;
 									$CurrentFight['PositionY'] = $Character->PositionY;
+									$CurrentFight['Special'] = $Monster->Special;
+									$CurrentFight['DropBonus']=$Monster->DropBonus;
+									$CurrentFight['MasteryBonus']=$Monster->MasteryBonus;
+									$CurrentFight['WeaponClass'] = $Monster->WeaponClass;
+									$CurrentFight['SpellClass'] = $Monster->SpellClass;
+									$CurrentFight['ArmorClass'] = $Monster->ArmorClass;
 	
 									if($Database->Characters->UpdateTraits($Character))
 									{

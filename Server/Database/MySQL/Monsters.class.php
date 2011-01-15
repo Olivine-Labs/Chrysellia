@@ -2,8 +2,8 @@
 
 namespace Database\MySQL;
 
-define('SQL_LOADLISTBYCELL', 'SELECT m.monsterId, m.name, m.level, m.experienceBonus, m.goldBonus, m.weaponClass, m.spellClass, m.armorClass FROM `monsters` m INNER JOIN `monster_monsters` mm ON mm.monsterId=m.monsterId WHERE mm.mapId=? AND mm.positionX=? AND mm.positionY=?');
-define('SQL_LOADBYID', 'SELECT `name`, `level`, `experienceBonus`, `goldBonus`, `weaponClass`, `spellClass`, `armorClass`, `alignGood`, `alignOrder` FROM `monsters` WHERE `monsterId`=?');
+define('SQL_LOADLISTBYCELL', 'SELECT m.monsterId, m.name, m.level, m.experienceBonus, m.goldBonus, m.dropBonus, m.masteryBonus, m.weaponClass, m.spellClass, m.armorClass FROM `monsters` m INNER JOIN `monster_monsters` mm ON mm.monsterId=m.monsterId WHERE mm.mapId=? AND mm.positionX=? AND mm.positionY=?');
+define('SQL_LOADBYID', 'SELECT `name`, `level`, `experienceBonus`, `goldBonus`, `dropBonus`, `masteryBonus`, `weaponClass`, `spellClass`, `armorClass`, `alignGood`, `alignOrder` FROM `monsters` WHERE `monsterId`=?');
 define('SQL_ISMONSTERINCELL', 'SELECT 1 FROM `map_monsters` mm WHERE mm.monsterId=? AND mm.mapId=? AND mm.positionX=? AND mm.positionY=?');
 
 /**
@@ -56,7 +56,7 @@ class monsters extends \Database\Monsters
 		while($Continue)
 		{
 			$AMonster = new \Entities\Monster();
-			$Query->bind_result($AMonster->MonsterId, $AMonster->Name, $AMonster->Level, $AMonster->ExperienceBonus, $AMonster->GoldBonus, $AMonster->WeaponClass, $AMonster->SpellClass, $AMonster->ArmorClass);
+			$Query->bind_result($AMonster->MonsterId, $AMonster->Name, $AMonster->Level, $AMonster->ExperienceBonus, $AMonster->GoldBonus, $AMonster->DropBonus, $AMonster->MasteryBonus, $AMonster->WeaponClass, $AMonster->SpellClass, $AMonster->ArmorClass);
 			$Continue = $Query->Fetch();
 			if($Continue)
 			{
@@ -82,7 +82,7 @@ class monsters extends \Database\Monsters
 		$Query->bind_param('s', $AMonster->MonsterId);
 		$Query->Execute();
 
-		$Query->bind_result($AMonster->Name, $AMonster->Level, $AMonster->ExperienceBonus, $AMonster->GoldBonus, $AMonster->WeaponClass, $AMonster->SpellClass, $AMonster->ArmorClass, $AMonster->AlignGood, $Monster->AlignOrder);
+		$Query->bind_result($AMonster->Name, $AMonster->Level, $AMonster->ExperienceBonus, $AMonster->GoldBonus, $AMonster->DropBonus, $AMonster->MasteryBonus,  $AMonster->WeaponClass, $AMonster->SpellClass, $AMonster->ArmorClass, $AMonster->AlignGood, $Monster->AlignOrder);
 
 		if($Query->fetch()){
 			return true;

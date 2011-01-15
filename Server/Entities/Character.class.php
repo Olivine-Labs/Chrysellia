@@ -317,6 +317,7 @@ class Character extends Being
 
 		if(get_class($AnEnemy) == 'Entities\Monster')
 		{
+			$Result['Special'] = $AnEnemy->Special;
 			$AnEnemy->Equipment = array();
 			
 			$Item = new \Entities\Item();
@@ -573,7 +574,6 @@ class Character extends Being
 			$this->Gold = 0;
 			unset($_SESSION['CurrentFight']);
 		}
-
 		return $Result;
 	}
 }
