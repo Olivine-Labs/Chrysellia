@@ -6,6 +6,7 @@ define('SQL_GETSESSION', 'SELECT `data` FROM `sessions` WHERE `sessionId`=?');
 define('SQL_REPLACESESSION', 'INSERT INTO `sessions` (`sessionId`, `data`, `lastUsedOn`) VALUES (?, ?, NOW()) ON DUPLICATE KEY UPDATE `data`=?, `lastUsedOn`=NOW()');
 define('SQL_DELETESESSION', 'DELETE FROM `sessions` WHERE `sessionId`=?');
 define('SQL_CLEANSESSIONS', 'DELETE FROM `sessions` WHERE `lastUsedOn` < (NOW() - INTERVAL ? SECOND)');
+define('SQL_GETONLINE', 'SELECT count(*) FROM `sessions` WHERE `lastUsedOn` > (NOW() - INTERVAL 360 SECOND)');
 
 /**
  * Contains properties and methods related to querying our sessions table and relations
@@ -117,6 +118,22 @@ class Sessions extends \Database\Sessions
 		$Query->Execute();
 
 		return true;
+	}
+
+	/**
+	 * Checks how many active sessions there are
+	 *
+	 * @return int
+	 *   The number of onlines
+	 */
+	public function GetOnline()
+	{
+		$Query = $this->Database->Connection->prepare(SQL_GETONLINE);
+		$this->Database->logError();
+		$Query->Execute();
+		$Query->bind_result($Count);
+		$Query->Fetch();
+		return $Count;
 	}
 }
 ?>

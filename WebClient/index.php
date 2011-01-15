@@ -98,7 +98,7 @@ include_once('php/simplepie.inc');
 							<!--<li><a href="#">Rankings</a></li>-->
 							<li><a href="http://forum.chrysellia.com" target="_blank">Forum</a></li>
 							<li><form target="_blank" method="post" action="https://www.paypal.com/cgi-bin/webscr"><input type="hidden" value="_s-xclick" name="cmd"><input type="hidden" value="U9PMXZHBZPVPJ" name="hosted_button_id"><input type="image" border="0" alt="PayPal - The safer, easier way to pay online!" name="submit" src="./css/images/donate.png" class='donateButton'><img width="1" height="1" border="0" src="https://www.paypal.com/en_US/i/scr/pixel.gif" alt=""></form></li>
-							<li class='fbButton'><script src="http://connect.facebook.net/en_US/all.js#xfbml=1"></script><fb:like href="http://www.chrysellia.com" layout="button_count" show_faces="true" width="100"></fb:like></li>
+							<!--<li class='fbButton'><script src="http://connect.facebook.net/en_US/all.js#xfbml=1"></script><fb:like href="http://www.chrysellia.com" layout="button_count" show_faces="true" width="100"></fb:like></li>-->
 							<!--<li><a href="#">Store</a></li>-->
 						</ul>
 					</nav>
@@ -140,14 +140,8 @@ include_once('php/simplepie.inc');
 					<section class="grid_8 news">
 						<h1>News</h1>
 						<section class="mainNews newsItem">
-							<h1>Whoops, Bugfix</h1>
-							<p>
-								We've fixed a bug that kept people from logging in. And creating accounts. Whoops.
-							</p>
-						</section>
-						<section class="mainNews newsItem">
 							<h1>Chrysellia Beta Open</h1>
-							<em class="alternate"><date>1/11/10</date> - by Silwar Naiilo</em>
+							<em class="alternate"><date>1/11/11</date> - by Silwar Naiilo</em>
 							<p>
 								Chrysellia is finally in beta! Here's a few points to remember:
 								<ul>
@@ -373,6 +367,9 @@ include_once('php/simplepie.inc');
 		<script src="./Core/core-AccountService.js"></script>
 		<script src="./Core/core-CharacterService.js"></script>-->
 		<script src="./Core/core.min.js"></script>
+		<script src="./Core/core-APIService.js"></script>
+		
+		<script src="./Core/staticInfo/races.js"></script>
 		
 		<!-- Page setup -->
 		<script src="./js/startup.js"></script>
@@ -380,6 +377,20 @@ include_once('php/simplepie.inc');
 		
 		<div id="fb-root"></div>
 		<script src="http://connect.facebook.net/en_US/all.js"></script>
-		
+		<script type="text/javascript">
+
+		  var _gaq = _gaq || [];
+		  _gaq.push(['_setAccount', 'UA-20727556-1']);
+		  _gaq.push(['_setDomainName', 'none']);
+		  _gaq.push(['_setAllowLinker', true]);
+		  _gaq.push(['_trackPageview']);
+
+		  (function() {
+			var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+			ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+			var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+		  })();
+
+		</script>
 	</body>
 </html>

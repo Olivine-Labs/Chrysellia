@@ -25,6 +25,12 @@ define('SQL_INSERTCHARACTERLOCATION', 'INSERT INTO `character_locations` (`chara
 
 define('SQL_LOADLISTFORCELL', 'SELECT c.characterId, c.name, ct.gender, ct.raceId, c.clanId, ct.level, ct.alignGood, ct.alignOrder FROM `characters` c INNER JOIN `character_locations` cl ON cl.characterId=c.characterId INNER JOIN `character_traits` ct ON ct.characterId=c.characterId WHERE cl.mapId=? AND cl.positionX=? AND cl.positionY=? AND ct.Health > 0');
 
+//API
+define('SQL_LOADTOPLISTASC', 'SELECT c.name, ct.gender, ct.raceId, c.clanId, ct.level, ct.alignGood, ct.alignOrder FROM `characters` c INNER JOIN `character_traits` ct ON ct.characterId=c.characterId');
+define('SQL_LIMIT', ' LIMIT ?, ?');
+define('SQL_ORDERBY', ' ORDER BY ');
+define('SQL_GETCOUNT', 'SELECT count(*) FROM `characters`');
+
 /**
  * Contains properties and methods related to querying our characters table and relations
  */
@@ -445,6 +451,84 @@ class Characters extends \Database\Characters
 			}
 		}
 		return $Result;
+	}
+
+	/**
+	 * Loads a list of characters for API
+	 *
+	 * @return Array
+	 *   An Array of \Entities\Character objects
+	 */
+	function LoadTopList($NumRows=10, $Position=0, $Direction=0, $ListType=0, $ByRace=null)
+	{
+		$Result = Array();
+		$Query = null;
+		$Field = 'ct.level';
+		$DirectionString = ' ASC';
+		if(!$Direction)
+			$DirectionString=' DESC';
+		$Where='';
+		if(isset($ByRace))
+		{
+			$Where = ' WHERE c.raceId="'.$this->Database->Connection->real_escape_string($ByRace).'"';
+		}
+		switch($ListType)
+		{
+			case 0 :
+				$Field = 'ct.level';
+				break;
+			case 1 :
+				$Field = 'ct.alignGood';
+				break;
+			case 2 :
+				$Field = 'ct.alignOrder';
+				break;
+		}
+
+		$Query = $this->Database->Connection->prepare(SQL_LOADTOPLIST.$Where.SQL_ORDERBY.$Field.$Direction.SQL_LIMIT);
+
+		$this->Database->logError();
+		$Query->bind_param('ii', $Position, $NumRows);
+
+		$Query->Execute();
+
+		$Query->bind_result($Name, $Gender, $RaceId, $ClanId, $Level, $AlignGood, $AlignOrder);
+
+		while($Query->fetch())
+		{
+			$Character = new \Entities\Character();
+			$Character->Name = $Name;
+			$Character->RaceId = $RaceId;
+			$Character->Gender = $Gender;
+			$Character->ClanId = $ClanId;
+			$Character->Level = $Level;
+			$Character->AlignGood = $AlignGood;
+			$Character->AlignOrder = $AlignOrder;
+			array_push($Result, $Character);
+		}
+		return $Result;
+	}
+
+	/**
+	 * Get total character count
+	 *
+	 * @return int
+	 *   How many characters there are in the db
+	 */
+	function GetTotalCount($ByRace=null)
+	{
+		$Where='';
+		if(isset($ByRace))
+		{
+			$Where = ' WHERE c.raceId="'.$this->Database->Connection->real_escape_string($ByRace).'"';
+		}
+		$Query = $this->Database->Connection->prepare(SQL_GETCOUNT.$Where);
+		$this->Database->logError();
+		$Query->Execute();
+
+		$Query->bind_result($Count);
+		$Query->fetch();
+		return $Count;
 	}
 }
 ?>
