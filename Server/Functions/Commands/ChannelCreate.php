@@ -11,10 +11,10 @@ if(isset($_GET['Data']))
 
 if(
 	property_exists($Get, 'Channel') &&
-	property_exists($Get, 'Motd')) &&
+	property_exists($Get, 'Motd') &&
 	property_exists($Get, 'PublicRead') &&
 	property_exists($Get, 'PublicWrite')
-{
+){
 	try
 	{
 		$Character = new \Entities\Character();
