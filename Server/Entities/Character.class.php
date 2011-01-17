@@ -473,16 +473,13 @@ class Character extends Being
 				{
 					$Inserted = false;
 					$PlayerRow = array('Damage'=>$ActualDamage, 'Actor'=>$Index, 'Type'=>$AttackType, 'Initiative'=>$Initiative);
-					if(count($Result) > 0)
+					for($ArrayIndex = 0; $ArrayIndex < count($Result); $ArrayIndex++)
 					{
-						for($ArrayIndex = 0; $ArrayIndex < count($Result); $ArrayIndex++)
+						if($Initiative > $Result[$ArrayIndex]["Initiative"])
 						{
-							if($Initiative > $Result[$ArrayIndex]["Initiative"])
-							{
-								@array_splice($Result, $ArrayIndex, 0, array($PlayerRow));
-								$Inserted =true;
-								break;
-							}
+							@array_splice($Result, $ArrayIndex, 0, array($PlayerRow));
+							$Inserted =true;
+							break;
 						}
 					}
 					if(!$Inserted)
