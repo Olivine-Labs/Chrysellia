@@ -255,12 +255,18 @@ class Chat extends \Database\Chat
 		
 		$Query->Execute();
 		$Result = Array();
-		$Query->bind_result($Result['Read'], $Result['Write'], $Result['Moderate'], $Result['Administrate'], $Result['isJoined'], $Result['Name'], $Result['defaultAccessRead'], $Result['defaultAccessWrite']);
-		
+		$Query->bind_result($Result['Read'], $Result['Write'], $Result['Moderate'], $Result['Administrate'], $Result['isJoined'], $Result['Name'], $defaultAccessRead, $defaultAccessWrite);
+
+		if(!isset($Rights['Read']))
+			$Result['Read'] = $defaultAccessRead;
+		if(!isset($Rights['Write']))
+			$Result['Read'] = $defaultAccessWrite;
+
+
 		if($Query->fetch())
 			return $Result;
 		else
-			$Result = Array('Read'=>0, 'Write'=>0, 'Moderate'=>0, 'Administrate'=>0, 'isJoined'=>0, 'Name'=>'', 'defaultAccessRead'=>0, 'defaultAccessWrite'=>0);
+			$Result = Array('Read'=>0, 'Write'=>0, 'Moderate'=>0, 'Administrate'=>0, 'isJoined'=>0, 'Name'=>'');
 			return $Result;
 	}
 

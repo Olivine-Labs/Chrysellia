@@ -17,16 +17,13 @@ if(property_exists($Get, 'Channel'))
 		$Character->CharacterId = $_SESSION['CharacterId'];
 		if(is_array($Rights = $Database->Chat->GetRightsByName($Character, $Get->Channel)))
 		{
-			if(!isset($Rights['Read']))
-				$Rights['Read'] = $Rights['defaultAccessRead'];
-
 			if($Rights['Read'])
 			{
 				$Rights['isJoined'] = 1;
 				if($Database->Chat->SetRights($Character, $Rights['ChannelId'], $Rights))
 				{
 					$Result->Set('Result', \Protocol\Result::ER_SUCCESS);
-					$Result->Set('Data', $Channel);
+					$Result->Set('Data', $Database->Chat->LoadChannel($Rights['ChannelId']);
 					$_SESSION['Channels'][$Channel["ChannelId"]] = new stdClass();
 					$_SESSION['Channels'][$Channel["ChannelId"]]->LastRefresh = time() - 300;
 				}
