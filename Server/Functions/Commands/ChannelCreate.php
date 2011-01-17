@@ -9,7 +9,11 @@ if(isset($_GET['Data']))
 	$Get = json_decode($_GET['Data']);
 }
 
-if(property_exists($Get, 'Channel') && property_exists($Get, 'Motd'))
+if(
+	property_exists($Get, 'Channel') &&
+	property_exists($Get, 'Motd')) &&
+	property_exists($Get, 'PublicRead') &&
+	property_exists($Get, 'PublicWrite')
 {
 	try
 	{
@@ -17,14 +21,14 @@ if(property_exists($Get, 'Channel') && property_exists($Get, 'Motd'))
 		$Character->CharacterId = $_SESSION['CharacterId'];
 		$Database->startTransaction();
 		$Success = false;
-		if($ChannelId = $Database->Chat->CreateChannel($Get->Channel, $Get->Motd))
+		if($ChannelId = $Database->Chat->CreateChannel($Get->Channel, $Get->Motd, $Get->PublicRead, $Get->PublicWrite))
 		{
 			if($Database->Chat->SetRights($Character, $ChannelId, Array('Read'=>1,'Write'=>1,'Moderate'=>1,'Administrate'=>1,'isJoined'=>1)))
 			{
 				$Success = true;
 				$Database->commitTransaction();
 				$Result->Set('Result', \Protocol\Result::ER_SUCCESS);
-				$Result->Set('Data', Array('ChannelId'=>$ChannelId, 'Name'=>$Get->Channel, 'Motd'=>$Get->Motd));
+				$Result->Set('Data', Array('ChannelId'=>$ChannelId, 'Name'=>$Get->Channel, 'Motd'=>$Get->Motd, 'PublicRead'=>$Get->PublicRead, 'PublicWrite'=>$Get->PublicWrite));
 				$_SESSION['Channels'][$ChannelId] = new stdClass();
 			}
 		}

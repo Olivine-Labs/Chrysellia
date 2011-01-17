@@ -10,7 +10,7 @@ define('SQL_INSERTMESSAGE', 'INSERT INTO `chat` (`characterIdFrom`, `characterId
 define('SQL_CHANNELSETRIGHTS', 'INSERT INTO `channel_permissions` (`characterId`, `channelId`, `accessRead`,`accessWrite`,`accessModerator`,`accessAdmin`, `isJoined`) VALUES (?, ?, coalesce(?, 0), coalesce(?, 0), coalesce(?, 0), coalesce(?, 0), coalesce(?, 0)) ON DUPLICATE KEY UPDATE `accessRead`=?, `accessWrite`=?, `accessModerator`=?, `accessAdmin`=?, `isJoined`=?');
 define('SQL_CHANNELGETJOINEDLIST', 'SELECT p.channelId, c.name, c.motd FROM `channel_permissions` p INNER JOIN `channels` c ON c.channelId=p.channelId WHERE p.isJoined=1 AND p.characterId=?');
 define('SQL_CHANNELSETJOINED', 'INSERT INTO `channel_permissions` (`characterId`, `channelId`, `isJoined`) VALUES (?, ?, ?) ON DUPLICATE KEY UPDATE `isJoined`=?');
-define('SQL_CREATECHANNEL','INSERT INTO `channels` (`channelId`, `name`, `motd`) VALUES (?, ?, ?)');
+define('SQL_CREATECHANNEL','INSERT INTO `channels` (`channelId`, `name`, `motd`, 'defaultRead', 'defaultWrite') VALUES (?, ?, ?, ?, ?)');
 define('SQL_UPDATECHANNEL','UPDATE `channels` SET `motd`=?, `defaultAccessRead`=?, `defaultAccessWrite`=? WHERE `channelId`=?');
 define('SQL_LOADCHANNEL','SELECT `motd`, `defaultAccessRead`, `defaultAccessWrite` FROM `channels` WHERE `channelId`=?');
 //API
@@ -220,12 +220,12 @@ class Chat extends \Database\Chat
 	 * @return String
 	 *   The id of the channel or false if access is denied
 	 */
-	public function CreateChannel($ChannelName, $Motd)
+	public function CreateChannel($ChannelName, $Motd, $defaultRead, $defaultWrite)
 	{
 		$ChannelId = uniqid('CHAN_', true);
 		$Query = $this->Database->Connection->prepare(SQL_CREATECHANNEL);
 		$this->Database->logError();
-		$Query->bind_param('sss', $ChannelId, $ChannelName, $Motd);
+		$Query->bind_param('sss', $ChannelId, $ChannelName, $Motd, $defaultRead, $defaultWrite);
 
 		$Query->Execute();
 
