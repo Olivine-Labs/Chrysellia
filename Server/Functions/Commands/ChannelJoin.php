@@ -18,7 +18,7 @@ if(property_exists($Get, 'Channel'))
 		if(is_array($Rights = $Database->Chat->GetRightsByName($Character, $Get->Channel)))
 		{
 			if(!isset($Rights['Read']))
-				$Rights['Read'] = $Rights['defaultRead'];
+				$Rights['Read'] = $Rights['defaultAccessRead'];
 
 			if($Rights['Read'])
 			{

@@ -54,8 +54,22 @@
 		
 		var channelName = $("#cc_channelName").val();
 		var channelMotd = $("#cc_channelMOTD").val();
+		var publicRead = $("#cc_publicRead").attr('checked');
+		var publicWrite = $("#cc_publicWrite").attr('checked');
 		
-		vc.ch.CreateChannel(channelName, channelMotd, CreateChannel)
+		if(publicRead){
+			publicRead = 1;
+		}else{
+			publicRead = 0;
+		}
+		
+		if(publicWrite){
+			publicWrite = 1;
+		}else{
+			publicWrite = 0;
+		}
+		
+		vc.ch.CreateChannel(channelName, channelMotd, publicRead, publicWrite, CreateChannel)
 	});
 	
 	$("#joinChannelForm form").bind("submit", function(e){
@@ -696,15 +710,14 @@ function BuildShop(topWindow){
 	
 	var currentItem = {};		
 
-	for(i in MyCharacter.Inventories["Personal"]){
-		if(i != "remove"){
-			if(i == 0){
-				var s = " selected='selected'";
-			}
-			
-			currentItem = MyCharacter.Inventories["Personal"][i];
-			sellSelection.append("<option value='" + currentItem.ItemId + "'" + s + ">" + currentItem.Name + " - " + currentItem.SellPrice + "</option>");
+	for(var i= 0; i < MyCharacter.Inventories["Personal"].length; i++){
+		s = "";
+		if(i == 0){
+			var s = " selected='selected'";
 		}
+		
+		currentItem = MyCharacter.Inventories["Personal"][i];
+		sellSelection.append("<option value='" + currentItem.ItemId + "'" + s + ">" + currentItem.Name + " - " + currentItem.SellPrice + "</option>");
 	}
 	
 	var sellItem = $("<button id='sellItem' class='button'>Sell</buy>").bind("click", function(e){ e.preventDefault(); SellItem(); });
@@ -753,6 +766,7 @@ function FilterItemTypes(itemSlotType){
 	for(item in V2Core.ItemTypes[2][itemSlotType]){
 		if(item != "remove"){
 			currentItem = items[item];
+			s = "";
 			if(item == 0){
 				var s = " selected='selected'";
 			}

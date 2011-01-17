@@ -10,7 +10,7 @@ define('SQL_INSERTMESSAGE', 'INSERT INTO `chat` (`characterIdFrom`, `characterId
 define('SQL_CHANNELSETRIGHTS', 'INSERT INTO `channel_permissions` (`characterId`, `channelId`, `accessRead`,`accessWrite`,`accessModerator`,`accessAdmin`, `isJoined`) VALUES (?, ?, coalesce(?, 0), coalesce(?, 0), coalesce(?, 0), coalesce(?, 0), coalesce(?, 0)) ON DUPLICATE KEY UPDATE `accessRead`=?, `accessWrite`=?, `accessModerator`=?, `accessAdmin`=?, `isJoined`=?');
 define('SQL_CHANNELGETJOINEDLIST', 'SELECT p.channelId, c.name, c.motd FROM `channel_permissions` p INNER JOIN `channels` c ON c.channelId=p.channelId WHERE p.isJoined=1 AND p.characterId=?');
 define('SQL_CHANNELSETJOINED', 'INSERT INTO `channel_permissions` (`characterId`, `channelId`, `isJoined`) VALUES (?, ?, ?) ON DUPLICATE KEY UPDATE `isJoined`=?');
-define('SQL_CREATECHANNEL','INSERT INTO `channels` (`channelId`, `name`, `motd`, 'defaultRead', 'defaultWrite') VALUES (?, ?, ?, ?, ?)');
+define('SQL_CREATECHANNEL','INSERT INTO `channels` (`channelId`, `name`, `motd`, `defaultAccessRead`, `defaultAccessWrite`) VALUES (?, ?, ?, ?, ?)');
 define('SQL_UPDATECHANNEL','UPDATE `channels` SET `motd`=?, `defaultAccessRead`=?, `defaultAccessWrite`=? WHERE `channelId`=?');
 define('SQL_LOADCHANNEL','SELECT `motd`, `defaultAccessRead`, `defaultAccessWrite` FROM `channels` WHERE `channelId`=?');
 //API
@@ -220,12 +220,12 @@ class Chat extends \Database\Chat
 	 * @return String
 	 *   The id of the channel or false if access is denied
 	 */
-	public function CreateChannel($ChannelName, $Motd, $defaultRead, $defaultWrite)
+	public function CreateChannel($ChannelName, $Motd, $defaultAccessRead, $defaultAccessWrite)
 	{
 		$ChannelId = uniqid('CHAN_', true);
 		$Query = $this->Database->Connection->prepare(SQL_CREATECHANNEL);
 		$this->Database->logError();
-		$Query->bind_param('sss', $ChannelId, $ChannelName, $Motd, $defaultRead, $defaultWrite);
+		$Query->bind_param('sssii', $ChannelId, $ChannelName, $Motd, $defaultAccessRead, $defaultAccessWrite);
 
 		$Query->Execute();
 
@@ -255,12 +255,12 @@ class Chat extends \Database\Chat
 		
 		$Query->Execute();
 		$Result = Array();
-		$Query->bind_result($Result['Read'], $Result['Write'], $Result['Moderate'], $Result['Administrate'], $Result['isJoined'], $Result['Name'], $Result['defaultRead'], $Result['defaultWrite']);
+		$Query->bind_result($Result['Read'], $Result['Write'], $Result['Moderate'], $Result['Administrate'], $Result['isJoined'], $Result['Name'], $Result['defaultAccessRead'], $Result['defaultAccessWrite']);
 		
 		if($Query->fetch())
 			return $Result;
 		else
-			$Result = Array('Read'=>0, 'Write'=>0, 'Moderate'=>0, 'Administrate'=>0, 'isJoined'=>0, 'Name'=>'', 'defaultRead'=>0, 'defaultWrite'=>0);
+			$Result = Array('Read'=>0, 'Write'=>0, 'Moderate'=>0, 'Administrate'=>0, 'isJoined'=>0, 'Name'=>'', 'defaultAccessRead'=>0, 'defaultAccessWrite'=>0);
 			return $Result;
 	}
 
@@ -284,12 +284,12 @@ class Chat extends \Database\Chat
 		
 		$Query->Execute();
 		$Result = Array();
-		$Query->bind_result($Result['ChannelId'], $Result['Read'], $Result['Write'], $Result['Moderate'], $Result['Administrate'], $Result['isJoined'], $Result['Name'], $Result['defaultRead'], $Result['defaultWrite']);
+		$Query->bind_result($Result['ChannelId'], $Result['Read'], $Result['Write'], $Result['Moderate'], $Result['Administrate'], $Result['isJoined'], $Result['Name'], $Result['defaultAccessRead'], $Result['defaultAccessWrite']);
 		
 		if($Query->fetch())
 			return $Result;
 		else
-			$Result = Array('ChannelId'=>null, 'Read'=>0, 'Write'=>0, 'Moderate'=>0, 'Administrate'=>0, 'isJoined'=>0, 'Name'=>'', 'defaultRead'=>0, 'defaultWrite'=>0);
+			$Result = Array('ChannelId'=>null, 'Read'=>0, 'Write'=>0, 'Moderate'=>0, 'Administrate'=>0, 'isJoined'=>0, 'Name'=>'', 'defaultAccessRead'=>0, 'defaultAccessWrite'=>0);
 			return $Result;
 	}
 
@@ -374,9 +374,9 @@ class Chat extends \Database\Chat
 		$Query->bind_param('s', $ChannelId);
 
 		$Query->Execute();
-		$Query->bind_result($Name, $Motd, $DefaultRead, $DefaultWrite);
+		$Query->bind_result($Name, $Motd, $DefaultAccessRead, $DefaultAccessWrite);
 		$Query->Fetch();
-		$Result = Array("Name" => $Name, "Motd" => $Motd, "defaultRead"=>$DefaultRead, "defaultWrite"=>$DefaultWrite);
+		$Result = Array("Name" => $Name, "Motd" => $Motd, "defaultAccessRead"=>$DefaultAccessRead, "defaultAccessWrite"=>$DefaultAccessWrite);
 		return $Result;
 	}
 

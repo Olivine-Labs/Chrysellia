@@ -165,6 +165,14 @@
 					<div class="formInput"><input id="cc_channelMOTD" /></div>
 				</div>
 				<div class="formRow">
+					<div class="formLabel"><label for="cc_publicRead">Public Read</label></div>
+					<div class="formInput"><input id="cc_publicRead" type="checkbox" /></div>
+				</div>
+				<div class="formRow">
+					<div class="formLabel"><label for="cc_publicWrite">Public Write</label></div>
+					<div class="formInput"><input id="cc_publicWrite" type="checkbox" /></div>
+				</div>
+				<div class="formRow">
 					<div class="formLabel">&nbsp;</div>
 					<div class="formInput"><button type="submit" class="button">Create</button></div>
 				</div>

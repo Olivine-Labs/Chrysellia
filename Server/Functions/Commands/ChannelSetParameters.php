@@ -36,21 +36,21 @@ if(
 						case 'PublicRead':
 							if(($Get->Value==1) || ($Get->Value==0))
 							{
-								$Channel['defaultRead'] = $Get->Value;
+								$Channel['defaultAccessRead'] = $Get->Value;
 								$Success = true;
 							}
 							break;
 						case 'PublicWrite':
 							if(($Get->Value==1) || ($Get->Value==0))
 							{
-								$Channel['defaultWrite'] = $Get->Value;
+								$Channel['defaultAccessWrite'] = $Get->Value;
 								$Success = true;
 							}
 							break;
 					}
 					if($Success)
 					{
-						if($Database->Chat->UpdateChannel($Get->ChannelId, $Channel['Motd'], $Channel['defaultRead'], $Channel['defaultWrite']))
+						if($Database->Chat->UpdateChannel($Get->ChannelId, $Channel['Motd'], $Channel['defaultAccessRead'], $Channel['defaultAccessWrite']))
 						{
 							$Result->Set('Result', \Protocol\Result::ER_SUCCESS);
 						}

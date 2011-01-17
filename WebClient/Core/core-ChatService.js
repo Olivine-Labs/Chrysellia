@@ -78,10 +78,10 @@
 			);
 		},
 		
-		CreateChannel: function(name, motd, callback){
+		CreateChannel: function(name, motd, publicRead, publicWrite, callback){
 			$.getJSON(
 				V2Core.SERVERCODE_DIRECTORY + "Commands.php",
-				{ Action: vc.CommandService.ACTION_CHANNEL_CREATE, Data: JSON.stringify({ Channel: name, Motd: motd }) },
+				{ Action: vc.CommandService.ACTION_CHANNEL_CREATE, Data: JSON.stringify({ Channel: name, Motd: motd, PublicRead: publicRead, PublicWrite: publicWrite }) },
 				function(data) { callback(data); }
 			);
 		},
