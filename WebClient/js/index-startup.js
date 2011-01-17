@@ -154,7 +154,7 @@ function ProcessTops(data){
 		for(var c=0; c < data.Data.length; c++){
 			character = data.Data[c];
 			raceName = vc.Races[character.RaceId].Name;
-			$("#topList").append("<li title='#"+c+": "+character.Name+" " + AlignName(character.AlignGood, character.AlignOrder) + " Level "+character.Level+ " " + raceName + "' class='" + raceName + "'></li>");
+			$("#topList").append("<li title='#"+((c*1)+1)+": "+character.Name+" " + AlignName(character.AlignGood, character.AlignOrder) + " Level "+character.Level+ " " + raceName + "' class='" + raceName + "'></li>");
 		}
 	}
 }

@@ -18,7 +18,7 @@
 	
 		GetTops: function(limit, index, sort, callback){
 			$.getJSON(
-				"http://www.chrysellia.com/Server/API.php",
+				V2Core.SERVERCODE_DIRECTORY + "/API.php",
 				{ Action: APIService.ACTION_TOP, Data: JSON.stringify({ Num: limit, Position: index, Sort: sort }) },
 				function(data) { callback(data); }
 			);
@@ -26,7 +26,7 @@
 		
 		Count: function(callback){
 			$.getJSON(
-				"http://www.chrysellia.com/Server/API.php",
+				V2Core.SERVERCODE_DIRECTORY + "/API.php",
 				{ Action: APIService.ACTION_COUNT, Data: JSON.stringify({  }) },
 				function(data) { callback(data); }
 			);
@@ -34,7 +34,7 @@
 		
 		Online: function(callback){
 			$.getJSON(
-				"http://www.chrysellia.com/Server/API.php",
+				V2Core.SERVERCODE_DIRECTORY + "/API.php",
 				{ Action: APIService.ACTION_ONLINE, Data: JSON.stringify({  }) },
 				function(data) { callback(data); }
 			);
