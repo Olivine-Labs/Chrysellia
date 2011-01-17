@@ -24,8 +24,8 @@ if(property_exists($Get, 'Channel'))
 				{
 					$Result->Set('Result', \Protocol\Result::ER_SUCCESS);
 					$Result->Set('Data', $Database->Chat->LoadChannel($Rights['ChannelId']));
-					$_SESSION['Channels'][$Channel["ChannelId"]] = new stdClass();
-					$_SESSION['Channels'][$Channel["ChannelId"]]->LastRefresh = time() - 300;
+					$_SESSION['Channels'][$Rights['ChannelId']] = new stdClass();
+					$_SESSION['Channels'][$Rights['ChannelId']]->LastRefresh = time() - 300;
 				}
 				else
 				{
