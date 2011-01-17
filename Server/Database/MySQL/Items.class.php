@@ -48,6 +48,8 @@ define('SQL_GETEQUIPPEDITEMS', 'SELECT e.itemId, e.slotType, e.slots, e.slotNumb
 define('SQL_EQUIPITEM', 'INSERT INTO  `character_equipment` (`characterId`, `itemId`, `slotType`, `slots`, `slotNumber`) VALUES (?, ?, ?, ?, ?)');
 define('SQL_UNEQUIPITEM', 'DELETE FROM `character_equipment` WHERE `characterId`=? AND `itemId`=?');
 
+define('SQL_LOADTEMPLATES', 'SELECT i.itemTemplateId, i.name, i.description, i.buyPrice, i.sellPrice, i.itemType, ie.masteryType, ie.itemClass, ie.sockets, ie.slots, ie.slotType FROM `item_templates` i  LEFT JOIN `item_template_equippables` ie ON i.itemTemplateId=ie.itemTemplateId');
+
 /**
  * Class that holds definitions for Item query functions
  */
@@ -606,6 +608,31 @@ class Items
 			return true;
 		else
 			return false;
+	}
+	
+	public function LoadAllItemTemplates()
+	{
+		$Query = $this->Database->Connection->prepare(SQL_LOADTEMPLATES);
+		$this->Database->logError();
+
+		$Query->Execute();
+		$Continue = true;
+		$Result = Array();
+		$Index = 0;
+		while($Continue)
+		{
+			$AnItem = new \Entities\Item();
+			//i.itemTemplateId, i.name, i.description, i.buyPrice, i.sellPrice, i.itemType, ie.masteryType, ie.itemClass, ie.sockets, ie.slots, ie.slotType
+			$Query->bind_result($AnItem->ItemId, $AnItem->Name, $AnItem->Description, $AnItem->BuyPrice, $AnItem->SellPrice, $AnItem->Type, $AnItem->MasteryType, $AnItem->ItemClass, $AnItem->Sockets, $AnItem->Slots, $AnItem->SlotType);
+			$Continue = $Query->Fetch();
+			if($Continue)
+			{
+				$Result[$Index] = $AnItem;
+				$Index++;
+			}
+		}
+
+		return $Result;
 	}
 }
 ?>

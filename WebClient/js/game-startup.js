@@ -690,18 +690,27 @@ function BuildShop(topWindow){
 	var itemTypeSelection = $("<select id='itemTypeSelection'></select>").bind("change", function(e){ FilterItemTypes($(this).val()); });
 	var itemSelection = $("<select id='itemSelection'></select>");
 	var buyItem = $("<button id='buyItem' class='button'>Purchase</buy>").bind("click", function(e){ e.preventDefault(); BuyItem(); });
-	var itemInfo = $("<button id='itemInfo' class='button'>Info</buy>").bind("click", function(e){ e.preventDefault(); var index = $('#itemSelection option:selected').prevAll().length; if(index < 0){ index = 0; } DisplayItemInfo(vc.ItemTypes[2][$("#itemTypeSelection").val()][index]); });
+	var itemInfo = $("<button id='itemInfo' class='button'>Info</buy>").bind("click", function(e){ 
+		e.preventDefault(); 
+		var index = $('#itemSelection option:selected').prevAll().length; 
+		if(index < 0){ 
+			index = 0; 
+		} 
+		var split = $("#itemTypeSelection").val().split("|");
+		var item = V2Core.ItemTypes[2][split[0]][split[1]];
+	
+		DisplayItemInfo(item[index]); 
+	});
 	
 	var itemDescription = $("<div id='itemDescription'></div>");
 	var typeContainer = $("<div><label for='itemTypeSelection'>Shop For:</span></div>").append(itemTypeSelection).append(itemSelection);
 	var currentItem = {};
 	
-	for(i in vc.ItemTypes[2]){
-		if(i != "remove"){
-			items = vc.ItemTypes[2][i];
-			itemTypeSelection.append("<option value='" + i + "'>" + itemTypeLabels[i] + "</option>");
-		}
-	}
+	var weaponOptGroup = $("<optgroup label='Weapons'><option value='0|0'>Swords</option><option value='0|1'>Axes</option><option value='0|2'>Staves</option>option value='0|3'>Maces</option></optgroup>");
+	var armorOptGroup = $("<optgroup label='Armors'><option value='1|0'>Armors</option><option value='1|1'>Shields</option></optgroup>");
+	var spellsOptGroup = $("<optgroup label='Spells'><option value='2|0'>Fire</option><option value='2|1'>Cold</option><option value='2|2'>Air</option>option value='2|3'>Heal</option></optgroup>");
+	itemTypeSelection.append(weaponOptGroup).append(armorOptGroup).append(spellsOptGroup);
+	
 	buyForm.append(typeContainer).append(buyItem).append(itemInfo).append(itemDescription);
 	topWindow.append(buyForm);
 	
@@ -736,16 +745,6 @@ function SellItem(){
 	}
 }
 
-function DisplayItemInfo(item){
-	var index = $('#itemSelection option:selected').prevAll().length;
-	if(index < 0){
-		index = 0;
-	}
-	
-	var description = MyCharacter.Inventories["Personal"][index].Description;
-	$("#itemDescription").text(description);
-}
-
 function BuyItem(){
 	if(MyCharacter.Inventories["Personal"].length < 20){
 		vc.ms.Buy($("#itemSelection").val(), ProcessPurchase);
@@ -761,9 +760,9 @@ function DisplayItemInfo(item){
 function FilterItemTypes(itemSlotType){
 	var currentItem = {};
 	var itemSelection = $("#itemSelection").empty();
-	var items = V2Core.ItemTypes[2][itemSlotType];
-	
-	for(item in V2Core.ItemTypes[2][itemSlotType]){
+	var split = itemSlotType.split("|");
+	var items = V2Core.ItemTypes[2][split[0]][split[1]];
+	for(item in V2Core.ItemTypes[2][split[0]][split[1]]){
 		if(item != "remove"){
 			currentItem = items[item];
 			s = "";
