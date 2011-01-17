@@ -406,11 +406,14 @@ class Character extends Being
 				{
 					if($AnItem->SlotType == 0)
 					{
-						$AttackType=0;
-						$IsWeapon = true;
-						$DamageStat = $Being->Strength;
-						$HitStat = $Being->Dexterity;
-						$MissStat = $EnemyBeing->Dexterity;
+						if($AnItem->MasteryType != 0)
+						{
+							$AttackType=0;
+							$IsWeapon = true;
+							$DamageStat = $Being->Strength;
+							$HitStat = $Being->Dexterity;
+							$MissStat = $EnemyBeing->Dexterity;
+						}
 					}
 				}
 				else
