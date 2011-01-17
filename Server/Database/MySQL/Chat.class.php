@@ -255,6 +255,8 @@ class Chat extends \Database\Chat
 		
 		$Query->Execute();
 		$Result = Array();
+		$defaultAccessRead = null;
+		$defaultAccessWrite = null;
 		$Query->bind_result($Result['Read'], $Result['Write'], $Result['Moderate'], $Result['Administrate'], $Result['isJoined'], $Result['Name'], $defaultAccessRead, $defaultAccessWrite);
 
 		if($Query->fetch())
@@ -291,7 +293,9 @@ class Chat extends \Database\Chat
 		
 		$Query->Execute();
 		$Result = Array();
-		$Query->bind_result($Result['ChannelId'], $Result['Read'], $Result['Write'], $Result['Moderate'], $Result['Administrate'], $Result['isJoined'], $Result['Name'], $Result['defaultAccessRead'], $Result['defaultAccessWrite']);
+		$defaultAccessRead = null;
+		$defaultAccessWrite = null;
+		$Query->bind_result($Result['ChannelId'], $Result['Read'], $Result['Write'], $Result['Moderate'], $Result['Administrate'], $Result['isJoined'], $Result['Name'], $defaultAccessRead, $defaultAccessWrite);
 		
 		if($Query->fetch())
 		{
