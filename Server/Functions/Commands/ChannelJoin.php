@@ -22,10 +22,14 @@ if(property_exists($Get, 'Channel'))
 				$Rights['isJoined'] = 1;
 				if($Database->Chat->SetRights($Character, $Rights['ChannelId'], $Rights))
 				{
+					$Channel = $Database->Chat->LoadChannel($Rights['ChannelId']);
+					$Channel['ChannelId'] = $Rights['ChannelId'];
+					unset($Rights['ChannelId']);
+					$Channel['Permissions'] = $Rights;
 					$Result->Set('Result', \Protocol\Result::ER_SUCCESS);
-					$Result->Set('Data', $Database->Chat->LoadChannel($Rights['ChannelId']));
-					$_SESSION['Channels'][$Rights['ChannelId']] = new stdClass();
-					$_SESSION['Channels'][$Rights['ChannelId']]->LastRefresh = time() - 300;
+					$Result->Set('Data', $Channel);
+					$_SESSION['Channels'][$Channel['ChannelId']] = new stdClass();
+					$_SESSION['Channels'][$Channel['ChannelId']]->LastRefresh = time() - 300;
 				}
 				else
 				{
