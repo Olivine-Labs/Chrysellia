@@ -459,8 +459,7 @@ function BuildGameWindow(){
 			
 			for(m in myLocation.Monsters){
 				if(m != "remove"){
-					var monsterId = "MONS_00000000000000000000001";
-					var monsterId = monsterId.substr(0, monsterId.length - (myLocation.Monsters[m] + "").length) + myLocation.Monsters[m];
+					var monsterId = GetFullMonsterId(myLocation.Monsters[m]);
 					monster = V2Core.Monsters[monsterId];
 					option = $("<option value='" + monster.Id + "'>" + monster.Name + "</option>").appendTo(monstersOptGroup);
 				}
@@ -1108,6 +1107,12 @@ function SubmitMessage(){
 	}
 	
 	chatbox.val('');
+}
+
+function GetFullMonsterId(id){
+	var monsterId = "MONS_00000000000000000000001";
+	monsterId = monsterId.substr(0, monsterId.length - (id + "").length) + myLocation.Monsters[m];
+	return monsterId;
 }
 
 function Logout(data){

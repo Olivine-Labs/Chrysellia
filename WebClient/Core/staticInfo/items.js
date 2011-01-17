@@ -42,7 +42,7 @@
 					{ItemId:"ITEM_00000000000000000000033", Name:"Blade of Past Glory", Description:"This is an item class 33 sword with 2 sockets.", Sockets:2, Slots:1, SlotType:0, BuyPrice:2012724864, SellPrice:1006362432, MasteryType:1, ItemClass:33}, 
 					{ItemId:"ITEM_00000000000000000000034", Name:"Sword of Eternity", Description:"This is an item class 34 sword with 2 sockets.", Sockets:2, Slots:1, SlotType:0, BuyPrice:2147483648, SellPrice:1710816128, MasteryType:1, ItemClass:34}, 
 					{ItemId:"ITEM_00000000000000000000035", Name:"Dante's Flame Edge", Description:"This is an item class 35 sword with 2 sockets.", Sockets:2, Slots:1, SlotType:0, BuyPrice:2147483648, SellPrice:2147483648, MasteryType:1, ItemClass:35}, 
-					{ItemId:"ITEM_00000000000000000000036", Name:"Retribution Blade", Description:"This is an item class 36 sword with 2 sockets.", Sockets:2, Slots:1, SlotType:0, BuyPrice:2147483648, SellPrice:2147483648, MasteryType:1, ItemClass:36}, 
+					{ItemId:"ITEM_00000000000000000000036", Name:"Retribution Blade", Description:"This is an item class 36 sword with 2 sockets.", Sockets:2, Slots:1, SlotType:0, BuyPrice:2147483648, SellPrice:2147483648, MasteryType:1, ItemClass:36}
 				],
 				[
 					//axes
@@ -122,7 +122,7 @@
 					{ItemId:"ITEM_00000000000000000000107", Name:"Vash GunBlazer's Glory", Description:"This is an item class 33 staff with 2 sockets.", Sockets:2, Slots:1, SlotType:0, BuyPrice:2012724864, SellPrice:1006362432, MasteryType:4, ItemClass:33}, 
 					{ItemId:"ITEM_00000000000000000000108", Name:"Staff of Mystery", Description:"This is an item class 34 staff with 2 sockets.", Sockets:2, Slots:1, SlotType:0, BuyPrice:2147483648, SellPrice:1710816128, MasteryType:4, ItemClass:34}, 
 					{ItemId:"ITEM_00000000000000000000109", Name:"Drazons Aura Wand", Description:"This is an item class 35 staff with 2 sockets.", Sockets:2, Slots:1, SlotType:0, BuyPrice:2147483648, SellPrice:2147483648, MasteryType:4, ItemClass:35}, 
-					{ItemId:"ITEM_00000000000000000000110", Name:"Prophetmaker Staff", Description:"This is an item class 36 staff with 2 sockets.", Sockets:2, Slots:1, SlotType:0, BuyPrice:2147483648, SellPrice:2147483648, MasteryType:4, ItemClass:36}, 
+					{ItemId:"ITEM_00000000000000000000110", Name:"Prophetmaker Staff", Description:"This is an item class 36 staff with 2 sockets.", Sockets:2, Slots:1, SlotType:0, BuyPrice:2147483648, SellPrice:2147483648, MasteryType:4, ItemClass:36} 
 				],
 				[
 					//maces
@@ -285,7 +285,7 @@
 					{ItemId:"ITEM_00000000000000000000181", Name:"Fire of Past Glory", Description:"This is an item class 33 fire with 2 sockets.", Sockets:2, Slots:1, SlotType:3, BuyPrice:2012724864, SellPrice:1006362432, MasteryType:6, ItemClass:33}, 
 					{ItemId:"ITEM_00000000000000000000182", Name:"Flame of Mystery", Description:"This is an item class 34 fire with 2 sockets.", Sockets:2, Slots:1, SlotType:3, BuyPrice:2147483648, SellPrice:1710816128, MasteryType:6, ItemClass:34}, 
 					{ItemId:"ITEM_00000000000000000000183", Name:"Hades Light", Description:"This is an item class 35 fire with 2 sockets.", Sockets:2, Slots:1, SlotType:3, BuyPrice:2147483648, SellPrice:2147483648, MasteryType:6, ItemClass:35}, 
-					{ItemId:"ITEM_00000000000000000000184", Name:"Embers Sphere", Description:"This is an item class 36 fire with 2 sockets.", Sockets:2, Slots:1, SlotType:3, BuyPrice:2147483648, SellPrice:2147483648, MasteryType:6, ItemClass:36}, 
+					{ItemId:"ITEM_00000000000000000000184", Name:"Embers Sphere", Description:"This is an item class 36 fire with 2 sockets.", Sockets:2, Slots:1, SlotType:3, BuyPrice:2147483648, SellPrice:2147483648, MasteryType:6, ItemClass:36}
 				],
 				[
 					//cold
@@ -325,7 +325,7 @@
 					{ItemId:"ITEM_00000000000000000000218", Name:"Death Embrace", Description:"This is an item class 33 cold with 2 sockets.", Sockets:2, Slots:1, SlotType:3, BuyPrice:2012724864, SellPrice:1006362432, MasteryType:8, ItemClass:33}, 
 					{ItemId:"ITEM_00000000000000000000219", Name:"Snow of Past Glory", Description:"This is an item class 34 cold with 2 sockets.", Sockets:2, Slots:1, SlotType:3, BuyPrice:2147483648, SellPrice:1710816128, MasteryType:8, ItemClass:34}, 
 					{ItemId:"ITEM_00000000000000000000220", Name:"Chill of Eternity", Description:"This is an item class 35 cold with 2 sockets.", Sockets:2, Slots:1, SlotType:3, BuyPrice:2147483648, SellPrice:2147483648, MasteryType:8, ItemClass:35}, 
-					{ItemId:"ITEM_00000000000000000000221", Name:"Gamon Glass", Description:"This is an item class 36 cold with 2 sockets.", Sockets:2, Slots:1, SlotType:3, BuyPrice:2147483648, SellPrice:2147483648, MasteryType:8, ItemClass:36}, 
+					{ItemId:"ITEM_00000000000000000000221", Name:"Gamon Glass", Description:"This is an item class 36 cold with 2 sockets.", Sockets:2, Slots:1, SlotType:3, BuyPrice:2147483648, SellPrice:2147483648, MasteryType:8, ItemClass:36}
 				],
 				[
 					//air
@@ -365,7 +365,7 @@
 					{ItemId:"ITEM_00000000000000000000255", Name:"Storm of Past Glory", Description:"This is an item class 33 air with 2 sockets.", Sockets:2, Slots:1, SlotType:3, BuyPrice:2012724864, SellPrice:1006362432, MasteryType:7, ItemClass:33}, 
 					{ItemId:"ITEM_00000000000000000000256", Name:"Winds of Time", Description:"This is an item class 34 air with 2 sockets.", Sockets:2, Slots:1, SlotType:3, BuyPrice:2147483648, SellPrice:1710816128, MasteryType:7, ItemClass:34}, 
 					{ItemId:"ITEM_00000000000000000000257", Name:"Relic Weave", Description:"This is an item class 35 air with 2 sockets.", Sockets:2, Slots:1, SlotType:3, BuyPrice:2147483648, SellPrice:2147483648, MasteryType:7, ItemClass:35}, 
-					{ItemId:"ITEM_00000000000000000000258", Name:"Odras Shriek", Description:"This is an item class 36 air with 2 sockets.", Sockets:2, Slots:1, SlotType:3, BuyPrice:2147483648, SellPrice:2147483648, MasteryType:7, ItemClass:36}, 
+					{ItemId:"ITEM_00000000000000000000258", Name:"Odras Shriek", Description:"This is an item class 36 air with 2 sockets.", Sockets:2, Slots:1, SlotType:3, BuyPrice:2147483648, SellPrice:2147483648, MasteryType:7, ItemClass:36}
 				],
 				[
 					//heals
