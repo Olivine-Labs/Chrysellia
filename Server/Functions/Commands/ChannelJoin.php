@@ -23,7 +23,7 @@ if(property_exists($Get, 'Channel'))
 			if($Rights['Read'])
 			{
 				$Rights['isJoined'] = 1;
-				if($Database->Chat->SetRights($Character->CharacterId, $Rights['ChannelId'], $Rights))
+				if($Database->Chat->SetRights($Character, $Rights['ChannelId'], $Rights))
 				{
 					$Result->Set('Result', \Protocol\Result::ER_SUCCESS);
 					$Result->Set('Data', $Channel);
