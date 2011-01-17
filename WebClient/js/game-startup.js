@@ -707,7 +707,7 @@ function BuildShop(topWindow){
 	
 	var weaponOptGroup = $("<optgroup label='Weapons'><option value='0|0'>Swords</option><option value='0|1'>Axes</option><option value='0|2'>Staves</option>option value='0|3'>Maces</option></optgroup>");
 	var armorOptGroup = $("<optgroup label='Armors'><option value='1|0'>Armors</option><option value='1|1'>Shields</option></optgroup>");
-	var spellsOptGroup = $("<optgroup label='Spells'><option value='2|0'>Fire</option><option value='2|1'>Cold</option><option value='2|2'>Air</option>option value='2|3'>Heal</option></optgroup>");
+	var spellsOptGroup = $("<optgroup label='Spells'><option value='2|0'>Fire</option><option value='2|1'>Cold</option><option value='2|2'>Air</option><option value='2|3'>Heal</option></optgroup>");
 	itemTypeSelection.append(weaponOptGroup).append(armorOptGroup).append(spellsOptGroup);
 	
 	buyForm.append(typeContainer).append(buyItem).append(itemInfo).append(itemDescription);
@@ -1111,6 +1111,7 @@ function SubmitMessage(){
 
 function GetFullMonsterId(id){
 	var monsterId = "MONS_00000000000000000000001";
+	var myLocation = MyCharacter.CurrentMap.Places[MyCharacter.PositionY][MyCharacter.PositionX];
 	monsterId = monsterId.substr(0, monsterId.length - (id + "").length) + myLocation.Monsters[m];
 	return monsterId;
 }
