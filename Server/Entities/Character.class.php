@@ -325,11 +325,13 @@ class Character extends Being
 			if($AnEnemy->Strength > $AnEnemy->Intelligence)
 			{
 				$Item->SlotType = 0;
+				$Item->MasteryType = 2;
 				$Item->ItemClass = $AnEnemy->WeaponClass;
 			}
 			else
 			{
 				$Item->SlotType = 3;
+				$Item->MasteryType = 6;
 				$Item->ItemClass = $AnEnemy->SpellClass;
 			}
 			$Armor = new \Entities\Item();
