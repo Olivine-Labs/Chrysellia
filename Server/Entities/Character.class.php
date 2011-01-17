@@ -479,7 +479,7 @@ class Character extends Being
 						{
 							if($Initiative > $Result[$ArrayIndex]["Initiative"])
 							{
-								array_splice($Result, $ArrayIndex, 0, array($PlayerRow));
+								@array_splice($Result, $ArrayIndex, 0, array($PlayerRow));
 								$Inserted =true;
 								break;
 							}
