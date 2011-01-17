@@ -261,9 +261,9 @@ class Chat extends \Database\Chat
 
 		if($Query->fetch())
 		{
-			if(!isset($Rights['Read']))
+			if(!isset($Result['Read']))
 				$Result['Read'] = $defaultAccessRead;
-			if(!isset($Rights['Write']))
+			if(!isset($Result['Write']))
 				$Result['Write'] = $defaultAccessWrite;
 		}
 		else

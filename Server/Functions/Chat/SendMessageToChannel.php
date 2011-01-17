@@ -20,7 +20,7 @@ if(
 		$Character->CharacterId = $_SESSION['CharacterId'];
 		if($Database->Characters->LoadById($Character))
 		{
-			if($Rights = $Database->Chat->GetRights($Character, $Get->Channel))
+			if(is_array($Rights = $Database->Chat->GetRights($Character, $Get->Channel)))
 			{
 				if($Rights['Write'])
 				{
