@@ -4,7 +4,7 @@ $(function(){
 	
 	$("#playNow").dialog({ modal: true, title: "Log In / Register a New Account", width: 600, autoOpen: false });
 	
-	$("#btnPlayNow, .playNow").bind("click", function(e){
+	$(".playNow").bind("click", function(e){
 		e.preventDefault();
 		if($.cookie("l")=="true"){
 			window.location = "./account.php";
@@ -134,25 +134,48 @@ $(function(){
 		});
 	});
 	
-	vc.api.Online(ProcessOnline);
+	$("#topsOptions button").button({icons: { primary: "ui-icon-search" }});
+	
+	$("#topsOptions").bind("submit", function(e){
+		e.preventDefault();
+		$("#topsOptions button").button("option", "disabled", true);
+		var sortType = $("#sortOptions").val();
+		var sortDir = $("#sortDirection").val();
+		vc.api.GetTops(25, 0, sortDir, sortType, "", ProcessTops);
+	});
+	
 	vc.api.GetTops(25, 0, 0, 0, "", ProcessTops);
 });
 
-function ProcessOnline(data){
-	if(data.Result == vc.ER_SUCCESS){
-		$("#onlines").text(data.Data.Count).removeClass("loading");
-	}
-}
-
 
 function ProcessTops(data){
+	$("#topsOptions button").button("option", "disabled", false);
 	if(data.Result == vc.ER_SUCCESS){
 		var character = {};
 		var raceName = "";
-		for(var c=0; c < data.Data.length; c++){
-			character = data.Data[c];
-			raceName = vc.Races[character.RaceId].Name;
-			$("#topList").append("<li title='#"+c+": "+character.Name+" " + AlignName(character.AlignGood, character.AlignOrder) + " Level "+character.Level+ " " + raceName + "' class='" + raceName + "'></li>");
+		var li = {};
+		var topList = $("#topList");
+		
+		if(topList.children.length > 0){
+			$("#topList").animate({ opacity:0 }, 250, function(){
+				$("#topList").empty(); 
+				$("#topList").css({opacity: 1}); 
+				for(var c=0; c < data.Data.length; c++){
+					character = data.Data[c];
+					raceName = vc.Races[character.RaceId].Name;
+					li = $("<li title='#"+c+": "+character.Name+" " + AlignName(character.AlignGood, character.AlignOrder) + " Level "+character.Level+ " " + raceName + "' class='" + raceName + "'></li>");
+					$("<div><h2 class='rank number_"+c+"'>#"+(c*1 + 1)+"</h2><h3 class='charName'>"+character.Name+"</h3><span class='charDetails'>" + AlignName(character.AlignGood, character.AlignOrder) + " Level "+character.Level+ " " + raceName + "</span></div>").appendTo(li);
+					li.appendTo(topList);
+				}
+			});
+		}else{
+			for(var c=0; c < data.Data.length; c++){
+				character = data.Data[c];
+				raceName = vc.Races[character.RaceId].Name;
+				li = $("<li title='#"+c+": "+character.Name+" " + AlignName(character.AlignGood, character.AlignOrder) + " Level "+character.Level+ " " + raceName + "' class='" + raceName + "'></li>");
+				$("<div><h2 class='rank number_"+c+"'>#"+(c*1 + 1)+"</h2><h3 class='charName'>"+character.Name+"</h3><span class='charDetails'>" + AlignName(character.AlignGood, character.AlignOrder) + " Level "+character.Level+ " " + raceName + "</span></div>").appendTo(li);
+				li.appendTo(topList);
+			}
 		}
 	}
 }

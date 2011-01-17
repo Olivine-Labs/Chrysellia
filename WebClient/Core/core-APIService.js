@@ -16,17 +16,18 @@
 		ACTION_COUNT: 1,
 		ACTION_ONLINE: 2,
 	
-		GetTops: function(limit, index, sort, callback){
+		GetTops: function(limit, index, sort, listType, race, callback){
 			$.getJSON(
-				"http://www.chrysellia.com/Server/API.php",
-				{ Action: APIService.ACTION_TOP, Data: JSON.stringify({ Num: limit, Position: index, Sort: sort }) },
+				vc.API_URI,
+				//{ Action: APIService.ACTION_TOP, Data: JSON.stringify({ Num: limit, Position: index, Sort: sort }) },
+				{ Action: APIService.ACTION_TOP, Data: JSON.stringify({ Num: limit, Position: index, Sort: sort, ListType: listType, Race: race }) },
 				function(data) { callback(data); }
 			);
 		},
 		
 		Count: function(callback){
 			$.getJSON(
-				"http://www.chrysellia.com/Server/API.php",
+				vc.API_URI,
 				{ Action: APIService.ACTION_COUNT, Data: JSON.stringify({  }) },
 				function(data) { callback(data); }
 			);
@@ -34,7 +35,7 @@
 		
 		Online: function(callback){
 			$.getJSON(
-				"http://www.chrysellia.com/Server/API.php",
+				vc.API_URI,
 				{ Action: APIService.ACTION_ONLINE, Data: JSON.stringify({  }) },
 				function(data) { callback(data); }
 			);

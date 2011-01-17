@@ -43,7 +43,7 @@ include_once('php/simplepie.inc');
 		<meta name="distribution" content="Global" />
 		<meta name="copyright" content="All content copyright 2010 Jack Lawson and Drew Ditthardt. All rights reserved." />
 		
-		<title>Chrysellia (Beta)</title>
+		<title>Chrysellia (Beta): Rankings</title>
 		
 		<!--[if IE]>
 			<script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
@@ -74,48 +74,17 @@ include_once('php/simplepie.inc');
 		<link rel="icon" type="image/png" href="images/favicon.ico" /> 
 		<link rel="alternate" type="application/rss+xml" title="Neflaria News RSS Feed" href="http://v2.neflaria.com/blog/feed/" />
 	</head>
-	<body class="index">	
-	<?php
-		$newsFeed = new SimplePie();
-
-		$newsFeed->set_feed_url("http://blog.chrysellia.com/atom/");
-		$newsFeed->set_item_limit(4);
-
-		$newsFeedSuccess = $newsFeed->init();
-		$newsFeed->handle_content_type();
-		
-		
-		?>
-		<div id="messages">
-			<div class="container_12">
-				<div class="grid_12" id="info">
-					<span class="info">Online: <span id="onlines" class="loading">...</span></span>
-					<span class="info">News: 
-						<?php
-							if ($newsFeedSuccess):
-							?>
-								<?php 
-								foreach($newsFeed->get_items(0, 1) as $item){
-								?>
-									<a href="<?php if ($item->get_permalink()) echo $item->get_permalink() ?>" target="_blank"><?php echo $item->get_title(); ?></a> - (<date><?php echo $item->get_date('j M Y, g:i a'); ?></date>)
-								<?php } ?>
-						<?php endif; ?>
-					</span>
-				</div>
-			</div>
-			<div class="clear"></div>
-		</div>
-		
+	<body class="tops">	
 		<div id="navigation">
 			<div class="container_12">
 				<div class="grid_12" id="mainNav">
 					<nav>
 						<ul>
-							<li><a href="index.php" class="selected">Home</a></li>
+							<li><a href="index.php">Home</a></li>
 							<li><a href="account.php" class="playNow">Play</a></li>
 							<li><a href="http://blog.chrysellia.com" target="_blank">Blog</a></li>
 							<li><a href="http://wiki.chrysellia.com" target="_blank">Manual</a></li>
-							<li><a href="tops.php">Rankings</a></li>
+							<li><a href="tops.php" class="selected">Rankings</a></li>
 							<li><a href="http://forum.chrysellia.com" target="_blank">Forum</a></li>
 							<li><form target="_blank" method="post" action="https://www.paypal.com/cgi-bin/webscr"><input type="hidden" value="_s-xclick" name="cmd"><input type="hidden" value="U9PMXZHBZPVPJ" name="hosted_button_id"><button type="image" border="0" alt="PayPal - The safer, easier way to pay online!" name="submit" >Donate</button><img width="1" height="1" border="0" src="https://www.paypal.com/en_US/i/scr/pixel.gif" alt=""></form></li>
 							<li class='fbButton'><iframe src="http://www.facebook.com/plugins/like.php?href=http%3A%2F%2Fwww.chrysellia.com&amp;layout=button_count&amp;show_faces=true&amp;width=75&amp;action=like&amp;colorscheme=light&amp;height=21" scrolling="no" frameborder="0" style="border:none; overflow:hidden; width:75px; height:21px;" allowTransparency="true"></iframe></li>
@@ -136,97 +105,37 @@ include_once('php/simplepie.inc');
 			</div>
 		</div>
 		
-		<section id="top10" class="container_12">
-			<div class="grid_12">
-			<h1>Top 25 (Level):</h1>
-				<ul id="topList">
-				</ul>
-			</div>
-		</section>
-		
 		<div class="container_12">
-			<div class="mainContainer">
-				<div class="container_8">
-					<div class="grid_8">
-						<header class="pageHeader">
-							<h1>Chrysellia</h1>
-							<h2>The classic free online RPG</h2>
-							<a class="button bigButton" href="#" id="btnPlayNow">Play Now!</a>
-						</header>
-					</div>
-					
-					<div class="clear"></div>
-					
-					<section class="grid_8 news">
-						<h1>News</h1>
-						<section class="mainNews newsItem">
-							<h1>Chrysellia Beta Open</h1>
-							<em class="alternate"><date>1/11/11</date> - by Silwar Naiilo</em>
-							<p>
-								Chrysellia is finally in beta! Here's a few points to remember:
-								<ul>
-									<li>
-										Chrysellia was developed for the <a href="https://gaming.mozillalabs.com/" target="_blank">Mozilla Labs Game On</a> 
-										competition. As such, <strong>Chrysellia is NOT feature-complete</strong>. We took the game to the point of playability, 
-										with some of the features of Neflaria, and we plan on adding a whole lot more after the judging period. In other words,
-										Don't come in expecting Neflaria, or a Neflaria replacement YET. We plan on adding like:
-										<ul>
-											<li>18,000 locations and over 50 zones on the first plane of seven</li>
-											<li>Thousands of monsters and items</li>
-											<li>Extended Clan Wars</li>
-											<li>New Continents to Explore</li>
-											<li>New Races, Weapons, Spells, and Armors</li>
-											<li>Storyline Quests</li>
-										</ul>
-									</li>
-									<li>
-										Chrysellia is in beta and you may run into a bug or two. Tell Silwar Naiilo or Sexy Lingerie and you'll find 
-										help as quickly as possible. Due to the rules of the gaming competition, however, we can't actually <em>fix</em>
-										bugs until the judging period has ended.
-									</li>
-									<li>
-										Chrysellia is run entirely by donations. If you enjoy the game, please consider donating towards our servers.
-										That means less lag and better availability.
-									</li>
-									<li>
-										Keep up with the <a href="http://blog.chrysellia.com">Chrysellia blog</a> for updates and answers to questions!
-									</li>
-								</ul>
-							</p>
-						</section>
-						
-						<section class="secondaryNews newsItem">
-							<h1>News</h1>
-								<?php
-									if ($newsFeedSuccess):
-									?>
-									<ul>
-										<?php 
-										foreach($newsFeed->get_items(0, 5) as $item){
-										?>
-											<li class="alternate"><a href="<?php if ($item->get_permalink()) echo $item->get_permalink() ?>" target="_blank"><?php echo $item->get_title(); ?></a> - (<date><?php echo $item->get_date('j M Y, g:i a'); ?></date>)</li>
-										<?php } ?>
-										<li><a href="http://blog.chrysellia.com/atom/" class="alternate rssFeed">Subscribe to the Chrysellia News RSS</a></li>
-										<li><a href="http://www.twitter.com/chrysellia" class="twitter">Follow Chrysellia</a> on Twitter</li>
-									</ul>
-									
-								<?php endif; ?>
-						</section>
-					</section>
-					
-					<!--
-					<section class="grid_4 fromManual">
-						<h1>From the Manual</h1>
-						<h2>Race Choices</h2>
-						<p></p>
-						<a href="#" class="alternate">Visit the Manual</a>
-					</section>-->
+			<div class="container_12">
+				<div class="grid_12">
+					<header>
+						<h1>Chrysellia</h1>
+						<h2>The classic free online RPG</h2>
+					</header>
 				</div>
 				
-				<div class="grid_4 goodx"></div>
-				
 				<div class="clear"></div>
+				
+				<div class="grid_12">
+					
+					<h3>Options</h3>
+					<div class="options">
+						<form id="topsOptions" action="tops.php" method="get">
+							Sort by: 
+							<select id="sortOptions"><option value="0" selected="Selected">Level</option><option value="1">Align (Good / Evil)</option><option value="2">Align (Ordered / Chaotic)</option></select>
+							<select id="sortDirection"><option value="0" selected="Selected">Descending</option><option value="1">Ascending</option></select>
+							<button type="submit">Sort Results</button>
+						</form>
+					</div>
+					
+					<ul id="topList">
+						<!--<li class="Troll" title="#0: Nastra69 Neutral Level 2202 Troll"><div><h2 class="rank number_0">#1</h2><h3 class="charName">Nastra69</h3><span class="charDetails">Neutral Level 2202 Troll</span></div></li><li class="Gargoyle" title="#1: Catalyst of evil Neutral Level 2200 Gargoyle"><div><h2 class="rank number_1">#2</h2><h3 class="charName">Catalyst of evil</h3><span class="charDetails">Neutral Level 2200 Gargoyle</span></div></li><li class="Human" title="#2: SnowFlake Neutral Level 1237 Human"><div><h2 class="rank number_2">#3</h2><h3 class="charName">SnowFlake</h3><span class="charDetails">Neutral Level 1237 Human</span></div></li><li class="Aviakan" title="#3: Glitched Neutral Level 1190 Aviakan"><div><h2 class="rank number_3">#4</h2><h3 class="charName">Glitched</h3><span class="charDetails">Neutral Level 1190 Aviakan</span></div></li><li class="Orc" title="#4: Bird Of Prey Neutral Level 1018 Orc"><div><h2 class="rank number_4">#5</h2><h3 class="charName">Bird Of Prey</h3><span class="charDetails">Neutral Level 1018 Orc</span></div></li><li class="Drow" title="#5: UnholyRider Neutral Level 1000 Drow"><div><h2 class="rank number_5">#6</h2><h3 class="charName">UnholyRider</h3><span class="charDetails">Neutral Level 1000 Drow</span></div></li><li class="Drow" title="#6: Goliath Neutral Level 970 Drow"><div><h2 class="rank number_6">#7</h2><h3 class="charName">Goliath</h3><span class="charDetails">Neutral Level 970 Drow</span></div></li><li class="Dwarf" title="#7: General_Lee Neutral Level 866 Dwarf"><div><h2 class="rank number_7">#8</h2><h3 class="charName">General_Lee</h3><span class="charDetails">Neutral Level 866 Dwarf</span></div></li><li class="Troll" title="#8: Pea Wolf Neutral Level 736 Troll"><div><h2 class="rank number_8">#9</h2><h3 class="charName">Pea Wolf</h3><span class="charDetails">Neutral Level 736 Troll</span></div></li><li class="Drow" title="#9: Krios Neutral Level 705 Drow"><div><h2 class="rank number_9">#10</h2><h3 class="charName">Krios</h3><span class="charDetails">Neutral Level 705 Drow</span></div></li><li class="Troll" title="#10: Robberlord Neutral Level 608 Troll"><div><h2 class="rank number_10">#11</h2><h3 class="charName">Robberlord</h3><span class="charDetails">Neutral Level 608 Troll</span></div></li><li class="Drow" title="#11: TheBigBangBoom Neutral Level 529 Drow"><div><h2 class="rank number_11">#12</h2><h3 class="charName">TheBigBangBoom</h3><span class="charDetails">Neutral Level 529 Drow</span></div></li><li class="Goblin" title="#12: The Flame Alchemist  Neutral Level 487 Goblin"><div><h2 class="rank number_12">#13</h2><h3 class="charName">The Flame Alchemist </h3><span class="charDetails">Neutral Level 487 Goblin</span></div></li><li class="Troll" title="#13: Swoon Neutral Level 485 Troll"><div><h2 class="rank number_13">#14</h2><h3 class="charName">Swoon</h3><span class="charDetails">Neutral Level 485 Troll</span></div></li><li class="Orc" title="#14: Sakuretsu_Armour Neutral Level 481 Orc"><div><h2 class="rank number_14">#15</h2><h3 class="charName">Sakuretsu_Armour</h3><span class="charDetails">Neutral Level 481 Orc</span></div></li><li class="Dwarf" title="#15: Pink Speedos Neutral Level 461 Dwarf"><div><h2 class="rank number_15">#16</h2><h3 class="charName">Pink Speedos</h3><span class="charDetails">Neutral Level 461 Dwarf</span></div></li><li class="Drow" title="#16: Dobby Neutral Level 456 Drow"><div><h2 class="rank number_16">#17</h2><h3 class="charName">Dobby</h3><span class="charDetails">Neutral Level 456 Drow</span></div></li><li class="Drow" title="#17: Slust Neutral Level 455 Drow"><div><h2 class="rank number_17">#18</h2><h3 class="charName">Slust</h3><span class="charDetails">Neutral Level 455 Drow</span></div></li><li class="Troll" title="#18: bognar Neutral Level 411 Troll"><div><h2 class="rank number_18">#19</h2><h3 class="charName">bognar</h3><span class="charDetails">Neutral Level 411 Troll</span></div></li><li class="Troll" title="#19: Ozkan Neutral Level 410 Troll"><div><h2 class="rank number_19">#20</h2><h3 class="charName">Ozkan</h3><span class="charDetails">Neutral Level 410 Troll</span></div></li><li class="Orc" title="#20: Drinky Crow Neutral Level 400 Orc"><div><h2 class="rank number_20">#21</h2><h3 class="charName">Drinky Crow</h3><span class="charDetails">Neutral Level 400 Orc</span></div></li><li class="Dwarf" title="#21: Bored Neutral Level 393 Dwarf"><div><h2 class="rank number_21">#22</h2><h3 class="charName">Bored</h3><span class="charDetails">Neutral Level 393 Dwarf</span></div></li><li class="Drow" title="#22: NikNak Neutral Level 361 Drow"><div><h2 class="rank number_22">#23</h2><h3 class="charName">NikNak</h3><span class="charDetails">Neutral Level 361 Drow</span></div></li><li class="Drow" title="#23: cripple Neutral Level 334 Drow"><div><h2 class="rank number_23">#24</h2><h3 class="charName">cripple</h3><span class="charDetails">Neutral Level 334 Drow</span></div></li><li class="Drow" title="#24: Norvalk Neutral Level 323 Drow"><div><h2 class="rank number_24">#25</h2><h3 class="charName">Norvalk</h3><span class="charDetails">Neutral Level 323 Drow</span></div></li>-->
+					</ul>
+				</div>
+				
 			</div>
+			
+			<div class="clear"></div>
 		</div>
 		
 		<footer class="copyright">
@@ -390,7 +299,7 @@ include_once('php/simplepie.inc');
 		
 		<!-- Page setup -->
 		<script src="./js/startup.js"></script>
-		<script src="./js/index-startup.js"></script>
+		<script src="./js/tops-startup.js"></script>
 		
 		<div id="fb-root"></div>
 		<script src="http://connect.facebook.net/en_US/all.js"></script>

@@ -151,17 +151,19 @@ color: #000000;
     margin-top: 4px; 
 }
 
-#info { margin-top: 2px; }
+#info { margin-top: 7px; }
 .info { margin-right: 3em; font-family: 'DejaWeb', Arial, Helvetica, sans-serif; }
 
 #messages { background: url(images/greypattern.png) #666; color: #fff; height: 34px; border-bottom: solid 2px #202020; }
 #messages a, .copyright a { color: #ff0; }
 
-#navigation { background: #940000; color: #fff; height: 32px;border-top: solid 1px #bf6666 }
+#navigation { background: #940000; color: #fff; height: 31px; border-top: solid 1px #bf6666 }
 #navigation ul { float: left;  margin-top: 5px; }
-#navigation li { display: inline-block; margin-right: .5em; }
-#navigation li a { display: inline-block; height: 20px; padding: 3px 10px; color: #fff; text-shadow: 0px 1px 1px #000; }
-#navigation li a.selected { text-shadow: none; color: #940000; background-color: #fff; -webkit-border-top-left-radius: 5px; -webkit-border-top-right-radius: 5px; -moz-border-radius-topleft: 5px; -moz-border-radius-topright: 5px; border-top-left-radius: 5px; border-top-right-radius: 5px; }
+#navigation li { display: inline-block; margin-right: .5em; height: 26px; overflow: hidden; }
+#navigation a, #navigation button { display: inline-block; height: 20px; padding: 3px 10px; color: #fff; text-shadow: 0px 1px 1px #000; background: transparent; border: 0 none; font-family: Georgia,'Times New Roman',serif; }
+#navigation button { cursor: hand; font-size: 100%; position: relative; top: -1px; cursor: pointer; }
+#navigation button:hover { text-decoration: underline; }
+#navigation a.selected { text-shadow: none; color: #940000; background-color: #fff; -webkit-border-top-left-radius: 5px; -webkit-border-top-right-radius: 5px; -moz-border-radius-topleft: 5px; -moz-border-radius-topright: 5px; border-top-left-radius: 5px; border-top-right-radius: 5px; }
 .fb_ltr { position: relative; top: 4px; }
 .quickLogin { float: right; }
 .quickLogin .button { position: relative; top: 1px; }
@@ -172,7 +174,12 @@ color: #000000;
 .pageHeader .bigButton { position: relative; left: 215px; top: -55px; }
 
 .news > h1 { display: none; }
-.newsItem ul, .newsItem li { margin: .5em 0; }
+.newsItem ul, .newsItem li { margin: .5em; }
+.newsItem a { font-family: Georgia; }
+.newsItem date { font-style: italic; }
+.subscribe { font-weight: bold; margin: .5em 0; }
+.rssFeed { background: url('images/feed-icon-14x14.png') center left  no-repeat; padding-left: 18px; }
+.twitter { background: url('images/Twitter-icon.png') center left  no-repeat; padding-left: 18px; }
 
 .fromManual h1, .secondaryNews h1 { font-size: 24px; color: #000; }
 .fromManual h2 { font-size: 36px; color: #940000; }
@@ -180,12 +187,13 @@ color: #000000;
 .goodx { background: url('images/goodx.png') no-repeat scroll right top transparent; width:299px; height: 488px; position: relative; top: -150px; }
 .mainContainer { background: url('images/background_2.png') no-repeat scroll left bottom transparent; padding-bottom:100px; }
 
-.copyright { background: url(images/greypattern.png) #666; border-top: solid 1px #202020; color: #fff; text-align: center; font-size: 12pt; line-height: 1.75em; padding: 5px 0; }
-.register { float: left; width: 270px; margin: 0 5px 0 0; border-right: solid 5px #ccc; padding-right: 12px; }
+.copyright { background: url('images/greypattern.png') #666; border-top: solid 1px #202020; color: #fff; text-align: center; font-size: 12pt; line-height: 1.75em; padding: 5px 0; }
+.register { float: right; width: 270px; margin: 0 5px 0 0; border-left: solid 5px #ccc; padding-left: 12px; }
 
 .register .formLabel, .logIn .formLabel { width: 60px; }
 .register .formRow, .logIn .formRow { margin:  0 0 5px 0;}
-.logIn { width: 270px; float: right; }
+.register h3, .logIn h3 { margin-top: .25em; margin-bottom: .5em; }
+.logIn { width: 270px; float: left; }
 #playNow h1 { margin-bottom: 5px; font-size: 24px; }
 .character a.bigButton { 
 	width: 360px; 
@@ -230,16 +238,16 @@ color: #000000;
 .bigButton .TestRace3 { background: transparent url('images/goblin.jpg') top left no-repeat; }
 .bigButton .TestRace4 { background: transparent url('images/troll.jpg') top left no-repeat; }
 
-.bigButton .Aviakan { background: transparent url('images/aviakan.jpg') top left no-repeat; }
-.bigButton .Drow { background: transparent url('images/drow.jpg') top left no-repeat; }
-.bigButton .Dwarf { background: transparent url('images/dwarf.jpg') top left no-repeat; }
-.bigButton .Elf { background: transparent url('images/elf.jpg') top left no-repeat; }
-.bigButton .Gargoyle { background: transparent url('images/gargoyle.jpg') top left no-repeat; }
-.bigButton .HalfElf { background: transparent url('images/halfelf.jpg') top left no-repeat; }
-.bigButton .Human { background: transparent url('images/human.jpg') top left no-repeat; }
-.bigButton .Orc { background: transparent url('images/orc.jpg') top left no-repeat; }
-.bigButton .Troll { background: transparent url('images/troll.jpg') top left no-repeat; }
-.bigButton .Goblin { background: transparent url('images/goblin.jpg') top left no-repeat; }
+.bigButton .Aviakan, .tops .Aviakan  { background: transparent url('images/aviakan.jpg') top left no-repeat; }
+.bigButton .Drow, .tops .Drow { background: transparent url('images/drow.jpg') top left no-repeat; }
+.bigButton .Dwarf, .tops .Dwarf { background: transparent url('images/dwarf.jpg') top left no-repeat; }
+.bigButton .Elf , .tops .Elf{ background: transparent url('images/elf.jpg') top left no-repeat; }
+.bigButton .Gargoyle, .tops .Gargoyle { background: transparent url('images/gargoyle.jpg') top left no-repeat; }
+.bigButton .HalfElf, .tops .Half.Elf { background: transparent url('images/halfelf.jpg') top left no-repeat; }
+.bigButton .Human, .tops .Human { background: transparent url('images/human.jpg') top left no-repeat; }
+.bigButton .Orc, .tops .Orc { background: transparent url('images/orc.jpg') top left no-repeat; }
+.bigButton .Troll, .tops .Troll { background: transparent url('images/troll.jpg') top left no-repeat; }
+.bigButton .Goblin, .tops .Goblin { background: transparent url('images/goblin.jpg') top left no-repeat; }
 
 .mainSection { padding: 2em 0; }
 .formInput  .statChooser { font-weight: bold; font-size: 18pt; }
@@ -380,3 +388,12 @@ li.Half.Elf { background-image: url("images/race_24s/halfelf.jpg"); }
 li.Human { background-image: url("images/race_24s/human.jpg"); }
 li.Orc { background-image: url("images/race_24s/orc.jpg"); }
 li.Troll { background-image: url("images/race_24s/troll.jpg"); }
+.loading { opacity: .5; }
+
+.tops #topList li { height: 150px; margin-bottom: 6px; border-bottom: solid 1px #ccc; padding: 0px 6px 6px 160px; background-position: 3px 3px; }
+.tops #topList li:nth-child(odd){ background-color: #eee; }
+.tops #topList li:first-child { background-color: #ffc; }
+.tops #topList h2 { text-shadow: 0px 1px 1px #000; color: #900; font-size: 32px; float: right; }
+.tops #topList h3 { text-shadow: 0px 1px 1px #000; color: #900; font-size: 48px;  }
+.tops #topList .charDetails { font-size: 14pt; }
+#topsOptions { margin-bottom: .5em; }

@@ -26,7 +26,7 @@ define('SQL_INSERTCHARACTERLOCATION', 'INSERT INTO `character_locations` (`chara
 define('SQL_LOADLISTFORCELL', 'SELECT c.characterId, c.name, ct.gender, ct.raceId, c.clanId, ct.level, ct.alignGood, ct.alignOrder FROM `characters` c INNER JOIN `character_locations` cl ON cl.characterId=c.characterId INNER JOIN `character_traits` ct ON ct.characterId=c.characterId WHERE cl.mapId=? AND cl.positionX=? AND cl.positionY=? AND ct.Health > 0');
 
 //API
-define('SQL_LOADTOPLISTASC', 'SELECT c.name, ct.gender, ct.raceId, c.clanId, ct.level, ct.alignGood, ct.alignOrder FROM `characters` c INNER JOIN `character_traits` ct ON ct.characterId=c.characterId');
+define('SQL_LOADTOPLIST', 'SELECT c.name, ct.gender, ct.raceId, c.clanId, ct.level, ct.alignGood, ct.alignOrder FROM `characters` c INNER JOIN `character_traits` ct ON ct.characterId=c.characterId');
 define('SQL_LIMIT', ' LIMIT ?, ?');
 define('SQL_ORDERBY', ' ORDER BY ');
 define('SQL_GETCOUNT', 'SELECT count(*) FROM `characters`');
@@ -468,9 +468,9 @@ class Characters extends \Database\Characters
 		if(!$Direction)
 			$DirectionString=' DESC';
 		$Where='';
-		if(isset($ByRace))
+		if(isset($ByRace) && $ByRace != "")
 		{
-			$Where = ' WHERE c.raceId="'.$this->Database->Connection->real_escape_string($ByRace).'"';
+			$Where = ' WHERE ct.raceId="'.$this->Database->Connection->real_escape_string($ByRace).'"';
 		}
 		switch($ListType)
 		{
@@ -485,7 +485,7 @@ class Characters extends \Database\Characters
 				break;
 		}
 
-		$Query = $this->Database->Connection->prepare(SQL_LOADTOPLIST.$Where.SQL_ORDERBY.$Field.$Direction.SQL_LIMIT);
+		$Query = $this->Database->Connection->prepare(SQL_LOADTOPLIST.$Where.SQL_ORDERBY.$Field.$DirectionString.SQL_LIMIT);
 
 		$this->Database->logError();
 		$Query->bind_param('ii', $Position, $NumRows);

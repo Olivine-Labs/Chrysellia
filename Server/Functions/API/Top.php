@@ -20,7 +20,7 @@ if(
 	{
 		try
 		{
-			$Result->Set('Data', $Database->Characters->LoadTopLevelList($Get->Num, $Get->Position, $Get->Sort, $Get->ListType, $Get->Race));
+			$Result->Set('Data', $Database->Characters->LoadTopList($Get->Num, $Get->Position, $Get->Sort, $Get->ListType, $Get->Race));
 			$Result->Set('Result', \Protocol\Result::ER_SUCCESS);
 		}
 		catch(Exception $e)
