@@ -1,0 +1,87 @@
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `item_templates`
+--
+
+CREATE TABLE IF NOT EXISTS `item_templates` (
+  `itemTemplateId` char(28) NOT NULL,
+  `itemType` int(11) NOT NULL,
+  `name` varchar(150) NOT NULL,
+  `description` text NOT NULL,
+  `buyPrice` float NOT NULL,
+  `sellPrice` float NOT NULL,
+  PRIMARY KEY (`itemTemplateId`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `item_templates`
+--
+
+INSERT INTO `item_templates` (`itemTemplateId`, `itemType`, `name`, `description`, `buyPrice`, `sellPrice`) VALUES
+('ITEM_00000000000000000000000', 2, 'Dagger', 'Sword type weapon IC 0', 50, 25),
+('ITEM_00000000000000000000001', 2, 'Short Sword', 'Sword type weapon IC 1', 85, 43),
+('ITEM_00000000000000000000002', 2, 'Demon''s Nail', 'Sword type weapon IC 2', 144, 72),
+('ITEM_00000000000000000000003', 2, 'Scimitar', 'Sword type weapon IC 3', 246, 123),
+('ITEM_00000000000000000000004', 2, 'Lamprey', 'Sword type weapon IC 4', 418, 209),
+('ITEM_00000000000000000000005', 2, 'Sabre', 'Sword type weapon IC 5', 710, 355),
+('ITEM_00000000000000000000006', 2, 'Falchion', 'Sword type weapon IC 6', 1207, 604),
+('ITEM_00000000000000000000007', 2, 'Long Sword', 'Sword type weapon IC 7', 2052, 1026),
+('ITEM_00000000000000000000008', 2, 'Gladius', 'Sword type weapon IC 8', 3488, 1744),
+('ITEM_00000000000000000000009', 2, 'Cutlass', 'Sword type weapon IC 9', 5929, 2965),
+('ITEM_00000000000000000000010', 2, 'Battle Sword', 'Sword type weapon IC 10', 10080, 5040),
+('ITEM_00000000000000000000011', 2, 'War Sword', 'Sword type weapon IC 11', 17136, 8568),
+('ITEM_00000000000000000000012', 2, 'Broad Sword', 'Sword type weapon IC 12', 29131, 14566),
+('ITEM_00000000000000000000013', 2, 'Crystal Sword', 'Sword type weapon IC 13', 49523, 24762),
+('ITEM_00000000000000000000014', 2, 'Rune Sword', 'Sword type weapon IC 14', 84189, 42095),
+('ITEM_00000000000000000000015', 2, 'Tusk Sword', 'Sword type weapon IC 15', 143121, 71561),
+('ITEM_00000000000000000000016', 2, 'Jataghan', 'Sword type weapon IC 16', 243306, 121653),
+('ITEM_00000000000000000000017', 2, 'Claymore', 'Sword type weapon IC 17', 413620, 206810),
+('ITEM_00000000000000000000018', 2, 'Dragonslayer', 'Sword type weapon IC 18', 703154, 351577),
+('ITEM_00000000000000000000019', 2, 'Jack Handy''s Knife', 'Sword type weapon IC 19', 1.19536e+006, 597681),
+('ITEM_00000000000000000000020', 2, 'Flamberge', 'Sword type weapon IC 20', 2.03212e+006, 1.01606e+006),
+('ITEM_00000000000000000000021', 2, 'Giant Sword', 'Sword type weapon IC 21', 3.4546e+006, 1.7273e+006),
+('ITEM_00000000000000000000022', 2, 'Clothes', 'Armor IC 0', 50, 25),
+('ITEM_00000000000000000000023', 2, 'Wool Cloak', 'Armor IC 1', 85, 43),
+('ITEM_00000000000000000000024', 2, 'Leather Armor', 'Armor IC 2', 144, 72),
+('ITEM_00000000000000000000025', 2, 'Padded Leather Armor', 'Armor IC 3', 246, 123),
+('ITEM_00000000000000000000026', 2, 'Studded Leather Armor', 'Armor IC 4', 418, 209),
+('ITEM_00000000000000000000027', 2, 'Chainmail Armor', 'Armor IC 5', 710, 355),
+('ITEM_00000000000000000000028', 2, 'Linked Armor', 'Armor IC 6', 1207, 604),
+('ITEM_00000000000000000000029', 2, 'Ringmail Armor', 'Armor IC 7', 2052, 1026),
+('ITEM_00000000000000000000030', 2, 'Elven Chain', 'Armor IC 8', 3488, 1744),
+('ITEM_00000000000000000000031', 2, 'Combat Plate', 'Armor IC 9', 5929, 2965),
+('ITEM_00000000000000000000032', 2, 'Mage Plate', 'Armor IC 10', 10080, 5040),
+('ITEM_00000000000000000000033', 2, 'Heavy Plate', 'Armor IC 11', 17136, 8568),
+('ITEM_00000000000000000000034', 2, 'Lamurian Skin Armor', 'Armor IC 12', 29131, 14566),
+('ITEM_00000000000000000000035', 2, 'Moloch Armor', 'Armor IC 13', 49523, 24762),
+('ITEM_00000000000000000000036', 2, 'Angel Skin Armor', 'Armor IC 14', 84189, 42095),
+('ITEM_00000000000000000000037', 2, 'Ancient Breastplate', 'Armor IC 15', 143121, 71561),
+('ITEM_00000000000000000000038', 2, 'Mythril Ringmail', 'Armor IC 16', 243306, 121653),
+('ITEM_00000000000000000000039', 2, 'Adamantium Plate', 'Armor IC 17', 413620, 206810),
+('ITEM_00000000000000000000040', 2, 'Morkal Armor', 'Armor IC 18', 703154, 351577),
+('ITEM_00000000000000000000041', 2, 'Dragon Scale Plate', 'Armor IC 19', 1.19536e+006, 597681),
+('ITEM_00000000000000000000042', 2, 'Valar Tunic', 'Armor IC 20', 2.03212e+006, 1.01606e+006),
+('ITEM_00000000000000000000043', 2, 'Lucifer''s Cape', 'Armor IC 21', 3.4546e+006, 1.7273e+006),
+('ITEM_00000000000000000000044', 2, 'Faerie Fire', 'Armor IC 0', 50, 25),
+('ITEM_00000000000000000000045', 2, 'Minor Ignite', 'Armor IC 1', 85, 43),
+('ITEM_00000000000000000000046', 2, 'Burning Hands', 'Armor IC 2', 144, 72),
+('ITEM_00000000000000000000047', 2, 'Firebolt', 'Armor IC 3', 246, 123),
+('ITEM_00000000000000000000048', 2, 'Flame Blast', 'Armor IC 4', 418, 209),
+('ITEM_00000000000000000000049', 2, 'Flame Strike', 'Armor IC 5', 710, 355),
+('ITEM_00000000000000000000050', 2, 'Burning Blood', 'Armor IC 6', 1207, 604),
+('ITEM_00000000000000000000051', 2, 'Fire Fury', 'Armor IC 7', 2052, 1026),
+('ITEM_00000000000000000000052', 2, 'Fireball', 'Armor IC 8', 3488, 1744),
+('ITEM_00000000000000000000053', 2, 'Incinirating Ray', 'Armor IC 9', 5929, 2965),
+('ITEM_00000000000000000000054', 2, 'Hell''s Legion', 'Armor IC 10', 10080, 5040),
+('ITEM_00000000000000000000055', 2, 'Flame Gusts', 'Armor IC 11', 17136, 8568),
+('ITEM_00000000000000000000056', 2, 'Deadly Destruction', 'Armor IC 12', 29131, 14566),
+('ITEM_00000000000000000000057', 2, 'Gaze Of The Phoenix', 'Armor IC 13', 49523, 24762),
+('ITEM_00000000000000000000058', 2, 'Searing Orb', 'Armor IC 14', 84189, 42095),
+('ITEM_00000000000000000000059', 2, 'Incendiary Strike', 'Armor IC 15', 143121, 71561),
+('ITEM_00000000000000000000060', 2, 'Demon Bane', 'Armor IC 16', 243306, 121653),
+('ITEM_00000000000000000000061', 2, 'Aura of Seraph', 'Armor IC 17', 413620, 206810),
+('ITEM_00000000000000000000062', 2, 'Major Ignite', 'Armor IC 18', 703154, 351577),
+('ITEM_00000000000000000000063', 2, 'Elemental Chaos', 'Armor IC 19', 1.19536e+006, 597681),
+('ITEM_00000000000000000000064', 2, 'The RKOs burning light', 'Armor IC 20', 2.03212e+006, 1.01606e+006),
+('ITEM_00000000000000000000065', 2, 'Orb Of Fury', 'Armor IC 21', 3.4546e+006, 1.7273e+006);
