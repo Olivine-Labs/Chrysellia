@@ -473,7 +473,7 @@ class Character extends Being
 				{
 					$Inserted = false;
 					$PlayerRow = array('Damage'=>$ActualDamage, 'Actor'=>$Index, 'Type'=>$AttackType, 'Initiative'=>$Initiative);
-					if(count($Result))
+					if(count($Result) > 0)
 					{
 						for($ArrayIndex = 0; $ArrayIndex < count($Result); $ArrayIndex++)
 						{
@@ -486,7 +486,7 @@ class Character extends Being
 						}
 					}
 					if(!$Inserted)
-						$Result[count($Result)] = $PlayerRow;
+						array_push($Result, $PlayerRow);
 				}
 			}
 		}
