@@ -507,7 +507,7 @@ class Character extends Being
 						if(($ArrayItem['Type'] == 0) || ($ArrayItem['Type'] == 1))
 							$AnEnemy->Health -= $ArrayItem['Damage'];
 						else if($ArrayItem['Type'] == 2)
-							$this->Health += $ArrayItem['Damage'];
+							$this->Health = min($ArrayItem['Damage'] + $this->Health, $this->Vitality);
 					}
 					else
 					{
@@ -521,7 +521,7 @@ class Character extends Being
 						if(($ArrayItem['Type'] == 0) || ($ArrayItem['Type'] == 1))
 							$this->Health -= $ArrayItem['Damage'];
 						else if($ArrayItem['Type'] == 2)
-							$AnEnemy->Health += $ArrayItem['Damage'];
+							$AnEnemy->Health = min($ArrayItem['Damage'] + $AnEnemy->Health, $AnEnemy->Vitality);
 						}
 					else
 					{
