@@ -481,28 +481,44 @@ function BuildGameWindow(){
 
 function SubmitBankTransaction(){
 	var amt = $("#transactionAmount").val();
-	if(amt > 0){
-		if($("#transactionTypeSelection").val() == 0){
-			vc.ms.Deposit(amt, ProcessBankTransaction);
-		}else{
-			vc.ms.Widthdraw(amt, ProcessBankTransaction);
+	var action = $("#transactionTypeSelection").val();
+	
+	if(action == 0 && amt == "all" || action == 2){
+		amt = MyCharacter.Gold;
+		action = 0;
+	}else if(action == 1 && amt == "all" || action == 3){
+		amt = MyCharacter.Bank;
+		action = 1;
+	}
+
+	if(isInteger(amt) || amt > 0 ){
+		switch(action){
+			case 0:
+				if(amt > MyCharacter.Gold){
+					amt == MyCharacter.Gold;
+				}
+				vc.ms.Deposit(amt, ProcessBankTransaction);
+				break;
+			case 1: 
+				if(amt < MyCharacter.Gold){
+					amt == MyCharacter.Bank;
+				}
+				vc.ms.Widthdraw(amt, ProcessBankTransaction);
+				break;
 		}
-	}else{
-		alert("No.");
 	}
 }
 
-function ProcessBankTransaction(data){
+function ProcessBankTransaction(data, gold, transactionType){
 	if(data.Result == vc.ER_SUCCESS){
-		var amt = $("#transactionAmount").val()*1;
 		$("#transactionAmount").val('')
 		
-		if($("#transactionTypeSelection").val() == 0){
-			window.MyCharacter.Gold -= amt;
-			window.MyCharacter.Bank += amt;
+		if(transactionType == 0){
+			window.MyCharacter.Gold -= gold;
+			window.MyCharacter.Bank += gold;
 		}else{
-			window.MyCharacter.Gold += amt;
-			window.MyCharacter.Bank -= amt;
+			window.MyCharacter.Gold += gold;
+			window.MyCharacter.Bank -= gold;
 		}
 		
 		$("#bankTransaction h3").text("You have " + window.MyCharacter.Bank + " gold in your account.");
@@ -513,11 +529,10 @@ function ProcessBankTransaction(data){
 	}
 }
 
-function ProcessBankTransfer(data){
+function ProcessBankTransfer(data, gold){
 	if(data.Result == vc.ER_SUCCESS){
-		var amt = $("#transferAmount").val()*1;
 		$("#transferAmount, #transferTarget").val('')
-		window.MyCharacter.Bank -= amt;
+		window.MyCharacter.Bank -= gold;
 		$("#bankTransaction h3").text("You have " + window.MyCharacter.Bank + " gold in your account.");
 		vc.i.UpdateStats();
 	}else{
@@ -530,8 +545,6 @@ function SubmitBankTransfer(){
 	var name = $("#transferTarget").val();
 	vc.ms.Transfer(amt, name, ProcessBankTransfer);
 }
-
-
 
 function BuildExit(topWindow){
 	//ChangeMapvar
@@ -569,7 +582,7 @@ function BuildBank(topWindow){
 	
 	var bankForm = $("<form id='bankTransactionForm'></form>");
 	var bankTransaction = $("<div id='bankTransaction'><h3>You have " + window.MyCharacter.Bank + " gold in your account.</h3></div>");
-	var transactionTypeSelection = $("<select id='transactionTypeSelection'><option value='0'>Deposit</option><option value='1'>Withdraw</option></select>");
+	var transactionTypeSelection = $("<select id='transactionTypeSelection'><option value='0'>Deposit</option><option value='2'>Deposit All</option><option value='1'>Withdraw</option><option value='3'>Withdraw All</option></select>");
 	var transactionAmount = $("<input type='text' id='transactionAmount' />");
 	var submitTransaction = $("<button id='submitTransaction' class='button'>Submit</buy>").bind("click", function(e){ e.preventDefault(); SubmitBankTransaction(); });
 	

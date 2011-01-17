@@ -259,14 +259,14 @@
 		<script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.7/jquery-ui.min.js"></script>
 		
 		<!-- Here come the plugins -->
-		<!--<script src="./js/jquery.watermark.min.js"></script>
+		<script src="./js/jquery.watermark.min.js"></script>
 		<script src="./js/jquery-easing.js"></script>
 		<script src="./js/jquery.cookie.js"></script>
 		<script src="./Core/jquery-md5.js" type="text/javascript"></script>
-		<script src="./Core/json.js" type="text/javascript"></script>-->
-		<script src="./js/plugins.min.js"></script>
+		<script src="./Core/json.js" type="text/javascript"></script>
+		<!--<script src="./js/plugins.min.js"></script>-->
 				
-		<!-- For the production version, we'll minify and combine our javascript, and keep a plain version for us
+		<!-- For the production version, we'll minify and combine our javascript, and keep a plain version for us-->
 		<script src="./Core/core.js"></script>
 		<script src="./Core/core-AccountService.js"></script>
 		<script src="./Core/core-CharacterService.js"></script>
@@ -275,8 +275,8 @@
 		<script src="./Core/core-MapService.js"></script>
 		<script src="./Core/core-ItemService.js"></script>
 		<script src="./Core/core-MonsterService.js"></script>
-		<script src="./Core/core-Interface.js"></script>-->
-		<script src="./Core/core.min.js"></script>
+		<script src="./Core/core-Interface.js"></script>
+		<!--<script src="./Core/core.min.js"></script>-->
 		
 		<!-- Data Libraries -->
 		<script src="./Core/staticInfo/races.js"></script>

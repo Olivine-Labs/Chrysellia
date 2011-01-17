@@ -70,7 +70,7 @@
 			$.getJSON(
 				V2Core.SERVERCODE_DIRECTORY + "Places.php",
 				{ Action: MapService.ACTION_WITHDRAW, Data: JSON.stringify({ Gold: gold }) },
-				function(data) { callback(data); }
+				function(data) { callback(data, gold, 1); }
 			);
 		},
 		
@@ -78,7 +78,7 @@
 			$.getJSON(
 				V2Core.SERVERCODE_DIRECTORY + "Places.php",
 				{ Action: MapService.ACTION_DEPOSIT, Data: JSON.stringify({ Gold: gold }) },
-				function(data) { callback(data); }
+				function(data) { callback(data, gold, 0); }
 			);
 		},
 		
@@ -86,7 +86,7 @@
 			$.getJSON(
 				V2Core.SERVERCODE_DIRECTORY + "Places.php",
 				{ Action: MapService.ACTION_TRANSFER, Data: JSON.stringify({ Gold: gold, Name: name }) },
-				function(data) { callback(data); }
+				function(data) { callback(data, gold); }
 			);
 		}
 	}
