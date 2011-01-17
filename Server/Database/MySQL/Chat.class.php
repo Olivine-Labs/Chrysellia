@@ -12,7 +12,7 @@ define('SQL_CHANNELGETJOINEDLIST', 'SELECT p.channelId, c.name, c.motd FROM `cha
 define('SQL_CHANNELSETJOINED', 'INSERT INTO `channel_permissions` (`characterId`, `channelId`, `isJoined`) VALUES (?, ?, ?) ON DUPLICATE KEY UPDATE `isJoined`=?');
 define('SQL_CREATECHANNEL','INSERT INTO `channels` (`channelId`, `name`, `motd`, `defaultAccessRead`, `defaultAccessWrite`) VALUES (?, ?, ?, ?, ?)');
 define('SQL_UPDATECHANNEL','UPDATE `channels` SET `motd`=?, `defaultAccessRead`=?, `defaultAccessWrite`=? WHERE `channelId`=?');
-define('SQL_LOADCHANNEL','SELECT `motd`, `defaultAccessRead`, `defaultAccessWrite` FROM `channels` WHERE `channelId`=?');
+define('SQL_LOADCHANNEL','SELECT `name`, `motd`, `defaultAccessRead`, `defaultAccessWrite` FROM `channels` WHERE `channelId`=?');
 //API
 define('SQL_PUBLICCHANNELLIST', 'SELECT c.channelId, c.name, c.motd FROM `channels` c WHERE c.defaultAccessRead=1 ORDER BY c.name ASC LIMIT ?, ?');
 define('SQL_PUBLICCHANNELCOUNT', 'SELECT count(*) FROM `channels` c WHERE c.defaultAccessRead=1');
