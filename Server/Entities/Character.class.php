@@ -319,26 +319,35 @@ class Character extends Being
 		{
 			$Result['Special'] = $AnEnemy->Special;
 			$AnEnemy->Equipment = array();
-			
-			$Item = new \Entities\Item();
-			
-			if($AnEnemy->Strength > $AnEnemy->Intelligence)
+
+			for($Index = 0; $Index < 2; $Index++)
 			{
-				$Item->SlotType = 0;
-				$Item->MasteryType = 2;
-				$Item->ItemClass = $AnEnemy->WeaponClass;
-			}
-			else
-			{
-				$Item->SlotType = 3;
-				$Item->MasteryType = 6;
-				$Item->ItemClass = $AnEnemy->SpellClass;
+				$Item = new \Entities\Item();
+				if($AnEnemy->Strength > $AnEnemy->Intelligence)
+				{
+					$Item->SlotType = 0;
+					$Item->MasteryType = 2;
+					$Item->ItemClass = $AnEnemy->WeaponClass;
+				}
+				else
+				{
+					$Item->SlotType = 3;
+					if(mt_rand(1,100) < 25)
+					{
+						$Item->MasteryType=11;//Heal
+					}
+					else
+					{
+						$Item->MasteryType = 6;//Fire
+					}
+					$Item->ItemClass = $AnEnemy->SpellClass;
+				}
+				$AnEnemy->Equipment[$Index]=$Item;
 			}
 			$Armor = new \Entities\Item();
 			$Armor->SlotType = 1;
 			$Armor->ItemClass = $AnEnemy->ArmorClass;
-			$AnEnemy->Equipment[0]=$Item;
-			$AnEnemy->Equipment[1]=$Item;
+
 			$AnEnemy->Equipment[2]=$Armor;
 		}
 
