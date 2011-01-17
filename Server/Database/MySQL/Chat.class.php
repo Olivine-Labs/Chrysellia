@@ -257,17 +257,18 @@ class Chat extends \Database\Chat
 		$Result = Array();
 		$Query->bind_result($Result['Read'], $Result['Write'], $Result['Moderate'], $Result['Administrate'], $Result['isJoined'], $Result['Name'], $defaultAccessRead, $defaultAccessWrite);
 
-		if(!isset($Rights['Read']))
-			$Result['Read'] = $defaultAccessRead;
-		if(!isset($Rights['Write']))
-			$Result['Read'] = $defaultAccessWrite;
-
-
 		if($Query->fetch())
-			return $Result;
+		{
+			if(!isset($Rights['Read']))
+				$Result['Read'] = $defaultAccessRead;
+			if(!isset($Rights['Write']))
+				$Result['Write'] = $defaultAccessWrite;
+		}
 		else
+		{
 			$Result = Array('Read'=>0, 'Write'=>0, 'Moderate'=>0, 'Administrate'=>0, 'isJoined'=>0, 'Name'=>'');
-			return $Result;
+		}
+		return $Result;
 	}
 
 	/**
@@ -293,10 +294,17 @@ class Chat extends \Database\Chat
 		$Query->bind_result($Result['ChannelId'], $Result['Read'], $Result['Write'], $Result['Moderate'], $Result['Administrate'], $Result['isJoined'], $Result['Name'], $Result['defaultAccessRead'], $Result['defaultAccessWrite']);
 		
 		if($Query->fetch())
-			return $Result;
+		{
+			if(!isset($Rights['Read']))
+				$Result['Read'] = $defaultAccessRead;
+			if(!isset($Rights['Write']))
+				$Result['Write'] = $defaultAccessWrite;
+		}
 		else
-			$Result = Array('ChannelId'=>null, 'Read'=>0, 'Write'=>0, 'Moderate'=>0, 'Administrate'=>0, 'isJoined'=>0, 'Name'=>'', 'defaultAccessRead'=>0, 'defaultAccessWrite'=>0);
-			return $Result;
+		{
+			$Result = Array('Read'=>0, 'Write'=>0, 'Moderate'=>0, 'Administrate'=>0, 'isJoined'=>0, 'Name'=>'');
+		}
+		return $Result;
 	}
 
 	/**
