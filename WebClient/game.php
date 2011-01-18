@@ -42,7 +42,7 @@
 		<link rel="icon" type="image/png" href="images/favicon.ico" /> 
 		<link rel="alternate" type="application/rss+xml" title="Chrysellia News RSS Feed" href="http://v2.neflaria.com/blog/feed/" />
 	</head>
-	<body class="game">
+	<body class="game dark">
 		<div id="loading" style="width: 100%; height: 100%; background-color: #000; text-align: center; position: absolute; top: 0; left: 0; z-index: 10000;"><div style="margin-top: 100px; color: #fff;"><h1>Loading</h1></div></div>
 		<div id="messages">
 			<div class="container_12">
@@ -53,7 +53,7 @@
 					</span>
 					
 					<div class="accountActions">
-						Theme: <select id='themeSelect'><option value='0'>Light</option><option value='1'>Dark</option></select>
+						Theme: <select id='themeSelect'><option value='1'>Dark</option><option value='0'>Light</option></select>
 						<a href="http://forum.chrysellia.com" target="_blank">Forum</a>
 						<a href="http://wiki.chrysellia.com" target="_blank">Manual</a>
 						<a href="http://blog.chrysellia.com" target="_blank">Blog</a>

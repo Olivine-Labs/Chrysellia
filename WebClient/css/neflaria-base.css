@@ -4,14 +4,6 @@ body {
 	line-height: 1.25em;
 }
 
-body.game {
-	background-color: #111;
-	color: #fff;
-}
-
-.game section h1 { color: #c33; }
-.game .fightResults .enemy { color: #c33; }
-
 .alternate { font-family: 'DejaWeb', Arial, Helvetica, sans-serif; }
 
 a, a:link, a:visited {
