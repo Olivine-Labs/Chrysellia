@@ -502,15 +502,25 @@ class Character extends Being
 
 		$PlayerWins = false;
 		$EnemyWins = false;
-		for($Index = 0; $Index < count($Result); $Index++)
+		$Index = 0;
+		while($Index < count($Result))
 		{
 			if(isset($Result[$Index]))
 			{
-				unset($Result[$Index]['Initiative']);
-				$ArrayItem = $Result[$Index];
-				if($ArrayItem['Actor'] == 0)
+				if($EnemyWins || $PlayerWins)
 				{
-					if(!$EnemyWins && !$PlayerWins)
+					$Run = true;
+					for($Index2 = count($Result)-1; $Index2 >= $Index; $Index2--)
+					{
+						array_pop($Result);
+					}
+					break;
+				}
+				else
+				{
+					unset($Result[$Index]['Initiative']);
+					$ArrayItem = $Result[$Index];
+					if($ArrayItem['Actor'] == 0)
 					{
 						if(($ArrayItem['Type'] == 0) || ($ArrayItem['Type'] == 1))
 							$AnEnemy->Health = max($AnEnemy->Health - $ArrayItem['Damage'], 0);
@@ -519,25 +529,13 @@ class Character extends Being
 					}
 					else
 					{
-						unset($Result[$Index]);
-						$Index--;
-					}
-				}
-				else
-				{
-					if(!$PlayerWins && !$EnemyWins)
-					{
 						if(($ArrayItem['Type'] == 0) || ($ArrayItem['Type'] == 1))
 							$this->Health = max($this->Health - $ArrayItem['Damage'], 0);
 						else if($ArrayItem['Type'] == 2)
 							$AnEnemy->Health = min($ArrayItem['Damage'] + $AnEnemy->Health, $AnEnemy->Vitality);
 					}
-					else
-					{
-						unset($Result[$Index]);
-						$Index--;
-					}
 				}
+
 				if($AnEnemy->Health <= 0)
 				{
 					$PlayerWins = true;
@@ -547,6 +545,7 @@ class Character extends Being
 					$EnemyWins = true;
 				}
 			}
+			$Index++;
 		}
 
 		if($PlayerWins)
