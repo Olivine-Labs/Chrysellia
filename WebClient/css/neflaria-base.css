@@ -332,7 +332,7 @@ a.fb_button, a.fb_button:link, a.fb_button:hover, a.fb_button:active {
 #monsterList { margin: 0 .5em; }
 #fightForm h1 { margin: 0 0 .25em 0; }
 #fightForm, .fightResults { text-align: center; position: relative; top: -15px; }
-.fightResults .result { margin-bottom: .25em; padding: .25em; }
+.fightResults .result { margin:  0 0 .25em 0; padding: .25em; }
 .fightResults .enemy { color: #900; font-weight: bold; }
 .fightResults .player { color: #090; font-weight: bold; }
 .fightResults .damage { font-weight: bold; }

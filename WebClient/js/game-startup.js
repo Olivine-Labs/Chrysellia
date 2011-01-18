@@ -991,6 +991,18 @@ function BuildAttackMessage(Attack, EnemyName, PlayerIsAttacker, fightResults){
 				name = "You";
 			}else{
 				name = EnemyName;
+			}
+			
+			if(battleObject[r].Type == 2){
+				if(battleObject[r].Actor == myActor){
+					MyCharacter.Health += battleObject[r].Damage;
+					if(MyCharacter.Health > MyCharacter.Vitality){
+						MyCharacter.Health = MyCharacter.Vitality;
+					}
+					
+					vc.i.UpdateHealth();
+				}
+			}else{
 				MyCharacter.Health -= battleObject[r].Damage;
 				vc.i.UpdateHealth();
 			}
@@ -1000,9 +1012,9 @@ function BuildAttackMessage(Attack, EnemyName, PlayerIsAttacker, fightResults){
 			}
 
 			if(battleObject[r].Damage > 0){
-				battleResult = $("<div class='result'><span class='attacker " + attackClass[battleObject[r].Actor] + "'>" + name + "</span> attacked for <span class='damage'>" + battleObject[r].Damage + "</span></div>");
+				battleResult = $("<p class='result'><span class='attacker " + attackClass[battleObject[r].Actor] + "'>" + name + "</span> " + damageLabel[battleObject[r].Type] + " for <span class='damage'>" + battleObject[r].Damage + "</span></p>");
 			}else{
-				battleResult = $("<div class='result'><span class='attacker " + attackClass[battleObject[r].Actor] + "'>" + name + "</span> <span class='damage'>missed</span></div>");
+				battleResult = $("<p class='result'><span class='attacker " + attackClass[battleObject[r].Actor] + "'>" + name + "</span> <span class='damage'>missed</span></p>");
 			}
 			
 			round.append(battleResult);
