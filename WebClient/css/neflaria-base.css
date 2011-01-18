@@ -369,7 +369,7 @@ body.game.dark {	background-color: #111;	color: #fff;}
 .game.dark .fightResults .enemy { color: #c33; }
 .dark .ui-widget-content { background: #222; color: #ccc; }
 .dark #statsWindow .stat:nth-child(even), .dark .itemSelection:nth-child(even), .dark .row:nth-child(even){background:#444;}
-.dark .ui-tabs-nav .ui-state-active, .dark .ui-tabs-nav .ui-state-active .chatChannelLabel { color: #fff; }
+.dark .ui-tabs-nav .ui-state-active, .dark .ui-tabs-nav .ui-state-active .chatChannelLabel { color: #fff; background: #222; }
 li.Aviakan { background-image: url("images/race_24s/aviakan.jpg"); }
 li.Drow { background-image: url("images/race_24s/drow.jpg"); }
 li.Dwarf { background-image: url("images/race_24s/dwarf.jpg"); }

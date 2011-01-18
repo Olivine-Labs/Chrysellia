@@ -263,13 +263,13 @@
 		</div>
 		<![endif]-->
 		<!-- -->
-		<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.4/jquery.min.js"></script>
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.4.4/jquery.min.js"></script>
 		<script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.7/jquery-ui.min.js"></script>
 		
 		<!-- Here come the plugins -->
 		<script src="./js/jquery.watermark.min.js"></script>
-		<script src="./js/jquery-easing.js"></script>
 		<script src="./js/jquery.cookie.js"></script>
+		<script src="./js/jquery-easing.js"></script>
 		<script src="./Core/jquery-md5.js" type="text/javascript"></script>
 		<script src="./Core/json.js" type="text/javascript"></script>
 		<!--<script src="./js/plugins.min.js"></script>-->
@@ -294,7 +294,6 @@
 		<!--<script src="./Core/staticInfo/libraries.min.js"></script>-->
 		
 		<script src="./js/startup.js"></script>
-		
 		<script src="./js/game-startup.js"></script>
 		<!--<script src="./js/game-startup.min.js"></script>-->
 		

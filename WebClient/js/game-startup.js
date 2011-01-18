@@ -97,28 +97,13 @@
 	
 	$("#movementform button").bind("click", function(e){
 		e.preventDefault();
+		SetEnableMovement(false);
 		$this = $(this);
 		
 		var dirx = $this.siblings(".x").val() *1;
 		var diry = $this.siblings(".y").val() *1;
-		var x = dirx + MyCharacter.PositionX *1;
-		var y = diry + MyCharacter.PositionY *1;
 		
-		if(x > (MyCharacter.CurrentMap.DimensionX -1) || MyCharacter.PositionX < 0){
-			x = MyCharacter.PositionX ;
-		}
-		
-		if(y > (MyCharacter.CurrentMap.DimensionY -1) || y < 0){
-			y = MyCharacter.PositionY ;
-		}
-		
-		vc.ms.Move(x, y, RefreshMap);
-		
-		if(dirx+diry == 1 || dirx + diry == -1){
-			window.setTimeout(function(){SetEnableMovement(true)}, 750);
-		}else{
-			window.setTimeout(function(){SetEnableMovement(true)}, 1060);
-		}
+		Move(dirx, diry);
 	});
 	
 	$("#statsWindow").dialog({ title: "Character Stats", autoOpen: false });
@@ -206,6 +191,29 @@
 		}
 	});
 });
+
+function Move(RelativeX, RelativeY){
+	SetEnableMovement(false);
+		
+	var x = RelativeX + MyCharacter.PositionX *1;
+	var y = RelativeY + MyCharacter.PositionY *1;
+	
+	if(x > (MyCharacter.CurrentMap.DimensionX -1) || MyCharacter.PositionX < 0){
+		x = MyCharacter.PositionX ;
+	}
+	
+	if(y > (MyCharacter.CurrentMap.DimensionY -1) || y < 0){
+		y = MyCharacter.PositionY ;
+	}
+	
+	vc.ms.Move(x, y, RefreshMap);
+	
+	if(RelativeX+RelativeY == 1 || RelativeX + RelativeY == -1){
+		window.setTimeout(function(){SetEnableMovement(true)}, 750);
+	}else{
+		window.setTimeout(function(){SetEnableMovement(true)}, 1060);
+	}
+}
 
 function ExamineLocation(data){
 	$("#moveLook").button("option", "disabled", false);

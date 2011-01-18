@@ -24,6 +24,7 @@
 		
 		//System types
 		CHAT_TYPE_SYSTEM: 255,
+		CHAT_TYPE_OPENPRIVATECHANNEL:998,
 		CHAT_TYPE_MOTD: 999,
 		
 		StaticRooms: StaticRooms,
@@ -47,18 +48,20 @@
 		SendMessageToChannel: function(channel, message, callback){
 			var chatobj = vc.ch.Utilities.ParseMessage(message);
 			
-			if(chatobj.Type == 0){
-				$.getJSON(
-					V2Core.SERVERCODE_DIRECTORY + "Chat.php",
-					{ Action: ChatService.ACTION_SENDMESSAGE, Data: JSON.stringify({ Channel: channel, Message: message }) },
-					function(data) { callback(data); }
-				);
-			}else{
-				if(chatobj.Type == 1){
+			switch(chatobj.Type){
+				case 0:
+					$.getJSON(
+						V2Core.SERVERCODE_DIRECTORY + "Chat.php",
+						{ Action: ChatService.ACTION_SENDMESSAGE, Data: JSON.stringify({ Channel: channel, Message: message }) },
+						function(data) { callback(data); }
+					);
+					break;
+				case 1:
 					vc.cmd.SendChatCommand(channel, vc.CommandService.ACTION_EMOTE, chatobj.Message, callback);
-				}else{
+					break;
+				default:
 					callback({ Result: V2Core.ER_MALFORMED, Data: {} });
-				}
+					break;
 			}
 		},
 		
@@ -142,6 +145,9 @@
 				nonMessageCommand = true;
 			}else if(message.indexOf("/unmod") == 0){
 				type = vc.CommandService.ACTION_CHANNEL_SETRIGHTS;
+				nonMessageCommand = true;
+			}else if(message.indexOf("/m") == 0){
+				type = vc.ChatService.CHAT_TYPE_OPENPRIVATECHANNEL;
 				nonMessageCommand = true;
 			}
 			
