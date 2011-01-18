@@ -487,7 +487,7 @@ class Character extends Being
 					$PlayerRow = array('Damage'=>$ActualDamage, 'Actor'=>$Index, 'Type'=>$AttackType, 'Initiative'=>$Initiative);
 					for($ArrayIndex = 0; $ArrayIndex < count($Result); $ArrayIndex++)
 					{
-						if($Initiative > $Result[$ArrayIndex]["Initiative"])
+						if($Initiative > $Result[$ArrayIndex]['Initiative'])
 						{
 							@array_splice($Result, $ArrayIndex, 0, array($PlayerRow));
 							$Inserted =true;
@@ -507,7 +507,7 @@ class Character extends Being
 		{
 			if(isset($Result[$Index]))
 			{
-				unset($Result[$Index]['Initiative']);
+				//unset($Result[$Index]['Initiative']);
 				$ArrayItem = $Result[$Index];
 				if($ArrayItem['Actor'] == 0)
 				{
@@ -531,7 +531,7 @@ class Character extends Being
 							$this->Health -= $ArrayItem['Damage'];
 						else if($ArrayItem['Type'] == 2)
 							$AnEnemy->Health = min($ArrayItem['Damage'] + $AnEnemy->Health, $AnEnemy->Vitality);
-						}
+					}
 					else
 					{
 						unset($Result[$Index]);
