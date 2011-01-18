@@ -461,7 +461,7 @@ class Character extends Being
 				$ArrayItem = $Result[$Index];
 				if($ArrayItem['Actor'] == 0)
 				{
-					if(!$EnemyWins && !PlayerWins)
+					if(!$EnemyWins)
 					{
 						if(($ArrayItem['Type'] == 0) || ($ArrayItem['Type'] == 1))
 							$AnEnemy->Health -= $ArrayItem['Damage'];
@@ -475,7 +475,7 @@ class Character extends Being
 				}
 				else
 				{
-					if(!$PlayerWins && !EnemyWins)
+					if(!$PlayerWins)
 					{
 						if(($ArrayItem['Type'] == 0) || ($ArrayItem['Type'] == 1))
 							$this->Health -= $ArrayItem['Damage'];
