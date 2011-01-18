@@ -996,6 +996,7 @@ function BuildAttackMessage(Attack, EnemyName, PlayerIsAttacker, fightResults){
 			if(battleObject[r].Type == 2){
 				if(battleObject[r].Actor == myActor){
 					MyCharacter.Health += battleObject[r].Damage;
+					
 					if(MyCharacter.Health > MyCharacter.Vitality){
 						MyCharacter.Health = MyCharacter.Vitality;
 					}
@@ -1003,8 +1004,10 @@ function BuildAttackMessage(Attack, EnemyName, PlayerIsAttacker, fightResults){
 					vc.i.UpdateHealth();
 				}
 			}else{
-				MyCharacter.Health -= battleObject[r].Damage;
-				vc.i.UpdateHealth();
+				if(battleObject[r].Actor != myActor){
+					MyCharacter.Health -= battleObject[r].Damage;
+					vc.i.UpdateHealth();
+				}
 			}
 			
 			if(myActor == 1){
