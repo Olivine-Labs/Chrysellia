@@ -513,7 +513,7 @@ class Character extends Being
 					if(!$EnemyWins)
 					{
 						if(($ArrayItem['Type'] == 0) || ($ArrayItem['Type'] == 1))
-							$AnEnemy->Health -= $ArrayItem['Damage'];
+							$AnEnemy->Health = max($AnEnemy->Health - $ArrayItem['Damage'], 0);
 						else if($ArrayItem['Type'] == 2)
 							$this->Health = min($ArrayItem['Damage'] + $this->Health, $this->Vitality);
 					}
@@ -528,7 +528,7 @@ class Character extends Being
 					if(!$PlayerWins)
 					{
 						if(($ArrayItem['Type'] == 0) || ($ArrayItem['Type'] == 1))
-							$this->Health -= $ArrayItem['Damage'];
+							$this->Health = max($this->Health - $ArrayItem['Damage'], 0);
 						else if($ArrayItem['Type'] == 2)
 							$AnEnemy->Health = min($ArrayItem['Damage'] + $AnEnemy->Health, $AnEnemy->Vitality);
 					}
