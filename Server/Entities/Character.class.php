@@ -502,8 +502,7 @@ class Character extends Being
 
 		$PlayerWins = false;
 		$EnemyWins = false;
-		$Length = count($Result);
-		for($Index = 0; $Index < $Length; $Index++)
+		for($Index = 0; $Index < count($Result); $Index++)
 		{
 			if(isset($Result[$Index]))
 			{
@@ -521,6 +520,7 @@ class Character extends Being
 					else
 					{
 						unset($Result[$Index]);
+						$Index--;
 					}
 				}
 				else
@@ -535,6 +535,7 @@ class Character extends Being
 					else
 					{
 						unset($Result[$Index]);
+						$Index--;
 					}
 				}
 				if($AnEnemy->Health <= 0)
