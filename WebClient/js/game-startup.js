@@ -995,15 +995,21 @@ function BuildAttackMessage(Attack, EnemyName, PlayerIsAttacker, fightResults){
 	
 	for(r in battleObject){
 		if(isInteger(r)){
-			if(battleObject[r].Actor == myActor){
+			var bo = battleObject[r];
+			if(bo.Actor == myActor){
 				name = "You";
 			}else{
 				name = EnemyName;
 			}
 			
-			if(battleObject[r].Type == 2){
-				if(battleObject[r].Actor == myActor){
-					MyCharacter.Health += battleObject[r].Damage;
+			var special = "";
+			if(bo.Actor != myActor && battleObject.Special !== undefined && battleObject.Special > 0){
+				special = " <span class='monsterType " + vc.MonsterSpecialTypes[battleObject.Special] + "'>" + vc.MonsterSpecialTypes[battleObject.Special] + "</span>";
+			}
+			
+			if(bo.Type == 2){
+				if(bo.Actor == myActor){
+					MyCharacter.Health += bo.Damage;
 					
 					if(MyCharacter.Health > MyCharacter.Vitality){
 						MyCharacter.Health = MyCharacter.Vitality;
@@ -1012,8 +1018,8 @@ function BuildAttackMessage(Attack, EnemyName, PlayerIsAttacker, fightResults){
 					vc.i.UpdateHealth();
 				}
 			}else{
-				if(battleObject[r].Actor != myActor){
-					MyCharacter.Health -= battleObject[r].Damage;
+				if(bo.Actor != myActor){
+					MyCharacter.Health -= bo.Damage;
 					vc.i.UpdateHealth();
 				}
 			}
@@ -1022,10 +1028,10 @@ function BuildAttackMessage(Attack, EnemyName, PlayerIsAttacker, fightResults){
 				attackClass = ["enemy", "player"]
 			}
 
-			if(battleObject[r].Damage > 0){
-				battleResult = $("<p class='result'><span class='attacker " + attackClass[battleObject[r].Actor] + "'>" + name + "</span> " + damageLabel[battleObject[r].Type] + " for <span class='damage'>" + battleObject[r].Damage + "</span></p>");
+			if(bo.Damage > 0){
+				battleResult = $("<p class='result'><span class='attacker " + attackClass[bo.Actor] + "'>" + name + "</span>" + special + " " + damageLabel[bo.Type] + " for <span class='damage'>" + bo.Damage + "</span></p>");
 			}else{
-				battleResult = $("<p class='result'><span class='attacker " + attackClass[battleObject[r].Actor] + "'>" + name + "</span> <span class='damage'>missed</span></p>");
+				battleResult = $("<p class='result'><span class='attacker " + attackClass[bo.Actor] + "'>" + name + "</span>" + special + " <span class='damage'>missed</span></p>");
 			}
 			
 			round.append(battleResult);
