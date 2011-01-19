@@ -389,3 +389,18 @@ li.Troll { background-image: url("images/race_24s/troll.jpg"); }
 .tops #topList h3 { text-shadow: 0px 1px 1px #000; color: #900; font-size: 48px;  }
 .tops #topList .charDetails { font-size: 14pt; }
 #topsOptions { margin-bottom: .5em; }
+.monsterType { font-weight: bold; }
+.monsterType.Merchant { color: #03AF03; }
+.monsterType.Defender { color: #0085EC; }
+.monsterType.Assassin { color: #B5B3B3; }
+.monsterType.Leader { color: #FF3737; }
+.monsterType.Elder { color: #22AC53; }
+.monsterType.Veteran { color: #FFDB31; }
+.monsterType.Fanatic { color: #D098B0; }
+.monsterType.Enigma { color: #fff; }
+.monsterType.Saint { color: #FFC90E; }
+.monsterType.Demon { color: #D00000; }
+.monsterType.Judge { color: #FFC90E; }
+.monsterType.Anarchist { color: #C33; }
+.monsterType.Fool { color: #FF8965; }
+.monsterType.Illusionist { color: #43F0FF; }

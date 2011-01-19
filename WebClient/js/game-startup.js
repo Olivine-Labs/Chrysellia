@@ -1003,7 +1003,7 @@ function BuildAttackMessage(Attack, EnemyName, PlayerIsAttacker, fightResults){
 			}
 			
 			var special = "";
-			if(bo.Actor != myActor && battleObject.Special !== undefined && battleObject.Special > 0){
+			if(battleObject.Special !== undefined && battleObject.Special > 0){
 				special = " <span class='monsterType " + vc.MonsterSpecialTypes[battleObject.Special] + "'>" + vc.MonsterSpecialTypes[battleObject.Special] + "</span>";
 			}
 			
@@ -1028,10 +1028,14 @@ function BuildAttackMessage(Attack, EnemyName, PlayerIsAttacker, fightResults){
 				attackClass = ["enemy", "player"]
 			}
 
+			var displaySpecial = special;
+			if(bo.Actor == myActor){
+				displaySpecial = "";
+			}
 			if(bo.Damage > 0){
-				battleResult = $("<p class='result'><span class='attacker " + attackClass[bo.Actor] + "'>" + name + "</span>" + special + " " + damageLabel[bo.Type] + " for <span class='damage'>" + bo.Damage + "</span></p>");
+				battleResult = $("<p class='result'><span class='attacker " + attackClass[bo.Actor] + "'>" + name + "</span>" + displaySpecial + " " + damageLabel[bo.Type] + " for <span class='damage'>" + bo.Damage + "</span></p>");
 			}else{
-				battleResult = $("<p class='result'><span class='attacker " + attackClass[bo.Actor] + "'>" + name + "</span>" + special + " <span class='damage'>missed</span></p>");
+				battleResult = $("<p class='result'><span class='attacker " + attackClass[bo.Actor] + "'>" + name + "</span>" + displaySpecial + " <span class='damage'>missed</span></p>");
 			}
 			
 			round.append(battleResult);
@@ -1046,7 +1050,7 @@ function BuildAttackMessage(Attack, EnemyName, PlayerIsAttacker, fightResults){
 			if(!PlayerIsAttacker){
 				fightResults.append("<div class='result wonFight'><span class='attacker player'>You</span> have successfully defended yourself!</span></div>");
 			}else{
-				fightResults.append("<div class='result wonFight'><span class='attacker player'>You</span> have defeated <span class='enemy'>" + EnemyName + "</span>!</span></div>");
+				fightResults.append("<div class='result wonFight'><span class='attacker player'>You</span> have defeated <span class='enemy'>" + EnemyName + "</span>" + special + "!</span></div>");
 			}
 			
 			if(battleObject.Gold !== undefined){
