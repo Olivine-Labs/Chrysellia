@@ -74,7 +74,7 @@ if(
 									{
 										if($InventoryId = $Database->Items->InsertInventoryForCharacter($ACharacter))
 										{
-											if($DefaultItemsList = $Database->Items->LoadRaceDefaultItems($ARace))
+											if(is_array($DefaultItemsList = $Database->Items->LoadRaceDefaultItems($ARace)))
 											{
 												$Run = true;
 												$Index = 0;
