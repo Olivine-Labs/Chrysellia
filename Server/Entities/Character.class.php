@@ -317,7 +317,6 @@ class Character extends Being
 
 		if(get_class($AnEnemy) == 'Entities\Monster')
 		{
-			$Result['Special'] = $AnEnemy->Special;
 			$AnEnemy->Equipment = array();
 
 			for($Index = 0; $Index < 2; $Index++)
@@ -334,7 +333,7 @@ class Character extends Being
 					$Item->SlotType = 3;
 					if(mt_rand(1,100) < 25)
 					{
-						$Item->MasteryType=11;//Heal
+						$Item->MasteryType = 11;//Heal
 					}
 					else
 					{
@@ -546,6 +545,11 @@ class Character extends Being
 				}
 			}
 			$Index++;
+		}
+
+		if(property_exists($AnEnemy, 'Special'))
+		{
+			$Result['Special'] = $AnEnemy->Special;
 		}
 
 		if($PlayerWins)
