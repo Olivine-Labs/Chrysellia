@@ -116,7 +116,7 @@ class Monster extends Being
 		define('SPEC_MERCHANT', 1);
 		define('SPEC_DEFENDER', 2);
 		define('SPEC_ASSASSIN', 3);
-		define('SPEC_KING', 4);
+		define('SPEC_LEADER', 4);
 		define('SPEC_ELDER', 5);
 		define('SPEC_VETERAN', 6);
 		define('SPEC_FANATIC', 7);
@@ -147,7 +147,7 @@ class Monster extends Being
 					$this->GoldBonus *= 3;
 					$this->ExperienceBonus *= 2;
 					break;
-				case SPEC_KING:
+				case SPEC_LEADER:
 					$this->GoldBonus *= 3;
 					$this->ExperienceBonus *= 2;
 					$this->DropBonus *= 2;
