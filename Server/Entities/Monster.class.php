@@ -122,7 +122,7 @@ class Monster extends Being
 		define('SPEC_FANATIC', 7);
 		define('SPEC_ENIGMA', 8);
 		define('SPEC_SAINT', 9);
-		define('SPEC_DEMON', 10);
+		define('SPEC_VILLAIN', 10);
 		define('SPEC_JUDGE', 11);
 		define('SPEC_ANARCHIST', 12);
 		define('SPEC_FOOL', 13);
@@ -177,7 +177,7 @@ class Monster extends Being
 				case SPEC_SAINT:
 					//
 					break;
-				case SPEC_DEMON:
+				case SPEC_VILLAIN:
 					//
 					break;
 				case SPEC_JUDGE:
