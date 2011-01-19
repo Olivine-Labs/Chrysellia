@@ -130,7 +130,7 @@ class Monster extends Being
 		$this->Special = 0;
 		if(mt_rand(0, 100) > 95)
 		{
-			$this->Special = mt_rand(0, 13);
+			$this->Special = mt_rand(1, 14);
 			switch($this->Special)
 			{
 				case SPEC_MERCHANT:
