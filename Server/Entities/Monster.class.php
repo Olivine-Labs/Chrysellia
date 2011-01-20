@@ -2,6 +2,20 @@
 
 namespace Entities;
 
+define('SPEC_MERCHANT', 1);
+define('SPEC_DEFENDER', 2);
+define('SPEC_ASSASSIN', 3);
+define('SPEC_LEADER', 4);
+define('SPEC_ELDER', 5);
+define('SPEC_VETERAN', 6);
+define('SPEC_FANATIC', 7);
+define('SPEC_ENIGMA', 8);
+define('SPEC_SAINT', 9);
+define('SPEC_VILLAIN', 10);
+define('SPEC_JUDGE', 11);
+define('SPEC_ANARCHIST', 12);
+define('SPEC_FOOL', 13);
+define('SPEC_ILLUSIONIST', 14);
 
 /**
  * Monster Class
@@ -93,6 +107,80 @@ class Monster extends Being
 	 */
 	public $Special;
 
+	public function RandomSpecial()
+	{
+		$Special = mt_rand(1, 14);
+		switch($Special)
+		{
+			case SPEC_MERCHANT:
+				$this->GoldBonus *= 4;
+				break;
+			case SPEC_DEFENDER:
+				$this->ArmorClass += 3;
+				$this->GoldBonus *= 2;
+				$this->ExperienceBonus *= 3;
+				break;
+			case SPEC_ASSASSIN:
+				$this->WeaponClass += 3;
+				$this->SpellClass += 3;
+				$this->GoldBonus *= 3;
+				$this->ExperienceBonus *= 2;
+				break;
+			case SPEC_LEADER:
+				$this->GoldBonus *= 3;
+				$this->ExperienceBonus *= 2;
+				$this->DropBonus *= 2;
+				break;
+			case SPEC_ELDER:
+				$this->GoldBonus *= 2;
+				$this->MasteryBonus *= 2;
+				break;
+			case SPEC_VETERAN:
+				$StatBonus = 2;
+				$GoldBonus *= 2;
+				$this->ExperienceBonus *= 4;
+				$this->WeaponClass += 1;
+				$this->SpellClass += 1;
+				$this->ArmorClass += 1;
+				break;
+			case SPEC_FANATIC:
+				$StatBonus = 3;
+				$this->ExperienceBonus *= 2;
+				$this->WeaponClass += 1;
+				$this->SpellClass += 1;
+				$this->ArmorClass += 1;
+				break;
+			case SPEC_ENIGMA:
+				$this->RandomSpecial();
+				break;
+			case SPEC_SAINT:
+				//
+				break;
+			case SPEC_VILLAIN:
+				//
+				break;
+			case SPEC_JUDGE:
+				//
+				break;
+			case SPEC_ANARCHIST:
+				//
+				break;
+			case SPEC_FOOL:
+				$this->GoldBonus = 0;
+				$this->ExperienceBonus *= 2;
+				$this->WeaponClass -= 1;
+				$this->SpellClass -= 1;
+				$this->ArmorClass -= 1;
+				break;
+			case SPEC_ILLUSIONIST:
+				$this->GoldBonus *= 2;
+				$this->ExperienceBonus *= 2;
+				break;
+		}
+		return $Special;
+	}
+	
+
 	/**
 	 * Generate Stats
 	 *
@@ -113,91 +201,10 @@ class Monster extends Being
 		$IntelligenceBonus = 1;
 		$WisdomBonus = 1;
 
-		define('SPEC_MERCHANT', 1);
-		define('SPEC_DEFENDER', 2);
-		define('SPEC_ASSASSIN', 3);
-		define('SPEC_LEADER', 4);
-		define('SPEC_ELDER', 5);
-		define('SPEC_VETERAN', 6);
-		define('SPEC_FANATIC', 7);
-		define('SPEC_ENIGMA', 8);
-		define('SPEC_SAINT', 9);
-		define('SPEC_VILLAIN', 10);
-		define('SPEC_JUDGE', 11);
-		define('SPEC_ANARCHIST', 12);
-		define('SPEC_FOOL', 13);
-		define('SPEC_ILLUSIONIST', 14);
 		$this->Special = 0;
 		if(mt_rand(0, 100) > 95)
 		{
-			$this->Special = mt_rand(1, 14);
-			switch($this->Special)
-			{
-				case SPEC_MERCHANT:
-					$this->GoldBonus *= 4;
-					break;
-				case SPEC_DEFENDER:
-					$this->ArmorClass += 3;
-					$this->GoldBonus *= 2;
-					$this->ExperienceBonus *= 3;
-					break;
-				case SPEC_ASSASSIN:
-					$this->WeaponClass += 3;
-					$this->SpellClass += 3;
-					$this->GoldBonus *= 3;
-					$this->ExperienceBonus *= 2;
-					break;
-				case SPEC_LEADER:
-					$this->GoldBonus *= 3;
-					$this->ExperienceBonus *= 2;
-					$this->DropBonus *= 2;
-					break;
-				case SPEC_ELDER:
-					$this->GoldBonus *= 2;
-					$this->MasteryBonus *= 2;
-					break;
-				case SPEC_VETERAN:
-					$StatBonus = 2;
-					$GoldBonus *= 2;
-					$this->ExperienceBonus *= 4;
-					$this->WeaponClass += 1;
-					$this->SpellClass += 1;
-					$this->ArmorClass += 1;
-					break;
-				case SPEC_FANATIC:
-					$StatBonus = 3;
-					$this->ExperienceBonus *= 2;
-					$this->WeaponClass += 1;
-					$this->SpellClass += 1;
-					$this->ArmorClass += 1;
-					break;
-				case SPEC_ENIGMA:
-					//
-					break;
-				case SPEC_SAINT:
-					//
-					break;
-				case SPEC_VILLAIN:
-					//
-					break;
-				case SPEC_JUDGE:
-					//
-					break;
-				case SPEC_ANARCHIST:
-					//
-					break;
-				case SPEC_FOOL:
-					$this->GoldBonus = 0;
-					$this->ExperienceBonus *= 2;
-					$this->WeaponClass -= 1;
-					$this->SpellClass -= 1;
-					$this->ArmorClass -= 1;
-					break;
-				case SPEC_ILLUSIONIST:
-					$this->GoldBonus *= 2;
-					$this->ExperienceBonus *= 2;
-					break;
-			}
+			$this->Special = $this->RandomSpecial();
 		}
 
 		$this->Strength = round(\gauss_ms($Stats, $StdDev) * $StrengthBonus * $StatBonus);
