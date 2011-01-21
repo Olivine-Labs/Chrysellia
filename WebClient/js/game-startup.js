@@ -864,7 +864,7 @@ function BuildInitialInventory(){
 					$select = $("<select class='" + typeMapping[type] + " itemType_" + type + "'><option value='0'>NONE</option></select>");
 					$selectRow = $("<div class='itemSelection' />").append("<span class='itemType'>" + slotName + "</span>").append($select);
 
-					if(currentInventory[i].ItemId !== null){
+					if(currentInventory[i].ItemId !== null && currentInventory[i].Name !== undefined){
 						item = currentInventory[i];
 						$("<option value='" + item.ItemId + "' selected='selected'>" + item.Name + "</option>").prependTo($select);
 					}

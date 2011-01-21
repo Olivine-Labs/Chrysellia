@@ -2,6 +2,13 @@
 
 namespace Protocol;
 
+function ProcessDataElement(&$Element)
+{
+	if(is_object($Element) || is_array($Element))
+		$Element = array_filter((array)$Element, '\Protocol\ProcessDataElement');
+	return !is_null($Element);
+}
+
 /**
  * Result Class
  */
@@ -67,11 +74,11 @@ class Result
 			case Result::OT_JSON:
 				if(isset($_GET['jsonCallback']))
 				{
-					echo $_GET["jsonCallback"]. "(" . json_encode($this->Data) . ")";
+					echo $_GET["jsonCallback"]. "(" . json_encode(array_filter($this->Data, '\Protocol\ProcessDataElement')) . ")";
 				}
 				else
 				{
-					echo json_encode($this->Data);
+					echo json_encode(array_filter($this->Data, '\Protocol\ProcessDataElement'));
 				}
 				break;
 			case Result::OT_XML:
