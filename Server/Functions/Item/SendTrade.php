@@ -41,7 +41,7 @@ try
 						$Item->ItemId = $JSONItem['ItemId'];
 						if(!$Database->Items->CharacterOwnsItem($Item))
 						{
-							$Result->Set('Result', \Protocol\Result::ER_BADDATA);
+							$Response->Set('Result', \Protocol\Response::ER_BADDATA);
 							$ItemsOwned = false;
 							break;
 						}
@@ -50,7 +50,7 @@ try
 							if(!$Database->Items->InsertTradeItem($TradeId, $Item, 0))
 							{
 								$Success = false;
-								$Result->Set('Result', \Protocol\Result::ER_DBERROR);
+								$Response->Set('Result', \Protocol\Response::ER_DBERROR);
 								break;
 							}
 						}
@@ -58,7 +58,7 @@ try
 
 					if($ItemsOwned && $Success)
 					{
-						$Result->Set('Result', \Protocol\Result::ER_SUCCESS);
+						$Response->Set('Result', \Protocol\Response::ER_SUCCESS);
 						$Data = array('MessageType'=>2, 'TradeId'=>$TradeId, 'Cost'=>$Get->Cost, 'Items'=>array());
 						$Index = 0;
 						foreach($Get->Items AS $JSONItem)
@@ -79,27 +79,27 @@ try
 				}
 				else
 				{
-					$Result->Set('Result', \Protocol\Result::ER_BADDATA);
+					$Response->Set('Result', \Protocol\Response::ER_BADDATA);
 				}
 			}
 			else
 			{
-				$Result->Set('Result', \Protocol\Result::ER_DBERROR);
+				$Response->Set('Result', \Protocol\Response::ER_DBERROR);
 			}
 		}
 		else
 		{
-			$Result->Set('Result', \Protocol\Result::ER_MALFORMED);
+			$Response->Set('Result', \Protocol\Response::ER_MALFORMED);
 		}
 	}
 	else
 	{
-		$Result->Set('Result', \Protocol\Result::ER_MALFORMED);
+		$Response->Set('Result', \Protocol\Response::ER_MALFORMED);
 	}
 }
 catch(Exception $e)
 {
-	$Result->Set('Result', \Protocol\Result::ER_DBERROR);
+	$Response->Set('Result', \Protocol\Response::ER_DBERROR);
 }
 
 ?>

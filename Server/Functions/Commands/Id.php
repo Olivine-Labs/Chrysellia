@@ -33,32 +33,32 @@ if(
 							'Level'	=>	$TargetCharacter->Level,
 							'ClanId'	=>	$TargetCharacter->ClanId
 						);
-						$Result->Set('Result', \Protocol\Result::ER_SUCCESS);
-						$Result->Set('Data', $IdArray);
+						$Response->Set('Result', \Protocol\Response::ER_SUCCESS);
+						$Response->Set('Data', $IdArray);
 					}
 					else
 					{
-						$Result->Set('Result', \Protocol\Result::ER_DBERROR);
+						$Response->Set('Result', \Protocol\Response::ER_DBERROR);
 					}
 				}
 				else
 				{
-					$Result->Set('Result', \Protocol\Result::ER_DBERROR);
+					$Response->Set('Result', \Protocol\Response::ER_DBERROR);
 				}
 			}
 			else
 			{
-				$Result->Set('Result', \Protocol\Result::ER_BADDATA);
+				$Response->Set('Result', \Protocol\Response::ER_BADDATA);
 			}
 		}
 	}
 	catch(Exception $e)
 	{
-		$Result->Set('Result', \Protocol\Result::ER_DBERROR);
+		$Response->Set('Result', \Protocol\Response::ER_DBERROR);
 	}
 }
 else
 {
-	$Result->Set('Result', \Protocol\Result::ER_MALFORMED);
+	$Response->Set('Result', \Protocol\Response::ER_MALFORMED);
 }
 ?>

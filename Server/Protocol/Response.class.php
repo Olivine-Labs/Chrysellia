@@ -10,9 +10,9 @@ function ProcessDataElement(&$Element)
 }
 
 /**
- * Result Class
+ * Response Class
  */
-class Result
+class Response
 {
 
 	const OT_JSON = 0;
@@ -27,23 +27,23 @@ class Result
 	const ER_ACCESSDENIED=255;//when they just don't have access.
 
 	/**
-	 * Result
+	 * Response
 	 *
-	 * Contains the result code.
+	 * Contains the Response code.
 	 */
-	protected $Data = Array('Result'=>Result::ER_ACCESSDENIED);
+	protected $Data = Array('Result'=>Response::ER_ACCESSDENIED);
 
 	/**
 	 * OutputMethod
 	 *
-	 * Sets the format that we output our result data
+	 * Sets the format that we output our Response data
 	 */
-	public $OutputMethod = Result::OT_JSON;
+	public $OutputMethod = Response::OT_JSON;
 
 	public $Compression = false;
 
 	/**
-	 * Default constructor for the Result class
+	 * Default constructor for the Response class
 	 */
 	public function __construct($Compression)
 	{
@@ -79,13 +79,13 @@ class Result
 
 
 	/**
-	 * Prints the result
+	 * Prints the Response
 	 */
 	public function Output()
 	{
 		switch($this->OutputMethod)
 		{
-			case Result::OT_JSON:
+			case Response::OT_JSON:
 				if(isset($_GET['jsonCallback']))
 				{
 					echo $_GET["jsonCallback"]. "(" . json_encode(array_filter($this->Data, '\Protocol\ProcessDataElement')) . ")";
@@ -95,7 +95,7 @@ class Result
 					echo json_encode(array_filter($this->Data, '\Protocol\ProcessDataElement'));
 				}
 				break;
-			case Result::OT_XML:
+			case Response::OT_XML:
 				if(class_exists('XML_Serializer'))
 				{
 					$serializer = new XML_Serializer();

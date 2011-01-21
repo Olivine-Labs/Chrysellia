@@ -28,27 +28,27 @@ if(
 					$Character->Gold += $Get->Gold;
 					if($Database->Characters->UpdateTraits($Character))
 					{
-						$Result->Set('Result', \Protocol\Result::ER_SUCCESS);
+						$Response->Set('Result', \Protocol\Response::ER_SUCCESS);
 					}
 					else
 					{
-						$Result->Set('Result', \Protocol\Result::ER_DBERROR);
+						$Response->Set('Result', \Protocol\Response::ER_DBERROR);
 					}
 				}
 			}
 		}
 		else
 		{
-			$Result->Set('Result', \Protocol\Result::ER_DBERROR);
+			$Response->Set('Result', \Protocol\Response::ER_DBERROR);
 		}
 	}
 	else
 	{
-		$Result->Set('Result', \Protocol\Result::ER_DBERROR);
+		$Response->Set('Result', \Protocol\Response::ER_DBERROR);
 	}
 }
 else
 {
-	$Result->Set('Result', \Protocol\Result::ER_MALFORMED);
+	$Response->Set('Result', \Protocol\Response::ER_MALFORMED);
 }
 ?>

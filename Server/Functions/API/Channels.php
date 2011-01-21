@@ -15,17 +15,17 @@ if(
 ){
 	try
 	{
-		$Result->Set('Data', $Database->Chat->LoadPublicChannelList($Get->Num, $Get->Position));
-		$Result->Set('Result', \Protocol\Result::ER_SUCCESS);
+		$Response->Set('Data', $Database->Chat->LoadPublicChannelList($Get->Num, $Get->Position));
+		$Response->Set('Result', \Protocol\Response::ER_SUCCESS);
 	}
 	catch(Exception $e)
 	{
-		$Result->Set('Result', \Protocol\Result::ER_DBERROR);
+		$Response->Set('Result', \Protocol\Response::ER_DBERROR);
 	}
 }
 else
 {
-	$Result->Set('Result', \Protocol\Result::ER_MALFORMED);
+	$Response->Set('Result', \Protocol\Response::ER_MALFORMED);
 }
 
 ?>

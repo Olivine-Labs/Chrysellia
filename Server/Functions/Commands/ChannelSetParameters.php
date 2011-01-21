@@ -52,32 +52,32 @@ if(
 					{
 						if($Database->Chat->UpdateChannel($Get->ChannelId, $Channel['Motd'], $Channel['defaultAccessRead'], $Channel['defaultAccessWrite']))
 						{
-							$Result->Set('Result', \Protocol\Result::ER_SUCCESS);
+							$Response->Set('Result', \Protocol\Response::ER_SUCCESS);
 						}
 						else
 						{
-							$Result->Set('Result', \Protocol\Result::ER_DBERROR);
+							$Response->Set('Result', \Protocol\Response::ER_DBERROR);
 						}
 					}
 					else
 					{
-						$Result->Set('Result', \Protocol\Result::ER_BADDATA);
+						$Response->Set('Result', \Protocol\Response::ER_BADDATA);
 					}
 				}
 				else
 				{
-					$Result->Set('Result', \Protocol\Result::ER_DBERROR);
+					$Response->Set('Result', \Protocol\Response::ER_DBERROR);
 				}
 			}
 		}
 	}
 	catch(Exception $e)
 	{
-		$Result->Set('Result', \Protocol\Result::ER_DBERROR);
+		$Response->Set('Result', \Protocol\Response::ER_DBERROR);
 	}
 }
 else
 {
-	$Result->Set('Result', \Protocol\Result::ER_MALFORMED);
+	$Response->Set('Result', \Protocol\Response::ER_MALFORMED);
 }
 ?>

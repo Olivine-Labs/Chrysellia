@@ -33,24 +33,24 @@ if(isset($_SESSION['RevivePenaltyMultiplier']))
 					$Character->Health = $Character->Vitality;
 					if($Database->Characters->UpdateTraits($Character))
 					{
-						$Result->Set('Result', \Protocol\Result::ER_SUCCESS);
+						$Response->Set('Result', \Protocol\Response::ER_SUCCESS);
 						$_SESSION['LastReviveTime'] = time();
 					}
 					else
 					{
-						$Result->Set('Result', \Protocol\Result::ER_DBERROR);
+						$Response->Set('Result', \Protocol\Response::ER_DBERROR);
 					}
 				}
 			}
 		}
 		else
 		{
-			$Result->Set('Result', \Protocol\Result::ER_DBERROR);
+			$Response->Set('Result', \Protocol\Response::ER_DBERROR);
 		}
 	}
 	else
 	{
-		$Result->Set('Result', \Protocol\Result::ER_DBERROR);
+		$Response->Set('Result', \Protocol\Response::ER_DBERROR);
 	}
 //}
 

@@ -16,15 +16,15 @@ if(property_exists($Get, 'Channel'))
 	if($Database->Chat->LeaveChannel($Character, $Get->Channel))
 	{
 		unset($_SESSION['Channels'][$Get->Channel]);
-		$Result->Set('Result', \Protocol\Result::ER_SUCCESS);
+		$Response->Set('Result', \Protocol\Response::ER_SUCCESS);
 	}
 	else
 	{
-		$Result->Set('Result', \Protocol\Result::ER_BADDATA);
+		$Response->Set('Result', \Protocol\Response::ER_BADDATA);
 	}
 }
 else
 {
-	$Result->Set('Result', \Protocol\Result::ER_MALFORMED);
+	$Response->Set('Result', \Protocol\Response::ER_MALFORMED);
 }
 ?>

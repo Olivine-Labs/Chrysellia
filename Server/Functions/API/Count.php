@@ -13,17 +13,17 @@ if(property_exists($Get, 'Race'))
 {
 	try
 	{
-		$Result->Set('Data', Array('Count'=>$Database->Characters->GetTotalCount($Get->Race)));
-		$Result->Set('Result', \Protocol\Result::ER_SUCCESS);
+		$Response->Set('Data', Array('Count'=>$Database->Characters->GetTotalCount($Get->Race)));
+		$Response->Set('Result', \Protocol\Response::ER_SUCCESS);
 	}
 	catch(Exception $e)
 	{
-		$Result->Set('Result', \Protocol\Result::ER_DBERROR);
+		$Response->Set('Result', \Protocol\Response::ER_DBERROR);
 	}
 }
 else
 {
-	$Result->Set('Result', \Protocol\Result::ER_MALFORMED);
+	$Response->Set('Result', \Protocol\Response::ER_MALFORMED);
 }
 
 ?>

@@ -30,7 +30,7 @@ try
 					$Item->ItemId = $Trade['ItemId'];
 					if(!$Database->Items->ChangeInventory($Item, $Character->InventoryId))
 					{
-						$Result->Set('Result', \Protocol\Result::ER_DBERROR);
+						$Response->Set('Result', \Protocol\Response::ER_DBERROR);
 						$Success = false;
 						break;
 					}
@@ -39,12 +39,12 @@ try
 				if(!$Database->DeleteTrade($Get->TradeId))
 				{
 					$Success = false;
-					$Result->Set('Result', \Protocol\Result::ER_DBERROR);
+					$Response->Set('Result', \Protocol\Response::ER_DBERROR);
 				}
 
 				if($Success)
 				{
-					$Result->Set('Result', \Protocol\Result::ER_SUCCESS);
+					$Response->Set('Result', \Protocol\Response::ER_SUCCESS);
 					$Database->commitTransaction();
 				}
 				else
@@ -54,22 +54,22 @@ try
 			}
 			else
 			{
-				$Result->Set('Result', \Protocol\Result::ER_BADDATA);
+				$Response->Set('Result', \Protocol\Response::ER_BADDATA);
 			}
 		}
 		else
 		{
-			$Result->Set('Result', \Protocol\Result::ER_DBERROR);
+			$Response->Set('Result', \Protocol\Response::ER_DBERROR);
 		}
 	}
 	else
 	{
-		$Result->Set('Result', \Protocol\Result::ER_MALFORMED);
+		$Response->Set('Result', \Protocol\Response::ER_MALFORMED);
 	}
 }
 catch(Exception $e)
 {
-	$Result->Set('Result', \Protocol\Result::ER_DBERROR);
+	$Response->Set('Result', \Protocol\Response::ER_DBERROR);
 }
 
 ?>

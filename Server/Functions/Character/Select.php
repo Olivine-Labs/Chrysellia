@@ -23,24 +23,24 @@ if(
 				($ACharacter->AccountId == $_SESSION['AccountId']) &&
 				(($ACharacter->Pin == $Get->Pin) || ($ACharacter->Pin == 0))
 			){
-				$Result->Set('Result', \Protocol\Result::ER_SUCCESS);
+				$Response->Set('Result', \Protocol\Response::ER_SUCCESS);
 				$_SESSION['CharacterId'] = $ACharacter->CharacterId;
 				$_SESSION['NextAction'] = time() + 1;
 			}
 		}
 		else
 		{
-			$Result->Set('Result', \Protocol\Result::ER_BADDATA);
+			$Response->Set('Result', \Protocol\Response::ER_BADDATA);
 		}
 	}
 	catch(Exception $e)
 	{
-		$Result->Set('Result', \Protocol\Result::ER_DBERROR);
+		$Response->Set('Result', \Protocol\Response::ER_DBERROR);
 	}
 }
 else
 {
-	$Result->Set('Result', \Protocol\Result::ER_BADDATA);
+	$Response->Set('Result', \Protocol\Response::ER_BADDATA);
 }
 
 ?>

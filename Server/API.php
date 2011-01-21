@@ -28,13 +28,13 @@ if ( 'GET' === $_SERVER['REQUEST_METHOD'] )
 				include './Functions/API/ChannelCount.php';
 				break;
 			default:
-				$Result->Set('Result', \Protocol\Result::ER_BADDATA);
+				$Response->Set('Result', \Protocol\Response::ER_BADDATA);
 				break;
 		}
 	}
 	else
 	{
-		$Result->Set('Result', \Protocol\Result::ER_MALFORMED);
+		$Response->Set('Result', \Protocol\Response::ER_MALFORMED);
 	}
 }
 

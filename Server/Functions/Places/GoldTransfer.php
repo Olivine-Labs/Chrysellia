@@ -43,47 +43,47 @@ if(
 									$Message['From'] = $Character->Name;
 									if($Database->Chat->Insert($Character, 'CHAN_00000000000000000000001', $Message, 255, $TargetCharacter))
 									{
-										$Result->Set('Result', \Protocol\Result::ER_SUCCESS);
+										$Response->Set('Result', \Protocol\Response::ER_SUCCESS);
 									}
 									else
 									{
-										$Result->Set('Result', \Protocol\Result::ER_DBERROR);
+										$Response->Set('Result', \Protocol\Response::ER_DBERROR);
 									}
 								}
 								else
 								{
-									$Result->Set('Result', \Protocol\Result::ER_DBERROR);
+									$Response->Set('Result', \Protocol\Response::ER_DBERROR);
 								}
 							}
 							else
 							{
-								$Result->Set('Result', \Protocol\Result::ER_DBERROR);
+								$Response->Set('Result', \Protocol\Response::ER_DBERROR);
 							}
 						}
 						else
 						{
-							$Result->Set('Result', \Protocol\Result::ER_BADDATA);
+							$Response->Set('Result', \Protocol\Response::ER_BADDATA);
 						}
 					}
 					else
 					{
-						$Result->Set('Result', \Protocol\Result::ER_BADDATA);
+						$Response->Set('Result', \Protocol\Response::ER_BADDATA);
 					}
 				}
 			}
 		}
 		else
 		{
-			$Result->Set('Result', \Protocol\Result::ER_DBERROR);
+			$Response->Set('Result', \Protocol\Response::ER_DBERROR);
 		}
 	}
 	else
 	{
-		$Result->Set('Result', \Protocol\Result::ER_DBERROR);
+		$Response->Set('Result', \Protocol\Response::ER_DBERROR);
 	}
 }
 else
 {
-	$Result->Set('Result', \Protocol\Result::ER_MALFORMED);
+	$Response->Set('Result', \Protocol\Response::ER_MALFORMED);
 }
 ?>

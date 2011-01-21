@@ -52,44 +52,44 @@ if(
 								$Character->PositionY = $Get->Y;
 								if($Database->Characters->UpdatePosition($Character))
 								{
-									$Result->Set('Result', \Protocol\Result::ER_SUCCESS);
-									$Result->Set('Data', Array('X'=>$Get->X, 'Y'=>$Get->Y));
+									$Response->Set('Result', \Protocol\Response::ER_SUCCESS);
+									$Response->Set('Data', Array('X'=>$Get->X, 'Y'=>$Get->Y));
 								}
 								else
 								{
-									$Result->Set('Result', \Protocol\Result::ER_DBERROR);
+									$Response->Set('Result', \Protocol\Response::ER_DBERROR);
 								}
 							}
 						}
 					}
 					else
 					{
-						$Result->Set('Result', \Protocol\Result::ER_DBERROR);
+						$Response->Set('Result', \Protocol\Response::ER_DBERROR);
 					}
 				}
 				else
 				{
-					$Result->Set('Result', \Protocol\Result::ER_BADDATA);
+					$Response->Set('Result', \Protocol\Response::ER_BADDATA);
 				}
 			}
 			else
 			{
-				$Result->Set('Result', \Protocol\Result::ER_DBERROR);
+				$Response->Set('Result', \Protocol\Response::ER_DBERROR);
 			}
 		}
 		catch(Exception $e)
 		{
-			$Result->Set('Result', \Protocol\Result::ER_DBERROR);
+			$Response->Set('Result', \Protocol\Response::ER_DBERROR);
 		}
 	}
 	else
 	{
-		$Result->Set('Result', \Protocol\Result::ER_BADDATA);
+		$Response->Set('Result', \Protocol\Response::ER_BADDATA);
 	}
 }
 else
 {
-	$Result->Set('Result', \Protocol\Result::ER_MALFORMED);
+	$Response->Set('Result', \Protocol\Response::ER_MALFORMED);
 }
 
 ?>

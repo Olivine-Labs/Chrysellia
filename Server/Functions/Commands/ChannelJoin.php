@@ -26,25 +26,25 @@ if(property_exists($Get, 'Channel'))
 					$Channel['ChannelId'] = $Rights['ChannelId'];
 					unset($Rights['ChannelId']);
 					$Channel['Permissions'] = $Rights;
-					$Result->Set('Result', \Protocol\Result::ER_SUCCESS);
-					$Result->Set('Data', $Channel);
+					$Response->Set('Result', \Protocol\Response::ER_SUCCESS);
+					$Response->Set('Data', $Channel);
 					$_SESSION['Channels'][$Channel['ChannelId']] = new stdClass();
 					$_SESSION['Channels'][$Channel['ChannelId']]->LastRefresh = time() - 300;
 				}
 				else
 				{
-					$Result->Set('Result', \Protocol\Result::ER_DBERROR);
+					$Response->Set('Result', \Protocol\Response::ER_DBERROR);
 				}
 			}
 		}
 	}
 	catch(Exception $e)
 	{
-		$Result->Set('Result', \Protocol\Result::ER_DBERROR);
+		$Response->Set('Result', \Protocol\Response::ER_DBERROR);
 	}
 }
 else
 {
-	$Result->Set('Result', \Protocol\Result::ER_MALFORMED);
+	$Response->Set('Result', \Protocol\Response::ER_MALFORMED);
 }
 ?>

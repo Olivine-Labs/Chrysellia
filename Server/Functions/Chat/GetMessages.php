@@ -49,12 +49,12 @@ try
 		}
 	}
 
-	$Result->Set('Result', \Protocol\Result::ER_SUCCESS);
-	$Result->Set('Data', $ChatArray);
+	$Response->Set('Result', \Protocol\Response::ER_SUCCESS);
+	$Response->Set('Data', $ChatArray);
 }
 catch(Exception $e)
 {
-	$Result->Set('Result', \Protocol\Result::ER_DBERROR);
+	$Response->Set('Result', \Protocol\Response::ER_DBERROR);
 }
 
 ?>

@@ -27,26 +27,26 @@ if(
 			{
 				$Success = true;
 				$Database->commitTransaction();
-				$Result->Set('Result', \Protocol\Result::ER_SUCCESS);
-				$Result->Set('Data', Array('ChannelId'=>$ChannelId, 'Name'=>$Get->Channel, 'Motd'=>$Get->Motd, 'PublicRead'=>$Get->PublicRead, 'PublicWrite'=>$Get->PublicWrite));
+				$Response->Set('Result', \Protocol\Response::ER_SUCCESS);
+				$Response->Set('Data', Array('ChannelId'=>$ChannelId, 'Name'=>$Get->Channel, 'Motd'=>$Get->Motd, 'PublicRead'=>$Get->PublicRead, 'PublicWrite'=>$Get->PublicWrite));
 				$_SESSION['Channels'][$ChannelId] = new stdClass();
 			}
 		}
 		if(!$Success)
 		{
 			$Database->rollbackTransaction();
-			$Result->Set('Result', \Protocol\Result::ER_ALREADYEXISTS);
+			$Response->Set('Result', \Protocol\Response::ER_ALREADYEXISTS);
 		}
 
 	}
 	catch(Exception $e)
 	{
 		$Database->rollbackTransaction();
-		$Result->Set('Result', \Protocol\Result::ER_DBERROR);
+		$Response->Set('Result', \Protocol\Response::ER_DBERROR);
 	}
 }
 else
 {
-	$Result->Set('Result', \Protocol\Result::ER_MALFORMED);
+	$Response->Set('Result', \Protocol\Response::ER_MALFORMED);
 }
 ?>

@@ -6,12 +6,12 @@
 
 	try
 	{
-		$Result->Set('Data', $Database->Chat->LoadPublicChannelCount());
-		$Result->Set('Result', \Protocol\Result::ER_SUCCESS);
+		$Response->Set('Data', $Database->Chat->LoadPublicChannelCount());
+		$Response->Set('Result', \Protocol\Response::ER_SUCCESS);
 	}
 	catch(Exception $e)
 	{
-		$Result->Set('Result', \Protocol\Result::ER_DBERROR);
+		$Response->Set('Result', \Protocol\Response::ER_DBERROR);
 	}
 
 

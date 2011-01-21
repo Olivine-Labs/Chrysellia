@@ -63,34 +63,34 @@ try
 							$ACharacter->IncomingTrades = $Database->Items->LoadIncomingTrades($ACharacter);
 							$ACharacter->OutgoingTrades = $Database->Items->LoadOutgoingTrades($ACharacter);
 
-							$Result->Set('Data', $ACharacter);
-							$Result->Set('Result', \Protocol\Result::ER_SUCCESS);
+							$Response->Set('Data', $ACharacter);
+							$Response->Set('Result', \Protocol\Response::ER_SUCCESS);
 						}
 						else
 						{
-							$Result->Set('Result', \Protocol\Result::ER_DBERROR);
+							$Response->Set('Result', \Protocol\Response::ER_DBERROR);
 						}
 					}
 					else
 					{
-						$Result->Set('Result', \Protocol\Result::ER_DBERROR);
+						$Response->Set('Result', \Protocol\Response::ER_DBERROR);
 					}
 				}
 				else
 				{
-					$Result->Set('Result', \Protocol\Result::ER_DBERROR);
+					$Response->Set('Result', \Protocol\Response::ER_DBERROR);
 				}
 			}
 			else
 			{
-				$Result->Set('Result', \Protocol\Result::ER_DBERROR);
+				$Response->Set('Result', \Protocol\Response::ER_DBERROR);
 			}
 		}
 	}
 }
 catch(Exception $e)
 {
-	$Result->Set('Result', \Protocol\Result::ER_DBERROR);
+	$Response->Set('Result', \Protocol\Response::ER_DBERROR);
 }
 
 ?>

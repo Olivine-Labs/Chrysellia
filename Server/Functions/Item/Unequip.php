@@ -19,20 +19,20 @@ try
 		$Item->ItemId = $Get->ItemId;
 		if($Database->Items->UnequipItem($Character, $Item))
 		{
-			$Result->Set('Result', \Protocol\Result::ER_SUCCESS);
+			$Response->Set('Result', \Protocol\Response::ER_SUCCESS);
 		}else
 		{
-			$Result->Set('Result', \Protocol\Result::ER_DBERROR);
+			$Response->Set('Result', \Protocol\Response::ER_DBERROR);
 		}
 	}
 	else
 	{
-		$Result->Set('Result', \Protocol\Result::ER_BADDATA);
+		$Response->Set('Result', \Protocol\Response::ER_BADDATA);
 	}
 }
 catch(Exception $e)
 {
-	$Result->Set('Result', \Protocol\Result::ER_DBERROR);
+	$Response->Set('Result', \Protocol\Response::ER_DBERROR);
 }
 
 ?>
