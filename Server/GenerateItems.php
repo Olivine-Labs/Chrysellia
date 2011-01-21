@@ -1,11 +1,5 @@
 <?php
-header('Cache-Control: no-cache, must-revalidate');
-header('Expires: Mon, 26 Jul 1997 05:00:00 GMT');
-//header('Content-type: application/json');
-
-require('./Common/Common.inc.php');
-$Result = new \Protocol\Result();
-$Database->Log = $Result;
+include('./Common/Common.inc.php');
 
 try
 {
@@ -23,5 +17,4 @@ catch(Exception $e)
 {
 	$Result->Set('Result', \Protocol\Result::ER_DBERROR);
 }
-$Result->Output();
 ?>

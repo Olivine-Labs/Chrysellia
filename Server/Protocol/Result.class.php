@@ -40,12 +40,26 @@ class Result
 	 */
 	public $OutputMethod = Result::OT_JSON;
 
+	public $Compression = false;
+
 	/**
 	 * Default constructor for the Result class
 	 */
-	public function __construct()
+	public function __construct($Compression)
 	{
-		
+		$this->Compression=$Compression;
+		if($this->Compression)
+		{
+			ob_start('ob_gzhandler');
+		}
+		else
+			ob_start();
+	}
+
+	public function __destruct()
+	{
+		$this->Output();
+		ob_end_flush();
 	}
 
 	/**

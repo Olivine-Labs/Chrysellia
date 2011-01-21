@@ -9,9 +9,8 @@
  * @param $Database
  *   The variable to fill with a \Database\Database class object.
  */
-function InitializeDatabase(&$Database)
+function InitializeDatabase(&$Database, &$_CONFIG)
 {
-	global $_CONFIG;
 	$Result = false;
 	switch($_CONFIG[CF_DATABASE][CF_DB_TYPE])
 	{

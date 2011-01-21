@@ -1,14 +1,7 @@
 <?php
-header('Cache-Control: no-cache, must-revalidate');
-header('Expires: Mon, 26 Jul 1997 05:00:00 GMT');
-header('Content-type: application/json');
-
-require('./Common/Common.inc.php');
-$Result = new \Protocol\Result();
-$Database->Log = $Result;
-
-if ( 'GET' == $_SERVER['REQUEST_METHOD'] )
+if ( 'GET' === $_SERVER['REQUEST_METHOD'] )
 {
+	include('./Common/Common.inc.php');
 	if(isset($_SESSION['AccountId']))
 	{
 		define('ACTION_CREATE', 0);
@@ -63,5 +56,5 @@ if ( 'GET' == $_SERVER['REQUEST_METHOD'] )
 		$Result->Set('Result', \Protocol\Result::ER_NOTLOGGEDIN);
 	}
 }
-$Result->Output();
+
 ?>

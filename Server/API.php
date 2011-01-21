@@ -1,14 +1,7 @@
 <?php
-header('Cache-Control: no-cache, must-revalidate');
-header('Expires: Mon, 26 Jul 1997 05:00:00 GMT');
-header('Content-type: application/json');
-
-require('./Common/Common.inc.php');
-$Result = new \Protocol\Result();
-$Database->Log = $Result;
-
-if ( 'GET' == $_SERVER['REQUEST_METHOD'] )
+if ( 'GET' === $_SERVER['REQUEST_METHOD'] )
 {
+	include('./Common/Common.inc.php');
 	define('ACTION_TOP', 0);//Top List
 	define('ACTION_COUNT', 1);//Gets total number of characters based on criteria
 	define('ACTION_ONLINE', 2);//Gets online users count
@@ -44,5 +37,5 @@ if ( 'GET' == $_SERVER['REQUEST_METHOD'] )
 		$Result->Set('Result', \Protocol\Result::ER_MALFORMED);
 	}
 }
-$Result->Output();
+
 ?>
