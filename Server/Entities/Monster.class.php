@@ -39,6 +39,13 @@ class Monster extends Being
 	public $ExperienceBonus;
 
 	/**
+	 * StatBonus
+	 *
+	 * @var StatBonus
+	 */
+	public $StatBonus;
+
+	/**
 	 * GoldBonus
 	 *
 	 * @var GoldBonus
@@ -136,15 +143,15 @@ class Monster extends Being
 				$this->MasteryBonus *= 2;
 				break;
 			case SPEC_VETERAN:
-				$StatBonus = 2;
-				$GoldBonus *= 2;
+				$this->StatBonus = 2;
+				$this->GoldBonus *= 2;
 				$this->ExperienceBonus *= 4;
 				$this->WeaponClass += 1;
 				$this->SpellClass += 1;
 				$this->ArmorClass += 1;
 				break;
 			case SPEC_FANATIC:
-				$StatBonus = 3;
+				$this->StatBonus = 3;
 				$this->ExperienceBonus *= 2;
 				$this->WeaponClass += 1;
 				$this->SpellClass += 1;
@@ -193,7 +200,7 @@ class Monster extends Being
 		$Stats = log($StatSeed*$this->Level) * ($this->Level * 10);
 		$StatsHigh = $Stats * 1.1;
 		$StdDev = $StatsHigh - $Stats;
-		$StatBonus = 1;
+		$this->StatBonus = 1;
 
 		$StrengthBonus = 1;
 		$DexterityBonus = 1;
@@ -207,11 +214,11 @@ class Monster extends Being
 			$this->Special = $this->RandomSpecial();
 		}
 
-		$this->Strength = round(\gauss_ms($Stats, $StdDev) * $StrengthBonus * $StatBonus);
-		$this->Dexterity = round(\gauss_ms($Stats, $StdDev) * $DexterityBonus * $StatBonus);
-		$this->Intelligence = round(\gauss_ms($Stats, $StdDev) * $IntelligenceBonus * $StatBonus);
-		$this->Wisdom = round(\gauss_ms($Stats, $StdDev) * $WisdomBonus * $StatBonus);
-		$this->Vitality = round(\gauss_ms($Stats, $StdDev) * $HealthBonus * $StatBonus);
+		$this->Strength = round(\gauss_ms($Stats, $StdDev) * $StrengthBonus * $this->StatBonus);
+		$this->Dexterity = round(\gauss_ms($Stats, $StdDev) * $DexterityBonus * $this->StatBonus);
+		$this->Intelligence = round(\gauss_ms($Stats, $StdDev) * $IntelligenceBonus * $this->StatBonus);
+		$this->Wisdom = round(\gauss_ms($Stats, $StdDev) * $WisdomBonus * $this->StatBonus);
+		$this->Vitality = round(\gauss_ms($Stats, $StdDev) * $HealthBonus * $this->StatBonus);
 		$this->Health = $this->Vitality;
 
 		$ExpSeed = 1.1;
