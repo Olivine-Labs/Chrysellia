@@ -211,7 +211,8 @@ class Monster extends Being
 		$this->Dexterity = round(\gauss_ms($Stats, $StdDev) * $DexterityBonus * $StatBonus);
 		$this->Intelligence = round(\gauss_ms($Stats, $StdDev) * $IntelligenceBonus * $StatBonus);
 		$this->Wisdom = round(\gauss_ms($Stats, $StdDev) * $WisdomBonus * $StatBonus);
-		$this->Health = round(\gauss_ms($Stats, $StdDev) * $HealthBonus * $StatBonus);
+		$this->Vitality = round(\gauss_ms($Stats, $StdDev) * $HealthBonus * $StatBonus);
+		$this->Health = $this->Vitality;
 
 		$ExpSeed = 1.1;
 		$GoldSeed = 1.01;

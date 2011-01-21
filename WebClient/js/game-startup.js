@@ -983,7 +983,7 @@ function BuildAttackMessage(Attack, EnemyName, PlayerIsAttacker, fightResults){
 	var name = "";
 	var battleResult = {};
 	var round = $("<div class='round' />");
-	var battleObject = Attack;
+	var battleObject = Attack.Rounds;
 	
 	if(PlayerIsAttacker){
 		myActor = 0;
@@ -1003,8 +1003,8 @@ function BuildAttackMessage(Attack, EnemyName, PlayerIsAttacker, fightResults){
 			}
 			
 			var special = "";
-			if(battleObject.Special !== undefined && battleObject.Special > 0){
-				special = " <span class='monsterType " + vc.MonsterSpecialTypes[battleObject.Special] + "'>" + vc.MonsterSpecialTypes[battleObject.Special] + "</span>";
+			if(Attack.Special !== undefined && Attack.Special > 0){
+				special = " <span class='monsterType " + vc.MonsterSpecialTypes[Attack.Special] + "'>" + vc.MonsterSpecialTypes[Attack.Special] + "</span>";
 			}
 			
 			if(bo.Type == 2){
@@ -1044,8 +1044,8 @@ function BuildAttackMessage(Attack, EnemyName, PlayerIsAttacker, fightResults){
 	
 	fightResults.append(round);
 	
-	if(battleObject.Winner !== undefined){
-		if(battleObject.Winner == myActor){
+	if(Attack.Winner !== undefined){
+		if(Attack.Winner == myActor){
 		
 			if(!PlayerIsAttacker){
 				fightResults.append("<div class='result wonFight'><span class='attacker player'>You</span> have successfully defended yourself!</span></div>");
@@ -1053,24 +1053,24 @@ function BuildAttackMessage(Attack, EnemyName, PlayerIsAttacker, fightResults){
 				fightResults.append("<div class='result wonFight'><span class='attacker player'>You</span> have defeated <span class='enemy'>" + EnemyName + "</span>" + special + "!</span></div>");
 			}
 			
-			if(battleObject.Gold !== undefined){
-				MyCharacter.Gold += battleObject.Gold;
+			if(Attack.Gold !== undefined){
+				MyCharacter.Gold += Attack.Gold;
 			}
 			
-			if(battleObject.Experience !== undefined){
-				MyCharacter.Experience += battleObject.Experience;
+			if(Attack.Experience !== undefined){
+				MyCharacter.Experience += Attack.Experience;
 			}
 			
-			if(battleObject.AlignGood !== undefined){
-				MyCharacter.AlignGood = battleObject.AlignGood;
+			if(Attack.AlignGood !== undefined){
+				MyCharacter.AlignGood = Attack.AlignGood;
 			}
 			
-			if(battleObject.AlignOrder !== undefined){
-				MyCharacter.AlignOrder = battleObject.AlignOrder;
+			if(Attack.AlignOrder !== undefined){
+				MyCharacter.AlignOrder = Attack.AlignOrder;
 			}
 			
-			if(battleObject.LevelUp !== undefined && battleObject.LevelUp == true){
-				fightResults.append("<div class='result levelUp'><span class='attacker player'>You</span> have levelled up! <a href='#' class='chooseStats button'>Choose Stats</a></span></div>");
+			if(Attack.LevelUp !== undefined && Attack.LevelUp == true){
+				fightResults.append("<div class='result levelUp'><span class='attacker player'>You</span> have leveled up! <a href='#' class='chooseStats button'>Choose Stats</a></span></div>");
 				MyCharacter.FreeLevels++;
 			}
 			vc.i.UpdateStats();

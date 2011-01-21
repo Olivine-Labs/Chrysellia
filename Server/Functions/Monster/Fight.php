@@ -57,6 +57,7 @@ if(
 								if($SameMonster)
 								{
 									$Monster->Health = $CurrentFight['Health'];
+									$Monster->Vitality = $CurrentFight['Vitality'];
 									$Monster->Strength = $CurrentFight['Strength'];
 									$Monster->Dexterity = $CurrentFight['Dexterity'];
 									$Monster->Intelligence = $CurrentFight['Intelligence'];
@@ -81,6 +82,7 @@ if(
 									$CurrentFight = Array();
 									$CurrentFight['MonsterId'] = $Monster->MonsterId;
 									$CurrentFight['Health'] = $Monster->Health;
+									$CurrentFight['Vitality'] = $Monster->Vitality;
 									$CurrentFight['Strength'] = $Monster->Strength;
 									$CurrentFight['Dexterity'] = $Monster->Dexterity;
 									$CurrentFight['Intelligence'] = $Monster->Intelligence;

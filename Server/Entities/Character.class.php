@@ -314,7 +314,7 @@ class Character extends Being
 	public function Attack(Being $AnEnemy, $Spell=true)
 	{
 		$Result = array();
-
+		$Result['Rounds'] = array();
 		if(get_class($AnEnemy) == 'Entities\Monster')
 		{
 			$AnEnemy->Equipment = array();
@@ -486,15 +486,15 @@ class Character extends Being
 					$PlayerRow = array('Damage'=>$ActualDamage, 'Actor'=>$Index, 'Type'=>$AttackType, 'Initiative'=>$Initiative);
 					for($ArrayIndex = 0; $ArrayIndex < count($Result); $ArrayIndex++)
 					{
-						if($Initiative > $Result[$ArrayIndex]['Initiative'])
+						if($Initiative > @$Result['Rounds'][$ArrayIndex]['Initiative'])
 						{
-							@array_splice($Result, $ArrayIndex, 0, array($PlayerRow));
+							array_splice($Result['Rounds'], $ArrayIndex, 0, array($PlayerRow));
 							$Inserted =true;
 							break;
 						}
 					}
 					if(!$Inserted)
-						array_push($Result, $PlayerRow);
+						array_push($Result['Rounds'], $PlayerRow);
 				}
 			}
 		}
@@ -502,23 +502,23 @@ class Character extends Being
 		$PlayerWins = false;
 		$EnemyWins = false;
 		$Index = 0;
-		while($Index < count($Result))
+		while($Index < count($Result['Rounds']))
 		{
-			if(isset($Result[$Index]))
+			if(isset($Result['Rounds'][$Index]))
 			{
 				if($EnemyWins || $PlayerWins)
 				{
 					$Run = true;
-					for($Index2 = count($Result)-1; $Index2 >= $Index; $Index2--)
+					for($Index2 = count($Result['Rounds'])-1; $Index2 >= $Index; $Index2--)
 					{
-						array_pop($Result);
+						array_pop($Result['Rounds']);
 					}
 					break;
 				}
 				else
 				{
-					unset($Result[$Index]['Initiative']);
-					$ArrayItem = $Result[$Index];
+					unset($Result['Rounds'][$Index]['Initiative']);
+					$ArrayItem = $Result['Rounds'][$Index];
 					if($ArrayItem['Actor'] == 0)
 					{
 						if(($ArrayItem['Type'] == 0) || ($ArrayItem['Type'] == 1))

@@ -32,7 +32,7 @@
 		ER_ACCESSDENIED: 255, //when they just don't have access.
 		SERVERCODE_DIRECTORY: "./Server/",
 		STATICINFO_DIRECTORY: "./Core/staticInfo/",
-		API_URI: "./Server/API.php",
+		API_URI: "../Server/API.php",
 		
 		CheckVersion: function(callback){
 			$.ajax({
