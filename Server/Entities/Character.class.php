@@ -315,10 +315,12 @@ class Character extends Being
 	{
 		$Result = array();
 		$Result['Rounds'] = array();
+
+		//Modify AnEnemy if is monster. Make it like a character.
 		if(get_class($AnEnemy) == 'Entities\Monster')
 		{
+			//Give our monster some gear!
 			$AnEnemy->Equipment = array();
-
 			for($Index = 0; $Index < 2; $Index++)
 			{
 				$Item = new \Entities\Item();
@@ -353,11 +355,13 @@ class Character extends Being
 		$PlayerArmorClass = 0;
 		$NumWeapons = 0;
 
+		//0 is the player, 1 is the enemy. Loop through to create "Rounds", or rows in the result set.
 		for($Index = 0; $Index < 2; $Index++)
 		{
 			$Being = null;
 			$EnemyBeing = null;
 			$DamageType = 0;
+			//If this is the enemy...
 			if($Index == 1)
 			{
 				$Being = $AnEnemy;
@@ -370,14 +374,14 @@ class Character extends Being
 					$DamageType  = 1;
 				}
 			}
-			else
+			else//This is the player
 			{
 				$EnemyBeing = $AnEnemy;
 				$Being = $this;
 				$DamageType = $Spell;
 			}
 
-			//Get Armor Class for player
+			//Get Armor Class for the attacker
 			foreach($Being->Equipment AS $AnItem)
 			{
 				if($AnItem->SlotType == 1)
@@ -400,8 +404,8 @@ class Character extends Being
 				}
 			}
 
+			//Fill the "Round" with attack data.
 			$PlayerRow = array();	
-
 			foreach($Being->Equipment AS $AnItem)
 			{
 				$DamageStat = 0;
@@ -412,6 +416,7 @@ class Character extends Being
 				$AttackType = $DamageType;
 				if(!$DamageType)
 				{
+					//If is a weapon
 					if($AnItem->SlotType == 0)
 					{
 						if($AnItem->MasteryType != 0)
@@ -426,6 +431,7 @@ class Character extends Being
 				}
 				else
 				{
+					//If is a spell
 					if($AnItem->SlotType == 3)
 					{
 						$DamageStat = $Being->Intelligence;
@@ -451,37 +457,34 @@ class Character extends Being
 					$InitStat = max($Being->Dexterity, $Being->Wisdom);
 					$EnemyInitStat = max($EnemyBeing->Dexterity, $EnemyBeing->Wisdom);
 					$Initiative = \gauss_ms($InitStat, $InitStat * 0.2) - \gauss_ms($EnemyInitStat, $EnemyInitStat * 0.2);
-				}
 
-				//Damage/Heal calculations
-				$ActualDamage = 0;
-				if($IsWeapon)
-				{
-					$ActualDamage=0;
-					$ChanceToHitBonus = 1;
-					$Mastery = 0;
-					$ChanceToHit = ($HitStat/$MissStat*50*(1+$Mastery/100))*$ChanceToHitBonus;
-					if(mt_rand(1,100) < $ChanceToHit)
+					//Damage/Heal calculations
+					$ActualDamage = 0;
+					if($IsWeapon)
 					{
-						$ArmorMastery = 0;
-						$EnemyArmorClass = 0;
-						$ItemClassBonus = $Being->WeaponClassBonus;
-						if($DamageType)
-							$ItemClassBonus = $Being->SpellClassBonus;
-						$BaseDamage=pow(1.15,((($AnItem->ItemClass + $ItemClassBonus)-($EnemyArmorClass + $EnemyBeing->ArmorClassBonus))-round($ArmorMastery/5)));
-						$ActualDamage=\gauss_ms($DamageStat/3, ($DamageStat/3) * 0.1)*$BaseDamage;
-						$ActualDamage = round($ActualDamage * (1/max(pow($NumWeapons, 1.5), 1)) / (2/3));
+						$ActualDamage=0;
+						$ChanceToHitBonus = 1;
+						$Mastery = 0;
+						$ChanceToHit = ($HitStat/$MissStat*50*(1+$Mastery/100))*$ChanceToHitBonus;
+						if(mt_rand(1,100) < $ChanceToHit)
+						{
+							$ArmorMastery = 0;
+							$EnemyArmorClass = 0;
+							$ItemClassBonus = $Being->WeaponClassBonus;
+							if($DamageType)
+								$ItemClassBonus = $Being->SpellClassBonus;
+							$BaseDamage=pow(1.15,((($AnItem->ItemClass + $ItemClassBonus)-($EnemyArmorClass + $EnemyBeing->ArmorClassBonus))-round($ArmorMastery/5)));
+							$ActualDamage=\gauss_ms($DamageStat/3, ($DamageStat/3) * 0.1)*$BaseDamage;
+							$ActualDamage = round($ActualDamage * (1/max(pow($NumWeapons, 1.5), 1)) / (2/3));
+						}
 					}
-				}
-				else if($IsHeal)
-				{
-					$BaseHeal = $Being->Intelligence/10;
-					$ActualDamage = round((\gauss_ms($BaseHeal, $BaseHeal * 0.2 )*$AnItem->ItemClass)/5);
-				}
+					else if($IsHeal)
+					{
+						$BaseHeal = $Being->Intelligence/10;
+						$ActualDamage = round((\gauss_ms($BaseHeal, $BaseHeal * 0.2 )*$AnItem->ItemClass)/5);
+					}
 
-				//Insert Damage/Heal into Result array ordered by initiative
-				if($IsWeapon || $IsHeal)
-				{
+					//Insert Damage/Heal into Result array ordered by initiative
 					$Inserted = false;
 					$PlayerRow = array('Damage'=>$ActualDamage, 'Actor'=>$Index, 'Type'=>$AttackType, 'Initiative'=>$Initiative);
 					for($ArrayIndex = 0; $ArrayIndex < count($Result); $ArrayIndex++)
@@ -502,6 +505,7 @@ class Character extends Being
 		$PlayerWins = false;
 		$EnemyWins = false;
 		$Index = 0;
+		//Clean up and finalize the Result
 		while($Index < count($Result['Rounds']))
 		{
 			if(isset($Result['Rounds'][$Index]))
