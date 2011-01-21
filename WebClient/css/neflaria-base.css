@@ -60,7 +60,7 @@ a.bigButton, a.bigButton:hover, a.bigButton:link, a.bigButton:visited, a.bigButt
 	display: inline-block;
 }
 
-h1, h2, h3, h4, h5, h6 { font-family: 'Crimson Text', Georgia, 'Times New Roman', serif; font-weight: normal; line-height: 1.25em; }
+h1, h2, h3, h4, h5, h6 { font-family: Georgia, 'Times New Roman', serif; font-weight: normal; line-height: 1.25em; }
 
 h1 {
 	font-size: 36px;
@@ -225,21 +225,30 @@ color: #000000;
 	border-bottom-left-radius: 4px;
 }
 .mainSection { position: relative; }
-.bigButton .TestRace { background: transparent url('images/gargoyle.jpg') top left no-repeat; }
-.bigButton .TestRace2 { background: transparent url('images/orc.jpg') top left no-repeat; }
-.bigButton .TestRace3 { background: transparent url('images/goblin.jpg') top left no-repeat; }
-.bigButton .TestRace4 { background: transparent url('images/troll.jpg') top left no-repeat; }
 
 .bigButton .Aviakan, .tops .Aviakan  { background: transparent url('images/aviakan.jpg') top left no-repeat; }
 .bigButton .Drow, .tops .Drow { background: transparent url('images/drow.jpg') top left no-repeat; }
 .bigButton .Dwarf, .tops .Dwarf { background: transparent url('images/dwarf.jpg') top left no-repeat; }
-.bigButton .Elf , .tops .Elf{ background: transparent url('images/elf.jpg') top left no-repeat; }
+.bigButton .Elf , .tops .Elf { background: transparent url('images/elf.jpg') top left no-repeat; }
 .bigButton .Gargoyle, .tops .Gargoyle { background: transparent url('images/gargoyle.jpg') top left no-repeat; }
 .bigButton .HalfElf, .tops .Half.Elf { background: transparent url('images/halfelf.jpg') top left no-repeat; }
 .bigButton .Human, .tops .Human { background: transparent url('images/human.jpg') top left no-repeat; }
 .bigButton .Orc, .tops .Orc { background: transparent url('images/orc.jpg') top left no-repeat; }
-.bigButton .Troll, .tops .Troll { background: transparent url('images/troll.jpg') top left no-repeat; }
+.bigButton .Troll, .tops .Troll  { background: transparent url('images/troll.jpg') top left no-repeat; }
 .bigButton .Goblin, .tops .Goblin { background: transparent url('images/goblin.jpg') top left no-repeat; }
+
+.ui-dialog .statsWindow { background-position: 262px 15px !important; background-repeat: no-repeat !important; }
+.ui-dialog .statsWindow.Aviakan  { background-image: url('images/race_24s/aviakan.jpg'); }
+.ui-dialog .statsWindow.Drow { background-image: url('images/race_24s/drow.jpg'); }
+.ui-dialog .statsWindow.Dwarf { background-image: url('images/race_24s/dwarf.jpg'); }
+.ui-dialog .statsWindow.Elf{ background-image: url('images/race_24s/elf.jpg'); }
+.ui-dialog .statsWindow.Gargoyle { background-image: url('images/race_24s/gargoyle.jpg'); }
+.ui-dialog .statsWindow .Half.Elf { background-image: url('images/race_24s/halfelf.jpg'); }
+.ui-dialog .statsWindow.Human { background-image: url('images/race_24s/human.jpg'); }
+.ui-dialog .statsWindow.Orc { background-image: url('images/race_24s/orc.jpg'); }
+.ui-dialog .statsWindow.Troll  { background-image: url('images/race_24s/troll.jpg'); }
+.ui-dialog .statsWindow.Goblin { background-image: url('images/race_24s/goblin.jpg'); }
+
 
 .mainSection { padding: 2em 0; }
 .formInput  .statChooser { font-weight: bold; font-size: 18pt; }
@@ -297,8 +306,8 @@ color: #000000;
 .raceList .bigButton .description { font-size: 12pt; font-family: 'Crimson Text', Georgia, 'Times New Roman', serif; }
 .raceList .icon { clear: left; }
 .raceStats { display: block; width: 80px; float: left; }
-#statsWindow .statLabel { width: 105px; }
-#statsWindow .stat:nth-child(even), .itemSelection:nth-child(even), .row:nth-child(even) { background: #ddd; }
+.statsWindow .statLabel { width: 105px; }
+.statsWindow .stat:nth-child(even), .itemSelection:nth-child(even), .row:nth-child(even) { background: #ddd; }
 .row .label { display: inline-block; width: 100px; font-weight: bold; }
 .row { margin-bottom: .25em; padding: .25em; }
 #myCharacter_ExperienceBar, #myCharacter_HealthBar { width:75%; height: 15px; display: inline-block; margin-bottom: 3px; }
@@ -368,7 +377,7 @@ body.game.dark {	background-color: #111;	color: #fff;}
 .game.dark section h1 { color: #c33; }
 .game.dark .fightResults .enemy { color: #c33; }
 .dark .ui-widget-content { background: #222; color: #ccc; }
-.dark #statsWindow .stat:nth-child(even), .dark .itemSelection:nth-child(even), .dark .row:nth-child(even){background:#444;}
+.dark .statsWindow .stat:nth-child(even), .dark .itemSelection:nth-child(even), .dark .row:nth-child(even){background:#444;}
 .dark .ui-tabs-nav .ui-state-active, .dark .ui-tabs-nav .ui-state-active .chatChannelLabel { color: #fff; background: #222; }
 li.Aviakan { background-image: url("images/race_24s/aviakan.jpg"); }
 li.Drow { background-image: url("images/race_24s/drow.jpg"); }

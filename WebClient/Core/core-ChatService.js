@@ -24,6 +24,7 @@
 		
 		//System types
 		CHAT_TYPE_SYSTEM: 255,
+		CHAT_TYPE_IDPLAYER: 997,
 		CHAT_TYPE_OPENPRIVATECHANNEL:998,
 		CHAT_TYPE_MOTD: 999,
 		
@@ -49,14 +50,14 @@
 			var chatobj = vc.ch.Utilities.ParseMessage(message);
 			
 			switch(chatobj.Type){
-				case 0:
+				case vc.ChatService.CHAT_TYPE_GENERAL:
 					$.getJSON(
 						V2Core.SERVERCODE_DIRECTORY + "Chat.php",
 						{ Action: ChatService.ACTION_SENDMESSAGE, Data: JSON.stringify({ Channel: channel, Message: message }) },
 						function(data) { callback(data); }
 					);
 					break;
-				case 1:
+				case vc.ChatService.CHAT_TYPE_EMOTE:
 					vc.cmd.SendChatCommand(channel, vc.CommandService.ACTION_EMOTE, chatobj.Message, callback);
 					break;
 				default:
@@ -120,7 +121,7 @@
 				nonMessageCommand = true;
 			}else if(message.indexOf("/part") == 0){
 				type = vc.CommandService.ACTION_CHANNEL_PART;
-				message = message.substr(1, message.length - 1);
+				message = message.substr(5, message.length - 1);
 				nonMessageCommand = true;
 			}else if(message.indexOf("/mod") == 0){
 				type = vc.CommandService.ACTION_CHANNEL_SETRIGHTS;
@@ -146,8 +147,13 @@
 			}else if(message.indexOf("/unmod") == 0){
 				type = vc.CommandService.ACTION_CHANNEL_SETRIGHTS;
 				nonMessageCommand = true;
-			}else if(message.indexOf("/m") == 0){
+			}else if(message.indexOf("/m ") == 0){
 				type = vc.ChatService.CHAT_TYPE_OPENPRIVATECHANNEL;
+				message = message.substr(3, message.length - 1);
+				nonMessageCommand = true;
+			}else if(message.indexOf("/id ") == 0){
+				type = vc.ChatService.CHAT_TYPE_IDPLAYER;
+				message = message.substr(4, message.length - 1);
 				nonMessageCommand = true;
 			}
 			

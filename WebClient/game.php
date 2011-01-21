@@ -16,9 +16,6 @@
 			<script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
 		<![endif]-->
 		
-		<link href='http://fonts.googleapis.com/css?family=Crimson+Text&subset=latin' rel='stylesheet' type='text/css'>
-		
-		
 		<link href="css/html5-reset.css" rel="stylesheet" media="screen" />
 		<link href="css/jquery-ui.css" rel="stylesheet" media="screen" />
 		<link href="css/grid-fluid.css" rel="stylesheet" media="screen" />
@@ -133,8 +130,8 @@
 						<input type="text" id="chatInput" style="width: 400px;" />
 						<input type="submit" value="Send">
 						
-						<a href="#" id="createChannelLink" class="button" style="float:right;">Create channel</a>
-						<a href="#" id="joinChannelLink" class="button" style="float:right;">Join channel</a>
+						<a href="#" id="createChannelLink" class="button" style="float:right;">Create Channel</a>
+						<a href="#" id="joinChannelLink" class="button" style="float:right;">Join Channel</a>
 					</form>
 					
 					<div id="chatChannels" class="chatChannels">
@@ -193,7 +190,7 @@
 			</form>
 		</div>
 		
-		<div style="hidden" id="statsWindow" style="display: none;">
+		<div style="hidden" id="statsWindow" class="statsWindow" style="display: none;">
 			<div class="stat lvl">
 				<span class="statLabel icon lvl" title="Level">Level</span>
 				<span id="myCharacter_Level"></span>
@@ -202,7 +199,7 @@
 				<span class="statLabel icon freeLevels" title="Free Levels">Free Levels</span>
 				<span id="myCharacter_FreeLevels"></span>
 			</div>
-			<div class="stat freeLvls">
+			<div class="stat align">
 				<span class="statLabel icon alignment" title="Alignment">Alignment</span>
 				<span id="myCharacter_Alignment"></span>
 			</div>

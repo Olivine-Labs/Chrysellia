@@ -47,6 +47,33 @@
 		
 		CalculateLevelRequiredExp: function(level, freelevels){
 			return Math.round(Math.pow(level + freelevels, (8/5)) * 100 * Math.log(level + 1));
+		},
+		
+		AlignName: function(character){
+			var goodAlign = "";
+			var orderAlign = "";
+			if(character.AlignGood <= -100){
+				goodAlign = "Evil ";
+			}else if(character.AlignGood >= 100){
+				goodAlign = "Good";
+			}
+			
+			if(character.AlignOrder <= -100){
+				orderAlign = "Chaotic";
+			}else if(character.AlignOrder >= 100){
+				orderAlign = "Ordered";
+			}
+			
+			var totalAlign = "Neutral";
+			if(goodAlign != "" || orderAlign != ""){
+				var spacing = "";
+				if(goodAlign != ""){
+					spacing = " ";
+				}
+				totalAlign = goodAlign + spacing + orderAlign;
+			}
+			
+			return totalAlign;
 		}
 	};
 	
@@ -95,35 +122,12 @@
 			}
 		}
 		
-		this.AlignName = function(){
-			var goodAlign = "";
-			var orderAlign = "";
-			if(this.AlignGood <= -100){
-				goodAlign = "Evil ";
-			}else if(this.AlignGood >= 100){
-				goodAlign = "Good";
-			}
-			
-			if(this.AlignOrder <= -100){
-				orderAlign = "Chaotic";
-			}else if(this.AlignOrder >= 100){
-				orderAlign = "Ordered";
-			}
-			
-			var totalAlign = "Neutral";
-			if(goodAlign != "" || orderAlign != ""){
-				var spacing = "";
-				if(goodAlign != ""){
-					spacing = " ";
-				}
-				totalAlign = goodAlign + spacing + orderAlign;
-			}
-			
-			return totalAlign;
-		}
-		
 		this.NextLevelAt = function(){
 			return vc.CalculateLevelRequiredExp(this.Level, 0);
+		}
+		
+		this.AlignName = function(){
+			return vc.AlignName(this);
 		}
 		
 		this.Construct = function(data){

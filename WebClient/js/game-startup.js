@@ -24,7 +24,9 @@
 	
 	$("#chatForm").bind("submit", function(e){
 		e.preventDefault();
-		SubmitMessage();
+		var chatbox = $("#chatInput");
+		SubmitMessage(chatbox.val());
+		chatbox.val('');
 	});
 	
 	window.$tabs = $('#chatChannels').tabs({
@@ -69,7 +71,7 @@
 			publicWrite = 0;
 		}
 		
-		vc.ch.CreateChannel(channelName, channelMotd, publicRead, publicWrite, CreateChannel)
+		vc.ch.CreateChannel(channelName, channelMotd, publicRead, publicWrite, CreateChannel);
 	});
 	
 	$("#joinChannelForm form").bind("submit", function(e){
@@ -132,7 +134,7 @@
 	$(".chatMessage.system a.joinChannel").live("click", function(e){
 		e.preventDefault();
 		$this = $(this);
-		var channelName = $this.siblings(".channelName").text();
+		var channelName = $this.siblings(".channelName").children("input:eq(0)").val();
 		vc.ch.JoinChannel(channelName, JoinChannel);
 		$this.parentsUntil(".ui-dialog").parent().dialog("destroy").remove();
 	});
@@ -156,7 +158,7 @@
 	});
 	
 	$(window).resize(function(){
-		$('#chatChannels .ui-tabs-panel').css({'height':(($(window).height())-432)+'px'});
+		ResizeChat();
 	});
 	
 	$("#statsWindow button").bind("click", function(e){
@@ -280,6 +282,10 @@ function LevelUpResponse(data, stat){
 	}
 }
 
+function ResizeChat(){
+	$('#chatChannels .ui-tabs-panel').css({'height':(($(window).height())-432)+'px'});
+}
+
 function EquipItem(data, itemId, slotType, slotIndex){
 	if(data.Result == vc.ER_SUCCESS){
 		var item = {};
@@ -372,11 +378,16 @@ function LeaveChannel(channelId){
 }
 
 function AddTab(title, channelId, motd) {
+	if(title.indexOf("!!PM") == 0){
+		title = "PM:" + title.split("!!")[1].substr(2, title.length-2);
+	}
+	
 	$tabs.tabs('add', '#channelTabs-'+chatTabIndex, title.replace(/</g, "&lt;").replace(/>/g, "&gt;"));
 	$("<input type='hidden' value='" + channelId + "' class='channelId' />").appendTo($('#channelTabs-'+chatTabIndex));
 	InsertChat([{ "Type": 999, "FromName": "", "Message": motd }], channelId);
 	chatTabIndex++;
 	window.MyCharacter.CurrentChannel = channelId;
+	ResizeChat();
 }
 
 function FillChat(list){
@@ -504,26 +515,30 @@ function SubmitBankTransaction(){
 	var amt = $("#transactionAmount").val();
 	var action = $("#transactionTypeSelection").val();
 	
-	if(action == 0 && amt == "all" || action == 2){
-		amt = MyCharacter.Gold;
+	if((action == 0 && amt == "all") || action == 2){
+		amt = MyCharacter.Gold*1;
 		action = 0;
-	}else if(action == 1 && amt == "all" || action == 3){
-		amt = MyCharacter.Bank;
+	}else if((action == 1 && amt == "all") || action == 3){
+		amt = MyCharacter.Bank*1;
 		action = 1;
 	}
-
+	
+	action = action*1;
+	
 	if(isInteger(amt) || amt > 0 ){
 		switch(action){
 			case 0:
 				if(amt > MyCharacter.Gold){
-					amt == MyCharacter.Gold;
+					amt = MyCharacter.Gold;
 				}
+
 				vc.ms.Deposit(amt, ProcessBankTransaction);
 				break;
 			case 1: 
 				if(amt < MyCharacter.Gold){
-					amt == MyCharacter.Bank;
+					amt = MyCharacter.Bank;
 				}
+				
 				vc.ms.Widthdraw(amt, ProcessBankTransaction);
 				break;
 		}
@@ -535,11 +550,11 @@ function ProcessBankTransaction(data, gold, transactionType){
 		$("#transactionAmount").val('')
 		
 		if(transactionType == 0){
-			window.MyCharacter.Gold -= gold;
-			window.MyCharacter.Bank += gold;
+			window.MyCharacter.Gold -= (gold*1);
+			window.MyCharacter.Bank += (gold*1);
 		}else{
-			window.MyCharacter.Gold += gold;
-			window.MyCharacter.Bank -= gold;
+			window.MyCharacter.Gold += (gold*1);
+			window.MyCharacter.Bank -= (gold*1);
 		}
 		
 		$("#bankTransaction h3").text("You have " + window.MyCharacter.Bank + " gold in your account.");
@@ -1089,7 +1104,12 @@ function DisplayChannelStatusUpdate(ChannelInfo, chatobj){
 	var $chatWindow = $("input[value='" + ChannelInfo.ChannelId + "']").parent();
 	
 	if(window.MyCharacter.Channels[ChannelInfo.ChannelId] === undefined){
-		$("<div class='chatMessage system'>" + chatobj.FromName + " invited you to join <span class='channelName'>" + ChannelInfo.Name + "</span>! <a href='#' class='joinChannel'>Click here to join.</a></div>").dialog({ title: "Chat Room Invitation" });
+		var title = ChannelInfo.Name;
+		if(title.indexOf("!!PM") == 0){
+			title = "a private channel";
+		}
+		
+		$("<div class='chatMessage system'>" + chatobj.FromName + " invited you to join <span class='channelName'>" + title + "<input type='hidden' value='" + ChannelInfo.Name + "' /></span>! <a href='#' class='joinChannel'>Click here to join.</a></div>").dialog({ title: "Chat Room Invitation" });
 	}else if(window.MyCharacter.Channels[ChannelInfo.ChannelId].Permissions.isJoined == 1 && ChannelInfo.isJoined == 0){
 		LeaveChannel(ChannelInfo.ChannelId);
 		$("<div class='chatMessage system'>You have been kicked from <span class='channelName'>" + ChannelInfo.Name + "</span>!</div>").dialog({ title: "Kicked From Chat Room" });
@@ -1124,22 +1144,61 @@ function DisplayChannelStatusUpdate(ChannelInfo, chatobj){
 	}
 }
 
-function SubmitMessage(){
-	var chatbox = $("#chatInput");
-	var message = chatbox.val();
-	var msgobj = vc.ch.Utilities.ParseMessage(message);
-	
-	if(!msgobj.NonMessageCommand){
-		vc.ch.SendMessageToChannel(MyCharacter.CurrentChannel, message, function(){});
-		InsertChat([{ "Type": msgobj.Type, "FromName": MyCharacter.Name, "Message": msgobj.Message }], window.MyCharacter.CurrentChannel);
-	}else{
-		if(msgobj.Type = vc.cmd.ACTION_CHANNEL_SETRIGHTS){
-			var rights = vc.ch.Utilities.ParseRights(msgobj.Message);
-			vc.ch.SetRights(window.MyCharacter.CurrentChannel, rights.Character, rights.Rights, function(){});
+function SubmitMessage(message){
+	if(message != ""){
+		var msgobj = vc.ch.Utilities.ParseMessage(message);
+
+		if(!msgobj.NonMessageCommand){
+			vc.ch.SendMessageToChannel(MyCharacter.CurrentChannel, message, function(){});
+			InsertChat([{ "Type": msgobj.Type, "FromName": MyCharacter.Name, "Message": msgobj.Message }], window.MyCharacter.CurrentChannel);
+		}else{
+			switch(msgobj.Type){
+				case vc.cmd.ACTION_CHANNEL_SETRIGHTS:
+					var rights = vc.ch.Utilities.ParseRights(msgobj.Message);
+					vc.ch.SetRights(window.MyCharacter.CurrentChannel, rights.Character, rights.Rights, function(data){});
+					break;
+				case vc.ch.CHAT_TYPE_OPENPRIVATECHANNEL:
+					CreatePrivateChannel(msgobj.Message);
+					break;
+				case vc.ch.CHAT_TYPE_IDPLAYER:
+					vc.cmd.SendChatCommand(window.MyCharacter.CurrentChannel, vc.cmd.ACTION_ID, msgobj.Message, function(data, character){ ProcessIDPlayer(data, character); });
+					break;
+			}
 		}
 	}
-	
-	chatbox.val('');
+}
+
+function CreatePrivateChannel(character){
+	var channelName = "!!PM" + character + "!!" + GUID();
+	vc.ch.CreateChannel(channelName, "Private Channel with " + character, 0, 0, function(data){
+		if(data.Result == vc.ER_SUCCESS){
+			CreateChannel(data);
+			SubmitMessage("/invite " + character);
+		}else if(data == vc.ER_ALREADYEXISTS){
+			CreatePrivateChannel(character);
+		}
+	});
+}
+
+function ProcessIDPlayer(data, characterName){
+	if(data.Result == vc.ER_SUCCESS){
+		var character = data.Data;
+		
+		var alignName = vc.AlignName(character);
+		var alignClass = "neutral";
+		if(alignName.indexOf("Good") > -1){
+			alignClass = "good";
+		}else if(alignName.indexOf("Evil") > -1){
+			alignClass = "evil";
+		}
+		
+		var $alignContainer = $('<div class="stat align"><span class="statLabel icon alignment ' + alignClass + '" title="Alignment">Alignment</span></div>');
+		$("<span />").text(alignName + " (" + character.AlignGood + " / " + character.AlignOrder + ")").addClass(alignClass).appendTo($alignContainer);
+			
+		$("<div class='statsWindow " + V2Core.Races[character.RaceId].Name + "'><div class='stat'><h2>" + characterName + "</h2><h4>" + V2Core.Races[character.RaceId].Name + "</h4></div><div class='stat lvl'><span class='statLabel icon lvl' title='Level'>Level</span><span>" + character.Level + "</span></div></div>").append($alignContainer).dialog({ title: characterName });
+	}else if(data.Result == vc.ER_BADDATA){
+		alert("Character '" + characterName + "' not found!");
+	}
 }
 
 function GetFullMonsterId(id){
@@ -1170,3 +1229,12 @@ Array.prototype.remove = function(from, to) {
   this.length = from < 0 ? this.length + from : from;
   return this.push.apply(this, rest);
 };
+
+
+function S4() {
+   return (((1+Math.random())*0x10000)|0).toString(16).substring(1);
+}
+
+function GUID() {
+   return (S4()+S4()+"-"+S4()+"-"+S4()+"-"+S4()+"-"+S4()+S4()+S4());
+}
