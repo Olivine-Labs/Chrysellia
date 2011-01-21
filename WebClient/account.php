@@ -261,7 +261,7 @@
 		</footer>
 
 		<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.4/jquery.min.js"></script>
-		<script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.7/jquery-ui.min.js"></script>
+		<script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.9/jquery-ui.min.js"></script>
 		
 		<!-- Here come the plugins -->
 		<!--<script src="./js/jquery.watermark.min.js"></script>
