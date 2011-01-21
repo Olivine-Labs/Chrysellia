@@ -58,7 +58,7 @@ class Response
 
 	public function __destruct()
 	{
-		$this->Output();
+		$this->Send();
 		ob_end_flush();
 	}
 
@@ -81,7 +81,7 @@ class Response
 	/**
 	 * Prints the Response
 	 */
-	public function Output()
+	public function Send()
 	{
 		switch($this->OutputMethod)
 		{
