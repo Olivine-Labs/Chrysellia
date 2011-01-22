@@ -70,6 +70,7 @@ if(
 									$Monster->WeaponClass = $CurrentFight['WeaponClass'];
 									$Monster->SpellClass = $CurrentFight['SpellClass'];
 									$Monster->Armor = $CurrentFight['ArmorClass'];
+									$Monster->AlignChanceBonus = $CurrentFight['AlignChanceBonus'];
 								}
 								else
 								{
@@ -98,6 +99,7 @@ if(
 									$CurrentFight['WeaponClass'] = $Monster->WeaponClass;
 									$CurrentFight['SpellClass'] = $Monster->SpellClass;
 									$CurrentFight['ArmorClass'] = $Monster->ArmorClass;
+									$CurrentFight['AlignChanceBonus'] = $Monster->AlignChanceBonus;
 	
 									if($Database->Characters->UpdateTraits($Character))
 									{

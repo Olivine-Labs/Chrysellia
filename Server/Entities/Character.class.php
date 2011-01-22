@@ -568,17 +568,39 @@ class Character extends Being
 				$this->Gold += $AnEnemy->GoldGiven;
 				$Result['Gold'] = $AnEnemy->GoldGiven;
 				$Result['Experience'] = $AnEnemy->EXPGiven;
+				if($AnEnemy->AlignGood || $AnEnemy->AlignOrder)
+				{
+					if(mt_rand(0, 2500) < 5+(2500*$AnEnemy->AlignChanceBonus))
+					{
+						if($AnEnemy->AlignGood > 0)
+						{
+							$this->AlignGood -= 1;
+							$Result['AlignGood'] = $this->AlignGood;
+						}
+						else if($AnEnemy->AlignGood < 0)
+						{
+							$this->AlignGood += 1;
+							$Result['AlignGood'] = $this->AlignGood;
+						}
+						if($AnEnemy->AlignOrder > 0)
+						{
+							$this->AlignOrder -= 1;
+							$Result['AlignOrder'] = $this->AlignOrder;
+						}
+						else if($AnEnemy->AlignOrder < 0)
+						{
+							$this->AlignOrder += 1;
+							$Result['AlignOrder'] = $this->AlignOrder;
+						}
+					}
+				}
 			}
 			else
 			{
 				$this->Gold += $AnEnemy->Gold;
 				$Result['Gold'] = $AnEnemy->Gold;
 				$AnEnemy->Gold = 0;
-			}
-
-			if(mt_rand(0,10000) < 10)
-			{
-				if($AnEnemy->AlignGood > 0)
+				if($AnEnemy->AlignGood >= 0)
 				{
 					$this->AlignGood -= 1;
 					$Result['AlignGood'] = $this->AlignGood;
@@ -588,7 +610,7 @@ class Character extends Being
 					$this->AlignGood += 1;
 					$Result['AlignGood'] = $this->AlignGood;
 				}
-				if($AnEnemy->AlignOrder > 0)
+				if($AnEnemy->AlignOrder >= 0)
 				{
 					$this->AlignOrder -= 1;
 					$Result['AlignOrder'] = $this->AlignOrder;

@@ -39,6 +39,13 @@ class Monster extends Being
 	public $ExperienceBonus;
 
 	/**
+	 * AlignChanceBonus
+	 *
+	 * @var AlignChanceBonus
+	 */
+	public $AlignChanceBonus;
+
+	/**
 	 * StatBonus
 	 *
 	 * @var StatBonus
@@ -161,16 +168,24 @@ class Monster extends Being
 				$this->RandomSpecial();
 				break;
 			case SPEC_SAINT:
-				//
+				$this->AlignChanceBonus = 100;
+				$this->AlignGood = 1;
+				$this->AlignOrder = 0;
 				break;
 			case SPEC_VILLAIN:
-				//
+				$this->AlignChanceBonus = 100;
+				$this->AlignGood = -1;
+				$this->AlignOrder = 0;
 				break;
 			case SPEC_JUDGE:
-				//
+				$this->AlignChanceBonus = 100;
+				$this->AlignGood = 0;
+				$this->AlignOrder = 1;
 				break;
 			case SPEC_ANARCHIST:
-				//
+				$this->AlignChanceBonus = 100;
+				$this->AlignGood = 0;
+				$this->AlignOrder = -1;
 				break;
 			case SPEC_FOOL:
 				$this->GoldBonus = 0;
@@ -209,6 +224,7 @@ class Monster extends Being
 		$WisdomBonus = 1;
 
 		$this->Special = 0;
+		$this->AlignChanceBonus = 0;
 		if(mt_rand(0, 100) > 95)
 		{
 			$this->Special = $this->RandomSpecial();
