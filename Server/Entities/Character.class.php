@@ -291,7 +291,9 @@ class Character extends Being
 	 */
 	public function CalculateExpToLevel($Level)
 	{
-		return round(pow($Level, 8/5) * 100 * log($Level+1));
+		$LevelModifier = 38.19;
+		$TNLMultiplier = 5;
+		return round(pow($this->Level+$LevelModifier, log(($this->Level+$LevelModifier)*$TNLMultiplier, 17-($this->Level/150)))-829.53);
 	}
 
 	/**
@@ -300,9 +302,10 @@ class Character extends Being
 	public function LevelUp()
 	{
 		$ExperienceToLevel = $this->CalculateExpToLevel($this->Level + $this->FreeLevels);
-		if($this->Experience > $ExperienceToLevel)
+		if($this->Experience >= $ExperienceToLevel)
 		{
 			$this->FreeLevels += 1;
+			$this->Experience = ($this->Experience - $ExperienceToLevel);
 			return true;
 		}
 		return false;

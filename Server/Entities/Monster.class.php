@@ -197,7 +197,7 @@ class Monster extends Being
 	public function GenerateStats()
 	{
 		$StatSeed = 7;
-		$Stats = log($StatSeed*$this->Level) * ($this->Level * 10);
+		$Stats = pow($this->Level+2, log($this->Level+3, 42.75))*10;
 		$StatsHigh = $Stats * 1.1;
 		$StdDev = $StatsHigh - $Stats;
 		$this->StatBonus = 1;
@@ -223,9 +223,9 @@ class Monster extends Being
 
 		$ExpSeed = 1.1;
 		$GoldSeed = 1.01;
-		$this->GoldGiven = round(log($GoldSeed*($this->Level+1)) * 0.5 * ($this->Level * 5) * $this->GoldBonus);
-
-		$this->EXPGiven = round(pow($this->Level, (7/5)) * 8 * log($this->Level+1.1) * $this->ExperienceBonus);
+		$this->GoldGiven = (pow($this->Level+8, log($this->Level+8,125))+7) *$this->GoldBonus;
+		$EXPMultiplier = 5;
+		$this->EXPGiven = round(pow($this->Level, log($this->Level+1, 50)) * $EXPMultiplier * $this->ExperienceBonus);
 		$GoldStdDev = $this->GoldGiven - $this->GoldGiven * 0.90;
 		$ExpStdDev = $this->EXPGiven - $this->EXPGiven * 0.90;
 		$this->GoldGiven = round(\gauss_ms($this->GoldGiven, $GoldStdDev));

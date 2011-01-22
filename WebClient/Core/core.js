@@ -45,8 +45,8 @@
 			});
 		},
 		
-		CalculateLevelRequiredExp: function(level, freelevels){
-			return Math.round(Math.pow(level + freelevels, (8/5)) * 100 * Math.log(level + 1));
+		CalculateLevelRequiredExp: function(level){
+			return Math.round(Math.pow(level+38.19, Math.log((level+38.19)*5)/Math.log(17-(level/150)))-829.53);
 		},
 		
 		AlignName: function(character){
@@ -123,7 +123,7 @@
 		}
 		
 		this.NextLevelAt = function(){
-			return vc.CalculateLevelRequiredExp(this.Level, 0);
+			return vc.CalculateLevelRequiredExp(this.Level+this.FreeLevels);
 		}
 		
 		this.AlignName = function(){

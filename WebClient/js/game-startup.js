@@ -1086,6 +1086,7 @@ function BuildAttackMessage(Attack, EnemyName, PlayerIsAttacker, fightResults){
 			
 			if(Attack.LevelUp !== undefined && Attack.LevelUp == true){
 				fightResults.append("<div class='result levelUp'><span class='attacker player'>You</span> have leveled up! <a href='#' class='chooseStats button'>Choose Stats</a></span></div>");
+				MyCharacter.Experience -= MyCharacter.NextLevelAt();
 				MyCharacter.FreeLevels++;
 			}
 			vc.i.UpdateStats();
