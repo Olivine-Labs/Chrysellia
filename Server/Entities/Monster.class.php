@@ -147,7 +147,7 @@ class Monster extends Being
 				break;
 			case SPEC_ELDER:
 				$this->GoldBonus *= 2;
-				$this->MasteryBonus *= 2;
+				$this->MasteryBonus += 20;
 				break;
 			case SPEC_VETERAN:
 				$this->StatBonus = 2;

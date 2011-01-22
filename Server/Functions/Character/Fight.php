@@ -30,8 +30,12 @@ if(
 						($Character->PositionX == $EnemyCharacter->PositionX) &&
 						($Character->PositionY == $EnemyCharacter->PositionY)
 					){
-						if($Database->Characters->LoadTraits($Character) && $Database->Characters->LoadTraits($EnemyCharacter))
-						{
+						if(
+							$Database->Characters->LoadTraits($Character) &&
+							$Database->Characters->LoadTraits($EnemyCharacter) &&
+							is_array($Character->Masteries = $Database->Characters->LoadMasteries($Character)) &&
+							is_array($EnemyCharacter->Masteries = $Database->Characters->LoadMasteries($EnemyCharacter))
+						){
 							if(($Character->Health > 0) && ($EnemyCharacter->Health > 0) && ($EnemyCharacter->Level >= $Character->Level*0.75))
 							{
 								$SameMonster = false;
@@ -48,17 +52,29 @@ if(
 									$Database->startTransaction();
 									if($Database->Characters->UpdateTraits($Character) && $Database->Characters->UpdateTraits($EnemyCharacter))
 									{
-										$Database->Characters->LoadById($Character);
-										$Message['AttackedBy'] = $Character->Name;
-										$Message['BattleData'] = $AttackResult;
-										$Message['MessageType'] = 1;
-										if($Database->Chat->Insert($Character, 'CHAN_00000000000000000000001', $Message, 255, $EnemyCharacter))
+										foreach($AttackResult['Masteries'] AS $MasteryId)
 										{
-											$Success = true;
+											if(!$Database->Characters->UpdateMastery($Character, $MasteryId, $Character->Masteries[$MasteryId]['Value'], $Character->Masteries[$MasteryId]['Bonus']))
+											{
+												$Success = false;
+												break;
+											}
 										}
-										else
+
+										if($Success)
 										{
-											$Response->Set('Result', \Protocol\Response::ER_DBERROR);
+											$Database->Characters->LoadById($Character);
+											$Message['AttackedBy'] = $Character->Name;
+											$Message['BattleData'] = $AttackResult;
+											$Message['MessageType'] = 1;
+											if($Database->Chat->Insert($Character, 'CHAN_00000000000000000000001', $Message, 255, $EnemyCharacter))
+											{
+												$Success = true;
+											}
+											else
+											{
+												$Response->Set('Result', \Protocol\Response::ER_DBERROR);
+											}
 										}
 									}
 									else

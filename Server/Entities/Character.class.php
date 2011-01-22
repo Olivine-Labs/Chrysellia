@@ -229,6 +229,15 @@ class Character extends Being
 	public $InventoryId;
 
 	/**
+	 * Masteries
+	 *
+	 * A character's masteries
+	 *
+	 * @var $Masteries
+	 */
+	public $Masteries;
+
+	/**
 	 * Default constructor for the Account Class
 	 */
 	public function __construct()
@@ -318,7 +327,8 @@ class Character extends Being
 	{
 		$Result = array();
 		$Result['Rounds'] = array();
-
+		$Result['Masteries'] = array();
+		$MonsterMasteryChance = 0;
 		//Modify AnEnemy if is monster. Make it like a character.
 		if(get_class($AnEnemy) == 'Entities\Monster')
 		{
@@ -348,6 +358,8 @@ class Character extends Being
 				}
 				$AnEnemy->Equipment[$Index]=$Item;
 			}
+			if($AnEnemy->MasteryBonus)
+				$MonsterMasteryChance = $AnEnemy->MasteryBonus;
 			$Armor = new \Entities\Item();
 			$Armor->SlotType = 1;
 			$Armor->ItemClass = $AnEnemy->ArmorClass;
@@ -468,15 +480,19 @@ class Character extends Being
 						$ActualDamage=0;
 						$ChanceToHitBonus = 1;
 						$Mastery = 0;
+						if(get_class($Being) == 'Entities\Character')
+							$Mastery = $Being->Masteries[$AnItem->MasteryType]['Value'];
 						$ChanceToHit = ($HitStat/$MissStat*50*(1+$Mastery/100))*$ChanceToHitBonus;
 						if(mt_rand(1,100) < $ChanceToHit)
 						{
-							$ArmorMastery = 0;
+							$EnemyArmorMastery = 0;
+							if(get_class($AnEnemy) == 'Entities\Character')
+								$EnemyArmorMastery = $EnemyBeing->Masteries[0]['Value'];
 							$EnemyArmorClass = 0;
 							$ItemClassBonus = $Being->WeaponClassBonus;
 							if($DamageType)
 								$ItemClassBonus = $Being->SpellClassBonus;
-							$BaseDamage=pow(1.15,((($AnItem->ItemClass + $ItemClassBonus)-($EnemyArmorClass + $EnemyBeing->ArmorClassBonus))-round($ArmorMastery/5)));
+							$BaseDamage=pow(1.15,((($AnItem->ItemClass + $ItemClassBonus)-($EnemyArmorClass + $EnemyBeing->ArmorClassBonus))-round($EnemyArmorMastery/5)));
 							$ActualDamage=\gauss_ms($DamageStat/3, ($DamageStat/3) * 0.1)*$BaseDamage;
 							$ActualDamage = round($ActualDamage * (1/max(pow($NumWeapons, 1.5), 1)) / (2/3));
 						}
@@ -489,7 +505,7 @@ class Character extends Being
 
 					//Insert Damage/Heal into Result array ordered by initiative
 					$Inserted = false;
-					$PlayerRow = array('Damage'=>$ActualDamage, 'Actor'=>$Index, 'Type'=>$AttackType, 'Initiative'=>$Initiative);
+					$PlayerRow = array('Damage'=>$ActualDamage, 'Actor'=>$Index, 'Type'=>$AttackType, 'MasteryType'=>$AnItem->MasteryType, 'Initiative'=>$Initiative);
 					for($ArrayIndex = 0; $ArrayIndex < count($Result); $ArrayIndex++)
 					{
 						if($Initiative > @$Result['Rounds'][$ArrayIndex]['Initiative'])
@@ -532,11 +548,31 @@ class Character extends Being
 							$AnEnemy->Health = max($AnEnemy->Health - $ArrayItem['Damage'], 0);
 						else if($ArrayItem['Type'] == 2)
 							$this->Health = min($ArrayItem['Damage'] + $this->Health, $this->Vitality);
+
+						//Mastery Gain Check
+						$MasteryCheck = (0 >= $AnEnemy->Health)?(20+$MonsterMasteryChance):20;
+						if(mt_rand(1,max(20+$this->Masteries[$ArrayItem['MasteryType']]['Value']*50,50))<$MasteryCheck)
+						{
+							$this->Masteries[$ArrayItem['MasteryType']]['Value']++;
+							$Result['Masteries'][]= $ArrayItem['MasteryType'];
+						}
 					}
 					else
 					{
 						if(($ArrayItem['Type'] == 0) || ($ArrayItem['Type'] == 1))
+						{
 							$this->Health = max($this->Health - $ArrayItem['Damage'], 0);
+							//Armor Mastery Gain Check
+							if($ArrayItem['Damage'] > 0)
+							{
+								$MasteryCheck = 20+(($this->Health/$ArrayItem['Damage'])*20);
+								if(mt_rand(1,max(20+$this->Masteries[0]['Value']*50,50))<$MasteryCheck)
+								{
+									$this->Masteries[0]['Value']++;
+									$Result['Masteries'][]= 0;
+								}
+							}
+						}
 						else if($ArrayItem['Type'] == 2)
 							$AnEnemy->Health = min($ArrayItem['Damage'] + $AnEnemy->Health, $AnEnemy->Vitality);
 					}

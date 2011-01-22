@@ -29,8 +29,10 @@ if(
 				
 				if($Database->Monsters->IsInCell($Monster))
 				{
-					if($Database->Characters->LoadTraits($Character))
-					{
+					if(
+						$Database->Characters->LoadTraits($Character) && 
+						is_array($Character->Masteries = $Database->Characters->LoadMasteries($Character))
+					){
 						if($Character->Health > 0)
 						{
 							if($Database->Monsters->LoadById($Monster))
@@ -100,18 +102,38 @@ if(
 									$CurrentFight['SpellClass'] = $Monster->SpellClass;
 									$CurrentFight['ArmorClass'] = $Monster->ArmorClass;
 									$CurrentFight['AlignChanceBonus'] = $Monster->AlignChanceBonus;
-	
+
+									$Success = true;
+									$Database->startTransaction();
 									if($Database->Characters->UpdateTraits($Character))
+									{
+										foreach($AttackResult['Masteries'] AS $MasteryId)
+										{
+											if(!$Database->Characters->UpdateMastery($Character, $MasteryId, $Character->Masteries[$MasteryId]['Value'], $Character->Masteries[$MasteryId]['Bonus']))
+											{
+												$Success = false;
+												break;
+											}
+										}
+									}
+									else
+									{
+										$Success = false;
+										$Response->Set('Result', \Protocol\Response::ER_DBERROR);
+									}
+
+									if($Success)
 									{
 										if(!isset($AttackResult['Winner']))
 											$_SESSION['CurrentFight'] = $CurrentFight;
 										$Response->Set('Result', \Protocol\Response::ER_SUCCESS);
 										$Response->Set('Data', $AttackResult);
 										$_SESSION['NextAction'] = microtime(true) + 1.50;
+										$Database->commitTransaction();	
 									}
 									else
 									{
-										$Response->Set('Result', \Protocol\Response::ER_DBERROR);
+										$Database->rollbackTransaction();	
 									}
 								}
 							}
