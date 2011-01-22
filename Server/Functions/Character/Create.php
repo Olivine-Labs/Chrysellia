@@ -74,8 +74,10 @@ if(
 									{
 										if($InventoryId = $Database->Items->InsertInventoryForCharacter($ACharacter))
 										{
-											if(is_array($DefaultItemsList = $Database->Items->LoadRaceDefaultItems($ARace)))
-											{
+											if(
+												is_array($DefaultItemsList = $Database->Items->LoadRaceDefaultItems($ARace)) &&
+												is_array($DefaultMasteriesList = $Database->Races->LoadDefaultMasteries($ARace))
+											){
 												$Run = true;
 												$Index = 0;
 												while(($Run) && ($Index < count($DefaultItemsList)))
@@ -88,6 +90,16 @@ if(
 													}else
 													{
 														$Database->Items->EquipItem($ACharacter, $AnItem, 0);
+													}
+													$Index++;
+												}
+												$Index = 0;
+												while(($Run) && ($Index < count($DefaultMasteriesList)))
+												{
+													$AMastery = $DefaultMasteriesList[$Index];
+													if(!$Database->Characters->InsertMastery($ACharacter, $Index, $AMastery['Value']))
+													{
+														$Run = false;
 													}
 													$Index++;
 												}

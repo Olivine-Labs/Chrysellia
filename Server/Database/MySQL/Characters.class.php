@@ -25,6 +25,11 @@ define('SQL_INSERTCHARACTERLOCATION', 'INSERT INTO `character_locations` (`chara
 
 define('SQL_LOADLISTFORCELL', 'SELECT c.characterId, c.name, ct.gender, ct.raceId, c.clanId, ct.level, ct.alignGood, ct.alignOrder FROM `characters` c INNER JOIN `character_locations` cl ON cl.characterId=c.characterId INNER JOIN `character_traits` ct ON ct.characterId=c.characterId WHERE cl.mapId=? AND cl.positionX=? AND cl.positionY=? AND ct.Health > 0');
 
+//Masteries
+define('SQL_LOADMASTERIESFORCHARACTER', 'SELECT `masteryId`, `value` FROM `character_masteries` WHERE `characterId`=?');
+define('SQL_UPDATEMASTERYFORCHARACTER', 'UPDATE `character_masteries` SET `value`=?, `masteryBonus`=? WHERE `characterId`=? AND `masteryId`=?');
+define('SQL_INSERTMASTERYFORCHARACTER', 'INSERT INTO `character_masteries` (`characterId`, `masteryId`, `value`) VALUES(?, ?, ?)');
+
 //API
 define('SQL_LOADTOPLIST', 'SELECT c.name, ct.gender, ct.raceId, c.clanId, ct.level, ct.alignGood, ct.alignOrder FROM `characters` c INNER JOIN `character_traits` ct ON ct.characterId=c.characterId');
 define('SQL_LIMIT', ' LIMIT ?, ?');
@@ -529,6 +534,94 @@ class Characters extends \Database\Characters
 		$Query->bind_result($Count);
 		$Query->fetch();
 		return $Count;
+	}
+
+	/**
+	 * Load a character's masteries
+	 *
+	 * @param $Character
+	 *   The character entity that will be used to load the list.
+	 *   Must have it's character id property set
+	 *
+	 * @return Array
+	 *   An array containing all the masteries
+	 */
+	public function LoadMasteries(\Entities\Character $Character)
+	{
+		$Query = $this->Database->Connection->prepare(SQL_LOADMASTERIESFORCHARACTER);
+		$this->Database->logError();
+		$Query->bind_param('s', $Character->CharacterId);
+
+		$Query->Execute();
+		$Continue = true;
+		$Result = Array();
+		while($Continue)
+		{
+			$AMastery = array();
+			$Query->bind_result($AMastery['MasteryId'], $AMastery['Value'], $AMastery['Min'], $AMastery['Max']);
+			$Continue = $Query->Fetch();
+			if($Continue)
+			{
+				$Result[$AMastery['MasteryId']] = $AMastery;
+			}
+		}
+
+		return $Result;
+	}
+
+	/**
+	 * Update a character's mastery value
+	 *
+	 * @param $Character
+	 *   The Character object that will be updated.
+	 *
+	 * @param $MasteryId
+	 *   The Mastery to be updated
+	 *
+	 * @param $Value
+	 *   The new mastery value
+	 *
+	 * @param $Bonus
+	 *   The new mastery bonus
+	 *
+	 * @return Boolean
+	 *   Whether the mastery row was successfully updated or not
+	 */
+	function UpdateMastery(\Entities\Character $Character, $MasteryId, $Value, $Bonus)
+	{
+		$Query = $this->Database->Connection->prepare(SQL_UPDATEMASTERYFORCHARACTER);
+		$this->Database->logError();
+		$Query->bind_param('iisi', $Value, $Bonus, $Character->CharacterId, $MasteryId);
+		$Query->Execute();
+		
+		if($Query->affected_rows > -1)
+			return true;
+		else
+			return false;
+	}
+
+	/**
+	 * Insert an Character object's position data into the database.
+	 *
+	 * @param $Character
+	 *   The Character object that will be inserted.
+	 *
+	 * @return Boolean
+	 *   Whether the Character object was successfully inserted or not
+	 */
+	function InsertMastery(\Entities\Character $Character, $MasteryId, $Value)
+	{
+		$Query = $this->Database->Connection->prepare(SQL_INSERTMASTERYFORCHARACTER);
+		$this->Database->logError();
+		$Query->bind_param('sii', $Character->CharacterId, $MasteryId, $Value);
+
+		$Query->Execute();
+		if($this->Database->Connection->error)
+		die($this->Database->Connection->error);
+		if($Query->affected_rows > 0)
+			return true;
+		else
+			return false;
 	}
 }
 ?>

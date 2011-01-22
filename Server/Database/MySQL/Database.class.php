@@ -93,7 +93,7 @@ class Database extends \Database\Database
 			if(isset($this->Log))
 			{
 				$this->Log->Set('Error', $this->Connection->error);
-				$this->Log->Output();
+				$this->Log->Send();
 				die();
 			}
 		}
