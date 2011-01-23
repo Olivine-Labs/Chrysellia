@@ -20,56 +20,56 @@ abstract class Database
 	 *
 	 * @var Accounts
 	 */
-	public $Accounts;
+	protected $_Accounts;
 
 	/**
 	 * Reference to object that contains Character related queries
 	 *
 	 * @var Characters
 	 */
-	public $Characters;
+	protected $_Characters;
 
 	/**
 	 * Reference to object that contains Session related queries
 	 *
 	 * @var Sessions
 	 */
-	public $Sessions;
+	protected $_Sessions;
 
 	/**
 	 * Reference to object that contains Chat related queries
 	 *
 	 * @var Chat
 	 */
-	public $Chat;
+	protected $_Chat;
 
 	/**
 	 * Reference to object that contains Race related queries
 	 *
 	 * @var Races
 	 */
-	public $Races;
+	protected $_Races;
 
 	/**
 	 * Reference to object that contains Map related queries
 	 *
 	 * @var Maps
 	 */
-	public $Maps;
+	protected $_Maps;
 
 	/**
 	 * Reference to object that contains Item related queries
 	 *
 	 * @var Items
 	 */
-	public $Items;
+	protected $_Items;
 
 	/**
 	 * Reference to object that contains Monster related queries
 	 *
 	 * @var Monsters
 	 */
-	public $Monsters;
+	protected $_Monsters;
 
 	/**
 	 * Reference a function that handles error messages.
