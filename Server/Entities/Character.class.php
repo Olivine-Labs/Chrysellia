@@ -238,6 +238,15 @@ class Character extends Being
 	public $Masteries;
 
 	/**
+	 * RacialMasteries
+	 *
+	 * The character's racial masteries
+	 *
+	 * @var $RacialMasteries
+	 */
+	public $RacialMasteries;
+
+	/**
 	 * Default constructor for the Account Class
 	 */
 	public function __construct()
@@ -557,11 +566,14 @@ class Character extends Being
 							$this->Health = min($ArrayItem['Damage'] + $this->Health, $this->Vitality);
 
 						//Mastery Gain Check
-						$MasteryCheck = (0 >= $AnEnemy->Health)?(20+$MonsterMasteryChance):20;
-						if(mt_rand(1,max(20+$this->Masteries[$ArrayItem['MasteryType']]['Value']*50,50))<$MasteryCheck)
+						if($this->Masteries[$ArrayItem['MasteryType']]['Value'] < $this->RacialMasteries[$ArrayItem['MasteryType']]['Max'])
 						{
-							$this->Masteries[$ArrayItem['MasteryType']]['Value']++;
-							$Result['Masteries'][]= $ArrayItem['MasteryType'];
+							$MasteryCheck = (0 >= $AnEnemy->Health)?(20+$MonsterMasteryChance):20;
+							if(mt_rand(1,max(20+$this->Masteries[$ArrayItem['MasteryType']]['Value']*50,50))<$MasteryCheck)
+							{
+								$this->Masteries[$ArrayItem['MasteryType']]['Value']++;
+								$Result['Masteries'][]= $ArrayItem['MasteryType'];
+							}
 						}
 					}
 					else
@@ -572,11 +584,14 @@ class Character extends Being
 							//Armor Mastery Gain Check
 							if($ArrayItem['Damage'] > 0)
 							{
-								$MasteryCheck = 20+(($this->Health/$ArrayItem['Damage'])*20);
-								if(mt_rand(1,max(20+$this->Masteries[0]['Value']*50,50))<$MasteryCheck)
+								if($this->Masteries[$ArrayItem['MasteryType']]['Value'] < $this->RacialMasteries[$ArrayItem['MasteryType']]['Max'])
 								{
-									$this->Masteries[0]['Value']++;
-									$Result['Masteries'][]= 0;
+									$MasteryCheck = 20+(($this->Health/$ArrayItem['Damage'])*20);
+									if(mt_rand(1,max(20+$this->Masteries[0]['Value']*50,50))<$MasteryCheck)
+									{
+										$this->Masteries[0]['Value']++;
+										$Result['Masteries'][]= 0;
+									}
 								}
 							}
 						}
