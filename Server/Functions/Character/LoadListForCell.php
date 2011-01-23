@@ -2,24 +2,15 @@
 /**
  * Character list in cell logic
  */
-try
+$Character = new \Entities\Character();
+$Character->CharacterId = $_SESSION['CharacterId'];
+if($Database->Characters->LoadPosition($Character))
 {
-	$Character = new \Entities\Character();
-	$Character->CharacterId = $_SESSION['CharacterId'];
-	if($Database->Characters->LoadPosition($Character))
-	{
-		$Response->Set('Data', $Database->Characters->LoadListForCell($Character));
-		$Response->Set('Result', \Protocol\Response::ER_SUCCESS);
-	}
-	else
-	{
-		$Response->Set('Result', \Protocol\Response::ER_DBERROR);
-	}
+	$Response->Set('Data', $Database->Characters->LoadListForCell($Character));
+	$Response->Set('Result', \Protocol\Response::ER_SUCCESS);
 }
-catch(Exception $e)
+else
 {
 	$Response->Set('Result', \Protocol\Response::ER_DBERROR);
-	$Response->Set('Error', $e->getMessage());
 }
-
 ?>

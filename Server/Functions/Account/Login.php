@@ -14,20 +14,13 @@ if(
 ){
 	$AnAccount = new \Entities\Account();
 	$AnAccount->Fill($Get);
+
 	if($AnAccount->Verify())
 	{
-		try
+		if($Database->Accounts->Login($AnAccount))
 		{
-			if($Database->Accounts->Login($AnAccount))
-			{
-				$Response->Set('Result', \Protocol\Response::ER_SUCCESS);
-				$_SESSION['AccountId'] = $AnAccount->AccountId;
-			}
-		}
-		catch(Exception $e)
-		{
-			$Response->Set('Result', \Protocol\Response::ER_DBERROR);
-			$Response->Set('Error', $e->getMessage());
+			$Response->Set('Result', \Protocol\Response::ER_SUCCESS);
+			$_SESSION['AccountId'] = $AnAccount->AccountId;
 		}
 	}
 	else

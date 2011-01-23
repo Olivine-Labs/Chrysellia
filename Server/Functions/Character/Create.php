@@ -55,87 +55,77 @@ if(
 			$ACharacter->Health = $ACharacter->Vitality;
 			$ACharacter->Gold = STARTING_GOLD;
 
-			try
-			{
-				$Database->startTransaction();
-				$Success = false;
+			$Database->startTransaction();
+			$Success = false;
 
-				if($Database->Characters->Insert($ACharacter))
+			if($Database->Characters->Insert($ACharacter))
+			{
+				if($Database->Characters->InsertTraits($ACharacter))
 				{
-					if($Database->Characters->InsertTraits($ACharacter))
+					if($Database->Characters->InsertRaceTraits($ACharacter))
 					{
-						if($Database->Characters->InsertRaceTraits($ACharacter))
+						if($Database->Characters->InsertPosition($ACharacter))
 						{
-							if($Database->Characters->InsertPosition($ACharacter))
+							if($Database->Chat->SetRights($ACharacter, CHANNEL_GENERAL, Array('Read'=>1, 'Write'=>1, 'Moderate'=>0, 'Administrate'=>0, 'isJoined' =>1)))
 							{
-								if($Database->Chat->SetRights($ACharacter, CHANNEL_GENERAL, Array('Read'=>1, 'Write'=>1, 'Moderate'=>0, 'Administrate'=>0, 'isJoined' =>1)))
+								if($Database->Chat->SetRights($ACharacter, CHANNEL_TRADE, Array('Read'=>1, 'Write'=>1, 'Moderate'=>0, 'Administrate'=>0, 'isJoined' =>1)))
 								{
-									if($Database->Chat->SetRights($ACharacter, CHANNEL_TRADE, Array('Read'=>1, 'Write'=>1, 'Moderate'=>0, 'Administrate'=>0, 'isJoined' =>1)))
+									if($InventoryId = $Database->Items->InsertInventoryForCharacter($ACharacter))
 									{
-										if($InventoryId = $Database->Items->InsertInventoryForCharacter($ACharacter))
-										{
-											if(
-												is_array($DefaultItemsList = $Database->Items->LoadRaceDefaultItems($ARace)) &&
-												is_array($DefaultMasteriesList = $Database->Races->LoadDefaultMasteries($ARace))
-											){
-												$Run = true;
-												$Index = 0;
-												while(($Run) && ($Index < count($DefaultItemsList)))
+										if(
+											is_array($DefaultItemsList = $Database->Items->LoadRaceDefaultItems($ARace)) &&
+											is_array($DefaultMasteriesList = $Database->Races->LoadDefaultMasteries($ARace))
+										){
+											$Run = true;
+											$Index = 0;
+											while(($Run) && ($Index < count($DefaultItemsList)))
+											{
+												$AnItem = $DefaultItemsList[$Index];
+												$AnItem->InventoryId = $InventoryId;
+												if(!$Database->Items->Insert($AnItem))
 												{
-													$AnItem = $DefaultItemsList[$Index];
-													$AnItem->InventoryId = $InventoryId;
-													if(!$Database->Items->Insert($AnItem))
-													{
-														$Run = false;
-													}else
-													{
-														$Database->Items->EquipItem($ACharacter, $AnItem, 0);
-													}
-													$Index++;
-												}
-												$Index = 0;
-												while(($Run) && ($Index < count($DefaultMasteriesList)))
+													$Run = false;
+												}else
 												{
-													$AMastery = $DefaultMasteriesList[$Index];
-													if(!$Database->Characters->InsertMastery($ACharacter, $Index, $AMastery['Value']))
-													{
-														$Run = false;
-													}
-													$Index++;
+													$Database->Items->EquipItem($ACharacter, $AnItem, 0);
 												}
-												if($Run)
-													$Success = true;
+												$Index++;
 											}
+											$Index = 0;
+											while(($Run) && ($Index < count($DefaultMasteriesList)))
+											{
+												$AMastery = $DefaultMasteriesList[$Index];
+												if(!$Database->Characters->InsertMastery($ACharacter, $Index, $AMastery['Value']))
+												{
+													$Run = false;
+												}
+												$Index++;
+											}
+											if($Run)
+												$Success = true;
 										}
 									}
 								}
 							}
 						}
 					}
-
-					if(!$Success)
-					{
-						$Response->Set('Result', \Protocol\Response::ER_DBERROR);
-					}
-				}else
-				{
-					$Response->Set('Result', \Protocol\Response::ER_ALREADYEXISTS);
 				}
-
-				if($Success)
+				if(!$Success)
 				{
-					$Database->commitTransaction();
-					$Response->Set('Result', \Protocol\Response::ER_SUCCESS);
+					$Response->Set('Result', \Protocol\Response::ER_DBERROR);
 				}
-				else
-				{
-					$Database->rollbackTransaction();
-				}
-			}
-			catch(Exception $e)
+			}else
 			{
-				$Response->Set('Result', \Protocol\Response::ER_DBERROR);
-				$Response->Set('Error', $e->getMessage());
+				$Response->Set('Result', \Protocol\Response::ER_ALREADYEXISTS);
+			}
+
+			if($Success)
+			{
+				$Database->commitTransaction();
+				$Response->Set('Result', \Protocol\Response::ER_SUCCESS);
+			}
+			else
+			{
 				$Database->rollbackTransaction();
 			}
 		}

@@ -6,27 +6,40 @@ if ( 'GET' === $_SERVER['REQUEST_METHOD'] )
 	define('ACTION_REGISTER', 1);
 	define('ACTION_LOGOUT', 2);
 
-	if(isset($_GET['Action']))
+	try
 	{
-		switch($_GET['Action'])
+		if(isset($_GET['Action']))
 		{
-			case ACTION_LOGIN:
-				include './Functions/Account/Login.php';
-				break;
-			case ACTION_REGISTER:
-				include './Functions/Account/Register.php';
-				break;
-			case ACTION_LOGOUT:
-				include './Functions/Account/Logout.php';
-				break;
-			default:
-				$Response->Set('Result', \Protocol\Response::ER_BADDATA);
-				break;
+			switch($_GET['Action'])
+			{
+				case ACTION_LOGIN:
+					include './Functions/Account/Login.php';
+					break;
+				case ACTION_REGISTER:
+					include './Functions/Account/Register.php';
+					break;
+				case ACTION_LOGOUT:
+					include './Functions/Account/Logout.php';
+					break;
+				default:
+					$Response->Set('Result', \Protocol\Response::ER_BADDATA);
+					break;
+			}
+		}
+		else
+		{	
+			$Response->Set('Result', \Protocol\Response::ER_MALFORMED);
 		}
 	}
-	else
+	catch(\ErrorException $e)
 	{
-		$Response->Set('Result', \Protocol\Response::ER_MALFORMED);
+		$Response->Set('Result', \Protocol\Response::ER_CORE);
+		$Response->AddError($e->getMessage());
+	}
+	catch(\Exception $e)
+	{
+		$Response->Set('Result', \Protocol\Response::ER_DBERROR);
+		$Response->AddError($e->getMessage());
 	}
 }
 ?>

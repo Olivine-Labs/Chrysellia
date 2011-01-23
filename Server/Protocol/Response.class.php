@@ -19,6 +19,7 @@ class Response
 	const OT_XML = 1;
 
 	const ER_SUCCESS=0;//when Murphy is not around everything works.
+	const ER_CORE=1;//When I typoed(syntax/runtime error)
 	const ER_NOTLOGGEDIN=250;//when the session fails
 	const ER_BADDATA=251;//when the data is bad
 	const ER_ALREADYEXISTS=252;//when the data already exists in the database
@@ -31,7 +32,7 @@ class Response
 	 *
 	 * Contains the Response code.
 	 */
-	protected $Data = Array('Result'=>Response::ER_ACCESSDENIED);
+	protected $Data = Array('Result'=>Response::ER_ACCESSDENIED, 'Error'=>array());
 
 	/**
 	 * OutputMethod
@@ -77,6 +78,16 @@ class Response
 		$this->Data[$Key] = $Value;
 	}
 
+	/**
+	 * Adds an error message to the response
+	 *
+	 * @param $Message
+	 *   The Message to send
+	 */
+	public function AddError($Message)
+	{
+		$this->Data['Error'][] = $Message;
+	}
 
 	/**
 	 * Prints the Response

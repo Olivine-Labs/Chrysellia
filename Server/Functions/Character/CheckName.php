@@ -9,35 +9,26 @@ if(isset($_GET['Data']))
 	$Get = json_decode($_GET['Data']);
 }
 
-try
-{
-	if(
-		property_exists($Get, 'Name')
-	){
-		$Character = new \Entities\Character();
-		$Character->Name = $Get->Name;
-		$Race = new \Entities\Race();
-		if($Character->Verify($Race))
-		{
-			if(!$Database->Characters->CheckName($Character))
-				$Response->Set('Result', \Protocol\Response::ER_SUCCESS);
-			else
-				$Response->Set('Result', \Protocol\Response::ER_ALREADYEXISTS);
-		}
+if(
+	property_exists($Get, 'Name')
+){
+	$Character = new \Entities\Character();
+	$Character->Name = $Get->Name;
+	$Race = new \Entities\Race();
+	if($Character->Verify($Race))
+	{
+		if(!$Database->Characters->CheckName($Character))
+			$Response->Set('Result', \Protocol\Response::ER_SUCCESS);
 		else
-		{
-			$Response->Set('Result', \Protocol\Response::ER_BADDATA);
-		}
+			$Response->Set('Result', \Protocol\Response::ER_ALREADYEXISTS);
 	}
 	else
 	{
-		$Response->Set('Result', \Protocol\Response::ER_MALFORMED);
+		$Response->Set('Result', \Protocol\Response::ER_BADDATA);
 	}
 }
-catch(Exception $e)
+else
 {
-	$Response->Set('Result', \Protocol\Response::ER_DBERROR);
-	$Response->Set('Error', $e->getMessage());
+	$Response->Set('Result', \Protocol\Response::ER_MALFORMED);
 }
-
 ?>

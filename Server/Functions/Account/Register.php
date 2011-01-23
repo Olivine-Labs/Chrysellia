@@ -19,21 +19,13 @@ if(
 
 	if($AnAccount->Verify())
 	{
-		try
+		if($Database->Accounts->Insert($AnAccount))
 		{
-			if($Database->Accounts->Insert($AnAccount))
-			{
-				$Response->Set('Result', \Protocol\Response::ER_SUCCESS);
-			}
-			else
-			{
-				$Response->Set('Result', \Protocol\Response::ER_ALREADYEXISTS);
-			}
+			$Response->Set('Result', \Protocol\Response::ER_SUCCESS);
 		}
-		catch(Exception $e)
+		else
 		{
-			$Response->Set('Result', \Protocol\Response::ER_DBERROR);
-			$Response->Set('Error', $e->getMessage());
+			$Response->Set('Result', \Protocol\Response::ER_ALREADYEXISTS);
 		}
 	}
 	else

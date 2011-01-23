@@ -9,87 +9,80 @@ if(isset($_GET['Data']))
 	$Get = json_decode($_GET['Data']);
 }
 
-try
+if(
+	property_exists($Get, 'Items') &&
+	property_exists($Get, 'Cost') &&
+	property_exists($Get, 'CharacterName')
+)
 {
-	if(
-		property_exists($Get, 'Items') &&
-		property_exists($Get, 'Cost') &&
-		property_exists($Get, 'CharacterName')
-	)
+	if(is_array($Get->Items))
 	{
-		if(is_array($Get->Items))
+		$Character = new \Entities\Character();
+		$Character->CharacterId = $_SESSION['CharacterId'];
+		if($Database->Characters->LoadById($Character))
 		{
-			$Character = new \Entities\Character();
-			$Character->CharacterId = $_SESSION['CharacterId'];
-			if($Database->Characters->LoadById($Character))
+			$TargetCharacter = new \Entities\Character();
+			$TargetCharacter->Name = $Get->CharacterName;
+			if($Database->Characters->CheckName($TargetCharacter))
 			{
-				$TargetCharacter = new \Entities\Character();
-				$TargetCharacter->Name = $Get->CharacterName;
-				if($Database->Characters->CheckName($TargetCharacter))
+				$Database->startTransaction();
+				$ItemsOwned = true;
+				$Success = true;
+				if(!$TradeId = $Database->Items->InsertTrade($Character->InventoryId, $TargetCharacter->InventoryId, $Get->Cost))
 				{
-					$Database->startTransaction();
-					$ItemsOwned = true;
-					$Success = true;
-					if(!$TradeId = $Database->Items->InsertTrade($Character->InventoryId, $TargetCharacter->InventoryId, $Get->Cost))
-					{
-						$Success = false;
-					}
+					$Success = false;
+				}
 
+				foreach($Get->Items AS $JSONItem)
+				{
+					$Item = new \Entities\Item();
+					$Item->ItemId = $JSONItem['ItemId'];
+					if(!$Database->Items->CharacterOwnsItem($Item))
+					{
+						$Response->Set('Result', \Protocol\Response::ER_BADDATA);
+						$ItemsOwned = false;
+						break;
+					}
+					else
+					{
+						if(!$Database->Items->InsertTradeItem($TradeId, $Item, 0))
+						{
+							$Success = false;
+							$Response->Set('Result', \Protocol\Response::ER_DBERROR);
+							break;
+						}
+					}
+				}
+
+				if($ItemsOwned && $Success)
+				{
+					$Response->Set('Result', \Protocol\Response::ER_SUCCESS);
+					$Data = array('MessageType'=>2, 'TradeId'=>$TradeId, 'Cost'=>$Get->Cost, 'Items'=>array());
+					$Index = 0;
 					foreach($Get->Items AS $JSONItem)
 					{
 						$Item = new \Entities\Item();
 						$Item->ItemId = $JSONItem['ItemId'];
-						if(!$Database->Items->CharacterOwnsItem($Item))
-						{
-							$Response->Set('Result', \Protocol\Response::ER_BADDATA);
-							$ItemsOwned = false;
-							break;
-						}
-						else
-						{
-							if(!$Database->Items->InsertTradeItem($TradeId, $Item, 0))
-							{
-								$Success = false;
-								$Response->Set('Result', \Protocol\Response::ER_DBERROR);
-								break;
-							}
-						}
+						$Database->Items->LoadById($Item);
+						$Data['Items'][$Index] = $Item;
+						$Index++;
 					}
-
-					if($ItemsOwned && $Success)
-					{
-						$Response->Set('Result', \Protocol\Response::ER_SUCCESS);
-						$Data = array('MessageType'=>2, 'TradeId'=>$TradeId, 'Cost'=>$Get->Cost, 'Items'=>array());
-						$Index = 0;
-						foreach($Get->Items AS $JSONItem)
-						{
-							$Item = new \Entities\Item();
-							$Item->ItemId = $JSONItem['ItemId'];
-							$Database->Items->LoadById($Item);
-							$Data['Items'][$Index] = $Item;
-							$Index++;
-						}
-						$Database->Chat->Insert($Character, 'CHAN_00000000000000000000001', $Data, 255, $TargetCharacter);
-						$Database->commitTransaction();
-					}
-					else
-					{
-						$Database->rollbackTransaction();
-					}
+					$Database->Chat->Insert($Character, 'CHAN_00000000000000000000001', $Data, 255, $TargetCharacter);
+					$Database->commitTransaction();
 				}
 				else
 				{
-					$Response->Set('Result', \Protocol\Response::ER_BADDATA);
+					$Database->rollbackTransaction();
 				}
 			}
 			else
 			{
-				$Response->Set('Result', \Protocol\Response::ER_DBERROR);
+				$Response->Set('Result', \Protocol\Response::ER_BADDATA);
 			}
 		}
 		else
 		{
-			$Response->Set('Result', \Protocol\Response::ER_MALFORMED);
+			$Response->Set('Result', \Protocol\Response::ER_DBERROR);
 		}
 	}
 	else
@@ -97,10 +90,8 @@ try
 		$Response->Set('Result', \Protocol\Response::ER_MALFORMED);
 	}
 }
-catch(Exception $e)
+else
 {
-	$Response->Set('Result', \Protocol\Response::ER_DBERROR);
-	$Response->Set('Error', $e->getMessage());
+	$Response->Set('Result', \Protocol\Response::ER_MALFORMED);
 }
-
 ?>

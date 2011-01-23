@@ -13,8 +13,14 @@ try
 		$Response->Set('Result', \Protocol\Response::ER_DBERROR);
 	}
 }
-catch(Exception $e)
+catch(\ErrorException $e)
+{
+	$Response->Set('Result', \Protocol\Response::ER_CORE);
+	$Response->AddError($e->getMessage());
+}
+catch(\Exception $e)
 {
 	$Response->Set('Result', \Protocol\Response::ER_DBERROR);
+	$Response->AddError($e->getMessage());
 }
 ?>

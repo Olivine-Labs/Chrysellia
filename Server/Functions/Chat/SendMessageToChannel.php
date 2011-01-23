@@ -14,32 +14,24 @@ if(
 	property_exists($Get, 'Message')
 )
 {
-	try
+	$Character = new \Entities\Character();
+	$Character->CharacterId = $_SESSION['CharacterId'];
+	if($Database->Characters->LoadById($Character))
 	{
-		$Character = new \Entities\Character();
-		$Character->CharacterId = $_SESSION['CharacterId'];
-		if($Database->Characters->LoadById($Character))
+		if(is_array($Rights = $Database->Chat->GetRights($Character, $Get->Channel)))
 		{
-			if(is_array($Rights = $Database->Chat->GetRights($Character, $Get->Channel)))
+			if($Rights['Write'])
 			{
-				if($Rights['Write'])
+				if($Database->Chat->Insert($Character, $Get->Channel, $Get->Message))
 				{
-					if($Database->Chat->Insert($Character, $Get->Channel, $Get->Message))
-					{
-						$Response->Set('Result', \Protocol\Response::ER_SUCCESS);
-					}
+				$Response->Set('Result', \Protocol\Response::ER_SUCCESS);
 				}
 			}
 		}
-		else
-		{
-			$Response->Set('Result', \Protocol\Response::ER_BADDATA);
-		}
 	}
-	catch(Exception $e)
+	else
 	{
-		$Response->Set('Result', \Protocol\Response::ER_DBERROR);
-		$Response->Set('Error', $e->getMessage());
+		$Response->Set('Result', \Protocol\Response::ER_BADDATA);
 	}
 }
 else

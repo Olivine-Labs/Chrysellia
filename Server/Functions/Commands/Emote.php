@@ -13,28 +13,20 @@ if(
 	property_exists($Get, 'Message') &&
 	property_exists($Get, 'Channel')
 ){
-	try
+	$Character = new \Entities\Character();
+	$Character->CharacterId = $_SESSION['CharacterId'];
+	if($Database->Characters->LoadById($Character))
 	{
-		$Character = new \Entities\Character();
-		$Character->CharacterId = $_SESSION['CharacterId'];
-		if($Database->Characters->LoadById($Character))
+		if($Database->Chat->Insert($Character, $Get->Channel, $Get->Message, 1))
 		{
-			if($Database->Chat->Insert($Character, $Get->Channel, $Get->Message, 1))
-			{
-				$Response->Set('Result', \Protocol\Response::ER_SUCCESS);
-			}else
-			{
-				$Response->Set('Result', \Protocol\Response::ER_BADDATA);
-			}
+			$Response->Set('Result', \Protocol\Response::ER_SUCCESS);
 		}else
 		{
-			$Response->Set('Result', \Protocol\Response::ER_DBERROR);
+			$Response->Set('Result', \Protocol\Response::ER_BADDATA);
 		}
-	}
-	catch(Exception $e)
+	}else
 	{
 		$Response->Set('Result', \Protocol\Response::ER_DBERROR);
-		$Response->Set('Error', $e->getMessage());
 	}
 }
 else
