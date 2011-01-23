@@ -48,7 +48,7 @@ if(
 
 								if($AttackResult = $Character->Attack($EnemyCharacter, $Get->FightType))
 								{
-									$Success = false;
+									$Success = true;
 									$Database->startTransaction();
 									if($Database->Characters->UpdateTraits($Character) && $Database->Characters->UpdateTraits($EnemyCharacter))
 									{
@@ -67,14 +67,15 @@ if(
 											$Message['AttackedBy'] = $Character->Name;
 											$Message['BattleData'] = $AttackResult;
 											$Message['MessageType'] = 1;
-											if($Database->Chat->Insert($Character, 'CHAN_00000000000000000000001', $Message, 255, $EnemyCharacter))
+											if(!$Database->Chat->Insert($Character, 'CHAN_00000000000000000000001', $Message, 255, $EnemyCharacter))
 											{
-												$Success = true;
-											}
-											else
-											{
+												$Success = false;
 												$Response->Set('Result', \Protocol\Response::ER_DBERROR);
 											}
+										}
+										else
+										{
+											$Response->Set('Result', \Protocol\Response::ER_DBERROR);
 										}
 									}
 									else
