@@ -69,7 +69,7 @@ class MySQLiExtension extends \mysqli
 	{
 		if(isset($this->Log))
 		{
-			$this->Log->Set('Error', "Database Error $ErrorNumber : $Message");
+			$this->Log->AddError("Database Error $ErrorNumber : $Message");
 		}
 		else
 		{
