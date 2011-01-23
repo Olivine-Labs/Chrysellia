@@ -70,6 +70,7 @@ try
 catch(Exception $e)
 {
 	$Response->Set('Result', \Protocol\Response::ER_DBERROR);
+	$Response->Set('Error', $e->getMessage());
 }
 
 ?>

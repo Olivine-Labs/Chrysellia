@@ -59,7 +59,6 @@ class Chat extends \Database\Chat
 	public function Insert(\Entities\Character $Character, $ChannelId, $Message, $Type=0, \Entities\Character $CharacterTarget = null)
 	{
 		$Query = $this->Database->Connection->prepare(SQL_INSERTMESSAGE);
-		$this->Database->logError();
 		if($Type==255)
 			$Message = serialize($Message);
 		$Query->bind_param('ssssss', $Character->CharacterId, $CharacterTarget->CharacterId, $ChannelId, $Message, $Character->Name, $Type);
@@ -90,7 +89,6 @@ class Chat extends \Database\Chat
 	public function LoadList(\Entities\Character $Character, $ChannelId, $DateForward)
 	{
 		$Query = $this->Database->Connection->prepare(SQL_GETMESSAGES);
-		$this->Database->logError();
 		$Query->bind_param('sss', $Character->CharacterId, $ChannelId, $DateForward);
 
 		$Query->Execute();
@@ -127,7 +125,6 @@ class Chat extends \Database\Chat
 	public function LoadSystemList(\Entities\Character $Character, $DateForward)
 	{
 		$Query = $this->Database->Connection->prepare(SQL_GETSYSTEMMESSAGES);
-		$this->Database->logError();
 		$Query->bind_param('ss', $Character->CharacterId, $DateForward);
 
 		$Query->Execute();
@@ -162,7 +159,6 @@ class Chat extends \Database\Chat
 	public function LoadJoinedChannels(\Entities\Character $Character)
 	{
 		$Query = $this->Database->Connection->prepare(SQL_CHANNELGETJOINEDLIST);
-		$this->Database->logError();
 		$Query->bind_param('s', $Character->CharacterId);
 
 		$Query->Execute();	
@@ -199,7 +195,6 @@ class Chat extends \Database\Chat
 	public function LeaveChannel(\Entities\Character $Character, $ChannelId)
 	{
 		$Query = $this->Database->Connection->prepare(SQL_CHANNELSETJOINED);
-		$this->Database->logError();
 		$zeroseriouslywtf = 0;
 		
 		$Query->bind_param('ssii', $Character->CharacterId, $ChannelId, $zeroseriouslywtf, $zeroseriouslywtf);
@@ -224,7 +219,6 @@ class Chat extends \Database\Chat
 	{
 		$ChannelId = uniqid('CHAN_', true);
 		$Query = $this->Database->Connection->prepare(SQL_CREATECHANNEL);
-		$this->Database->logError();
 		$Query->bind_param('sssii', $ChannelId, $ChannelName, $Motd, $defaultAccessRead, $defaultAccessWrite);
 
 		$Query->Execute();
@@ -250,7 +244,6 @@ class Chat extends \Database\Chat
 	public function GetRights(\Entities\Character $Character, $ChannelId)
 	{
 		$Query = $this->Database->Connection->prepare(SQL_CHANNELGETRIGHTS);
-		$this->Database->logError();
 		$Query->bind_param('ss', $Character->CharacterId, $ChannelId);
 		
 		$Query->Execute();
@@ -288,7 +281,6 @@ class Chat extends \Database\Chat
 	public function GetRightsByName(\Entities\Character $Character, $ChannelName)
 	{
 		$Query = $this->Database->Connection->prepare(SQL_CHANNELGETRIGHTSBYNAME);
-		$this->Database->logError();
 		$Query->bind_param('ss', $Character->CharacterId, $ChannelName);
 		
 		$Query->Execute();
@@ -329,7 +321,6 @@ class Chat extends \Database\Chat
 	public function SetRights(\Entities\Character $Character, $ChannelId, Array $Rights)
 	{
 		$Query = $this->Database->Connection->prepare(SQL_CHANNELSETRIGHTS);
-		$this->Database->logError();
 		if(!isset($Rights['Read']))
 			$Rights['Read'] = 0;
 		if(!isset($Rights['Write']))
@@ -368,7 +359,6 @@ class Chat extends \Database\Chat
 	public function UpdateChannel($ChannelId, $Motd, $defaultAccessRead, $defaultAccessWrite)
 	{
 		$Query = $this->Database->Connection->prepare(SQL_UPDATECHANNEL);
-		$this->Database->logError();
 		$Query->bind_param('siis', $Motd, $defaultAccessRead, $defaultAccessWrite, $ChannelId);
 
 		$Query->Execute();
@@ -388,7 +378,6 @@ class Chat extends \Database\Chat
 	public function LoadChannel($ChannelId)
 	{
 		$Query = $this->Database->Connection->prepare(SQL_LOADCHANNEL);
-		$this->Database->logError();
 		$Query->bind_param('s', $ChannelId);
 
 		$Query->Execute();
@@ -407,7 +396,6 @@ class Chat extends \Database\Chat
 	public function LoadPublicChannelList($NumRows, $Position)
 	{
 		$Query = $this->Database->Connection->prepare(SQL_PUBLICCHANNELLIST);
-		$this->Database->logError();
 		$Query->bind_param('ii', $Position, $NumRows);
 
 		$Query->Execute();
@@ -435,7 +423,6 @@ class Chat extends \Database\Chat
 	public function LoadPublicChannelCount()
 	{
 		$Query = $this->Database->Connection->prepare(SQL_PUBLICCHANNELCOUNT);
-		$this->Database->logError();
 
 		$Query->Execute();
 		$Query->bind_result($Result);

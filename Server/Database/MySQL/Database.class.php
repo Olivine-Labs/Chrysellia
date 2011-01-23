@@ -30,11 +30,21 @@ class Database extends \Database\Database
 	 *
 	 * @throws Exception
 	 */
-	public function __construct($Host, $Port, $UserName, $Password, $Database)
+	public function __construct($Host, $Port, $UserName, $Password, $Database, &$Error=null)
 	{
-		$this->Connection = new \mysqli($Host, $UserName, $Password, $Database, $Port);
-		if(mysqli_connect_error())
-			throw new \Exception(mysqli_connect_error());
+		try
+		{
+			$this->Connection = new MySQLiExtension($Host, $UserName, $Password, $Database, $Port);
+			$this->Connection->Log = $this->Log;
+		}
+		catch(\Exception $e)
+		{
+			if(isset($this->Log))
+			{
+				$this->Log->Set('Error', $e->getMessage());
+			}
+			$Error = $e->getMessage();
+		}
 	}
 
 	public function __get($PropertyName)
@@ -115,25 +125,6 @@ class Database extends \Database\Database
 	{
 		$this->Connection->rollback();
 		$this->Connection->autocommit(true);
-	}
-
-	/**
-	 * Rolls back a MySQL database to before a transaction was started.
-	 *
-	 * Causes queries submitted after a startTransaction() call not to be applied to the database.
-	 * Also causes connection to return to autocommit mode.
-	 */
-	public function logError()
-	{
-		if($this->Connection->error)
-		{
-			if(isset($this->Log))
-			{
-				$this->Log->Set('Error', $this->Connection->error);
-				$this->Log->Send();
-				die();
-			}
-		}
 	}
 }
 

@@ -38,7 +38,6 @@ class clans extends \Database\Clans
 	public function LoadById(\Entities\Clan $AClan)
 	{
 		$Query = $this->Database->Connection->prepare(SQL_LOADBYID);
-		$this->Database->logError();
 		$Query->bind_param('s', $AClan->ClanId);
 		$Query->Execute();
 

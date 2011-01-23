@@ -87,7 +87,6 @@ class Items
 	public function LoadById(\Entities\Item $AnItem)
 	{
 		$Query = $this->Database->Connection->prepare(SQL_LOADITEM);
-		$this->Database->logError();
 		$Query->bind_param('s', $AnItem->ItemId);
 
 		$Query->Execute();
@@ -111,7 +110,6 @@ class Items
 	public function LoadTemplateById(\Entities\Item $AnItem)
 	{
 		$Query = $this->Database->Connection->prepare(SQL_LOADITEM_TEMPLATE);
-		$this->Database->logError();
 		$Query->bind_param('s', $AnItem->ItemTemplateId);
 
 		$Query->Execute();
@@ -136,7 +134,6 @@ class Items
 	{
 		$Item->ItemId = uniqid('ITEM_', true);
 		$Query = $this->Database->Connection->prepare(SQL_INSERTITEM);
-		$this->Database->logError();
 		$Query->bind_param('ssisssii', $Item->ItemId, $Item->ItemTemplateId, $Item->Type, $Item->InventoryId, $Item->Name, $Item->Description, $Item->BuyPrice, $Item->SellPrice);
 		$Query->Execute();
 		$this->Database->logError();
@@ -149,17 +146,14 @@ class Items
 			{
 				case IT_CONSUMABLE:
 					$Query2 = $this->Database->Connection->prepare(SQL_INSERTITEM_CONSUMABLE);
-					$this->Database->logError();
 					$Query2->bind_param('ss', $Item->ItemId, $Item->OnUse);
 					break;
 				case IT_SOCKETABLE:
 					$Query2 = $this->Database->Connection->prepare(SQL_INSERTITEM_SOCKETABLE);
-					$this->Database->logError();
 					$Query2->bind_param('sss', $Item->ItemId, $Item->SocketedIn, $Item->OnSocket);
 					break;
 				case IT_EQUIPPABLE:
 					$Query2 = $this->Database->Connection->prepare(SQL_INSERTITEM_EQUIPPABLE);
-					$this->Database->logError();
 					$Query2->bind_param('siiiiissss', $Item->ItemId, $Item->MasteryType, $Item->ItemClass, $Item->Sockets, $Item->Slots, $Item->SlotType, $Item->OnEquip, $Item->OnUnequip, $Item->OnAttack, $Item->OnDefend);
 					break;
 				default:
@@ -204,7 +198,6 @@ class Items
 	{
 		$InventoryId = uniqid('IVTY_', true);
 		$Query = $this->Database->Connection->prepare(SQL_INSERTINVENTORYFORCHARACTER);
-		$this->Database->logError();
 		$Query->bind_param('ss', $InventoryId, $Character->CharacterId);
 		$Query->Execute();
 
@@ -226,7 +219,6 @@ class Items
 	public function Delete(\Entities\Item $Item)
 	{
 		$Query = $this->Database->Connection->prepare(SQL_DELETEITEM);
-		$this->Database->logError();
 		$Query->bind_param('s', $Item->ItemId);
 		$Query->Execute();
 
@@ -249,7 +241,6 @@ class Items
 	public function LoadInventory(\Entities\Character $Character)
 	{
 		$Query = $this->Database->Connection->prepare(SQL_LOADINVENTORY);
-		$this->Database->logError();
 		$Query->bind_param('s', $Character->CharacterId);
 
 		$Query->Execute();
@@ -284,7 +275,6 @@ class Items
 	public function LoadRaceDefaultItems(\Entities\Race $Race)
 	{
 		$Query = $this->Database->Connection->prepare(SQL_LOADRACEDEFAULTITEMS);
-		$this->Database->logError();
 		$Query->bind_param('s', $Race->RaceId);
 
 		$Query->Execute();
@@ -318,7 +308,6 @@ class Items
 	public function LoadEquippedItems(\Entities\Character $Character)
 	{
 		$Query = $this->Database->Connection->prepare(SQL_GETEQUIPPEDITEMS);
-		$this->Database->logError();
 		$Query->bind_param('s', $Character->CharacterId);
 		$Query->Execute();
 		$Continue = true;
@@ -359,7 +348,6 @@ class Items
 	public function EquipItem(\Entities\Character $Character, \Entities\Item $Item, $SlotNumber)
 	{
 		$Query = $this->Database->Connection->prepare(SQL_EQUIPITEM);
-		$this->Database->logError();
 		$Query->bind_param('ssiii', $Character->CharacterId, $Item->ItemId, $Item->SlotType, $Item->Slots, $SlotNumber);
 		$Query->Execute();
 
@@ -386,7 +374,6 @@ class Items
 	public function UnequipItem(\Entities\Character $Character, \Entities\Item $Item)
 	{
 		$Query = $this->Database->Connection->prepare(SQL_UNEQUIPITEM);
-		$this->Database->logError();
 		$Query->bind_param('ss', $Character->CharacterId, $Item->ItemId);
 		$Query->Execute();
 
@@ -413,7 +400,6 @@ class Items
 	public function CharacterOwnsItem(\Entities\Character $Character, \Entities\Item $Item)
 	{
 		$Query = $this->Database->Connection->prepare(SQL_ITEMGETOWNERSHIP);
-		$this->Database->logError();
 		$Query->bind_param('s', $Item->ItemId);
 		$Query->Execute();
 		$Query->bind_result($CharacterId);
@@ -443,7 +429,6 @@ class Items
 	{
 		$TradeId = uniqid('TRAD_', true);
 		$Query = $this->Database->Connection->prepare(SQL_INSERTTRADE);
-		$this->Database->logError();
 		$Query->bind_param('sssi', $TradeId, $InventoryIdDestination, $InventoryIdSource, $Cost);
 		$Query->Execute();
 
@@ -472,7 +457,6 @@ class Items
 	{
 		$TradeId = uniqid('TRAD_', true);
 		$Query = $this->Database->Connection->prepare(SQL_INSERTTRADEITEM);
-		$this->Database->logError();
 		$Query->bind_param('sssi', $TradeId, $InventoryIdDestination, $InventoryIdSource, $Cost);
 		$Query->Execute();
 
@@ -495,7 +479,6 @@ class Items
 	{
 		$Result = array();
 		$Query = $this->Database->Connection->prepare(SQL_LOADTRADE);
-		$this->Database->logError();
 		$Query->bind_param('s', $TradeId);
 		$Query->Execute();
 		$Array = array();
@@ -520,7 +503,6 @@ class Items
 	{
 		$Result = array();
 		$Query = $this->Database->Connection->prepare(SQL_LOADINCOMINGTRADES);
-		$this->Database->logError();
 		$Query->bind_param('s', $Character->CharacterId);
 		$Query->Execute();
 		$Array = array();
@@ -545,7 +527,6 @@ class Items
 	{
 		$Result = array();
 		$Query = $this->Database->Connection->prepare(SQL_LOADINCOMINGTRADES);
-		$this->Database->logError();
 		$Query->bind_param('s', $Character->CharacterId);
 		$Query->Execute();
 		$Array = array();
@@ -570,7 +551,6 @@ class Items
 	{
 		$Result = array();
 		$Query = $this->Database->Connection->prepare(SQL_DELETETRADE);
-		$this->Database->logError();
 		$Query->bind_param('s', $TradeId);
 		$Query->Execute();
 
@@ -600,7 +580,6 @@ class Items
 	public function ChangeInventory(\Entities\Item $Item, $InventoryId)
 	{
 		$Query = $this->Database->Connection->prepare(SQL_ITEMCHANGEINVENTORY);
-		$this->Database->logError();
 		$Query->bind_param('ss', $Item->ItemId, $InventoryId);
 		$Query->Execute();
 
@@ -613,7 +592,6 @@ class Items
 	public function LoadAllItemTemplates()
 	{
 		$Query = $this->Database->Connection->prepare(SQL_LOADTEMPLATES);
-		$this->Database->logError();
 
 		$Query->Execute();
 		$Continue = true;

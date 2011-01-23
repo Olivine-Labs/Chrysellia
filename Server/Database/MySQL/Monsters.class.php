@@ -47,7 +47,6 @@ class monsters extends \Database\Monsters
 	public function LoadListForCell($MapId, $PositionX, $PositionY)
 	{
 		$Query = $this->Database->Connection->prepare(SQL_LOADLISTBYCELL);
-		$this->Database->logError();
 		$Query->bind_param('sii', $MapId, $PositionX, $PositionY);
 		$Query->Execute();
 		$Continue = true;
@@ -78,7 +77,6 @@ class monsters extends \Database\Monsters
 	public function LoadById(\Entities\Monster $AMonster)
 	{
 		$Query = $this->Database->Connection->prepare(SQL_LOADBYID);
-		$this->Database->logError();
 		$Query->bind_param('s', $AMonster->MonsterId);
 		$Query->Execute();
 
@@ -104,7 +102,6 @@ class monsters extends \Database\Monsters
 	public function IsInCell(\Entities\Monster $AMonster)
 	{
 		$Query = $this->Database->Connection->prepare(SQL_ISMONSTERINCELL);
-		$this->Database->logError();
 		$Query->bind_param('ssss', $AMonster->MonsterId, $AMonster->MapId, $AMonster->PositionX, $AMonster->PositionY);
 		$Query->Execute();
 

@@ -9,7 +9,7 @@
  * @param $Database
  *   The variable to fill with a \Database\Database class object.
  */
-function InitializeDatabase(&$Database, &$_CONFIG)
+function InitializeDatabase(&$Database, &$_CONFIG, &$Error)
 {
 	$Result = false;
 	switch($_CONFIG[CF_DATABASE][CF_DB_TYPE])
@@ -20,7 +20,8 @@ function InitializeDatabase(&$Database, &$_CONFIG)
 				$_CONFIG[CF_DATABASE][CF_DB_PORT],
 				$_CONFIG[CF_DATABASE][CF_DB_USER],
 				$_CONFIG[CF_DATABASE][CF_DB_PASS],
-				$_CONFIG[CF_DATABASE][CF_DB_BASE]
+				$_CONFIG[CF_DATABASE][CF_DB_BASE],
+				$Error
 			);
 			$Result = true;
 			break;
