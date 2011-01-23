@@ -475,6 +475,7 @@ class Character extends Being
 
 					//Damage/Heal calculations
 					$ActualDamage = 0;
+					$IsCritical = false;
 					if($IsWeapon)
 					{
 						$ActualDamage=0;
@@ -495,6 +496,12 @@ class Character extends Being
 							$BaseDamage=pow(1.15,((($AnItem->ItemClass + $ItemClassBonus)-($EnemyArmorClass + $EnemyBeing->ArmorClassBonus))-round($EnemyArmorMastery/5)));
 							$ActualDamage=\gauss_ms($DamageStat/3, ($DamageStat/3) * 0.1)*$BaseDamage;
 							$ActualDamage = round($ActualDamage * (1/max(pow($NumWeapons, 1.5), 1)) / (2/3));
+							$CritChance=mt_rand(1,20+$Mastery/10);
+							if($CritChance > 19)
+							{
+								$IsCritical = true;
+								$ActualDamage = round($ActualDamage * \gauss_ms(3, 0.5));
+							}
 						}
 					}
 					else if($IsHeal)
@@ -505,7 +512,7 @@ class Character extends Being
 
 					//Insert Damage/Heal into Result array ordered by initiative
 					$Inserted = false;
-					$PlayerRow = array('Damage'=>$ActualDamage, 'Actor'=>$Index, 'Type'=>$AttackType, 'MasteryType'=>$AnItem->MasteryType, 'Initiative'=>$Initiative);
+					$PlayerRow = array('Damage'=>$ActualDamage, 'Actor'=>$Index, 'Type'=>$AttackType, 'MasteryType'=>$AnItem->MasteryType, 'Initiative'=>$Initiative, 'IsCritical'=>$IsCritical);
 					for($ArrayIndex = 0; $ArrayIndex < count($Result); $ArrayIndex++)
 					{
 						if($Initiative > @$Result['Rounds'][$ArrayIndex]['Initiative'])
