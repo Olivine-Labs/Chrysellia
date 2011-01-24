@@ -1069,8 +1069,9 @@ function ProcessSystemMessage(data){
 }
 
 function BuildAttackMessage(Attack, EnemyName, PlayerIsAttacker, fightResults){
-	var attackClass = ["player","enemy"]
-	var damageLabel = ["attacked", "casted", "healed"]
+	var attackClass = ["player","enemy"];
+	var damageLabel = ["attacked", "casted", "healed"];
+	var criticalLabel = ["SMASHED", "BLASTED", "RECHARGED"];
 	var name = "";
 	var battleResult = {};
 	var round = $("<div class='round' />");
@@ -1120,11 +1121,18 @@ function BuildAttackMessage(Attack, EnemyName, PlayerIsAttacker, fightResults){
 			}
 
 			var displaySpecial = special;
+			
+			var damageString = damageLabel[bo.Type];
+			
+			if(bo.IsCritical){
+				damageString = "<strong>" + criticalLabel[bo.Type] + "</strong>";
+			}
+			
 			if(bo.Actor == myActor){
 				displaySpecial = "";
 			}
 			if(bo.Damage > 0){
-				battleResult = $("<p class='result'><span class='attacker " + attackClass[bo.Actor] + "'>" + name + "</span>" + displaySpecial + " " + damageLabel[bo.Type] + " for <span class='damage'>" + bo.Damage + "</span></p>");
+				battleResult = $("<p class='result'><span class='attacker " + attackClass[bo.Actor] + "'>" + name + "</span>" + displaySpecial + " " + damageString + " for <span class='damage'>" + bo.Damage + "</span></p>");
 			}else{
 				battleResult = $("<p class='result'><span class='attacker " + attackClass[bo.Actor] + "'>" + name + "</span>" + displaySpecial + " <span class='damage'>missed</span></p>");
 			}
