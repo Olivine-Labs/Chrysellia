@@ -98,6 +98,14 @@
 			);
 		},
 		
+		SetParameters: function(channel, parameter, value, callback){
+			$.getJSON(
+				V2Core.SERVERCODE_DIRECTORY + "Commands.php",
+				{ Action: vc.CommandService.ACTION_CHANNEL_SETPARAMETERS, Data: JSON.stringify({ ChannelId: channel, Parameter: parameter, Value: value }) },
+				function(data) { callback(data, parameter, value); }
+			);
+		},
+		
 		Utilities: {},
 		
 		ChatTypes: {}
@@ -154,6 +162,15 @@
 			}else if(message.indexOf("/id ") == 0){
 				type = vc.ChatService.CHAT_TYPE_IDPLAYER;
 				message = message.substr(4, message.length - 1);
+				nonMessageCommand = true;
+			}else if(message.indexOf("/motd") == 0){
+				type = vc.CommandService.ACTION_CHANNEL_SETPARAMETERS;
+				nonMessageCommand = true;
+			}else if(message.indexOf("/publicRead") == 0){
+				type = vc.CommandService.ACTION_CHANNEL_SETPARAMETERS;
+				nonMessageCommand = true;
+			}else if(message.indexOf("/publicWrite") == 0){
+				type = vc.CommandService.ACTION_CHANNEL_SETPARAMETERS;
 				nonMessageCommand = true;
 			}
 			

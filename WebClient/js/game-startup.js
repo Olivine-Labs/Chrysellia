@@ -1224,24 +1224,47 @@ function DisplayChannelStatusUpdate(ChannelInfo, chatobj){
 function SubmitMessage(message){
 	if(message != ""){
 		var msgobj = vc.ch.Utilities.ParseMessage(message);
-
+		var myChannel = window.MyCharacter.CurrentChannel;
+		
 		if(!msgobj.NonMessageCommand){
 			vc.ch.SendMessageToChannel(MyCharacter.CurrentChannel, message, function(){});
-			InsertChat([{ "Type": msgobj.Type, "FromName": MyCharacter.Name, "Message": msgobj.Message }], window.MyCharacter.CurrentChannel);
+			InsertChat([{ "Type": msgobj.Type, "FromName": MyCharacter.Name, "Message": msgobj.Message }],myChannel);
 		}else{
 			switch(msgobj.Type){
+				
 				case vc.cmd.ACTION_CHANNEL_SETRIGHTS:
 					var rights = vc.ch.Utilities.ParseRights(msgobj.Message);
-					vc.ch.SetRights(window.MyCharacter.CurrentChannel, rights.Character, rights.Rights, function(data){});
+					vc.ch.SetRights(myChannel, rights.Character, rights.Rights, function(data){});
 					break;
 				case vc.ch.CHAT_TYPE_OPENPRIVATECHANNEL:
 					CreatePrivateChannel(msgobj.Message);
 					break;
 				case vc.ch.CHAT_TYPE_IDPLAYER:
-					vc.cmd.SendChatCommand(window.MyCharacter.CurrentChannel, vc.cmd.ACTION_ID, msgobj.Message, function(data, character){ ProcessIDPlayer(data, character); });
+					vc.cmd.SendChatCommand(myChannel, vc.cmd.ACTION_ID, msgobj.Message, function(data, character){ ProcessIDPlayer(data, character); });
+					break;
+				case vc.CommandService.ACTION_CHANNEL_SETPARAMETERS:
+					if(message.indexOf("/motd") == 0){
+						type = vc.CommandService.ACTION_CHANNEL_SETPARAMETERS;
+						var value = message.split('/motd ')[1];
+						vc.ch.SetParameters(myChannel, 'Motd', value, function(data, parameter, value){ ProcessChannelParamterChange(myChannel, parameter, value); });
+					}else if(message.indexOf("/publicRead") == 0){
+						type = vc.CommandService.ACTION_CHANNEL_SETPARAMETERS;
+						var value = message.split('/publicRead ')[1];
+						vc.ch.SetParameters(myChannel, 'PublicRead', value, function(data, parameter, value){ ProcessChannelParamterChange(myChannel, parameter, value); });
+					}else if(message.indexOf("/publicWrite") == 0){
+						type = vc.CommandService.ACTION_CHANNEL_SETPARAMETERS;
+						var value = message.split('/publicWrite ')[1];
+						vc.ch.SetParameters(myChannel, 'PublicWrite', value, function(data, parameter, value){ ProcessChannelParamterChange(myChannel, parameter, value); });
+					}
 					break;
 			}
 		}
+	}
+}
+
+function ProcessChannelParamterChange(channel, parameter, value){
+	if(parameter == "Motd"){
+		InsertChat([{ "Type": 999, "FromName": "", "Message": value }], channel);
 	}
 }
 
