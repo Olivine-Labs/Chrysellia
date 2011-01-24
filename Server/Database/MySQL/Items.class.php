@@ -136,7 +136,6 @@ class Items
 		$Query = $this->Database->Connection->prepare(SQL_INSERTITEM);
 		$Query->bind_param('ssisssii', $Item->ItemId, $Item->ItemTemplateId, $Item->Type, $Item->InventoryId, $Item->Name, $Item->Description, $Item->BuyPrice, $Item->SellPrice);
 		$Query->Execute();
-		$this->Database->logError();
 
 		if($Query->affected_rows > 0)
 		{

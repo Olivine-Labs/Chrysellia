@@ -329,7 +329,6 @@ class Characters extends \Database\Characters
 		$Query->bind_param('ssss', $Character->CharacterId, $Character->MapId, $Character->PositionX, $Character->PositionY);
 
 		$Query->Execute();
-		//die($this->Database->Connection->error);
 		if($Query->affected_rows > 0)
 			return true;
 		else
@@ -596,8 +595,7 @@ class Characters extends \Database\Characters
 		$Query->bind_param('sii', $Character->CharacterId, $MasteryId, $Value);
 
 		$Query->Execute();
-		if($this->Database->Connection->error)
-		die($this->Database->Connection->error);
+
 		if($Query->affected_rows > 0)
 			return true;
 		else

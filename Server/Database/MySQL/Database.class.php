@@ -30,7 +30,7 @@ class Database extends \Database\Database
 	 *
 	 * @throws Exception
 	 */
-	public function __construct($Host, $Port, $UserName, $Password, $Database, &$Error=null)
+	public function __construct($Host, $Port, $UserName, $Password, $Database)
 	{
 		try
 		{
@@ -41,9 +41,12 @@ class Database extends \Database\Database
 		{
 			if(isset($this->Log))
 			{
-				$this->Log->Set('Error', $e->getMessage());
+				$this->Log->AddError($e->getMessage());
 			}
-			$Error = $e->getMessage();
+			else
+			{
+				throw $e;
+			}
 		}
 	}
 

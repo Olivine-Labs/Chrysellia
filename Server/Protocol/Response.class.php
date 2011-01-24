@@ -42,12 +42,14 @@ class Response
 	public $OutputMethod = Response::OT_JSON;
 
 	public $Compression = false;
+	private $ConstructTime;
 
 	/**
 	 * Default constructor for the Response class
 	 */
 	public function __construct($Compression)
 	{
+		$this->ConstructTime = microtime();
 		$this->Compression=$Compression;
 		if($this->Compression)
 		{
@@ -59,6 +61,7 @@ class Response
 
 	public function __destruct()
 	{
+		$this->Set('RequestDuration', microtime() - $this->ConstructTime);
 		$this->Send();
 		ob_end_flush();
 	}
@@ -92,11 +95,14 @@ class Response
 	/**
 	 * Prints the Response
 	 */
-	public function Send()
+	private function Send()
 	{
 		switch($this->OutputMethod)
 		{
 			case Response::OT_JSON:
+				header('Cache-Control: no-cache, must-revalidate');
+				header('Expires: Mon, 26 Jul 1997 05:00:00 GMT');
+				header('Content-Type: application/json');
 				if(isset($_GET['jsonCallback']))
 				{
 					echo $_GET["jsonCallback"]. "(" . json_encode(array_filter($this->Data, '\Protocol\ProcessDataElement')) . ")";
@@ -107,6 +113,9 @@ class Response
 				}
 				break;
 			case Response::OT_XML:
+				header('Cache-Control: no-cache, must-revalidate');
+				header('Expires: Mon, 26 Jul 1997 05:00:00 GMT');
+				header ("Content-Type: text/xml");
 				if(class_exists('XML_Serializer'))
 				{
 					$serializer = new XML_Serializer();

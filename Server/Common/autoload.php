@@ -14,7 +14,7 @@ function __autoload($ClassName)
 		$FileName .= $Piece.'/';
 	$FileName[strlen($FileName)-1] = '.';
 	$FileName .= 'class.php';
-	require($FileName);
+	include($FileName);
 }
 
 ?>

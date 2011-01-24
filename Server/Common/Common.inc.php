@@ -4,53 +4,31 @@
  *
  */
 
-function handleError($errno, $errstr, $errfile, $errline, array $errcontext)
-{
-    // error was suppressed with the @-operator
-    if (0 === error_reporting()) {
-        return false;
-    }
+//Setup error handling immediately.
+include('./Common/ErrorHandler.php');
+$ErrorHandler = new ErrorHandler();
 
-    throw new ErrorException($errstr, 0, $errno, $errfile, $errline);
-}
-set_error_handler('handleError');
+//Set up autoloading classes.
+include('./Common/autoload.php');
 
+//Application specific includes.
 include('./Common/Compatibility.php');
 include('./Common/Config.php');
-global $_CONFIG;
-include('./Common/autoload.php');
 include('./Common/Utilities.php');
-
 include('./Common/Database.php');
-$Database = null;
-$Message = null;
-try
-{
-	InitializeDatabase($Database, $_CONFIG, $Message);
-}
-catch(\Exception $e)
-{
-	$Message = $e->getMessage();
-}
-
 include('./Common/Session.php');
-$SessionHandler = new Session($Database);
-if(!isset($Message))
-{
-	$SessionHandler->Start();
-}
 
+//Bring the Configuration variable into the local namespace
+global $_CONFIG;
+
+//Create the response object, which handles all output from this script.
 $Response= new \Protocol\Response($_CONFIG[CF_OUTPUT][CF_OP_COMPRESSION]);
-$Database->Log = $Response;
 
-header('Cache-Control: no-cache, must-revalidate');
-header('Expires: Mon, 26 Jul 1997 05:00:00 GMT');
-header('Content-type: application/json');
+//Attempt to initialize configured database connection.
+$Database = InitializeDatabase($_CONFIG[CF_DATABASE], $Response);
+$Database->Log = $Response;//Temporary until I can implement proper logging.
 
-if(isset($Message))
-{
-	$Response->Set('Result', \Protocol\Response::ER_DBERROR);
-	$Response->Set('Error', $Message);
-	exit(0);
-}
+//Initialize session
+$SessionHandler = new Session($Database);
+$SessionHandler->Start();
 ?>
