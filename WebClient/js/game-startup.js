@@ -1076,11 +1076,11 @@ function BuildAttackMessage(Attack, EnemyName, PlayerIsAttacker, fightResults){
 	var battleResult = {};
 	var round = $("<div class='round' />");
 	var battleObject = Attack.Rounds;
-	
-	if(PlayerIsAttacker){
-		myActor = 0;
-		enemyActor = 1;
-	}else{
+		
+	var myActor = 0;
+	var enemyActor = 1;
+
+	if(!PlayerIsAttacker){
 		myActor = 1;
 		enemyActor = 0;
 	}
@@ -1142,6 +1142,19 @@ function BuildAttackMessage(Attack, EnemyName, PlayerIsAttacker, fightResults){
 	}
 	
 	fightResults.append(round);
+			
+	if(Attack.Masteries !== undefined && Attack.Masteries.length > 0){
+		var masteryResult = {};
+		var Masteries = ["Armor", "Sword", "Axe", "Mace", "Staff", "Bow", "Fire", "Air", "Cold", "Earth", "Shadow", "Arcane"];
+		var masteryLabel = "";
+		
+		for(var m = 0; m < Attack.Masteries.length; m++){
+			masteryLabel = Masteries[Attack.Masteries[m]];
+			masteryResult = $("<p class='result mastery " + masteryLabel + "'><span class='attacker player'>Your</span> <strong>" + masteryLabel + "</strong> mastery has increased!</p>");
+			round.append(masteryResult);
+			Log("Mastery gain in " + masteryLabel);
+		}
+	}
 	
 	if(Attack.Winner !== undefined){
 		if(Attack.Winner == myActor){
