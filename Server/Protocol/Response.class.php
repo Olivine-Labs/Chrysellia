@@ -61,7 +61,7 @@ class Response
 
 	public function __destruct()
 	{
-		$this->Set('RequestDuration', microtime() - $this->ConstructTime);
+		$this->Set('RequestDuration', max(microtime() - $this->ConstructTime, 0));
 		$this->Send();
 		ob_end_flush();
 	}
