@@ -413,7 +413,8 @@ INSERT INTO `item_templates` (`itemTemplateId`, `itemType`, `name`, `description
 ('ITEM_00000000000000000000391', 2, 'Golden Orb of Enlightenment', 'Shows all players in a 3x3 area around you. Shows all online players', 5e+008, 5e+006),
 ('ITEM_00000000000000000000392', 2, 'Eternal Ring', '10% gold lost upon death, instead of 100%', 5e+008, 5e+006),
 ('ITEM_00000000000000000000393', 2, 'Band of the Chosen', '5% experience lost upon death, instead of 20%', 5e+008, 5e+006),
-('ITEM_00000000000000000000394', 2, 'Huggle', 'Just a sign of affection', 1e+007, 5e+006),
+('ITEM_00000000000000000000394', 2, 'Huggle', 'Just a sign of affection', 1e+007, 5e+006)
+INSERT INTO `item_templates` (`itemTemplateId`, `itemType`, `name`, `description`, `buyPrice`, `sellPrice`) VALUES
 ('ITEM_00000000001295810077465', 1, 'amethyst*', 'Increases Your Strength 5%', 0, 10000),
 ('ITEM_00000000001295810077567', 1, 'amethyst**', 'Increases Your Strength 10%', 0, 20000),
 ('ITEM_00000000001295810077579', 1, 'amethyst***', 'Increases Your Strength 20%', 0, 30000),
@@ -435,8 +436,7 @@ INSERT INTO `item_templates` (`itemTemplateId`, `itemType`, `name`, `description
 ('ITEM_00000000001295810077758', 1, 'pearl***', 'Increases Your Wisdom 20%', 0, 30000),
 ('ITEM_00000000001295810077768', 1, 'pearl****', 'Increases Your Wisdom 35%', 0, 40000),
 ('ITEM_00000000001295810077778', 1, 'quartz*', 'Decreases Enemy Strength 5%', 0, 10000),
-('ITEM_00000000001295810077797', 1, 'quartz**', 'Decreases Enemy Strength 10%', 0, 20000);
-INSERT INTO `item_templates` (`itemTemplateId`, `itemType`, `name`, `description`, `buyPrice`, `sellPrice`) VALUES
+('ITEM_00000000001295810077797', 1, 'quartz**', 'Decreases Enemy Strength 10%', 0, 20000),
 ('ITEM_00000000001295810077807', 1, 'quartz***', 'Decreases Enemy Strength 20%', 0, 30000),
 ('ITEM_00000000001295810077817', 1, 'quartz****', 'Decreases Enemy Strength 35%', 0, 40000),
 ('ITEM_00000000001295810077827', 1, 'opal*', 'Decreases Enemy Dexterity 5%', 0, 10000),

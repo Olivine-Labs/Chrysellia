@@ -51,6 +51,7 @@
 					
 					<div class="accountActions">
 						Theme: <select id='themeSelect'><option value='1'>Dark</option><option value='0'>Light</option></select>
+						<a href="./tops.php" target="_blank">Rankings</a>
 						<a href="http://forum.chrysellia.com" target="_blank">Forum</a>
 						<a href="http://wiki.chrysellia.com" target="_blank">Manual</a>
 						<a href="http://blog.chrysellia.com" target="_blank">Blog</a>
