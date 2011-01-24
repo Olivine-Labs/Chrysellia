@@ -23,6 +23,9 @@
 	V2Core = V2Core.prototype = {
 		Version: "0.0.1",
 		CurrentLanguage: "en",
+		DebugMode: false,
+		RequestDurationTotal: 0,
+		Requests: 0,
 		
 		ER_SUCCESS: 0, //when Murphy is not around everything works.
 		ER_BADDATA: 251, //when the data is bad

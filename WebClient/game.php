@@ -248,6 +248,12 @@
 		
 		<div style="hidden" id="itemsWindow" style="display: none;"></div>
 		
+		<div id="debugWindow">
+			<h1>Debug</h1>
+			<div class='row' id="rda"><span class='label'>RequestDuration Average</span><span class='value' id="rda_value"></span></div>
+			<div id="logs"></div>
+		</div>
+		
 		<!--[if IE 8]>
 		</div>
 		<![endif]-->

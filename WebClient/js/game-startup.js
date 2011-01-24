@@ -1,4 +1,6 @@
 ﻿$(function(){
+	vc.DebugMode = true;
+	
 	if($.cookie("theme") == "dark"){
 		$("body").addClass("dark");
 		$("#themeSelect").children("options").eq(1).attr("selected", "selected");
@@ -192,6 +194,12 @@
 			
 		}
 	});
+	
+	$(document).keydown(function(e) {
+        if(e.which == 192){
+			OpenDebugWindow();
+		}
+    });
 });
 
 function Move(RelativeX, RelativeY){
@@ -219,7 +227,8 @@ function Move(RelativeX, RelativeY){
 
 function ExamineLocation(data){
 	$("#moveLook").button("option", "disabled", false);
-	if(data.Result == vc.ER_SUCCESS){
+	if(vc.DebugMode && data.RequestDuration > 0){vc.Requests++;  vc.RequestDurationTotal += data.RequestDuration; $("#rda_value").text(vc.RequestDurationTotal / vc.Requests);}
+	if(data.Result == vc.ER_SUCCESS){ 
 		$("optgroup[label='Other Players']").remove();
 		var playersOptGroup = $("<optgroup label='Other Players' />");
 		
@@ -236,10 +245,14 @@ function ExamineLocation(data){
 		}
 		playersOptGroup.appendTo($("#monsterList"));
 	}
+	
+	Log("ExamineLocation: " + JSON.stringify(data));
 }
 
 function LevelUpResponse(data, stat){
-	if(data.Result == vc.ER_SUCCESS){
+	if(vc.DebugMode && data.RequestDuration > 0){vc.Requests++;  vc.RequestDurationTotal += data.RequestDuration; $("#rda_value").text(vc.RequestDurationTotal / vc.Requests);}
+if(data.Result == vc.ER_SUCCESS){ 
+
 		switch(stat){
 			case 0:
 				MyCharacter.Strength += 12;
@@ -280,6 +293,8 @@ function LevelUpResponse(data, stat){
 		
 		vc.i.UpdateStats();
 	}
+	
+	Log("Level Up: " + JSON.stringify(data));
 }
 
 function ResizeChat(){
@@ -287,7 +302,9 @@ function ResizeChat(){
 }
 
 function EquipItem(data, itemId, slotType, slotIndex){
-	if(data.Result == vc.ER_SUCCESS){
+	if(vc.DebugMode && data.RequestDuration > 0){vc.Requests++;  vc.RequestDurationTotal += data.RequestDuration; $("#rda_value").text(vc.RequestDurationTotal / vc.Requests);}
+if(data.Result == vc.ER_SUCCESS){ 
+
 		var item = {};
 		var typeMapping = vc.is.TypeMapping;
 		
@@ -305,11 +322,15 @@ function EquipItem(data, itemId, slotType, slotIndex){
 		$("<option value='" + item.ItemId + "' selected='selected'>" + item.Name + "</option>").appendTo($("select." + typeMapping[item.SlotType]).eq(slotIndex));
 	}
 	
+	Log("Equip Item: " + JSON.stringify(data));
+	
 	$('#itemsWindow select').removeAttr('disabled');
 }
 
 function UnEquipItem(data, itemId, slotType, slotIndex){
-	if(data.Result == vc.ER_SUCCESS){
+	if(vc.DebugMode && data.RequestDuration > 0){vc.Requests++;  vc.RequestDurationTotal += data.RequestDuration; $("#rda_value").text(vc.RequestDurationTotal / vc.Requests);}
+if(data.Result == vc.ER_SUCCESS){ 
+
 		var item = window.MyCharacter.Equipment[slotType][slotIndex];
 		var typeMapping = vc.is.TypeMapping;
 		
@@ -327,11 +348,15 @@ function UnEquipItem(data, itemId, slotType, slotIndex){
 }
 
 function RefreshMap(data){
-	if(data.Result == vc.ER_SUCCESS){
+	if(vc.DebugMode && data.RequestDuration > 0){vc.Requests++;  vc.RequestDurationTotal += data.RequestDuration; $("#rda_value").text(vc.RequestDurationTotal / vc.Requests);}
+if(data.Result == vc.ER_SUCCESS){ 
+
 		MyCharacter.PositionX = data.Data.X;
 		MyCharacter.PositionY = data.Data.Y;
 		BuildMap();
 	}
+	
+	Log("Refresh Map: " + JSON.stringify(data));
 }
 
 function SetEnableMovement(enabled){
@@ -343,7 +368,9 @@ function SetEnableAttack(enabled){
 }
 
 function CreateChannel(data){
-	if(data.Result == vc.ER_SUCCESS){
+	if(vc.DebugMode && data.RequestDuration > 0){vc.Requests++;  vc.RequestDurationTotal += data.RequestDuration; $("#rda_value").text(vc.RequestDurationTotal / vc.Requests);}
+if(data.Result == vc.ER_SUCCESS){ 
+
 		$("#cc_channelName, #cc_channelMOTD").val('');
 		$("#createChannelForm").dialog("close");
 		AddTab(data.Data.Name, data.Data.ChannelId, data.Data.Motd);
@@ -354,10 +381,14 @@ function CreateChannel(data){
 	}else{
 		alert("An error has occured.");
 	}
+	
+	Log("Create Channel: " + JSON.stringify(data));
 }
 
 function JoinChannel(data){
-	if(data.Result == vc.ER_SUCCESS){
+	if(vc.DebugMode && data.RequestDuration > 0){vc.Requests++;  vc.RequestDurationTotal += data.RequestDuration; $("#rda_value").text(vc.RequestDurationTotal / vc.Requests);}
+if(data.Result == vc.ER_SUCCESS){ 
+
 		$("#jc_channelName, #cc_channelMOTD").val('');
 		$("#joinChannelForm").dialog("close");
 		AddTab(data.Data.Name, data.Data.ChannelId, data.Data.Motd);
@@ -367,6 +398,8 @@ function JoinChannel(data){
 	}else{
 		alert("An error has occured.");
 	}
+	
+	Log("Join Channel: " + JSON.stringify(data));
 }
 
 function LeaveChannel(channelId){
@@ -390,14 +423,16 @@ function AddTab(title, channelId, motd) {
 	ResizeChat();
 }
 
-function FillChat(list){
-	if(list.Result == vc.ER_SUCCESS){
-		for(var i in list.Data){
+function FillChat(data){
+	if(vc.DebugMode && data.RequestDuration > 0){vc.Requests++;  vc.RequestDurationTotal += data.RequestDuration; $("#rda_value").text(vc.RequestDurationTotal / vc.Requests);}
+if(data.Result == vc.ER_SUCCESS){ 
+
+		for(var i in data.Data){
 			if(i != "remove"){
 				if(i!=0){
-					InsertChat(list.Data[i], i);
+					InsertChat(data.Data[i], i);
 				}else{
-					ProcessSystemMessage(list.Data[0]);
+					ProcessSystemMessage(data.Data[0]);
 				}
 			}
 		}
@@ -411,12 +446,18 @@ function FillChat(list){
 function SelectCharacter(data){
 	window.MyCharacter = new Character();
 	
-	if(data.Result == vc.ER_SUCCESS){
+	Log("Login: " + data.Result);
+	
+	if(vc.DebugMode && data.RequestDuration > 0){vc.Requests++;  vc.RequestDurationTotal += data.RequestDuration; $("#rda_value").text(vc.RequestDurationTotal / vc.Requests);}
+if(data.Result == vc.ER_SUCCESS){ 
+
 		window.MyCharacter.Construct(data.Data);
 		vc.i.UpdateStats();
 	}else{
-		alert("Please login again.");
-		window.location = "./index.php";
+		if(!vc.DebugMode){
+			alert("Please login again.");
+			window.location = "./index.php";
+		}
 	}
 	
 	for(var i in window.MyCharacter.Channels){
@@ -424,6 +465,8 @@ function SelectCharacter(data){
 			AddTab(window.MyCharacter.Channels[i].Name, i, window.MyCharacter.Channels[i].Motd);
 		}
 	}
+	
+	Log("Select Character: " + JSON.stringify(data));
 	
 	$tabs.tabs('select', 0);
 	
@@ -546,7 +589,9 @@ function SubmitBankTransaction(){
 }
 
 function ProcessBankTransaction(data, gold, transactionType){
-	if(data.Result == vc.ER_SUCCESS){
+	if(vc.DebugMode && data.RequestDuration > 0){vc.Requests++;  vc.RequestDurationTotal += data.RequestDuration; $("#rda_value").text(vc.RequestDurationTotal / vc.Requests);}
+if(data.Result == vc.ER_SUCCESS){ 
+
 		$("#transactionAmount").val('')
 		
 		if(transactionType == 0){
@@ -563,10 +608,14 @@ function ProcessBankTransaction(data, gold, transactionType){
 	}else{
 		alert("You don't have that much gold!");
 	}
+	
+	Log("Bank Transaction: " + JSON.stringify(data));
 }
 
 function ProcessBankTransfer(data, gold){
-	if(data.Result == vc.ER_SUCCESS){
+	if(vc.DebugMode && data.RequestDuration > 0){vc.Requests++;  vc.RequestDurationTotal += data.RequestDuration; $("#rda_value").text(vc.RequestDurationTotal / vc.Requests);}
+if(data.Result == vc.ER_SUCCESS){ 
+
 		$("#transferAmount, #transferTarget").val('')
 		window.MyCharacter.Bank -= gold;
 		$("#bankTransaction h3").text("You have " + window.MyCharacter.Bank + " gold in your account.");
@@ -574,6 +623,8 @@ function ProcessBankTransfer(data, gold){
 	}else{
 		alert("You don't have that much gold!");
 	}
+	
+	Log("Bank Transfer: " + JSON.stringify(data));
 }
 
 function SubmitBankTransfer(){
@@ -597,7 +648,9 @@ function BuildExit(topWindow){
 }
 
 function ProcessMapChange(data){
-	if(data.Result == vc.ER_SUCCESS){
+	if(vc.DebugMode && data.RequestDuration > 0){vc.Requests++;  vc.RequestDurationTotal += data.RequestDuration; $("#rda_value").text(vc.RequestDurationTotal / vc.Requests);}
+if(data.Result == vc.ER_SUCCESS){ 
+
 		window.MyCharacter.CurrentMap = Maps[data.Data.MapId];
 		window.MyCharacter.PositionX = data.Data.PositionX;
 		window.MyCharacter.PositionY =  data.Data.PositionY;
@@ -605,6 +658,8 @@ function ProcessMapChange(data){
 		BuildGameWindow();
 		vc.i.UpdateStats();
 	}
+	
+	Log("Map Change: " + JSON.stringify(data));
 }
 
 function BuildBank(topWindow){
@@ -639,11 +694,15 @@ function BuildBank(topWindow){
 }
 
 function ReviveCharacter(data){
-	if(data.Result == vc.ER_SUCCESS){
+	if(vc.DebugMode && data.RequestDuration > 0){vc.Requests++;  vc.RequestDurationTotal += data.RequestDuration; $("#rda_value").text(vc.RequestDurationTotal / vc.Requests);}
+if(data.Result == vc.ER_SUCCESS){ 
+
 		MyCharacter.Health = MyCharacter.Vitality;
 		vc.i.UpdateStats();
 		BuildGameWindow();
 	}
+	
+	Log("Revive: " + JSON.stringify(data));
 }
 
 function Attack(fightType){
@@ -683,7 +742,9 @@ function Attack(fightType){
 
 function AttackRound(data){
 	window.setTimeout(function(){SetEnableAttack(true)}, 1500);
-	if(data.Result == vc.ER_SUCCESS){
+	if(vc.DebugMode && data.RequestDuration > 0){vc.Requests++;  vc.RequestDurationTotal += data.RequestDuration; $("#rda_value").text(vc.RequestDurationTotal / vc.Requests);}
+if(data.Result == vc.ER_SUCCESS){ 
+
 		var fightResults = $("#fightResults");
 		var battleObject = data.Data;
 		
@@ -695,6 +756,8 @@ function AttackRound(data){
 		}else{
 			BuildAttackMessage(battleObject, MyCharacter.CurrentBattle.Enemy.Name, true, fightResults);
 		}
+	}else{
+		Log("Attack Error: " + JSON.stringify(data));
 	}
 }
 
@@ -702,7 +765,7 @@ function BuildShop(topWindow){
 	var item = {};
 	var myLocation = MyCharacter.CurrentMap.Places[MyCharacter.PositionY][MyCharacter.PositionX];
 	var name = "Shop";
-	var itemTypeLabels = ["Weapons", "Armors", "Spells"];
+	var itemTypeLabels = ["Weapons", "Accessories", "Armors", "Spells"];
 	if(myLocation.Name !== undefined){
 		var name = myLocation.Name;
 	}
@@ -730,8 +793,9 @@ function BuildShop(topWindow){
 	
 	var weaponOptGroup = $("<optgroup label='Weapons'><option value='0|0'>Swords</option><option value='0|1'>Axes</option><option value='0|2'>Staves</option>option value='0|3'>Maces</option></optgroup>");
 	var armorOptGroup = $("<optgroup label='Armors'><option value='1|0'>Armors</option><option value='1|1'>Shields</option></optgroup>");
-	var spellsOptGroup = $("<optgroup label='Spells'><option value='2|0'>Fire</option><option value='2|1'>Cold</option><option value='2|2'>Air</option><option value='2|3'>Heal</option></optgroup>");
-	itemTypeSelection.append(weaponOptGroup).append(armorOptGroup).append(spellsOptGroup);
+	var spellsOptGroup = $("<optgroup label='Spells'><option value='3|0'>Fire</option><option value='3|1'>Cold</option><option value='3|2'>Air</option><option value='3|3'>Heal</option></optgroup>");
+	var accessoriesOptGroup = $("<optgroup label='Accessories'><option value='2|0'>Accessories</option></optgroup>");
+	itemTypeSelection.append(weaponOptGroup).append(armorOptGroup).append(spellsOptGroup).append(accessoriesOptGroup);;
 	
 	buyForm.append(typeContainer).append(buyItem).append(itemInfo).append(itemDescription);
 	topWindow.append(buyForm);
@@ -775,7 +839,7 @@ function BuyItem(){
 
 function DisplayItemInfo(item){
 	if(item !== undefined){
-		$("<div><div class='row'><span class='label'>Name</span><span class='value'>" +  item.Name + "</span></div><div class='row'><span class='label'>IC</span><span class='value'>" +  item.ItemClass + "</span></div><div class='row'><span class='label'>Buy Price</span><span class='value'>" +  item.BuyPrice + "</span></div><div class='row'><span class='label'>Sell Price</span><span class='value'>" +  item.SellPrice + "</span></div></div>").dialog({ title: "Details for " + item.Name });
+		$("<div><div class='row'><span class='label'>Name</span><span class='value'>" +  item.Name + "</span></div><div class='row'><span class='label'>IC</span><span class='value'>" +  item.ItemClass + "</span></div><div class='row'><span class='label'>Buy Price</span><span class='value'>" +  item.BuyPrice + "</span></div><div class='row'><span class='label'>Sell Price</span><span class='value'>" +  item.SellPrice + "</span></div><div class='row'><span class='value'>" +  item.Description + "</span></div></div>").dialog({ title: "Details for " + item.Name });
 	}
 }
 
@@ -798,7 +862,9 @@ function FilterItemTypes(itemSlotType){
 }
 
 function ProcessPurchase(data){
-	if(data.Result == vc.ER_SUCCESS){
+	if(vc.DebugMode && data.RequestDuration > 0){vc.Requests++;  vc.RequestDurationTotal += data.RequestDuration; $("#rda_value").text(vc.RequestDurationTotal / vc.Requests);}
+if(data.Result == vc.ER_SUCCESS){ 
+
 		var item = data.Data;	
 		MyCharacter.Inventories["Personal"][MyCharacter.Inventories["Personal"].length] = item;
 		MyCharacter.Gold -= item.BuyPrice;
@@ -807,10 +873,14 @@ function ProcessPurchase(data){
 		BuildInventoryLists();
 		BuildGameWindow()
 	}
+	
+	Log("Process Purchase: " + JSON.stringify(data));
 }
 
 function ProcessSale(data, ItemId){
-	if(data.Result == vc.ER_SUCCESS){
+	if(vc.DebugMode && data.RequestDuration > 0){vc.Requests++;  vc.RequestDurationTotal += data.RequestDuration; $("#rda_value").text(vc.RequestDurationTotal / vc.Requests);}
+if(data.Result == vc.ER_SUCCESS){ 
+
 		var item = {};
 		var asdf = 0;
 		
@@ -834,6 +904,8 @@ function ProcessSale(data, ItemId){
 		BuildInventoryLists();
 		BuildGameWindow()
 	}
+	
+	Log("Process Sale: " + JSON.stringify(data));
 }
 
 function BuildShrine(topWindow){
@@ -894,10 +966,14 @@ function BuildInitialInventory(){
 }
 
 function LoadInventory(data){
-	if(data.Result == vc.ER_SUCCESS){
+	if(vc.DebugMode && data.RequestDuration > 0){vc.Requests++;  vc.RequestDurationTotal += data.RequestDuration; $("#rda_value").text(vc.RequestDurationTotal / vc.Requests);}
+if(data.Result == vc.ER_SUCCESS){ 
+
 		window.MyCharacter.Inventories["Personal"] = data.Data;
 		BuildInitialInventory();
 		BuildInventoryLists();
+	}else{
+		Log("Load Inventory Error: " + JSON.stringify(data));
 	}
 	
 	BuildMap();
@@ -1172,7 +1248,9 @@ function SubmitMessage(message){
 function CreatePrivateChannel(character){
 	var channelName = "!!PM" + character + "!!" + GUID();
 	vc.ch.CreateChannel(channelName, "Private Channel with " + character, 0, 0, function(data){
-		if(data.Result == vc.ER_SUCCESS){
+		if(vc.DebugMode && data.RequestDuration > 0){vc.Requests++;  vc.RequestDurationTotal += data.RequestDuration; $("#rda_value").text(vc.RequestDurationTotal / vc.Requests);}
+if(data.Result == vc.ER_SUCCESS){ 
+
 			CreateChannel(data);
 			SubmitMessage("/invite " + character);
 		}else if(data == vc.ER_ALREADYEXISTS){
@@ -1182,7 +1260,9 @@ function CreatePrivateChannel(character){
 }
 
 function ProcessIDPlayer(data, characterName){
-	if(data.Result == vc.ER_SUCCESS){
+	if(vc.DebugMode && data.RequestDuration > 0){vc.Requests++;  vc.RequestDurationTotal += data.RequestDuration; $("#rda_value").text(vc.RequestDurationTotal / vc.Requests);}
+if(data.Result == vc.ER_SUCCESS){ 
+
 		var character = data.Data;
 		
 		var alignName = vc.AlignName(character);
@@ -1199,6 +1279,8 @@ function ProcessIDPlayer(data, characterName){
 		$("<div class='statsWindow " + V2Core.Races[character.RaceId].Name + "'><div class='stat'><h2>" + characterName + "</h2><h4>" + V2Core.Races[character.RaceId].Name + "</h4></div><div class='stat lvl'><span class='statLabel icon lvl' title='Level'>Level</span><span>" + character.Level + "</span></div></div>").append($alignContainer).dialog({ title: characterName });
 	}else if(data.Result == vc.ER_BADDATA){
 		alert("Character '" + characterName + "' not found!");
+	}else{
+		Log("ID Player: Player(" + characterName + ") " + JSON.stringify(data));
 	}
 }
 
@@ -1238,4 +1320,15 @@ function S4() {
 
 function GUID() {
    return (S4()+S4()+"-"+S4()+"-"+S4()+"-"+S4()+"-"+S4()+S4()+S4());
+}
+
+function Log(text){
+	if(vc.DebugMode){
+		$("#logs div:nth-child(n+30)").remove();
+		$("#logs").prepend("<div>" + text + "</div>");
+	}
+}
+
+function OpenDebugWindow(){
+	$("#debugWindow").toggle();
 }

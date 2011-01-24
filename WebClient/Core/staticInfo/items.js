@@ -246,6 +246,35 @@
 					{ItemId:"ITEM_00000000000000000000369", Name:"Zuel's Spirit Scutum", Description:"This is an item class 36 shield with 2 sockets.", Sockets:2, Slots:1, SlotType:0, BuyPrice:2147483648, SellPrice:2147483648, MasteryType:0, ItemClass:36}
 				]
 			], 
+			[	//SlotType: Accessories
+				 [
+					 {ItemId:"ITEM_00000000000000000000370", Name:"Copper Ring", Description:"+2,000 Strength while in battle", Sockets:0, Slots:0, SlotType:2, BuyPrice:25000000, SellPrice:5000000, MasteryType:999, ItemClass:0},
+					 {ItemId:"ITEM_00000000000000000000371", Name:"Iron Ring", Description:"+2,000 Intelligence while in battle", Sockets:0, Slots:0, SlotType:2, BuyPrice:25000000, SellPrice:5000000, MasteryType:999, ItemClass:0},
+					 {ItemId:"ITEM_00000000000000000000372", Name:"Blue Ring", Description:"+2,000 Wisdom while in battle", Sockets:0, Slots:0, SlotType:2, BuyPrice:25000000, SellPrice:5000000, MasteryType:999, ItemClass:0},
+					 {ItemId:"ITEM_00000000000000000000373", Name:"Yellow Ring", Description:"+2,000 Dexterity while in battle", Sockets:0, Slots:0, SlotType:2, BuyPrice:25000000, SellPrice:5000000, MasteryType:999, ItemClass:0},
+					 {ItemId:"ITEM_00000000000000000000374", Name:"Goblin Ring", Description:"+2,000 Vitality while in battle, +1,000 Health each battle", Sockets:0, Slots:0, SlotType:2, BuyPrice:25000000, SellPrice:5000000, MasteryType:999, ItemClass:0},
+					 {ItemId:"ITEM_00000000000000000000375", Name:"Wedding Ring", Description:"Allows you to marry another player", Sockets:0, Slots:0, SlotType:2, BuyPrice:10000000, SellPrice:5000000, MasteryType:999, ItemClass:0},
+					 {ItemId:"ITEM_00000000000000000000376", Name:"Band of Defence", Description:"+20% evasion against melee attacks", Sockets:0, Slots:0, SlotType:2, BuyPrice:50000000, SellPrice:5000000, MasteryType:999, ItemClass:0},
+					 {ItemId:"ITEM_00000000000000000000377", Name:"Amulet of Flames", Description:"+50% evasion against fire spells", Sockets:0, Slots:0, SlotType:2, BuyPrice:50000000, SellPrice:5000000, MasteryType:999, ItemClass:0},
+					 {ItemId:"ITEM_00000000000000000000378", Name:"Amulet of Ice", Description:"+50% evasion against cold spells", Sockets:0, Slots:0, SlotType:2, BuyPrice:50000000, SellPrice:5000000, MasteryType:999, ItemClass:0},
+					 {ItemId:"ITEM_00000000000000000000379", Name:"Amulet of Lightning", Description:"+50% evasion against air spells", Sockets:0, Slots:0, SlotType:2, BuyPrice:50000000, SellPrice:5000000, MasteryType:999, ItemClass:0},
+					 {ItemId:"ITEM_00000000000000000000380", Name:"Pendant of Durability ", Description:"+3,000 Vitality while in battle, +3,000 Life each battle", Sockets:0, Slots:0, SlotType:2, BuyPrice:100000000, SellPrice:5000000, MasteryType:999, ItemClass:0},
+					 {ItemId:"ITEM_00000000000000000000381", Name:"Orb of Curing", Description:"+100% accuracy with arcane (healing) spells", Sockets:0, Slots:0, SlotType:2, BuyPrice:100000000, SellPrice:5000000, MasteryType:999, ItemClass:0},
+					 {ItemId:"ITEM_00000000000000000000382", Name:"Orb of Channeling", Description:"+50% accuracy with spells", Sockets:0, Slots:0, SlotType:2, BuyPrice:100000000, SellPrice:5000000, MasteryType:999, ItemClass:0},
+					 {ItemId:"ITEM_00000000000000000000383", Name:"Orb of Power", Description:"+6,000 Intelligence while in battle", Sockets:0, Slots:0, SlotType:2, BuyPrice:100000000, SellPrice:5000000, MasteryType:999, ItemClass:0},
+					 {ItemId:"ITEM_00000000000000000000384", Name:"Gloves of Skill", Description:"Allows an extra 10% expansion over normal race maximum masteries", Sockets:0, Slots:0, SlotType:2, BuyPrice:100000000, SellPrice:5000000, MasteryType:999, ItemClass:0},
+					 {ItemId:"ITEM_00000000000000000000385", Name:"Gloves of Haste", Description:"+50% accuracy with melee attacks", Sockets:0, Slots:0, SlotType:2, BuyPrice:100000000, SellPrice:5000000, MasteryType:999, ItemClass:0},
+					 {ItemId:"ITEM_00000000000000000000386", Name:"Gauntlets of Might", Description:"+6,000 Strength while in battle", Sockets:0, Slots:0, SlotType:2, BuyPrice:100000000, SellPrice:5000000, MasteryType:999, ItemClass:0},
+					 {ItemId:"ITEM_00000000000000000000387", Name:"Helmet of Invisibility", Description:"You cannot be located", Sockets:0, Slots:0, SlotType:2, BuyPrice:250000000, SellPrice:5000000, MasteryType:999, ItemClass:0},
+					 {ItemId:"ITEM_00000000000000000000388", Name:"Crystal of Relocation", Description:"Teleport and locate players at no cost", Sockets:0, Slots:0, SlotType:2, BuyPrice:250000000, SellPrice:5000000, MasteryType:999, ItemClass:0},
+					 {ItemId:"ITEM_00000000000000000000389", Name:"Orb of Learning", Description:"+20% more experience per fight", Sockets:0, Slots:0, SlotType:2, BuyPrice:250000000, SellPrice:5000000, MasteryType:999, ItemClass:0},
+					 {ItemId:"ITEM_00000000000000000000390", Name:"Chalice of Luck", Description:"+100% drop chance", Sockets:0, Slots:0, SlotType:2, BuyPrice:500000000, SellPrice:5000000, MasteryType:999, ItemClass:0},
+					 {ItemId:"ITEM_00000000000000000000391", Name:"Golden Orb of Enlightenment", Description:"Shows all players in a 3x3 area around you. Shows all online players", Sockets:0, Slots:0, SlotType:2, BuyPrice:500000000, SellPrice:5000000, MasteryType:999, ItemClass:0},
+					 {ItemId:"ITEM_00000000000000000000392", Name:"Eternal Ring", Description:"10% gold lost upon death, instead of 100%", Sockets:0, Slots:0, SlotType:2, BuyPrice:500000000, SellPrice:5000000, MasteryType:999, ItemClass:0},
+					 {ItemId:"ITEM_00000000000000000000393", Name:"Band of the Chosen", Description:"5% experience lost upon death, instead of 20%", Sockets:0, Slots:0, SlotType:2, BuyPrice:500000000, SellPrice:5000000, MasteryType:999, ItemClass:0},
+					 {ItemId:"ITEM_00000000000000000000394", Name:"Huggle", Description:"Just a sign of affection", Sockets:0, Slots:0, SlotType:2, BuyPrice:10000000, SellPrice:5000000, MasteryType:999, ItemClass:0}
+				]
+			],
 			[	//SlotType: Spells
 				[
 					//fire

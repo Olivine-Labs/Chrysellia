@@ -413,3 +413,25 @@ li.Troll { background-image: url("images/race_24s/troll.jpg"); }
 .monsterType.Anarchist { color: #C33; }
 .monsterType.Fool { color: #FF8965; }
 .monsterType.Illusionist { color: #43F0FF; }
+
+#debugWindow {
+	opacity: .75;
+	display: none;
+	position: absolute;
+	top: 0;
+	left: 0;
+	background-color: #000;
+	color: #ff0;
+	font-family: Consolas, monospace;
+	font-size: 10pt;
+	height: 400px;
+	width: 50%;
+	overflow: auto;
+	border-right: solid 1px #000;
+	border-bottom: solid 2px #000;
+	z-index: 10000;
+}
+
+#logs  div:nth-child(even){
+	background-color: #666;
+}
