@@ -61,7 +61,7 @@ class Chat extends \Database\Chat
 		$Query = $this->Database->Connection->prepare(SQL_INSERTMESSAGE);
 		if($Type==255)
 			$Message = serialize($Message);
-		$Query->bind_param('ssssss', $Character->CharacterId, $CharacterTarget->CharacterId, $ChannelId, $Message, $Character->Name, $Character->AlignGood, $Character->AlignOrder, $Type);
+		$Query->bind_param('sssssiis', $Character->CharacterId, $CharacterTarget->CharacterId, $ChannelId, $Message, $Character->Name, $Character->AlignGood, $Character->AlignOrder, $Type);
 
 		$Query->Execute();
 
