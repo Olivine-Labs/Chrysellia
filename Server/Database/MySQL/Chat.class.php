@@ -2,11 +2,11 @@
 
 namespace Database\MySQL;
 
-define('SQL_GETMESSAGES', 'SELECT c.message, c.fromName, c.type, UNIX_TIMESTAMP(c.sentOn) FROM `chat` c INNER JOIN `channel_permissions` p ON p.channelId=c.channelId AND p.characterId=? AND p.characterId != c.characterIdFrom WHERE c.type!=255 AND c.channelId=? AND p.accessRead=1 AND c.sentOn>FROM_UNIXTIME(?) ORDER BY c.sentOn ASC');
-define('SQL_GETSYSTEMMESSAGES', 'SELECT c.message, c.fromName, c.type, UNIX_TIMESTAMP(c.sentOn) FROM `chat` c WHERE ((c.characterIdTo=?) OR (c.characterIdTo IS NULL)) AND c.type=255 AND c.sentOn>FROM_UNIXTIME(?) ORDER BY c.sentOn ASC');
+define('SQL_GETMESSAGES', 'SELECT c.message, c.fromName, c.alignGood, c.alignOrder c.type, UNIX_TIMESTAMP(c.sentOn) FROM `chat` c INNER JOIN `channel_permissions` p ON p.channelId=c.channelId AND p.characterId=? AND p.characterId != c.characterIdFrom WHERE c.type!=255 AND c.channelId=? AND p.accessRead=1 AND c.sentOn>FROM_UNIXTIME(?) ORDER BY c.sentOn ASC');
+define('SQL_GETSYSTEMMESSAGES', 'SELECT c.message, c.fromName, c.alignGood, c.alignOrder, c.type, UNIX_TIMESTAMP(c.sentOn) FROM `chat` c WHERE ((c.characterIdTo=?) OR (c.characterIdTo IS NULL)) AND c.type=255 AND c.sentOn>FROM_UNIXTIME(?) ORDER BY c.sentOn ASC');
 define('SQL_CHANNELGETRIGHTS', 'SELECT p.accessRead, p.accessWrite, p.accessModerator, p.accessAdmin, p.isJoined, c.name, c.defaultAccessRead, c.defaultAccessWrite FROM `channel_permissions` p RIGHT JOIN `channels` c ON c.channelId=p.channelId AND p.characterId=? WHERE c.channelId=?');
 define('SQL_CHANNELGETRIGHTSBYNAME', 'SELECT c.channelId, p.accessRead, p.accessWrite, p.accessModerator, p.accessAdmin, p.isJoined, c.name, c.defaultAccessRead, c.defaultAccessWrite FROM `channel_permissions` p RIGHT JOIN `channels` c ON c.channelId=p.channelId AND p.characterId=? WHERE c.name=?');
-define('SQL_INSERTMESSAGE', 'INSERT INTO `chat` (`characterIdFrom`, `characterIdTo`, `channelId`, `message`, `fromName`, `type`) VALUES (?, ?, ?, ?, ?, ?)');
+define('SQL_INSERTMESSAGE', 'INSERT INTO `chat` (`characterIdFrom`, `characterIdTo`, `channelId`, `message`, `fromName`, `alignGood`, `alignOrder`, `type`) VALUES (?, ?, ?, ?, ?, ?, ?, ?)');
 define('SQL_CHANNELSETRIGHTS', 'INSERT INTO `channel_permissions` (`characterId`, `channelId`, `accessRead`,`accessWrite`,`accessModerator`,`accessAdmin`, `isJoined`) VALUES (?, ?, coalesce(?, 0), coalesce(?, 0), coalesce(?, 0), coalesce(?, 0), coalesce(?, 0)) ON DUPLICATE KEY UPDATE `accessRead`=?, `accessWrite`=?, `accessModerator`=?, `accessAdmin`=?, `isJoined`=?');
 define('SQL_CHANNELGETJOINEDLIST', 'SELECT p.channelId, c.name, c.motd FROM `channel_permissions` p INNER JOIN `channels` c ON c.channelId=p.channelId WHERE p.isJoined=1 AND p.characterId=?');
 define('SQL_CHANNELSETJOINED', 'INSERT INTO `channel_permissions` (`characterId`, `channelId`, `isJoined`) VALUES (?, ?, ?) ON DUPLICATE KEY UPDATE `isJoined`=?');
@@ -61,7 +61,7 @@ class Chat extends \Database\Chat
 		$Query = $this->Database->Connection->prepare(SQL_INSERTMESSAGE);
 		if($Type==255)
 			$Message = serialize($Message);
-		$Query->bind_param('ssssss', $Character->CharacterId, $CharacterTarget->CharacterId, $ChannelId, $Message, $Character->Name, $Type);
+		$Query->bind_param('ssssss', $Character->CharacterId, $CharacterTarget->CharacterId, $ChannelId, $Message, $Character->Name, $Character->AlignGood, $Character->AlignOrder, $Type);
 
 		$Query->Execute();
 
@@ -97,7 +97,7 @@ class Chat extends \Database\Chat
 		$Result = Array();
 		while($Continue)
 		{
-			$Query->bind_result($Result[$Index]['Message'], $Result[$Index]['FromName'], $Result[$Index]['Type'], $Result[$Index]['SentOn']);
+			$Query->bind_result($Result[$Index]['Message'], $Result[$Index]['FromName'], $Result[$Index]['AlignGood'], $Result[$Index]['AlignOrder'], $Result[$Index]['Type'], $Result[$Index]['SentOn']);
 			$Continue = $Query->Fetch();
 			$Index ++;
 		}
@@ -133,7 +133,7 @@ class Chat extends \Database\Chat
 		$Result = Array();
 		while($Continue)
 		{
-			$Query->bind_result($Result[$Index]['Message'], $Result[$Index]['FromName'], $Result[$Index]['Type'], $Result[$Index]['SentOn']);
+			$Query->bind_result($Result[$Index]['Message'], $Result[$Index]['FromName'], $Result[$Index]['AlignGood'], $Result[$Index]['AlignOrder'], $Result[$Index]['Type'], $Result[$Index]['SentOn']);
 			$Continue = $Query->Fetch();
 			$Result[$Index]['Message'] = unserialize($Result[$Index]['Message']);
 			$Index ++;

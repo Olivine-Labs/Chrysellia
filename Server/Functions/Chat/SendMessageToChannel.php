@@ -22,9 +22,16 @@ if(
 		{
 			if($Rights['Write'])
 			{
-				if($Database->Chat->Insert($Character, $Get->Channel, $Get->Message))
+				if($Database->Characters->LoadTraits($Character))
 				{
-				$Response->Set('Result', \Protocol\Response::ER_SUCCESS);
+					if($Database->Chat->Insert($Character, $Get->Channel, $Get->Message))
+					{
+						$Response->Set('Result', \Protocol\Response::ER_SUCCESS);
+					}
+				}
+				else
+				{
+					$Response->Set('Result', \Protocol\Response::ER_DBERROR);
 				}
 			}
 		}
