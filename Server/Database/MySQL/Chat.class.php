@@ -2,7 +2,7 @@
 
 namespace Database\MySQL;
 
-define('SQL_GETMESSAGES', 'SELECT c.message, c.fromName, c.alignGood, c.alignOrder c.type, UNIX_TIMESTAMP(c.sentOn) FROM `chat` c INNER JOIN `channel_permissions` p ON p.channelId=c.channelId AND p.characterId=? AND p.characterId != c.characterIdFrom WHERE c.type!=255 AND c.channelId=? AND p.accessRead=1 AND c.sentOn>FROM_UNIXTIME(?) ORDER BY c.sentOn ASC');
+define('SQL_GETMESSAGES', 'SELECT c.message, c.fromName, c.alignGood, c.alignOrder, c.type, UNIX_TIMESTAMP(c.sentOn) FROM `chat` c INNER JOIN `channel_permissions` p ON p.channelId=c.channelId AND p.characterId=? AND p.characterId != c.characterIdFrom WHERE c.type!=255 AND c.channelId=? AND p.accessRead=1 AND c.sentOn>FROM_UNIXTIME(?) ORDER BY c.sentOn ASC');
 define('SQL_GETSYSTEMMESSAGES', 'SELECT c.message, c.fromName, c.alignGood, c.alignOrder, c.type, UNIX_TIMESTAMP(c.sentOn) FROM `chat` c WHERE ((c.characterIdTo=?) OR (c.characterIdTo IS NULL)) AND c.type=255 AND c.sentOn>FROM_UNIXTIME(?) ORDER BY c.sentOn ASC');
 define('SQL_CHANNELGETRIGHTS', 'SELECT p.accessRead, p.accessWrite, p.accessModerator, p.accessAdmin, p.isJoined, c.name, c.defaultAccessRead, c.defaultAccessWrite FROM `channel_permissions` p RIGHT JOIN `channels` c ON c.channelId=p.channelId AND p.characterId=? WHERE c.channelId=?');
 define('SQL_CHANNELGETRIGHTSBYNAME', 'SELECT c.channelId, p.accessRead, p.accessWrite, p.accessModerator, p.accessAdmin, p.isJoined, c.name, c.defaultAccessRead, c.defaultAccessWrite FROM `channel_permissions` p RIGHT JOIN `channels` c ON c.channelId=p.channelId AND p.characterId=? WHERE c.name=?');
