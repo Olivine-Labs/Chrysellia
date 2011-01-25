@@ -155,27 +155,15 @@ function ProcessTops(data){
 		var raceName = "";
 		var li = {};
 		var topList = $("#topList");
+		var characters = data.Data;
 		
-		if(topList.children.length > 0){
+		if(topList.children().length > 0){
 			$("#topList").animate({ opacity:0 }, 250, function(){
-				$("#topList").empty(); 
-				$("#topList").css({opacity: 1}); 
-				for(var c=0; c < data.Data.length; c++){
-					character = data.Data[c];
-					raceName = vc.Races[character.RaceId].Name;
-					li = $("<li title='#"+c+": "+character.Name+" " + AlignName(character.AlignGood, character.AlignOrder) + " Level "+character.Level+ " " + raceName + "' class='" + raceName + "'></li>");
-					$("<div><h2 class='rank number_"+c+"'>#"+(c*1 + 1)+"</h2><h3 class='charName'>"+character.Name+"</h3><span class='charDetails'>" + AlignName(character.AlignGood, character.AlignOrder) + " Level "+character.Level+ " " + raceName + "</span></div>").appendTo(li);
-					li.appendTo(topList);
-				}
+				topList.empty().css({opacity: 1});
+				$("#topstmpl").tmpl({ character:characters }).appendTo(topList);
 			});
 		}else{
-			for(var c=0; c < data.Data.length; c++){
-				character = data.Data[c];
-				raceName = vc.Races[character.RaceId].Name;
-				li = $("<li title='#"+c+": "+character.Name+" " + AlignName(character.AlignGood, character.AlignOrder) + " Level "+character.Level+ " " + raceName + "' class='" + raceName + "'></li>");
-				$("<div><h2 class='rank number_"+c+"'>#"+(c*1 + 1)+"</h2><h3 class='charName'>"+character.Name+"</h3><span class='charDetails'>" + AlignName(character.AlignGood, character.AlignOrder) + " Level "+character.Level+ " " + raceName + "</span></div>").appendTo(li);
-				li.appendTo(topList);
-			}
+			$("#topstmpl").tmpl({ character:characters }).appendTo(topList);
 		}
 	}
 }

@@ -262,7 +262,7 @@ include_once('php/simplepie.inc');
 		
 		<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.4/jquery.min.js"></script>
 		<script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.9/jquery-ui.min.js"></script>
-		
+
 		<!--[if IE]>
 		<div id='incompatible'>
 			Internet Explorer is unsupported for the duration of 
@@ -280,21 +280,35 @@ include_once('php/simplepie.inc');
 		</script>
 		<![endif]-->
 		
+		<script id="topstmpl" type="text/x-jquery-tmpl">
+			{{each character }}
+				<li title="#${$index + 1}: ${Name} ${AlignName(AlignGood, AlignOrder)} ${Level} ${vc.Races[RaceId].Name}" class="${vc.Races[RaceId].Name}">
+					<div>
+						<h2 class='rank number_${$index + 1}'>#${$index + 1}</h2>
+						<h3 class='charName'>${Name}</h3>
+						<span class='charDetails'>${AlignName(AlignGood, AlignOrder)} Level ${Level} ${vc.Races[RaceId].Name}</span>
+					</div>
+				</li>
+			{{/each}}
+		</script>
+		
 		<!-- Here come the plugins -->
-		<script src="./js/jquery.watermark.min.js"></script>
-		<script src="./js/jquery.cookie.js"></script>
-		<script src="./Core/jquery-md5.js" type="text/javascript"></script>
-		<script src="./Core/json.js" type="text/javascript"></script>
+			<script src="./js/jquery.watermark.min.js"></script>
+			<script src="./js/jquery.cookie.js"></script>
+			<script src="./js/jquery.datalink.js"></script>
+			<script type="text/javascript" src="http://ajax.microsoft.com/ajax/jquery.templates/beta1/jquery.tmpl.min.js"></script>
+			<script src="./Core/jquery-md5.js" type="text/javascript"></script>
+			<script src="./Core/json.js" type="text/javascript"></script>
 		<!-- <script src="./js/plugins.min.js"></script>-->
 				
-		<!-- For the production version, we'll minify and combine our javascript, and keep a plain version for us -->
-		<script src="./Core/core.js"></script>
-		<script src="./Core/core-AccountService.js"></script>
-		<script src="./Core/core-CharacterService.js"></script>
-		<script src="./Core/core-APIService.js"></script>
-		<!-- <script src="./Core/core.min.js"></script>
-		<script src="./Core/core-APIService.js"></script>-->
+		<!-- Here come the services -->
+			<script src="./Core/core.js"></script>
+			<script src="./Core/core-AccountService.js"></script>
+			<script src="./Core/core-CharacterService.js"></script>
+			<script src="./Core/core-APIService.js"></script>
+		<!-- <script src="./Core/core.min.js"></script>-->
 		
+		<!-- Here come the data libraries -->
 		<script src="./Core/staticInfo/races.js"></script>
 		
 		<!-- Page setup -->
