@@ -219,9 +219,9 @@ function Move(RelativeX, RelativeY){
 	vc.ms.Move(x, y, RefreshMap);
 	
 	if(RelativeX+RelativeY == 1 || RelativeX + RelativeY == -1){
-		window.setTimeout(function(){SetEnableMovement(true)}, 750);
+		window.setTimeout(function(){SetEnableMovement(true)}, 200);
 	}else{
-		window.setTimeout(function(){SetEnableMovement(true)}, 1060);
+		window.setTimeout(function(){SetEnableMovement(true)}, 282);
 	}
 }
 
