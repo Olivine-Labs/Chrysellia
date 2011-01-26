@@ -66,7 +66,7 @@
 		
 		
 		GenerateSingleRequestObject: function(type, action, data){
-			return { Data: $.jSEND([{ Type: type, Action: action, Data: data }])};
+			return {Data: $.jSEND(JSON.stringify([{ Type: type, Action: action, Data: data }]))};
 		},
 		
 		CheckVersion: function(callback){
