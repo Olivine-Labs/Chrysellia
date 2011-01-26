@@ -37,6 +37,34 @@
 		STATICINFO_DIRECTORY: "./Core/staticInfo/",
 		API_URI: "../Server/API.php",
 		
+		TYPE_ACCOUNT: 0, 
+		TYPE_CHARACTER: 1, 
+		TYPE_CHAT: 2, 
+		TYPE_COMMANDS: 3, 
+		TYPE_ITEM: 4, 
+		TYPE_MAP: 5, 
+		TYPE_MONSTER: 6, 
+		TYPE_PLACES: 7, 
+		TYPE_API: 8,
+		
+		SendQueuedRequest: function(type, action, data){
+			var js = $.ajax(
+				V2Core.SERVERCODE_DIRECTORY + "Index.php",
+				vc.GenerateSingleRequestObject(type, action, data)
+			);
+			
+			return js;
+		},
+		
+		GenerateRequestObject: function(type, action, data){
+			return JSON.stringify({ Type: type, Action: action, Data: data });
+		},
+		
+		
+		GenerateSingleRequestObject: function(type, action, data){
+			return { Data: $.jSEND(JSON.stringify([{ Type: type, Action: action, Data: data }])) };
+		},
+		
 		CheckVersion: function(callback){
 			$.ajax({
 				async: false,

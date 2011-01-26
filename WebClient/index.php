@@ -351,7 +351,7 @@ include_once('php/simplepie.inc');
 			</section>
 		</div>
 		
-		<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.4/jquery.min.js"></script>
+		<script src="http://code.jquery.com/jquery-1.5rc1.js"></script>
 		<script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.9/jquery-ui.min.js"></script>
 		
 		<!--[if IE]>
@@ -376,6 +376,7 @@ include_once('php/simplepie.inc');
 		<script src="./js/jquery.cookie.js"></script>
 		<script src="./Core/jquery-md5.js" type="text/javascript"></script>
 		<script src="./Core/json.js" type="text/javascript"></script>
+		<script src="./js/jsend.min.js"></script>
 		<!-- <script src="./js/plugins.min.js"></script>-->
 				
 		<!-- For the production version, we'll minify and combine our javascript, and keep a plain version for us -->

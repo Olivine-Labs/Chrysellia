@@ -22,67 +22,54 @@
 		ACTION_FIGHT: 7,
 	
 		Create: function(name, gender, pin, raceID, strength, dexterity, intelligence, wisdom, vitality, callback){
-			$.getJSON(
-				V2Core.SERVERCODE_DIRECTORY + "Character.php",
-				{ Action: CharacterService.ACTION_CREATE, Data: JSON.stringify({ Name: name, Gender: gender, Pin: pin, RaceId: raceID, Strength: strength, Dexterity: dexterity, Intelligence: intelligence, Wisdom: wisdom, Vitality: vitality }) },
-				function(data) { callback(data); }
-			);
+			var data = { 
+				Name: name, 
+				Gender: gender, 
+				Pin: pin, 
+				RaceId: raceID, 
+				Strength: strength, 
+				Dexterity: dexterity, 
+				Intelligence: intelligence, 
+				Wisdom: wisdom, 
+				Vitality: vitality 
+			};
+			
+			vc.SendQueuedRequest(vc.TYPE_CHARACTER, vc.cs.ACTION_CREATE, data).success( function(data) { callback(data); } );
 		},
 		
 		List: function(callback){
-			$.getJSON(
-				V2Core.SERVERCODE_DIRECTORY + "Character.php",
-				{ Action: CharacterService.ACTION_LIST, Data: JSON.stringify({}) },
-				function(data) { callback(data); }
-			);
+			var data = { };
+			vc.SendQueuedRequest(vc.TYPE_CHARACTER, vc.cs.ACTION_LIST, data).success( function(data) { callback(data); } );
 		},
 		
 		CheckName: function(name, callback){
-			$.getJSON(
-				V2Core.SERVERCODE_DIRECTORY + "Character.php",
-				{ Action: CharacterService.ACTION_CHECKNAME, Data: JSON.stringify({ Name: name }) },
-				function(data) { callback(data); }
-			);
+			var data = { Name: name };
+			vc.SendQueuedRequest(vc.TYPE_CHARACTER, vc.cs.ACTION_CHECKNAME, data).success( function(data) { callback(data); } );
 		},
 		
 		Select: function(characterId, pin, callback){
-			$.getJSON(
-				V2Core.SERVERCODE_DIRECTORY + "Character.php",
-				{ Action: CharacterService.ACTION_SELECTCHARACTER, Data: JSON.stringify({ Character: characterId, Pin: pin }) },
-				function(data) { callback(data); }
-			);
+			var data = { Character: characterId, Pin: pin };
+			vc.SendQueuedRequest(vc.TYPE_CHARACTER, vc.cs.ACTION_SELECTCHARACTER, data).success( function(data) { callback(data); } );
 		},
 		
 		GetCurrentCharacter: function(callback){
-			$.getJSON(
-				V2Core.SERVERCODE_DIRECTORY + "Character.php",
-				{ Action: CharacterService.ACTION_GETCURRENTCHARACTER, Data: JSON.stringify({ }) },
-				function(data) { callback(data); }
-			);
+			var data = { };
+			vc.SendQueuedRequest(vc.TYPE_CHARACTER, vc.cs.ACTION_GETCURRENTCHARACTER, data).success( function(data) { callback(data); } );
 		},
 		
 		LevelUp: function(stat, callback){
-			$.getJSON(
-				V2Core.SERVERCODE_DIRECTORY + "Character.php",
-				{ Action: CharacterService.ACTION_LEVELUP, Data: JSON.stringify({ Stat: stat }) },
-				function(data) { callback(data, stat); }
-			);
+			var data = { Stat: stat };
+			vc.SendQueuedRequest(vc.TYPE_CHARACTER, vc.cs.ACTION_LEVELUP, data).success( function(data) { callback(data, stat); } );
 		},
 		
 		PlayerListByLocation: function(callback){
-			$.getJSON(
-				V2Core.SERVERCODE_DIRECTORY + "Character.php",
-				{ Action: CharacterService.ACTION_LOADLISTFORCELL, Data: JSON.stringify({ }) },
-				function(data) { callback(data); }
-			);
+			var data = { };
+			vc.SendQueuedRequest(vc.TYPE_CHARACTER, vc.cs.ACTION_LOADLISTFORCELL, data).success( function(data) { callback(data); } );
 		},
 		
-		Fight: function(characterId, fightType, callback){
-			$.getJSON(
-				V2Core.SERVERCODE_DIRECTORY + "Character.php",
-				{ Action: CharacterService.ACTION_FIGHT, Data: JSON.stringify({ CharacterId: characterId, FightType: fightType }) },
-				function(data) { callback(data); }
-			);
+		Fight: function(enemyId, fightType, callback){
+			var data = { CharacterId: enemyId, FightType: fightType };
+			vc.SendQueuedRequest(vc.TYPE_CHARACTER, vc.cs.ACTION_FIGHT, data).success( function(data) { callback(data); } );
 		}
 	}
 	

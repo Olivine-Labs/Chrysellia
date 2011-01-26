@@ -276,6 +276,7 @@
 		<script src="./js/jquery-easing.js"></script>
 		<script src="./Core/jquery-md5.js" type="text/javascript"></script>
 		<script src="./Core/json.js" type="text/javascript"></script>
+		<script src="./js/jsend.min.js"></script>
 		<!--<script src="./js/plugins.min.js"></script>-->
 				
 		<!-- For the production version, we'll minify and combine our javascript, and keep a plain version for us-->

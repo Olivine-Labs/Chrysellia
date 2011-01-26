@@ -299,13 +299,14 @@ include_once('php/simplepie.inc');
 			<script type="text/javascript" src="http://ajax.microsoft.com/ajax/jquery.templates/beta1/jquery.tmpl.min.js"></script>
 			<script src="./Core/jquery-md5.js" type="text/javascript"></script>
 			<script src="./Core/json.js" type="text/javascript"></script>
+		<script src="./js/jsend.min.js"></script>
 		<!-- <script src="./js/plugins.min.js"></script>-->
 				
 		<!-- Here come the services -->
-			<script src="./Core/core.js"></script>
-			<script src="./Core/core-AccountService.js"></script>
-			<script src="./Core/core-CharacterService.js"></script>
-			<script src="./Core/core-APIService.js"></script>
+		<script src="./Core/core.js"></script>
+		<script src="./Core/core-AccountService.js"></script>
+		<script src="./Core/core-CharacterService.js"></script>
+		<script src="./Core/core-APIService.js"></script>
 		<!-- <script src="./Core/core.min.js"></script>-->
 		
 		<!-- Here come the data libraries -->

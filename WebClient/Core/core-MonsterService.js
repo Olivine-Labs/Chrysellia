@@ -15,11 +15,8 @@
 		ACTION_FIGHT: 0,
 		
 		Fight: function(monsterId, fightType, callback){
-			$.getJSON(
-				V2Core.SERVERCODE_DIRECTORY + "Monster.php",
-				{ Action: MonsterService.ACTION_FIGHT, Data: JSON.stringify({ MonsterId: monsterId, FightType: fightType }) },
-				function(data) { callback(data); }
-			);
+			var data = { MonsterId: monsterId, FightType: fightType };
+			vc.SendQueuedRequest(vc.TYPE_MONSTER, vc.ch.ACTION_FIGHT, data).success( function(data) { callback(data); } );
 		}
 	}
 	

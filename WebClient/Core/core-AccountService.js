@@ -16,27 +16,18 @@
 		ACTION_LOGOUT: 2,
 		
 		Login: function(username, password, callback){
-			$.getJSON(
-				V2Core.SERVERCODE_DIRECTORY + "Account.php",
-				{ Action: AccountService.ACTION_LOGIN, Data: JSON.stringify({ UserName: username, Password: password }) },
-				function(data) { callback(data); }
-			);
+			var data = { UserName: username, Password: password };
+			vc.SendQueuedRequest(vc.TYPE_ACCOUNT, vc.cs.ACTION_LOGIN, data).success( function(data) { callback(data); } );
 		},
 		
 		Register: function(username, password, email, callback){
-			$.getJSON(
-				V2Core.SERVERCODE_DIRECTORY + "Account.php",
-				{ Action: AccountService.ACTION_REGISTER, Data: JSON.stringify({ UserName: username, Password: password, Email: email}) },
-				function(data) { callback(data); }
-			);
+			var data = { UserName: username, Password: password, Email: email};
+			vc.SendQueuedRequest(vc.TYPE_ACCOUNT, vc.cs.ACTION_REGISTER, data).success( function(data) { callback(data); } );
 		},
 		
 		Logout: function(callback){
-			$.getJSON(
-				V2Core.SERVERCODE_DIRECTORY + "Account.php",
-				{ Action: AccountService.ACTION_LOGOUT, Data: JSON.stringify({ }) },
-				function(data) { callback(data); }
-			);
+			var data = { };
+			vc.SendQueuedRequest(vc.TYPE_ACCOUNT, vc.cs.ACTION_LOGOUT, data).success( function(data) { callback(data); } );
 		}
 	}
 	

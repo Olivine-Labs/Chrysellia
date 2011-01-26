@@ -27,67 +27,43 @@
 		PLACE_TYPE_SHRINE: 2,
 	
 		Move: function(x, y, callback){
-			$.getJSON(
-				V2Core.SERVERCODE_DIRECTORY + "Map.php",
-				{ Action: MapService.ACTION_MOVE, Data: JSON.stringify({ X:x, Y:y }) },
-				function(data) { callback(data); }
-			);
+			var data = { X:x, Y:y };
+			vc.SendQueuedRequest(vc.TYPE_MAP, vc.ch.ACTION_MOVE, data).success( function(data) { callback(data); } );
 		},
 		
 		ChangeMap: function(callback){
-			$.getJSON(
-				V2Core.SERVERCODE_DIRECTORY + "Map.php",
-				{ Action: MapService.ACTION_CHANGEMAP, Data: JSON.stringify({  }) },
-				function(data) { callback(data); }
-			);
+			var data = { };
+			vc.SendQueuedRequest(vc.TYPE_MAP, vc.ch.ACTION_CHANGEMAP, data).success( function(data) { callback(data); } );
 		},
 		
 		Buy: function(itemTemplateId, callback){
-			$.getJSON(
-				V2Core.SERVERCODE_DIRECTORY + "Places.php",
-				{ Action: MapService.ACTION_BUY, Data: JSON.stringify({ ItemTemplateId: itemTemplateId }) },
-				function(data) { callback(data); }
-			);
+			var data = { ItemTemplateId: itemTemplateId };
+			vc.SendQueuedRequest(vc.TYPE_PLACES, vc.ch.ACTION_BUY, data).success( function(data) { callback(data); } );
 		},
 		
 		Sell: function(itemId, callback){
-			$.getJSON(
-				V2Core.SERVERCODE_DIRECTORY + "Places.php",
-				{ Action: MapService.ACTION_SELL, Data: JSON.stringify({ ItemId: itemId }) },
-				function(data) { callback(data, itemId); }
-			);
+			var data = { ItemId: itemId };
+			vc.SendQueuedRequest(vc.TYPE_PLACES, vc.ch.ACTION_SELL, data).success( function(data) { callback(data, itemId); } );
 		},
 		
 		Revive: function(callback){
-			$.getJSON(
-				V2Core.SERVERCODE_DIRECTORY + "Places.php",
-				{ Action: MapService.ACTION_REVIVE, Data: JSON.stringify({ }) },
-				function(data) { callback(data); }
-			);
+			var data = { };
+			vc.SendQueuedRequest(vc.TYPE_PLACES, vc.ch.ACTION_REVIVE, data).success( function(data) { callback(data); } );
 		},
 		
 		Widthdraw: function(gold, callback){
-			$.getJSON(
-				V2Core.SERVERCODE_DIRECTORY + "Places.php",
-				{ Action: MapService.ACTION_WITHDRAW, Data: JSON.stringify({ Gold: gold }) },
-				function(data) { callback(data, gold, 1); }
-			);
+			var data = { Gold: gold };
+			vc.SendQueuedRequest(vc.TYPE_PLACES, vc.ch.ACTION_WITHDRAW, data).success( function(data) { callback(data, gold, 1); } );
 		},
 		
 		Deposit: function(gold, callback){
-			$.getJSON(
-				V2Core.SERVERCODE_DIRECTORY + "Places.php",
-				{ Action: MapService.ACTION_DEPOSIT, Data: JSON.stringify({ Gold: gold }) },
-				function(data) { callback(data, gold, 0); }
-			);
+			var data = { Gold: gold };
+			vc.SendQueuedRequest(vc.TYPE_PLACES, vc.ch.ACTION_DEPOSIT, data).success( function(data) { callback(data, gold, 0); } );
 		},
 		
 		Transfer: function(gold, name, callback){
-			$.getJSON(
-				V2Core.SERVERCODE_DIRECTORY + "Places.php",
-				{ Action: MapService.ACTION_TRANSFER, Data: JSON.stringify({ Gold: gold, Name: name }) },
-				function(data) { callback(data, gold); }
-			);
+			var data = { Gold: gold };
+			vc.SendQueuedRequest(vc.TYPE_PLACES, vc.ch.ACTION_TRANSFER, data).success( function(data) { callback(data, gold); } );
 		}
 	}
 	

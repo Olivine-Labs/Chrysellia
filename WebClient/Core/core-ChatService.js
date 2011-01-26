@@ -31,19 +31,13 @@
 		StaticRooms: StaticRooms,
 	
 		GetMessagesFromChannel: function(channel, callback){
-			$.getJSON(
-				V2Core.SERVERCODE_DIRECTORY + "Chat.php",
-				{ Action: ChatService.ACTION_GETMESSAGESFROMCHANNEL, Data: JSON.stringify({ Channel: channel }) },
-				function(data) { callback(data); }
-			);
+			var data = { Channel: channel };
+			vc.SendQueuedRequest(vc.TYPE_CHAT, vc.ch.ACTION_GETMESSAGESFROMCHANNEL, data).success( function(data) { callback(data); } );
 		},
 		
 		GetMessagesForCharacter: function(callback){
-			$.getJSON(
-				V2Core.SERVERCODE_DIRECTORY + "Chat.php",
-				{ Action: ChatService.ACTION_GETMESSAGESFORCHARACTER, Data: JSON.stringify({ }) },
-				function(data) { callback(data); }
-			);
+			var data = { };
+			vc.SendQueuedRequest(vc.TYPE_CHAT, vc.ch.ACTION_GETMESSAGESFORCHARACTER, data).success( function(data) { callback(data); } );
 		},
 		
 		SendMessageToChannel: function(channel, message, callback){
@@ -51,14 +45,11 @@
 			
 			switch(chatobj.Type){
 				case vc.ChatService.CHAT_TYPE_GENERAL:
-					$.getJSON(
-						V2Core.SERVERCODE_DIRECTORY + "Chat.php",
-						{ Action: ChatService.ACTION_SENDMESSAGE, Data: JSON.stringify({ Channel: channel, Message: message }) },
-						function(data) { callback(data); }
-					);
+					var data = { Channel: channel, Message: message };
+					vc.SendQueuedRequest(vc.TYPE_CHAT, vc.ch.ACTION_SENDMESSAGE, data).success( function(data) { callback(data); } );
 					break;
 				case vc.ChatService.CHAT_TYPE_EMOTE:
-					vc.cmd.SendChatCommand(channel, vc.CommandService.ACTION_EMOTE, chatobj.Message, callback);
+					vc.cmd.SendChatCommand(channel, vc.cmd.ACTION_EMOTE, chatobj.Message, callback);
 					break;
 				default:
 					callback({ Result: V2Core.ER_MALFORMED, Data: {} });
@@ -67,43 +58,28 @@
 		},
 		
 		JoinChannel: function(channel, callback){
-			$.getJSON(
-				V2Core.SERVERCODE_DIRECTORY + "Commands.php",
-				{ Action: vc.CommandService.ACTION_JOINCHANNEL, Data: JSON.stringify({ Channel: channel }) },
-				function(data) { callback(data); }
-			);
+			var data = { Channel: channel };
+			vc.SendQueuedRequest(vc.TYPE_COMMANDS, vc.cmd.ACTION_JOINCHANNEL, data).success( function(data) { callback(data); } );
 		},
 		
 		PartChannel: function(channel, callback){
-			$.getJSON(
-				V2Core.SERVERCODE_DIRECTORY + "Commands.php",
-				{ Action: vc.CommandService.ACTION_CHANNEL_PART, Data: JSON.stringify({ Channel: channel }) },
-				function(data) { callback(data); }
-			);
+			var data = { Channel: channel };
+			vc.SendQueuedRequest(vc.TYPE_COMMANDS, vc.cmd.ACTION_CHANNEL_PART, data).success( function(data) { callback(data); } );
 		},
 		
 		CreateChannel: function(name, motd, publicRead, publicWrite, callback){
-			$.getJSON(
-				V2Core.SERVERCODE_DIRECTORY + "Commands.php",
-				{ Action: vc.CommandService.ACTION_CHANNEL_CREATE, Data: JSON.stringify({ Channel: name, Motd: motd, PublicRead: publicRead, PublicWrite: publicWrite }) },
-				function(data) { callback(data); }
-			);
+			var data = { Channel: name, Motd: motd, PublicRead: publicRead, PublicWrite: publicWrite };
+			vc.SendQueuedRequest(vc.TYPE_COMMANDS, vc.cmd.ACTION_CHANNEL_CREATE, data).success( function(data) { callback(data); } );
 		},
 		
 		SetRights: function(channel, characterName, rights, callback){
-			$.getJSON(
-				V2Core.SERVERCODE_DIRECTORY + "Commands.php",
-				{ Action: vc.CommandService.ACTION_CHANNEL_SETRIGHTS, Data: JSON.stringify({ Channel: channel, Character: characterName, Rights: rights }) },
-				function(data) { callback(data); }
-			);
+			var data = { Channel: channel, Character: characterName, Rights: rights };
+			vc.SendQueuedRequest(vc.TYPE_COMMANDS, vc.cmd.ACTION_CHANNEL_SETRIGHTS, data).success( function(data) { callback(data); } );
 		},
 		
 		SetParameters: function(channel, parameter, value, callback){
-			$.getJSON(
-				V2Core.SERVERCODE_DIRECTORY + "Commands.php",
-				{ Action: vc.CommandService.ACTION_CHANNEL_SETPARAMETERS, Data: JSON.stringify({ ChannelId: channel, Parameter: parameter, Value: value }) },
-				function(data) { callback(data, parameter, value); }
-			);
+			var data = { ChannelId: channel, Parameter: parameter, Value: value };
+			vc.SendQueuedRequest(vc.TYPE_COMMANDS, vc.cmd.ACTION_CHANNEL_SETPARAMETERS, data).success( function(data) { callback(data, parameter, value); } );
 		},
 		
 		Utilities: {},
