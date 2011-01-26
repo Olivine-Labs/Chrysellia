@@ -116,20 +116,29 @@
 		}
 	};
 	
-	var Queue = function() {};
+	// in progress
+	var Queue = function(options) {};
 	Queue = Queue.prototype = function(options){
-		if(options !== undefiend && options.AutoSubmit && options.SubmitLength > 0){
-			
-		}
-		
+		this.Timeout = undefined;
 		this.Items = [];
+			
+		if(options !== undefined && options.AutoSubmit && options.SubmitLength > 0){
+			Timeout = window.setTimeout(function(){  }, options.SubmitLength);
+		}
 		
 		this.AddItem = function(type, action, data){
 			this.Items.push({ Type: type, Action: action, Data: data });
 		};
 		
 		this.Submit = function(){
-			vc.SendQueue(this);
+			if(this.Items.length > 0){
+				vc.SendQueue(this);
+				this.Items = [];
+			}
+			
+			if(options !== undefined && options.AutoSubmit && options.SubmitLength > 0){
+				Timeout = window.setTimeout(function(){  }, options.SubmitLength);
+			}
 		};
 	};
 	
