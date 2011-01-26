@@ -44,7 +44,6 @@ class Request
 		$this->CompressionType=$Config[CF_IP_COMPRESSION];
 		$this->InputType=$Config[CF_IP_ENCODING];
 		$this->Data = $Data;
-		throw new \Exception(print_r($Data));
 		$this->Decompress();
 		$this->Decode();
 	}
