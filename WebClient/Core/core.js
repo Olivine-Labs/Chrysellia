@@ -51,9 +51,19 @@
 		TYPE_PLACES: 7, 
 		TYPE_API: 8,
 		
+		SendQueuedRequest: function(type, action, data){			
+			var js = $.ajax(
+				V2Core.SERVERCODE_DIRECTORY + "Index.php",
+				{dataType: "json xml", data: vc.GenerateSingleRequestObject(type, action, data)}
+			);
+			
+			return js;
+		},
+		
 		GenerateRequestObject: function(type, action, data){
 			return JSON.stringify({ Type: type, Action: action, Data: data });
 		},
+		
 		
 		GenerateSingleRequestObject: function(type, action, data){
 			return $.jSEND(JSON.stringify([{ Type: type, Action: action, Data: data }]));
