@@ -117,7 +117,11 @@
 	};
 	
 	var Queue = function() {};
-	Queue = Queue.prototype = function(){
+	Queue = Queue.prototype = function(options){
+		if(options !== undefiend && options.AutoSubmit && options.SubmitLength > 0){
+			
+		}
+		
 		this.Items = [];
 		
 		this.AddItem = function(type, action, data){

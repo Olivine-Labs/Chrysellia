@@ -67,7 +67,8 @@ class Request
 				return true;
 				break;
 			case Request::CT_JSEND:
-				$jSEND = new \ThirdParty\jSEND();
+				include('./ThirdParty/jsend.class.php')
+				$jSEND = new jSEND();
 				$this->Data = $jSEND->getData($this->Data);
 				return true;
 				break;

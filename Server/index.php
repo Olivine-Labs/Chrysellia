@@ -65,5 +65,4 @@ if ( 'GET' === $_SERVER['REQUEST_METHOD'] )
 		$Response->AddError($e->getMessage());
 	}
 }
-
 ?>
