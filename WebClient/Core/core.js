@@ -13,12 +13,16 @@
  (function( window, undefined ) {
 
 	var V2Core = function (){};
+	var ShortQueue = function(){};
+	var LongQueue = function(){};
 	
 	var V2Result = {};
 	V2Result = V2Result.prototype = {
 		Result: 0,
 		Data: {}
-	}	
+	};
+	
+	
 	
 	V2Core = V2Core.prototype = {
 		Version: "0.0.1",
@@ -48,9 +52,11 @@
 		TYPE_API: 8,
 		
 		SendQueuedRequest: function(type, action, data){
+			alert(vc.GenerateSingleRequestObject(type, action, data));
+			
 			var js = $.ajax(
 				V2Core.SERVERCODE_DIRECTORY + "Index.php",
-				vc.GenerateSingleRequestObject(type, action, data)
+				{dataType: "json xml", data: vc.GenerateSingleRequestObject(type, action, data)}
 			);
 			
 			return js;
@@ -62,7 +68,7 @@
 		
 		
 		GenerateSingleRequestObject: function(type, action, data){
-			return { Data: $.jSEND(JSON.stringify([{ Type: type, Action: action, Data: data }])) };
+			return $.jSEND(JSON.stringify([{ Type: type, Action: action, Data: data }]));
 		},
 		
 		CheckVersion: function(callback){
@@ -107,6 +113,21 @@
 			return totalAlign;
 		}
 	};
+	
+	var Queue = function() {};
+	Queue = Queue.prototype = function(){
+		this.Items = [];
+		
+		this.AddItem = function(type, action, data){
+			Items.push({ Type: type, Action: action, Data: data });
+		};
+		
+		this.Submit = function(){
+			
+		};
+	};
+	
+	Queue.constructor = Queue;
 	
 	var Character = function() {};
 	
