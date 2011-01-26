@@ -9,9 +9,9 @@ if ( 'GET' === $_SERVER['REQUEST_METHOD'] )
 	define('ACTION_CHANNELCOUNT', 4);//Count of all public channels
 	try
 	{
-		if(isset($_GET['Action']))
+		if(isset($Request->Data['Action']))
 		{
-			switch($_GET['Action'])
+			switch($Request->Data['Action'])
 			{
 				case ACTION_TOP:
 					include './Functions/API/Top.php';

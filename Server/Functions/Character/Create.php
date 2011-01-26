@@ -8,10 +8,14 @@ define('CHANNEL_TRADE', 'CHAN_00000000000000000000002');
 
 define('STARTING_GOLD', '150');
 
-$Get = (object)Array('Data'=>'');
-if(isset($_GET['Data']))
+$Get = null;
+if(property_exists($ARequest, 'Data'))
 {
-	$Get = json_decode($_GET['Data']);
+	$Get = $ARequest->Data;
+}
+else
+{
+	$Get = new stdClass();
 }
 
 if(

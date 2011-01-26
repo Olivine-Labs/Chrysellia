@@ -14,7 +14,7 @@ function ProcessDataElement(&$Element)
  */
 class Response
 {
-
+	//Output Types
 	const OT_JSON = 0;
 	const OT_XML = 1;
 
@@ -47,10 +47,11 @@ class Response
 	/**
 	 * Default constructor for the Response class
 	 */
-	public function __construct($Compression)
+	public function __construct($Config)
 	{
 		$this->ConstructTime = microtime();
-		$this->Compression=$Compression;
+		$this->OutputType = $Config[CF_OP_ENCODING];
+		$this->Compression = $Config[CF_OP_COMPRESSION];
 		if($this->Compression)
 		{
 			ob_start('ob_gzhandler');
@@ -120,7 +121,14 @@ class Response
 				{
 					$serializer = new XML_Serializer();
 					$serializer->serialize($this->Data);
-					echo $serializer->getSerializedOutput();
+					if (!PEAR::isError($status))
+					{
+						echo $serializer->getSerializedOutput();
+					}
+					else
+					{
+						throw new \Exception('Error in encoding XML output data');
+					}
 				}
 				else
 					throw new \Exception('Pear XML_Serializer package not found!');

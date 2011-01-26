@@ -22,7 +22,7 @@ include('./Common/Session.php');
 global $_CONFIG;
 
 //Create the response object, which handles all output from this script.
-$Response= new \Protocol\Response($_CONFIG[CF_OUTPUT][CF_OP_COMPRESSION]);
+$Response= new \Protocol\Response($_CONFIG[CF_OUTPUT]);
 
 //Attempt to initialize configured database connection.
 $Database = InitializeDatabase($_CONFIG[CF_DATABASE], $Response);
@@ -31,4 +31,17 @@ $Database->Log = $Response;//Temporary until I can implement proper logging.
 //Initialize session
 $SessionHandler = new Session($Database);
 $SessionHandler->Start();
+
+//Create the Request object to decode, decompress, and handle incoming data
+$Request = null;
+try
+{
+	$Request = new \Protocol\Request($_GET['Data'], $_CONFIG[CF_INPUT]);
+}
+catch(\Exception $e)
+{
+	$Response->AddError($e->getMessage());
+	$Response->Set('Result', \Protocol\Response::ER_BADDATA);
+	Exit(0);
+}
 ?>

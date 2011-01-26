@@ -3,10 +3,14 @@
  * Top list logic
  */
 
-$Get = (object)Array('Data'=>'');
-if(isset($_GET['Data']))
+$Get = null;
+if(property_exists($Request, 'Data'))
 {
-	$Get = json_decode($_GET['Data']);
+	$Get = $Request->Data;
+}
+else
+{
+	$Get = new stdClass();
 }
 
 if(
