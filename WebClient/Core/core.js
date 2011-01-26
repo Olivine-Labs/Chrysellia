@@ -58,7 +58,7 @@
 
 			var js = $.ajax(
 				V2Core.SERVERCODE_DIRECTORY + "Index.php",
-				{dataType: "json xml", data: {data: $.jSEND(JSON.stringify(dataArray))} }
+				{dataType: "json xml", data: {Data: $.jSEND(JSON.stringify(dataArray))} }
 		    );
 			
 			return js;
