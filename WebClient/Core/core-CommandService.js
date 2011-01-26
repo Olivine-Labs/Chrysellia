@@ -22,18 +22,12 @@
 		SendChatCommand: function(channel, command, message, callback){
 			switch(command){
 				case vc.CommandService.ACTION_EMOTE:
-					$.getJSON(
-						V2Core.SERVERCODE_DIRECTORY + "Commands.php",
-						{ Action: command, Data: JSON.stringify({ Channel: channel, Message: message }) },
-						function(data) { callback(data); }
-					);
+					var data = { Channel: channel, Message: message };
+					vc.SendQueuedRequest(vc.TYPE_CHAT, command, data).success( function(data) { callback(data); } );
 					break;
 				case vc.CommandService.ACTION_ID:
-					$.getJSON(
-						V2Core.SERVERCODE_DIRECTORY + "Commands.php",
-						{ Action: command, Data: JSON.stringify({ Character: message }) },
-						function(data) { callback(data, message); }
-					);
+					var data = { Character: message };
+					vc.SendQueuedRequest(vc.TYPE_CHAT, command, data).success( function(data) { callback(data, message); } );
 					break;
 				default:
 					callback({ Result: V2Core.ER_MALFORMED, Data: {} });

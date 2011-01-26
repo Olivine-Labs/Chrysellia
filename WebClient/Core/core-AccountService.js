@@ -17,17 +17,17 @@
 		
 		Login: function(username, password, callback){
 			var data = { UserName: username, Password: password };
-			vc.SendQueuedRequest(vc.TYPE_ACCOUNT, vc.cs.ACTION_LOGIN, data).success( function(data) { callback(data); } );
+			vc.SendQueuedRequest(vc.TYPE_ACCOUNT, vc.as.ACTION_LOGIN, data).success( function(data) { callback(data); } );
 		},
 		
 		Register: function(username, password, email, callback){
 			var data = { UserName: username, Password: password, Email: email};
-			vc.SendQueuedRequest(vc.TYPE_ACCOUNT, vc.cs.ACTION_REGISTER, data).success( function(data) { callback(data); } );
+			vc.SendQueuedRequest(vc.TYPE_ACCOUNT, vc.as.ACTION_REGISTER, data).success( function(data) { callback(data); } );
 		},
 		
 		Logout: function(callback){
 			var data = { };
-			vc.SendQueuedRequest(vc.TYPE_ACCOUNT, vc.cs.ACTION_LOGOUT, data).success( function(data) { callback(data); } );
+			vc.SendQueuedRequest(vc.TYPE_ACCOUNT, vc.as.ACTION_LOGOUT, data).success( function(data) { callback(data); } );
 		}
 	}
 	
