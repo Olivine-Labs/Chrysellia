@@ -17,6 +17,7 @@ if ( 'GET' === $_SERVER['REQUEST_METHOD'] )
 		{
 			if(property_exists($ARequest, 'Type'))
 			{
+				$Response->Set('Type', $ARequest->Type);
 				switch($ARequest->Type)
 				{
 					case TYPE_ACCOUNT:
@@ -52,12 +53,13 @@ if ( 'GET' === $_SERVER['REQUEST_METHOD'] )
 			{
 				$Response->Set('Result', \Protocol\Response::ER_MALFORMED);
 			}
+			$Response->NextResponse();
 		}
 	}
 	catch(\ErrorException $e)
 	{
 		$Response->Set('Result', \Protocol\Response::ER_CORE);
-		$Response->AddError($e->getMessage().' in'.$e->getFile().' at line '.$e->getLine());
+		$Response->AddError($e->getMessage().' in '.$e->getFile().' at line '.$e->getLine());
 	}
 	catch(\Exception $e)
 	{

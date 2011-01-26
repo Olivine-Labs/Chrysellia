@@ -32,7 +32,9 @@ class Response
 	 *
 	 * Contains the Response code.
 	 */
-	protected $Data = Array('Result'=>Response::ER_ACCESSDENIED, 'Error'=>array());
+	protected $Data = Array('0'=>array('Result'=>Response::ER_ACCESSDENIED));
+	protected $ResponseNum = 0;
+	protected $Debug = 0;
 
 	/**
 	 * OutputMethod
@@ -52,6 +54,7 @@ class Response
 		$this->ConstructTime = microtime();
 		$this->OutputType = $Config[CF_OP_ENCODING];
 		$this->Compression = $Config[CF_OP_COMPRESSION];
+		$this->Debug = $Config[CF_OP_DEBUG];
 		if($this->Compression)
 		{
 			ob_start('ob_gzhandler');
@@ -62,7 +65,7 @@ class Response
 
 	public function __destruct()
 	{
-		$this->Set('RequestDuration', max(microtime() - $this->ConstructTime, 0));
+		$this->Data['RequestDuration'] = max(microtime() - $this->ConstructTime, 0);
 		$this->Send();
 		ob_end_flush();
 	}
@@ -79,7 +82,7 @@ class Response
 	 */
 	public function Set($Key, $Value)
 	{
-		$this->Data[$Key] = $Value;
+		$this->Data[$this->ResponseNum][$Key] = $Value;
 	}
 
 	/**
@@ -90,7 +93,8 @@ class Response
 	 */
 	public function AddError($Message)
 	{
-		$this->Data['Error'][] = $Message;
+		if($this->Debug)
+			$this->Data[$this->ResponseNum]['Error'][] = $Message;
 	}
 
 	/**
@@ -136,6 +140,10 @@ class Response
 		}
 	}
 
+	public function NextResponse()
+	{
+		$this->ResponseNum++;
+	}
 }
 
 ?>

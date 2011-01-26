@@ -19,6 +19,7 @@ define('CF_DATABASE', 0);
 define('CF_OUTPUT', 1);
 	define('CF_OP_COMPRESSION', 0);
 	define('CF_OP_ENCODING', 1);
+	define('CF_OP_DEBUG', 2);
 
 define('CF_INPUT', 2);
 	define('CF_IP_COMPRESSION', 0);
@@ -55,6 +56,7 @@ $_CONFIG[CF_DATABASE][CF_DB_TYPE] = DB_MYSQL;
 $_CONFIG[CF_OUTPUT] = array();
 $_CONFIG[CF_OUTPUT][CF_OP_ENCODING] = OPT_JSON;
 $_CONFIG[CF_OUTPUT][CF_OP_COMPRESSION] = true;
+$_CONFIG[CF_OUTPUT][CF_OP_DEBUG] = true;
 
 //Input Configuration
 $_CONFIG[CF_INPUT] = array();
