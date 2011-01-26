@@ -54,7 +54,7 @@
 		SendQueuedRequest: function(type, action, data){			
 			var js = $.ajax(
 				V2Core.SERVERCODE_DIRECTORY + "Index.php",
-				{dataType: "json xml", data: vc.GenerateSingleRequestObject(type, action, data)}
+				{dataType: "json xml", data: vc.GenerateSingleRequestObject(type, action, data) }
 			);
 			
 			return js;
@@ -66,7 +66,7 @@
 		
 		
 		GenerateSingleRequestObject: function(type, action, data){
-			return $.jSEND(JSON.stringify([{ Type: type, Action: action, Data: data }]));
+			return { Data: $.jSEND(JSON.stringify([{ Type: type, Action: action, Data: data }])) };
 		},
 		
 		CheckVersion: function(callback){
