@@ -61,20 +61,26 @@ class Request
 	 */
 	public function Decompress()
 	{
-		switch($this->CompressionType)
+		try
 		{
-			case Request::CT_NONE:
-				return true;
-				break;
-			case Request::CT_JSEND:
-				include('./ThirdParty/jsend.class.php')
-				$jSEND = new jSEND();
-				$this->Data = $jSEND->getData($this->Data);
-				return true;
-				break;
-			default:
-				throw new \Exception('Compression type not valid');
-				break;
+			switch($this->CompressionType)
+			{
+				case Request::CT_NONE:
+					return true;
+					break;
+				case Request::CT_JSEND:
+					$jSEND = new \ThirdParty\jSEND();
+					$this->Data = $jSEND->getData($this->Data);
+					return true;
+					break;
+				default:
+					throw new \Exception('Compression type not valid');
+					break;
+			}
+		}
+		catch(\Exception $e)
+		{
+			throw new \Exception('Failed to decompress request : '.$this->Data);
 		}
 	}
 	/**
@@ -83,12 +89,13 @@ class Request
 	 * @param $Input
 	 *   The data to decode
 	 */
-	public function Decode($Input)
+	public function Decode()
 	{
 		switch($this->InputType)
 		{
 			case Request::IT_JSON:
-				return json_decode($Input);
+				$this->Data = json_decode($this->Data);
+				return true;
 				break;
 			case Request::IT_XML:
 				if(class_exists('XML_Unserializer'))
@@ -97,7 +104,7 @@ class Request
 					$serializer->unserialize($this->Data);
 					if (!PEAR::isError($status))
 					{
-						return $serializer->getUnserializedOutput();
+						$this->Data = $serializer->getUnserializedOutput();
 					}
 					else
 					{

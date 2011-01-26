@@ -20,28 +20,28 @@ if ( 'GET' === $_SERVER['REQUEST_METHOD'] )
 				switch($ARequest->Type)
 				{
 					case TYPE_ACCOUNT:
-						include './Account.php';
+						include('./Functions/Account.php');
 						break;
 					case TYPE_CHARACTER:
-						include './Character.php';
+						include('./Functions/Character.php');
 						break;
 					case TYPE_CHAT:
-						include './Chat.php';
+						include('./Functions/Chat.php');
 						break;
 					case TYPE_COMMAND:
-						include './Commands.php';
+						include('./Functions/Commands.php');
 						break;
 					case TYPE_ITEM:
-						include './Item.php';
+						include('./Functions/Item.php');
 						break;
 					case TYPE_MAP:
-						include './Map.php';
+						include('./Functions/Map.php');
 						break;
 					case TYPE_MONSTER:
-						include './Monster.php';
+						include('./Functions/Monster.php');
 						break;
 					case TYPE_PLACE:
-						include './Places.php';
+						include('./Functions/Places.php');
 						break;
 					default:
 						$Response->Set('Result', \Protocol\Response::ER_BADDATA);
@@ -57,7 +57,7 @@ if ( 'GET' === $_SERVER['REQUEST_METHOD'] )
 	catch(\ErrorException $e)
 	{
 		$Response->Set('Result', \Protocol\Response::ER_CORE);
-		$Response->AddError($e->getMessage());
+		$Response->AddError($e->getMessage().' in'.$e->getFile().' at line '.$e->getLine());
 	}
 	catch(\Exception $e)
 	{
