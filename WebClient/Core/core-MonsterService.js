@@ -16,7 +16,7 @@
 		
 		Fight: function(monsterId, fightType, callback){
 			var data = { MonsterId: monsterId, FightType: fightType };
-			vc.SendQueuedRequest(vc.TYPE_MONSTER, vc.mn.ACTION_FIGHT, data).success( function(data) { callback(data); } );
+			vc.SendSingleRequest(vc.TYPE_MONSTER, vc.mn.ACTION_FIGHT, data).success( function(data) { callback(data); } );
 		}
 	}
 	

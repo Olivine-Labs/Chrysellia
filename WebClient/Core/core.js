@@ -51,7 +51,7 @@
 		TYPE_PLACES: 7, 
 		TYPE_API: 8,
 		
-		SendQueuedRequest: function(type, action, data){
+		SendSingleRequest: function(type, action, data){
 			var dataObject = { Type: type, Action: action, Data: data };
 			var dataArray = [];
 			dataArray[0] = dataObject;
@@ -59,6 +59,15 @@
 			var js = $.ajax(
 				V2Core.SERVERCODE_DIRECTORY + "Index.php",
 				{dataType: "json xml", data: {Data: $.jSEND(JSON.stringify(dataArray))} }
+		    );
+			
+			return js;
+		},
+		
+		SendQueue: function(queue){
+			var js = $.ajax(
+				V2Core.SERVERCODE_DIRECTORY + "Index.php",
+				{dataType: "json xml", data: {Data: $.jSEND(JSON.stringify(queue.Items))} }
 		    );
 			
 			return js;
@@ -112,11 +121,11 @@
 		this.Items = [];
 		
 		this.AddItem = function(type, action, data){
-			Items.push({ Type: type, Action: action, Data: data });
+			this.Items.push({ Type: type, Action: action, Data: data });
 		};
 		
 		this.Submit = function(){
-			
+			vc.SendQueue(this);
 		};
 	};
 	
@@ -213,5 +222,6 @@
 	
 	window.V2Core = window.vc = V2Core;
 	window.Character = Character;
+	window.Queue = Queue;
 	
 })(window);

@@ -23,11 +23,11 @@
 			switch(command){
 				case vc.CommandService.ACTION_EMOTE:
 					var data = { Channel: channel, Message: message };
-					vc.SendQueuedRequest(vc.TYPE_CHAT, command, data).success( function(data) { callback(data); } );
+					vc.SendSingleRequest(vc.TYPE_CHAT, command, data).success( function(data) { callback(data); } );
 					break;
 				case vc.CommandService.ACTION_ID:
 					var data = { Character: message };
-					vc.SendQueuedRequest(vc.TYPE_CHAT, command, data).success( function(data) { callback(data, message); } );
+					vc.SendSingleRequest(vc.TYPE_CHAT, command, data).success( function(data) { callback(data, message); } );
 					break;
 				default:
 					callback({ Result: V2Core.ER_MALFORMED, Data: {} });

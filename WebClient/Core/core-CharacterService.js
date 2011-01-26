@@ -34,42 +34,42 @@
 				Vitality: vitality 
 			};
 			
-			vc.SendQueuedRequest(vc.TYPE_CHARACTER, vc.cs.ACTION_CREATE, data).success( function(data) { callback(data); } );
+			vc.SendSingleRequest(vc.TYPE_CHARACTER, vc.cs.ACTION_CREATE, data).success( function(data) { callback(data); } );
 		},
 		
 		List: function(callback){
 			var data = { };
-			vc.SendQueuedRequest(vc.TYPE_CHARACTER, vc.cs.ACTION_LIST, data).success( function(data) { callback(data); } );
+			vc.SendSingleRequest(vc.TYPE_CHARACTER, vc.cs.ACTION_LIST, data).success( function(data) { callback(data); } );
 		},
 		
 		CheckName: function(name, callback){
 			var data = { Name: name };
-			vc.SendQueuedRequest(vc.TYPE_CHARACTER, vc.cs.ACTION_CHECKNAME, data).success( function(data) { callback(data); } );
+			vc.SendSingleRequest(vc.TYPE_CHARACTER, vc.cs.ACTION_CHECKNAME, data).success( function(data) { callback(data); } );
 		},
 		
 		Select: function(characterId, pin, callback){
 			var data = { Character: characterId, Pin: pin };
-			vc.SendQueuedRequest(vc.TYPE_CHARACTER, vc.cs.ACTION_SELECTCHARACTER, data).success( function(data) { callback(data); } );
+			vc.SendSingleRequest(vc.TYPE_CHARACTER, vc.cs.ACTION_SELECTCHARACTER, data).success( function(data) { callback(data); } );
 		},
 		
 		GetCurrentCharacter: function(callback){
 			var data = { };
-			vc.SendQueuedRequest(vc.TYPE_CHARACTER, vc.cs.ACTION_GETCURRENTCHARACTER, data).success( function(data) { callback(data); } );
+			vc.SendSingleRequest(vc.TYPE_CHARACTER, vc.cs.ACTION_GETCURRENTCHARACTER, data).success( function(data) { callback(data); } );
 		},
 		
 		LevelUp: function(stat, callback){
 			var data = { Stat: stat };
-			vc.SendQueuedRequest(vc.TYPE_CHARACTER, vc.cs.ACTION_LEVELUP, data).success( function(data) { callback(data, stat); } );
+			vc.SendSingleRequest(vc.TYPE_CHARACTER, vc.cs.ACTION_LEVELUP, data).success( function(data) { callback(data, stat); } );
 		},
 		
 		PlayerListByLocation: function(callback){
 			var data = { };
-			vc.SendQueuedRequest(vc.TYPE_CHARACTER, vc.cs.ACTION_LOADLISTFORCELL, data).success( function(data) { callback(data); } );
+			vc.SendSingleRequest(vc.TYPE_CHARACTER, vc.cs.ACTION_LOADLISTFORCELL, data).success( function(data) { callback(data); } );
 		},
 		
 		Fight: function(enemyId, fightType, callback){
 			var data = { CharacterId: enemyId, FightType: fightType };
-			vc.SendQueuedRequest(vc.TYPE_CHARACTER, vc.cs.ACTION_FIGHT, data).success( function(data) { callback(data); } );
+			vc.SendSingleRequest(vc.TYPE_CHARACTER, vc.cs.ACTION_FIGHT, data).success( function(data) { callback(data); } );
 		}
 	}
 	
