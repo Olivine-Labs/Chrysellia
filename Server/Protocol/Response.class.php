@@ -65,7 +65,8 @@ class Response
 
 	public function __destruct()
 	{
-		$this->Data['RequestDuration'] = max(microtime() - $this->ConstructTime, 0);
+		if($this->Debug)
+			$this->Data['RequestDuration'] = max(microtime() - $this->ConstructTime, 0);
 		$this->Send();
 		ob_end_flush();
 	}
