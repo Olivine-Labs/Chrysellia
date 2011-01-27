@@ -30,19 +30,19 @@ class Request
 	public $InputMethod = Request::IT_JSON;
 
 	/**
-	 * CompressionType
+	 * CompressionMethod
 	 *
 	 * The type of compression the client is using
 	 */	
-	public $CompressionType = Request::CT_NONE;
+	public $CompressionMethod = Request::CT_NONE;
 
 	/**
 	 * Default constructor for the Response class
 	 */
 	public function __construct(&$Data, &$Config)
 	{
-		$this->CompressionType=$Config[CF_IP_COMPRESSION];
-		$this->InputType=$Config[CF_IP_ENCODING];
+		$this->CompressionMethod=$Config[CF_IP_COMPRESSION];
+		$this->InputMethod=$Config[CF_IP_ENCODING];
 		$this->Data = $Data;
 		$this->Decompress();
 		$this->Decode();
@@ -63,7 +63,7 @@ class Request
 	{
 		try
 		{
-			switch($this->CompressionType)
+			switch($this->CompressionMethod)
 			{
 				case Request::CT_NONE:
 					return true;
@@ -91,7 +91,7 @@ class Request
 	 */
 	public function Decode()
 	{
-		switch($this->InputType)
+		switch($this->InputMethod)
 		{
 			case Request::IT_JSON:
 				$this->Data = json_decode($this->Data);
