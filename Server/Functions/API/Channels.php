@@ -4,9 +4,9 @@
  */
 
 $Get = null;
-if(property_exists($Request, 'Data'))
+if(property_exists($Request->Data, 'Data'))
 {
-	$Get = $Request->Data;
+	$Get = $Request->Data->Data;
 }
 else
 {
