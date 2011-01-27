@@ -56,6 +56,7 @@ include_once('php/simplepie.inc');
 		<link href="css/jquery-ui.css" rel="stylesheet" media="screen" />
 		<link href="css/grid.css" rel="stylesheet" media="screen" />
 		<link href="css/neflaria-base.css" rel="stylesheet" media="screen" />
+		<link href="css/tipsy.css" rel="stylesheet" media="screen" />
 		<!--<link href="css/neflaria.min.css" rel="stylesheet" media="screen" />
 		<link href="css/grid.min.css" rel="stylesheet" media="screen" />-->
 		
@@ -377,6 +378,7 @@ include_once('php/simplepie.inc');
 		<script src="./Core/jquery-md5.js" type="text/javascript"></script>
 		<script src="./Core/json.js" type="text/javascript"></script>
 		<script src="./js/jsend.min.js"></script>
+		<script src="./js/jquery.tipsy.js"></script>
 		<!-- <script src="./js/plugins.min.js"></script>-->
 				
 		<!-- For the production version, we'll minify and combine our javascript, and keep a plain version for us -->

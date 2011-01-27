@@ -17,25 +17,49 @@
 		ACTION_ONLINE: 2,
 	
 		GetTops: function(limit, index, sort, listType, race, callback){
+			var data = { Action: APIService.ACTION_TOP, Data: { Num: limit, Position: index, Sort: sort, ListType: listType, Race: race }};
+			var dataToSend = JSON.stringify(data);
+			switch(vc.CompressionMode){
+				case vc.COMPRESSION_MODE_jSEND:
+					dataToSend = $.jSEND(datatoSend);
+					break;
+			}
+			
 			$.getJSON(
 				vc.API_URI,
-				{Data: $.jSEND(JSON.stringify({ Action: APIService.ACTION_TOP, Data: { Num: limit, Position: index, Sort: sort, ListType: listType, Race: race } }))},
+				{Data: dataToSend},
 				function(data) { callback(data[0]); }
 			);
 		},
 		
 		Count: function(callback){
+			var data = { Action: vc.api.ACTION_TOP };
+			var dataToSend = JSON.stringify(data);
+			switch(vc.CompressionMode){
+				case vc.COMPRESSION_MODE_jSEND:
+					dataToSend = $.jSEND(datatoSend);
+					break;
+			}
+			
 			$.getJSON(
 				vc.API_URI,
-				{Data: $.jSEND(JSON.stringify({ Action: APIService.ACTION_COUNT, Data: {  } }))},
+				{ Data: dataToSend },
 				function(data) { callback(data[0]); }
 			);
 		},
 		
 		Online: function(callback){
+			var data = { Action: vc.api.ACTION_ONLINE };
+			var dataToSend = JSON.stringify(data);
+			switch(vc.CompressionMode){
+				case vc.COMPRESSION_MODE_jSEND:
+					dataToSend = $.jSEND(datatoSend);
+					break;
+			}
+			
 			$.getJSON(
 				vc.API_URI,
-				{Data: $.jSEND(JSON.stringify({ Action: APIService.ACTION_ONLINE, Data: {  } }))},
+				{Data: dataToSend },
 				function(data) { callback(data[0]); }
 			);
 		}

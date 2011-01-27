@@ -23,12 +23,7 @@
 	};
 	
 	V2Core = V2Core.prototype = {
-		Version: "0.0.1",
-		CurrentLanguage: "en",
-		DebugMode: false,
-		RequestDurationTotal: 0,
-		Requests: 0,
-		
+		//enums!
 		ER_SUCCESS: 0, //when Murphy is not around everything works.
 		ER_BADDATA: 251, //when the data is bad
 		ER_ALREADYEXISTS: 252, //when the data already exists in the database
@@ -39,15 +34,27 @@
 		STATICINFO_DIRECTORY: "./Core/staticInfo/",
 		API_URI: "../Server/API.php",
 		
-		TYPE_ACCOUNT: "0", 
-		TYPE_CHARACTER: "1", 
-		TYPE_CHAT: "2", 
-		TYPE_COMMANDS: "3", 
-		TYPE_ITEM: "4", 
-		TYPE_MAP: "5", 
-		TYPE_MONSTER: "6", 
-		TYPE_PLACES: "7", 
-		TYPE_API: "8",
+		TYPE_ACCOUNT: 0, 
+		TYPE_CHARACTER: 1, 
+		TYPE_CHAT: 2, 
+		TYPE_COMMANDS: 3, 
+		TYPE_ITEM: 4, 
+		TYPE_MAP: 5, 
+		TYPE_MONSTER: 6, 
+		TYPE_PLACES: 7, 
+		TYPE_API: 8,
+		
+		COMPRESSION_MODE_NONE: 0,
+		COMPRESSION_MODE_jSEND: 1,
+		
+		//config options!
+		Version: "0.0.1",
+		CurrentLanguage: "en",
+		DebugMode: false,
+		RequestDurationTotal: 0,
+		Requests: 0,
+		
+		CompressionMode: this.COMPRESSION_MODE_NONE,
 		
 		__requestId: 0,
 		
@@ -75,11 +82,19 @@
 			var dataArray = [];
 			dataArray[0] = dataObject;
 			
+			var dataToSend = JSON.stringify(dataArray);
+			switch(vc.CompressionMode){
+				case vc.COMPRESSION_MODE_jSEND:
+					dataToSend = $.jSEND(datatoSend);
+					break;
+			}
+			
 			var requestRoute = V2Core.SERVERCODE_DIRECTORY + "Index.php";
 			$.ajax(
 				requestRoute,
 				{
-					data: {Data: $.jSEND(JSON.stringify(dataArray))} ,
+					//data: {Data: $.jSEND(JSON.stringify(dataArray))} ,
+					data: {Data: dataToSend} ,
 					success: function(data, textStatus, XMLHttpRequest){
 						vc.ProcessCallbacks(data, textStatus, XMLHttpRequest);
 					}
