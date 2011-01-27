@@ -152,7 +152,7 @@
 			vc.is.UnEquip(window.MyCharacter.Equipment[slotType][slotIndex].ItemId, slotType, slotIndex, UnEquipItem);
 		}else{
 			if(MyCharacter.Equipment[slotType][slotIndex] !== {}){
-				vc.is.UnEquip(window.MyCharacter.Equipment[slotType][slotIndex].ItemId, slotType, slotIndex, function(data){vc.is.Equip($this.val(), slotType, slotIndex, EquipItem)} );
+				vc.is.UnEquip(window.MyCharacter.Equipment[slotType][slotIndex].ItemId, slotType, slotIndex, function(response, data){vc.is.Equip($this.val(), slotType, slotIndex, EquipItem)} );
 			}else{
 				vc.is.Equip($this.val(), slotType, slotIndex, EquipItem)
 			}
@@ -225,21 +225,21 @@ function Move(RelativeX, RelativeY){
 	}
 }
 
-function ExamineLocation(data){
+function ExamineLocation(response, data){
 	$("#moveLook").button("option", "disabled", false);
-	if(vc.DebugMode && data.RequestDuration > 0){vc.Requests++;  vc.RequestDurationTotal += data.RequestDuration; $("#rda_value").text(vc.RequestDurationTotal / vc.Requests);}
-	if(data.Result == vc.ER_SUCCESS){ 
+	if(vc.DebugMode && response.RequestDuration > 0){vc.Requests++;  vc.RequestDurationTotal += response.RequestDuration; $("#rda_value").text(vc.RequestDurationTotal / vc.Requests);}
+	if(response.Result == vc.ER_SUCCESS){ 
 		$("optgroup[label='Other Players']").remove();
 		var playersOptGroup = $("<optgroup label='Other Players' />");
 		
 		var name = "";
 		var level = "";
 		var pid = "";
-		for(c in data.Data){
+		for(c in response.Data){
 			if(c != "remove"){
-				pid = data.Data[c].CharacterId;
-				name = data.Data[c].Name;
-				level = data.Data[c].Level;
+				pid = response.Data[c].CharacterId;
+				name = response.Data[c].Name;
+				level = response.Data[c].Level;
 				option = $("<option value='" + pid + "'>" + name + " (" + level + ")</option>").appendTo(playersOptGroup);
 			}
 		}
@@ -249,9 +249,9 @@ function ExamineLocation(data){
 	Log("ExamineLocation: " + JSON.stringify(data));
 }
 
-function LevelUpResponse(data, stat){
-	if(vc.DebugMode && data.RequestDuration > 0){vc.Requests++;  vc.RequestDurationTotal += data.RequestDuration; $("#rda_value").text(vc.RequestDurationTotal / vc.Requests);}
-if(data.Result == vc.ER_SUCCESS){ 
+function LevelUpResponse(response, data){
+	if(vc.DebugMode && response.RequestDuration > 0){vc.Requests++;  vc.RequestDurationTotal += response.RequestDuration; $("#rda_value").text(vc.RequestDurationTotal / vc.Requests);}
+if(response.Result == vc.ER_SUCCESS){ 
 
 		switch(stat){
 			case 0:
@@ -301,9 +301,9 @@ function ResizeChat(){
 	$('#chatChannels .ui-tabs-panel').css({'height':(($(window).height())-432)+'px'});
 }
 
-function EquipItem(data, itemId, slotType, slotIndex){
-	if(vc.DebugMode && data.RequestDuration > 0){vc.Requests++;  vc.RequestDurationTotal += data.RequestDuration; $("#rda_value").text(vc.RequestDurationTotal / vc.Requests);}
-if(data.Result == vc.ER_SUCCESS){ 
+function EquipItem(response, itemId, slotType, slotIndex){
+	if(vc.DebugMode && response.RequestDuration > 0){vc.Requests++;  vc.RequestDurationTotal += response.RequestDuration; $("#rda_value").text(vc.RequestDurationTotal / vc.Requests);}
+if(response.Result == vc.ER_SUCCESS){ 
 
 		var item = {};
 		var typeMapping = vc.is.TypeMapping;
@@ -327,9 +327,9 @@ if(data.Result == vc.ER_SUCCESS){
 	$('#itemsWindow select').removeAttr('disabled');
 }
 
-function UnEquipItem(data, itemId, slotType, slotIndex){
-	if(vc.DebugMode && data.RequestDuration > 0){vc.Requests++;  vc.RequestDurationTotal += data.RequestDuration; $("#rda_value").text(vc.RequestDurationTotal / vc.Requests);}
-if(data.Result == vc.ER_SUCCESS){ 
+function UnEquipItem(response, itemId, slotType, slotIndex){
+	if(vc.DebugMode && response.RequestDuration > 0){vc.Requests++;  vc.RequestDurationTotal += response.RequestDuration; $("#rda_value").text(vc.RequestDurationTotal / vc.Requests);}
+if(response.Result == vc.ER_SUCCESS){ 
 
 		var item = window.MyCharacter.Equipment[slotType][slotIndex];
 		var typeMapping = vc.is.TypeMapping;
@@ -347,12 +347,11 @@ if(data.Result == vc.ER_SUCCESS){
 	}
 }
 
-function RefreshMap(data){
-	if(vc.DebugMode && data.RequestDuration > 0){vc.Requests++;  vc.RequestDurationTotal += data.RequestDuration; $("#rda_value").text(vc.RequestDurationTotal / vc.Requests);}
-if(data.Result == vc.ER_SUCCESS){ 
-
-		MyCharacter.PositionX = data.Data.X;
-		MyCharacter.PositionY = data.Data.Y;
+function RefreshMap(response, data){
+	if(vc.DebugMode && response.RequestDuration > 0){vc.Requests++;  vc.RequestDurationTotal += response.RequestDuration; $("#rda_value").text(vc.RequestDurationTotal / vc.Requests);}
+	if(response.Result == vc.ER_SUCCESS){ 
+		MyCharacter.PositionX = response.Data.X;
+		MyCharacter.PositionY = response.Data.Y;
 		BuildMap();
 	}
 	
@@ -367,16 +366,16 @@ function SetEnableAttack(enabled){
 	$("#fightForm button").button("option", "disabled", !enabled).removeClass("ui-state-hover");
 }
 
-function CreateChannel(data){
-	if(vc.DebugMode && data.RequestDuration > 0){vc.Requests++;  vc.RequestDurationTotal += data.RequestDuration; $("#rda_value").text(vc.RequestDurationTotal / vc.Requests);}
-if(data.Result == vc.ER_SUCCESS){ 
+function CreateChannel(response, data){
+	if(vc.DebugMode && response.RequestDuration > 0){vc.Requests++;  vc.RequestDurationTotal += response.RequestDuration; $("#rda_value").text(vc.RequestDurationTotal / vc.Requests);}
+if(response.Result == vc.ER_SUCCESS){ 
 
 		$("#cc_channelName, #cc_channelMOTD").val('');
 		$("#createChannelForm").dialog("close");
-		AddTab(data.Data.Name, data.Data.ChannelId, data.Data.Motd);
+		AddTab(response.Data.Name, response.Data.ChannelId, response.Data.Motd);
 		
-		window.MyCharacter.Channels[data.Data.ChannelId] = { Motd: data.Data.Motd, Name: data.Data.Name, Permissions: { Read: 1, Write: 1, Moderate: 1, Administrate: 1, isJoined: 1 } }
-	}else if(data.Result == vc.ER_ALREADYEXISTS){
+		window.MyCharacter.Channels[response.Data.ChannelId] = { Motd: response.Data.Motd, Name: response.Data.Name, Permissions: { Read: 1, Write: 1, Moderate: 1, Administrate: 1, isJoined: 1 } }
+	}else if(response.Result == vc.ER_ALREADYEXISTS){
 		alert("Channel name already exists!");
 	}else{
 		alert("An error has occured.");
@@ -385,15 +384,15 @@ if(data.Result == vc.ER_SUCCESS){
 	Log("Create Channel: " + JSON.stringify(data));
 }
 
-function JoinChannel(data){
-	if(vc.DebugMode && data.RequestDuration > 0){vc.Requests++;  vc.RequestDurationTotal += data.RequestDuration; $("#rda_value").text(vc.RequestDurationTotal / vc.Requests);}
-if(data.Result == vc.ER_SUCCESS){ 
+function JoinChannel(response, data){
+	if(vc.DebugMode && response.RequestDuration > 0){vc.Requests++;  vc.RequestDurationTotal += response.RequestDuration; $("#rda_value").text(vc.RequestDurationTotal / vc.Requests);}
+if(response.Result == vc.ER_SUCCESS){ 
 
 		$("#jc_channelName, #cc_channelMOTD").val('');
 		$("#joinChannelForm").dialog("close");
-		AddTab(data.Data.Name, data.Data.ChannelId, data.Data.Motd);
-		data.Data.Permissions.isJoined = 1;
-		window.MyCharacter.Channels[data.Data.ChannelId] = { Motd: data.Data.Motd, Name: data.Data.Name, Permissions: data.Data.Permissions }
+		AddTab(response.Data.Name, response.Data.ChannelId, response.Data.Motd);
+		response.Data.Permissions.isJoined = 1;
+		window.MyCharacter.Channels[response.Data.ChannelId] = { Motd: response.Data.Motd, Name: response.Data.Name, Permissions: response.Data.Permissions }
 		$('#chatChannels .ui-tabs-panel').css({'height':(($(window).height())-432)+'px'});
 	}else{
 		alert("An error has occured.");
@@ -423,16 +422,16 @@ function AddTab(title, channelId, motd) {
 	ResizeChat();
 }
 
-function FillChat(data){
-	if(vc.DebugMode && data.RequestDuration > 0){vc.Requests++;  vc.RequestDurationTotal += data.RequestDuration; $("#rda_value").text(vc.RequestDurationTotal / vc.Requests);}
-if(data.Result == vc.ER_SUCCESS){ 
+function FillChat(response, data){
+	if(vc.DebugMode && response.RequestDuration > 0){vc.Requests++;  vc.RequestDurationTotal += response.RequestDuration; $("#rda_value").text(vc.RequestDurationTotal / vc.Requests);}
+if(response.Result == vc.ER_SUCCESS){ 
 
-		for(var i in data.Data){
+		for(var i in response.Data){
 			if(i != "remove"){
 				if(i!=0){
-					InsertChat(data.Data[i], i);
+					InsertChat(response.Data[i], i);
 				}else{
-					ProcessSystemMessage(data.Data[0]);
+					ProcessSystemMessage(response.Data[0]);
 				}
 			}
 		}
@@ -443,15 +442,15 @@ if(data.Result == vc.ER_SUCCESS){
 	window.setTimeout(function(){ vc.ch.GetMessagesFromChannel(MyCharacter.CurrentChannel, FillChat); }, 4500);
 }
 
-function SelectCharacter(data){
+function SelectCharacter(response, data){
 	window.MyCharacter = new Character();
 	
-	Log("Login: " + data.Result);
+	Log("Login: " + response.Result);
 	
-	if(vc.DebugMode && data.RequestDuration > 0){vc.Requests++;  vc.RequestDurationTotal += data.RequestDuration; $("#rda_value").text(vc.RequestDurationTotal / vc.Requests);}
-if(data.Result == vc.ER_SUCCESS){ 
+	if(vc.DebugMode && response.RequestDuration > 0){vc.Requests++;  vc.RequestDurationTotal += response.RequestDuration; $("#rda_value").text(vc.RequestDurationTotal / vc.Requests);}
+if(response.Result == vc.ER_SUCCESS){ 
 
-		window.MyCharacter.Construct(data.Data);
+		window.MyCharacter.Construct(response.Data);
 		vc.i.UpdateStats();
 	}else{
 		if(!vc.DebugMode){
@@ -575,23 +574,31 @@ function SubmitBankTransaction(){
 					amt = MyCharacter.Gold;
 				}
 
-				vc.ms.Deposit(amt, ProcessBankTransaction);
+				vc.ms.Deposit(amt, ProcessBankDeposit);
 				break;
 			case 1: 
 				if(amt < MyCharacter.Gold){
 					amt = MyCharacter.Bank;
 				}
 				
-				vc.ms.Widthdraw(amt, ProcessBankTransaction);
+				vc.ms.Widthdraw(amt, ProcessBankWithdraw);
 				break;
 		}
 	}
 }
 
-function ProcessBankTransaction(data, gold, transactionType){
-	if(vc.DebugMode && data.RequestDuration > 0){vc.Requests++;  vc.RequestDurationTotal += data.RequestDuration; $("#rda_value").text(vc.RequestDurationTotal / vc.Requests);}
-if(data.Result == vc.ER_SUCCESS){ 
+function ProcessBankDeposit(response, data){
+	ProcessBankTransaction(response, data, 0);
+}
 
+function ProcessBankWithdraw(response, data){
+	ProcessBankTransaction(response, data, 1);
+}
+
+function ProcessBankTransaction(response, data, transactionType){
+	var gold = data.Gold;
+	if(vc.DebugMode && response.RequestDuration > 0){vc.Requests++;  vc.RequestDurationTotal += response.RequestDuration; $("#rda_value").text(vc.RequestDurationTotal / vc.Requests);}
+	if(response.Result == vc.ER_SUCCESS){ 
 		$("#transactionAmount").val('')
 		
 		if(transactionType == 0){
@@ -612,9 +619,12 @@ if(data.Result == vc.ER_SUCCESS){
 	Log("Bank Transaction: " + JSON.stringify(data));
 }
 
-function ProcessBankTransfer(data, gold){
-	if(vc.DebugMode && data.RequestDuration > 0){vc.Requests++;  vc.RequestDurationTotal += data.RequestDuration; $("#rda_value").text(vc.RequestDurationTotal / vc.Requests);}
-if(data.Result == vc.ER_SUCCESS){ 
+function ProcessBankTransfer(response, data){
+	var gold = data.Gold;
+	
+	if(vc.DebugMode && response.RequestDuration > 0){vc.Requests++;  vc.RequestDurationTotal += response.RequestDuration; $("#rda_value").text(vc.RequestDurationTotal / vc.Requests);}
+	
+	if(response.Result == vc.ER_SUCCESS){ 
 
 		$("#transferAmount, #transferTarget").val('')
 		window.MyCharacter.Bank -= gold;
@@ -647,13 +657,13 @@ function BuildExit(topWindow){
 	topWindow.append(buttonContainer);
 }
 
-function ProcessMapChange(data){
-	if(vc.DebugMode && data.RequestDuration > 0){vc.Requests++;  vc.RequestDurationTotal += data.RequestDuration; $("#rda_value").text(vc.RequestDurationTotal / vc.Requests);}
-if(data.Result == vc.ER_SUCCESS){ 
+function ProcessMapChange(response, data){
+	if(vc.DebugMode && response.RequestDuration > 0){vc.Requests++;  vc.RequestDurationTotal += response.RequestDuration; $("#rda_value").text(vc.RequestDurationTotal / vc.Requests);}
+if(response.Result == vc.ER_SUCCESS){ 
 
-		window.MyCharacter.CurrentMap = Maps[data.Data.MapId];
-		window.MyCharacter.PositionX = data.Data.PositionX;
-		window.MyCharacter.PositionY =  data.Data.PositionY;
+		window.MyCharacter.CurrentMap = Maps[response.Data.MapId];
+		window.MyCharacter.PositionX = response.Data.PositionX;
+		window.MyCharacter.PositionY =  response.Data.PositionY;
 		BuildMap();
 		BuildGameWindow();
 		vc.i.UpdateStats();
@@ -693,9 +703,9 @@ function BuildBank(topWindow){
 	topWindow.append(bankForm);
 }
 
-function ReviveCharacter(data){
-	if(vc.DebugMode && data.RequestDuration > 0){vc.Requests++;  vc.RequestDurationTotal += data.RequestDuration; $("#rda_value").text(vc.RequestDurationTotal / vc.Requests);}
-if(data.Result == vc.ER_SUCCESS){ 
+function ReviveCharacter(response, data){
+	if(vc.DebugMode && response.RequestDuration > 0){vc.Requests++;  vc.RequestDurationTotal += response.RequestDuration; $("#rda_value").text(vc.RequestDurationTotal / vc.Requests);}
+if(response.Result == vc.ER_SUCCESS){ 
 
 		MyCharacter.Health = MyCharacter.Vitality;
 		vc.i.UpdateStats();
@@ -740,13 +750,13 @@ function Attack(fightType){
 	}
 }
 
-function AttackRound(data){
+function AttackRound(response, data){
 	window.setTimeout(function(){SetEnableAttack(true)}, 1500);
-	if(vc.DebugMode && data.RequestDuration > 0){vc.Requests++;  vc.RequestDurationTotal += data.RequestDuration; $("#rda_value").text(vc.RequestDurationTotal / vc.Requests);}
-if(data.Result == vc.ER_SUCCESS){ 
+	if(vc.DebugMode && response.RequestDuration > 0){vc.Requests++;  vc.RequestDurationTotal += response.RequestDuration; $("#rda_value").text(vc.RequestDurationTotal / vc.Requests);}
+if(response.Result == vc.ER_SUCCESS){ 
 
 		var fightResults = $("#fightResults");
-		var battleObject = data.Data;
+		var battleObject = response.Data;
 		
 		if($(".round", fightResults).length > 0){
 			$(".round", fightResults).animate({ opacity: 0 }, 250, function(){ 
@@ -795,7 +805,7 @@ function BuildShop(topWindow){
 	var armorOptGroup = $("<optgroup label='Armors'><option value='1|0'>Armors</option><option value='1|1'>Shields</option></optgroup>");
 	var spellsOptGroup = $("<optgroup label='Spells'><option value='3|0'>Fire</option><option value='3|1'>Cold</option><option value='3|2'>Air</option><option value='3|3'>Heal</option></optgroup>");
 	var accessoriesOptGroup = $("<optgroup label='Accessories'><option value='2|0'>Accessories</option></optgroup>");
-	itemTypeSelection.append(weaponOptGroup).append(armorOptGroup).append(spellsOptGroup).append(accessoriesOptGroup);;
+	itemTypeSelection.append(weaponOptGroup).append(armorOptGroup).append(spellsOptGroup).append(accessoriesOptGroup);
 	
 	buyForm.append(typeContainer).append(buyItem).append(itemInfo).append(itemDescription);
 	topWindow.append(buyForm);
@@ -861,11 +871,11 @@ function FilterItemTypes(itemSlotType){
 	}
 }
 
-function ProcessPurchase(data){
-	if(vc.DebugMode && data.RequestDuration > 0){vc.Requests++;  vc.RequestDurationTotal += data.RequestDuration; $("#rda_value").text(vc.RequestDurationTotal / vc.Requests);}
-if(data.Result == vc.ER_SUCCESS){ 
+function ProcessPurchase(response, data){
+	if(vc.DebugMode && response.RequestDuration > 0){vc.Requests++;  vc.RequestDurationTotal += response.RequestDuration; $("#rda_value").text(vc.RequestDurationTotal / vc.Requests);}
+if(response.Result == vc.ER_SUCCESS){ 
 
-		var item = data.Data;	
+		var item = response.Data;	
 		MyCharacter.Inventories["Personal"][MyCharacter.Inventories["Personal"].length] = item;
 		MyCharacter.Gold -= item.BuyPrice;
 		vc.i.UpdateStats();
@@ -877,9 +887,10 @@ if(data.Result == vc.ER_SUCCESS){
 	Log("Process Purchase: " + JSON.stringify(data));
 }
 
-function ProcessSale(data, ItemId){
-	if(vc.DebugMode && data.RequestDuration > 0){vc.Requests++;  vc.RequestDurationTotal += data.RequestDuration; $("#rda_value").text(vc.RequestDurationTotal / vc.Requests);}
-if(data.Result == vc.ER_SUCCESS){ 
+function ProcessSale(response, data){
+	var ItemId = data.ItemId;
+	if(vc.DebugMode && response.RequestDuration > 0){vc.Requests++;  vc.RequestDurationTotal += response.RequestDuration; $("#rda_value").text(vc.RequestDurationTotal / vc.Requests);}
+	if(response.Result == vc.ER_SUCCESS){ 
 
 		var item = {};
 		var asdf = 0;
@@ -965,11 +976,11 @@ function BuildInitialInventory(){
 	$('#chatChannels .ui-tabs-panel').css({'height':(($(window).height())-432)+'px'});
 }
 
-function LoadInventory(data){
-	if(vc.DebugMode && data.RequestDuration > 0){vc.Requests++;  vc.RequestDurationTotal += data.RequestDuration; $("#rda_value").text(vc.RequestDurationTotal / vc.Requests);}
-if(data.Result == vc.ER_SUCCESS){ 
+function LoadInventory(response, data){
+	if(vc.DebugMode && response.RequestDuration > 0){vc.Requests++;  vc.RequestDurationTotal += response.RequestDuration; $("#rda_value").text(vc.RequestDurationTotal / vc.Requests);}
+if(response.Result == vc.ER_SUCCESS){ 
 
-		window.MyCharacter.Inventories["Personal"] = data.Data;
+		window.MyCharacter.Inventories["Personal"] = response.Data;
 		BuildInitialInventory();
 		BuildInventoryLists();
 	}else{
@@ -999,7 +1010,8 @@ function BuildInventoryLists(){
 	}
 }
 
-function InsertChat(data, channel){
+function InsertChat(response, data){
+	var channel = data.Channel;
 	var $chatWindow = $("#chatChannels input[value='" + channel + "']").parent();
 	var $chatTab = $("a[href='#" + $chatWindow.attr("id") + "']").parent();
 	
@@ -1007,7 +1019,7 @@ function InsertChat(data, channel){
 		$chatTab.addClass("newMessage");
 	}
 	
-	for(x = 0; x < data.length; x++){
+	for(x = 0; x < response.length; x++){
 		
 		var chatobj = data[x];
 		if(chatobj !== undefined){
@@ -1034,8 +1046,8 @@ function InsertChat(data, channel){
 }
 
 
-function ProcessSystemMessage(data){
-	for(x = 0; x< data.length; x++){
+function ProcessSystemMessage(response, data){
+	for(x = 0; x< response.length; x++){
 		var chatobj = data[x];
 		
 		switch(chatobj.Message.MessageType){
@@ -1255,27 +1267,27 @@ function SubmitMessage(message){
 				
 				case vc.cmd.ACTION_CHANNEL_SETRIGHTS:
 					var rights = vc.ch.Utilities.ParseRights(msgobj.Message);
-					vc.ch.SetRights(myChannel, rights.Character, rights.Rights, function(data){});
+					vc.ch.SetRights(myChannel, rights.Character, rights.Rights, function(response, data){});
 					break;
 				case vc.ch.CHAT_TYPE_OPENPRIVATECHANNEL:
 					CreatePrivateChannel(msgobj.Message);
 					break;
 				case vc.ch.CHAT_TYPE_IDPLAYER:
-					vc.cmd.SendChatCommand(myChannel, vc.cmd.ACTION_ID, msgobj.Message, function(data, character){ ProcessIDPlayer(data, character); });
+					vc.cmd.SendChatCommand(myChannel, vc.cmd.ACTION_ID, msgobj.Message, function(response, character){ ProcessIDPlayer(response, character); });
 					break;
 				case vc.CommandService.ACTION_CHANNEL_SETPARAMETERS:
 					if(message.indexOf("/motd") == 0){
 						type = vc.CommandService.ACTION_CHANNEL_SETPARAMETERS;
 						var value = message.split('/motd ')[1];
-						vc.ch.SetParameters(myChannel, 'Motd', value, function(data, parameter, value){ ProcessChannelParamterChange(myChannel, parameter, value); });
+						vc.ch.SetParameters(myChannel, 'Motd', value, function(response, parameter, value){ ProcessChannelParamterChange(myChannel, parameter, value); });
 					}else if(message.indexOf("/publicRead") == 0){
 						type = vc.CommandService.ACTION_CHANNEL_SETPARAMETERS;
 						var value = message.split('/publicRead ')[1];
-						vc.ch.SetParameters(myChannel, 'PublicRead', value, function(data, parameter, value){ ProcessChannelParamterChange(myChannel, parameter, value); });
+						vc.ch.SetParameters(myChannel, 'PublicRead', value, function(response, parameter, value){ ProcessChannelParamterChange(myChannel, parameter, value); });
 					}else if(message.indexOf("/publicWrite") == 0){
 						type = vc.CommandService.ACTION_CHANNEL_SETPARAMETERS;
 						var value = message.split('/publicWrite ')[1];
-						vc.ch.SetParameters(myChannel, 'PublicWrite', value, function(data, parameter, value){ ProcessChannelParamterChange(myChannel, parameter, value); });
+						vc.ch.SetParameters(myChannel, 'PublicWrite', value, function(response, parameter, value){ ProcessChannelParamterChange(myChannel, parameter, value); });
 					}
 					break;
 			}
@@ -1291,9 +1303,9 @@ function ProcessChannelParamterChange(channel, parameter, value){
 
 function CreatePrivateChannel(character){
 	var channelName = "!!PM" + character + "!!" + GUID();
-	vc.ch.CreateChannel(channelName, "Private Channel with " + character, 0, 0, function(data){
-		if(vc.DebugMode && data.RequestDuration > 0){vc.Requests++;  vc.RequestDurationTotal += data.RequestDuration; $("#rda_value").text(vc.RequestDurationTotal / vc.Requests);}
-if(data.Result == vc.ER_SUCCESS){ 
+	vc.ch.CreateChannel(channelName, "Private Channel with " + character, 0, 0, function(response, data){
+		if(vc.DebugMode && response.RequestDuration > 0){vc.Requests++;  vc.RequestDurationTotal += response.RequestDuration; $("#rda_value").text(vc.RequestDurationTotal / vc.Requests);}
+if(response.Result == vc.ER_SUCCESS){ 
 
 			CreateChannel(data);
 			SubmitMessage("/invite " + character);
@@ -1303,11 +1315,11 @@ if(data.Result == vc.ER_SUCCESS){
 	});
 }
 
-function ProcessIDPlayer(data, characterName){
-	if(vc.DebugMode && data.RequestDuration > 0){vc.Requests++;  vc.RequestDurationTotal += data.RequestDuration; $("#rda_value").text(vc.RequestDurationTotal / vc.Requests);}
-if(data.Result == vc.ER_SUCCESS){ 
+function ProcessIDPlayer(response, characterName){
+	if(vc.DebugMode && response.RequestDuration > 0){vc.Requests++;  vc.RequestDurationTotal += response.RequestDuration; $("#rda_value").text(vc.RequestDurationTotal / vc.Requests);}
+if(response.Result == vc.ER_SUCCESS){ 
 
-		var character = data.Data;
+		var character = response.Data;
 		
 		var alignName = vc.AlignName(character);
 		var alignClass = "neutral";
@@ -1321,7 +1333,7 @@ if(data.Result == vc.ER_SUCCESS){
 		$("<span />").text(alignName + " (" + character.AlignGood + " / " + character.AlignOrder + ")").addClass(alignClass).appendTo($alignContainer);
 			
 		$("<div class='statsWindow " + V2Core.Races[character.RaceId].Name + "'><div class='stat'><h2>" + characterName + "</h2><h4>" + V2Core.Races[character.RaceId].Name + "</h4></div><div class='stat lvl'><span class='statLabel icon lvl' title='Level'>Level</span><span>" + character.Level + "</span></div></div>").append($alignContainer).dialog({ title: characterName });
-	}else if(data.Result == vc.ER_BADDATA){
+	}else if(response.Result == vc.ER_BADDATA){
 		alert("Character '" + characterName + "' not found!");
 	}else{
 		Log("ID Player: Player(" + characterName + ") " + JSON.stringify(data));
@@ -1335,7 +1347,7 @@ function GetFullMonsterId(id){
 	return monsterId;
 }
 
-function Logout(data){
+function Logout(response, data){
 	FB.getLoginStatus(function(response) {
 		if (!!response.session) {
 			FB.logout();

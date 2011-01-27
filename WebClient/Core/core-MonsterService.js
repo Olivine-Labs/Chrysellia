@@ -17,7 +17,7 @@
 		Fight: function(monsterId, fightType, callback){
 			var data = { MonsterId: monsterId, FightType: fightType };
 			var requestId = vc.GenerateRequestId();
-			vc.CallbackStack[requestId] = callback;
+			vc.CallbackStack[requestId] = {Method: callback, Data: data};
 			vc.SendSingleRequest(requestId, vc.TYPE_MONSTER, vc.mn.ACTION_FIGHT, data);
 		}
 	}

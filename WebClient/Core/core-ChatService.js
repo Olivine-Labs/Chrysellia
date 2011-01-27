@@ -33,14 +33,14 @@
 		GetMessagesFromChannel: function(channel, callback){
 			var data = { Channel: channel };
 			var requestId = vc.GenerateRequestId();
-			vc.CallbackStack[requestId] = callback;
+			vc.CallbackStack[requestId] = {Method: callback, Data: data};
 			vc.SendSingleRequest(requestId, vc.TYPE_CHAT, vc.ch.ACTION_GETMESSAGESFROMCHANNEL, data);
 		},
 		
 		GetMessagesForCharacter: function(callback){
 			var data = { };
 			var requestId = vc.GenerateRequestId();
-			vc.CallbackStack[requestId] = callback;
+			vc.CallbackStack[requestId] = {Method: callback, Data: data};
 			vc.SendSingleRequest(requestId, vc.TYPE_CHAT, vc.ch.ACTION_GETMESSAGESFORCHARACTER, data);
 		},
 		
@@ -51,14 +51,14 @@
 				case vc.ChatService.CHAT_TYPE_GENERAL:
 					var data = { Channel: channel, Message: message };
 					var requestId = vc.GenerateRequestId();
-					vc.CallbackStack[requestId] = callback;
+					vc.CallbackStack[requestId] = {Method: callback, Data: data};
 					vc.SendSingleRequest(requestId, vc.TYPE_CHAT, vc.ch.ACTION_SENDMESSAGE, data);
 					break;
 				case vc.ChatService.CHAT_TYPE_EMOTE:
 					vc.cmd.SendChatCommand(channel, vc.cmd.ACTION_EMOTE, chatobj.Message, callback);
 					break;
 				default:
-					callback({ Result: V2Core.ER_MALFORMED, Data: {} });
+					callback({ Result: V2Core.ER_MALFORMED, Data: data });
 					break;
 			}
 		},
@@ -66,35 +66,35 @@
 		JoinChannel: function(channel, callback){
 			var data = { Channel: channel };
 			var requestId = vc.GenerateRequestId();
-			vc.CallbackStack[requestId] = callback;
+			vc.CallbackStack[requestId] = {Method: callback, Data: data};
 			vc.SendSingleRequest(requestId, vc.TYPE_COMMANDS, vc.cmd.ACTION_JOINCHANNEL, data);
 		},
 		
 		PartChannel: function(channel, callback){
 			var data = { Channel: channel };
 			var requestId = vc.GenerateRequestId();
-			vc.CallbackStack[requestId] = callback;
+			vc.CallbackStack[requestId] = {Method: callback, Data: data};
 			vc.SendSingleRequest(requestId, vc.TYPE_COMMANDS, vc.cmd.ACTION_CHANNEL_PART, data);
 		},
 		
 		CreateChannel: function(name, motd, publicRead, publicWrite, callback){
 			var data = { Channel: name, Motd: motd, PublicRead: publicRead, PublicWrite: publicWrite };
 			var requestId = vc.GenerateRequestId();
-			vc.CallbackStack[requestId] = callback;
+			vc.CallbackStack[requestId] = {Method: callback, Data: data};
 			vc.SendSingleRequest(requestId, vc.TYPE_COMMANDS, vc.cmd.ACTION_CHANNEL_CREATE, data);
 		},
 		
 		SetRights: function(channel, characterName, rights, callback){
 			var data = { Channel: channel, Character: characterName, Rights: rights };
 			var requestId = vc.GenerateRequestId();
-			vc.CallbackStack[requestId] = callback;
+			vc.CallbackStack[requestId] = {Method: callback, Data: data};
 			vc.SendSingleRequest(requestId, vc.TYPE_COMMANDS, vc.cmd.ACTION_CHANNEL_SETRIGHTS, data);
 		},
 		
 		SetParameters: function(channel, parameter, value, callback){
 			var data = { ChannelId: channel, Parameter: parameter, Value: value };
 			var requestId = vc.GenerateRequestId();
-			vc.CallbackStack[requestId] = callback;
+			vc.CallbackStack[requestId] = {Method: callback, Data: data};
 			vc.SendSingleRequest(requestId, vc.TYPE_COMMANDS, vc.cmd.ACTION_CHANNEL_SETPARAMETERS, data);
 		},
 		

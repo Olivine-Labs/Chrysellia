@@ -35,7 +35,7 @@
 			};
 			
 			var requestId = vc.GenerateRequestId();
-			vc.CallbackStack[requestId] = callback;
+			vc.CallbackStack[requestId] = {Method: callback, Data: data};
 			
 			vc.SendSingleRequest(requestId, requestId, vc.TYPE_CHARACTER, vc.cs.ACTION_CREATE, data);
 		},
@@ -43,49 +43,49 @@
 		List: function(callback){
 			var data = { };
 			var requestId = vc.GenerateRequestId();
-			vc.CallbackStack[requestId] = callback;
+			vc.CallbackStack[requestId] = {Method: callback, Data: data};
 			vc.SendSingleRequest(requestId, vc.TYPE_CHARACTER, vc.cs.ACTION_LIST, data);
 		},
 		
 		CheckName: function(name, callback){
 			var data = { Name: name };
 			var requestId = vc.GenerateRequestId();
-			vc.CallbackStack[requestId] = callback;
+			vc.CallbackStack[requestId] = {Method: callback, Data: data};
 			vc.SendSingleRequest(requestId, vc.TYPE_CHARACTER, vc.cs.ACTION_CHECKNAME, data);
 		},
 		
 		Select: function(characterId, pin, callback){
 			var data = { Character: characterId, Pin: pin };
 			var requestId = vc.GenerateRequestId();
-			vc.CallbackStack[requestId] = callback;
+			vc.CallbackStack[requestId] = {Method: callback, Data: data};
 			vc.SendSingleRequest(requestId, vc.TYPE_CHARACTER, vc.cs.ACTION_SELECTCHARACTER, data);
 		},
 		
 		GetCurrentCharacter: function(callback){
 			var data = { };
 			var requestId = vc.GenerateRequestId();
-			vc.CallbackStack[requestId] = callback;
+			vc.CallbackStack[requestId] = {Method: callback, Data: data};
 			vc.SendSingleRequest(requestId, vc.TYPE_CHARACTER, vc.cs.ACTION_GETCURRENTCHARACTER, data);
 		},
 		
 		LevelUp: function(stat, callback){
 			var data = { Stat: stat };
 			var requestId = vc.GenerateRequestId();
-			vc.CallbackStack[requestId] = callback;
+			vc.CallbackStack[requestId] = {Method: callback, Data: data};
 			vc.SendSingleRequest(requestId, vc.TYPE_CHARACTER, vc.cs.ACTION_LEVELUP, data);
 		},
 		
 		PlayerListByLocation: function(callback){
 			var data = { };
 			var requestId = vc.GenerateRequestId();
-			vc.CallbackStack[requestId] = callback;
+			vc.CallbackStack[requestId] = {Method: callback, Data: data};
 			vc.SendSingleRequest(requestId, vc.TYPE_CHARACTER, vc.cs.ACTION_LOADLISTFORCELL, data);
 		},
 		
 		Fight: function(enemyId, fightType, callback){
 			var data = { CharacterId: enemyId, FightType: fightType };
 			var requestId = vc.GenerateRequestId();
-			vc.CallbackStack[requestId] = callback;
+			vc.CallbackStack[requestId] = {Method: callback, Data: data};
 			vc.SendSingleRequest(requestId, vc.TYPE_CHARACTER, vc.cs.ACTION_FIGHT, data);
 		}
 	}

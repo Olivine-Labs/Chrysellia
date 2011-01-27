@@ -24,17 +24,17 @@
 				case vc.CommandService.ACTION_EMOTE:
 					var data = { Channel: channel, Message: message };
 					var requestId = vc.GenerateRequestId();
-					vc.CallbackStack[requestId] = callback;
+					vc.CallbackStack[requestId] = {Method: callback, Data: data};
 					vc.SendSingleRequest(requestId, vc.TYPE_CHAT, command, data);
 					break;
 				case vc.CommandService.ACTION_ID:
 					var data = { Character: message };
 					var requestId = vc.GenerateRequestId();
-					vc.CallbackStack[requestId] = callback;
+					vc.CallbackStack[requestId] = {Method: callback, Data: data};
 					vc.SendSingleRequest(requestId, vc.TYPE_CHAT, command, data);
 					break;
 				default:
-					callback({ Result: V2Core.ER_MALFORMED, Data: {} });
+					callback({ Result: V2Core.ER_MALFORMED, Data: data });
 					return;
 					break;
 			}

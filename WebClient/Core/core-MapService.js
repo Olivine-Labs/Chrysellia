@@ -29,56 +29,56 @@
 		Move: function(x, y, callback){
 			var data = { X:x, Y:y };
 			var requestId = vc.GenerateRequestId();
-			vc.CallbackStack[requestId] = callback;
+			vc.CallbackStack[requestId] = {Method: callback, Data: data};
 			vc.SendSingleRequest(requestId, vc.TYPE_MAP, vc.ms.ACTION_MOVE, data);
 		},
 		
 		ChangeMap: function(callback){
 			var data = { };
 			var requestId = vc.GenerateRequestId();
-			vc.CallbackStack[requestId] = callback;
+			vc.CallbackStack[requestId] = {Method: callback, Data: data};
 			vc.SendSingleRequest(requestId, vc.TYPE_MAP, vc.ms.ACTION_CHANGEMAP, data);
 		},
 		
 		Buy: function(itemTemplateId, callback){
 			var data = { ItemTemplateId: itemTemplateId };
 			var requestId = vc.GenerateRequestId();
-			vc.CallbackStack[requestId] = callback;
+			vc.CallbackStack[requestId] = {Method: callback, Data: data};
 			vc.SendSingleRequest(requestId, vc.TYPE_PLACES, vc.ms.ACTION_BUY, data);
 		},
 		
 		Sell: function(itemId, callback){
 			var data = { ItemId: itemId };
 			var requestId = vc.GenerateRequestId();
-			vc.CallbackStack[requestId] = callback;
+			vc.CallbackStack[requestId] = {Method: callback, Data: data};
 			vc.SendSingleRequest(requestId, vc.TYPE_PLACES, vc.ms.ACTION_SELL, data);
 		},
 		
 		Revive: function(callback){
 			var data = { };
 			var requestId = vc.GenerateRequestId();
-			vc.CallbackStack[requestId] = callback;
+			vc.CallbackStack[requestId] = {Method: callback, Data: data};
 			vc.SendSingleRequest(requestId, vc.TYPE_PLACES, vc.ms.ACTION_REVIVE, data);
 		},
 		
 		Widthdraw: function(gold, callback){
 			var data = { Gold: gold };
 			var requestId = vc.GenerateRequestId();
-			vc.CallbackStack[requestId] = callback;
+			vc.CallbackStack[requestId] = {Method: callback, Data: data};
 			vc.SendSingleRequest(requestId, vc.TYPE_PLACES, vc.ms.ACTION_WITHDRAW, data);
 		},
 		
 		Deposit: function(gold, callback){
 			var data = { Gold: gold };
 			var requestId = vc.GenerateRequestId();
-			vc.CallbackStack[requestId] = callback;
+			vc.CallbackStack[requestId] = {Method: callback, Data: data};
 			vc.SendSingleRequest(requestId, vc.TYPE_PLACES, vc.ms.ACTION_DEPOSIT, data);
 		},
 		
 		Transfer: function(gold, name, callback){
 			var data = { Gold: gold };
 			var requestId = vc.GenerateRequestId();
-			vc.CallbackStack[requestId] = callback;
+			vc.CallbackStack[requestId] = {Method: callback, Data: data};
 			vc.SendSingleRequest(requestId, vc.TYPE_PLACES, vc.ms.ACTION_TRANSFER, data);
 		}
 	}

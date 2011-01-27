@@ -55,14 +55,17 @@
 		
 		GenerateRequestId: function(){
 			vc.__requestId++;
-			return vc.__requestId;
+			return vc.__requestId + "m";
 		},
 		
 		ProcessCallbacks: function(data, textStatus, XMLHttpRequest){
 			for(var x in data){
 				if(vc.isInteger(x)){
 					var method = vc.CallbackStack[data[x].Id];
-					method(data[x]);
+					if (method != undefined && typeof method.Method == "function"){
+						method.Method(data[x], method.Data);
+					}
+					vc.CallbackStack.splice(data[x], 1);
 				}
 			}
 		},
