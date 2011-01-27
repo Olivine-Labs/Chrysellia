@@ -72,7 +72,7 @@ class jSEND
 		else
 			$sData = utf8_encode($sDataTmp1);
 		/* -----------------------------
-		ANSI Chars 128-159 to UCS
+			ANSI Chars 128-159 to UCS
 		----------------------------- */
 		foreach($aLookup as $sKey => $iValue)
 			$sData = str_replace(chr(194).chr($sKey),self::unichr($iValue),$sData);
