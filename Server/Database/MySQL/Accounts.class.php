@@ -5,6 +5,7 @@ namespace Database\MySQL;
 define('SQL_GETACCOUNTBYNAMEPASSWORD', 'SELECT `accountId`, `email`, `validated`, `type`, `createdOn` FROM `accounts` WHERE `userName`=? AND `password`=?');
 define('SQL_GETACCOUNTBYID', 'SELECT `userName`, `email`, `validated`, `type`, `createdOn` FROM `accounts` WHERE `accountId`=?');
 define('SQL_INSERTACCOUNT', 'INSERT INTO `accounts` (`accountId`, `userName`, `password`, `email`) VALUES (?, ?, ?, ?)');
+define('SQL_KICK', 'DELETE FROM `sessions` WHERE `accountId`=?');
 
 /**
  * Contains properties and methods related to querying our accounts table and relations
@@ -92,6 +93,28 @@ class Accounts extends \Database\Accounts
 		$Account->AccountId = uniqid('ACCT_', true);
 		$Query = $this->Database->Connection->prepare(SQL_INSERTACCOUNT);
 		$Query->bind_param('ssss', $Account->AccountId, $Account->Name, $Account->Password, $Account->Email);
+
+		$Query->Execute();
+
+		if($Query->affected_rows > 0)
+			return true;
+		else
+			return false;
+	}
+
+	/**
+	 * Deletes account's sessions
+	 *
+	 * @param $Account
+	 *   The Account class, requires AccountId to be set
+	 *
+	 * @return Boolean
+	 *   Whether any sessions were deleted
+	 */
+	function Kick(\Entities\Account $Account)
+	{
+		$Query = $this->Database->Connection->prepare(SQL_KICK);
+		$Query->bind_param('s', $Account->AccountId);
 
 		$Query->Execute();
 

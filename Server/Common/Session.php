@@ -46,7 +46,9 @@ class Session
 
 	public function _write($Id, $Data)
 	{
-		return $this->Database->Sessions->Replace($Id, $Data);
+		@$AccountId=$_SESSION['AccountId'];
+		@$CharacterId = $_SESSION['CharacterId'];
+		return $this->Database->Sessions->Replace($Id, $AccountId, $CharacterId, $Data);
 	}
 
 	public function _gc($Seconds)

@@ -20,6 +20,7 @@ class Response
 
 	const ER_SUCCESS=0;//when Murphy is not around everything works.
 	const ER_CORE=1;//When I typoed(syntax/runtime error)
+	const ER_NOTONLINE=249;//when the target is not online
 	const ER_NOTLOGGEDIN=250;//when the session fails
 	const ER_BADDATA=251;//when the data is bad
 	const ER_ALREADYEXISTS=252;//when the data already exists in the database

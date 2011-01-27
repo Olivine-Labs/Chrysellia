@@ -3,7 +3,7 @@
 namespace Database\MySQL;
 
 define('SQL_GETSESSION', 'SELECT `data` FROM `sessions` WHERE `sessionId`=?');
-define('SQL_REPLACESESSION', 'INSERT INTO `sessions` (`sessionId`, `data`, `lastUsedOn`) VALUES (?, ?, NOW()) ON DUPLICATE KEY UPDATE `data`=?, `lastUsedOn`=NOW()');
+define('SQL_REPLACESESSION', 'INSERT INTO `sessions` (`sessionId`, `accountId`, `characterId`, `data`, `lastUsedOn`) VALUES (?, ?, ?, ?, NOW()) ON DUPLICATE KEY UPDATE `accountId`=?, `characterId`=?, `data`=?, `lastUsedOn`=NOW()');
 define('SQL_DELETESESSION', 'DELETE FROM `sessions` WHERE `sessionId`=?');
 define('SQL_CLEANSESSIONS', 'DELETE FROM `sessions` WHERE `lastUsedOn` < (NOW() - INTERVAL ? SECOND)');
 define('SQL_GETONLINE', 'SELECT count(*) FROM `sessions` WHERE `lastUsedOn` > (NOW() - INTERVAL 360 SECOND)');
@@ -69,11 +69,11 @@ class Sessions extends \Database\Sessions
 	 * @return Boolean
 	 *   Whether the Account object was successfully inserted or not
 	 */
-	public function Replace($Id, $Data)
+	public function Replace($Id, $AccountId, $CharacterId, $Data)
 	{
 		if($Query = $this->Database->Connection->prepare(SQL_REPLACESESSION))
 		{
-			$Query->bind_param('sss', $Id, $Data, $Data);
+			$Query->bind_param('sssssss', $Id, $AccountId, $CharacterId, $Data, $AccountId, $CharacterId, $Data);
 
 			$Query->Execute();
 

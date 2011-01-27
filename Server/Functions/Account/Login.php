@@ -24,6 +24,7 @@ if(
 	{
 		if($Database->Accounts->Login($AnAccount))
 		{
+			$Database->Accounts->Kick($AnAccount);
 			$Response->Set('Result', \Protocol\Response::ER_SUCCESS);
 			$_SESSION['AccountId'] = $AnAccount->AccountId;
 		}
