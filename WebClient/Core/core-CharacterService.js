@@ -37,7 +37,7 @@
 			var requestId = vc.GenerateRequestId();
 			vc.CallbackStack[requestId] = {Method: callback, Data: data};
 			
-			vc.SendSingleRequest(requestId, requestId, vc.TYPE_CHARACTER, vc.cs.ACTION_CREATE, data);
+			vc.SendSingleRequest(requestId, vc.TYPE_CHARACTER, vc.cs.ACTION_CREATE, data);
 		},
 		
 		List: function(callback){
