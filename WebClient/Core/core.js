@@ -73,7 +73,6 @@
 			dataArray[0] = dataObject;
 			
 			var requestRoute = V2Core.SERVERCODE_DIRECTORY + "Index.php";
-
 			$.ajax(
 				requestRoute,
 				{

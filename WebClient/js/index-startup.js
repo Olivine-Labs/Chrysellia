@@ -189,7 +189,7 @@ function RegisterAccount(username, password, email){
 function ProcessLogin(result){
 	switch(result){
 		case vc.ER_SUCCESS:
-			$.cookie("l",true)
+			$.cookie("l",true);
 			window.location = "./account.php";
 			break;
 		case vc.ER_BADDATA:
