@@ -17,17 +17,23 @@
 		
 		Login: function(username, password, callback){
 			var data = { UserName: username, Password: password };
-			vc.SendSingleRequest(vc.TYPE_ACCOUNT, vc.as.ACTION_LOGIN, data).success( function(data) { callback(data); } );
+			var requestId = vc.GenerateRequestId();
+			vc.CallbackStack[requestId] = callback;
+			vc.SendSingleRequest(requestId, type, action, data);
 		},
 		
 		Register: function(username, password, email, callback){
 			var data = { UserName: username, Password: password, Email: email};
-			vc.SendSingleRequest(vc.TYPE_ACCOUNT, vc.as.ACTION_REGISTER, data).success( function(data) { callback(data); } );
+			var requestId = vc.GenerateRequestId();
+			vc.CallbackStack[requestId] = callback;
+			vc.SendSingleRequest(requestId, vc.TYPE_ACCOUNT, vc.as.ACTION_REGISTER, data);
 		},
 		
 		Logout: function(callback){
 			var data = { };
-			vc.SendSingleRequest(vc.TYPE_ACCOUNT, vc.as.ACTION_LOGOUT, data).success( function(data) { callback(data); } );
+			var requestId = vc.GenerateRequestId();
+			vc.CallbackStack[requestId] = callback;
+			vc.SendSingleRequest(requestId, type, action, data);
 		}
 	}
 	

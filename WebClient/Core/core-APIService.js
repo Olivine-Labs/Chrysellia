@@ -20,7 +20,7 @@
 			$.getJSON(
 				vc.API_URI,
 				//{ Action: APIService.ACTION_TOP, Data: JSON.stringify({ Num: limit, Position: index, Sort: sort }) },
-				{ Action: APIService.ACTION_TOP, Data: JSON.stringify({ Num: limit, Position: index, Sort: sort, ListType: listType, Race: race }) },
+				{Data: $.jSEND(JSON.stringify({ Action: APIService.ACTION_TOP, Data: { Num: limit, Position: index, Sort: sort, ListType: listType, Race: race } }))},
 				function(data) { callback(data); }
 			);
 		},
@@ -28,7 +28,7 @@
 		Count: function(callback){
 			$.getJSON(
 				vc.API_URI,
-				{ Action: APIService.ACTION_COUNT, Data: JSON.stringify({  }) },
+				{Data: $.jSEND(JSON.stringify({ Action: APIService.ACTION_COUNT, Data: {  } }))},
 				function(data) { callback(data); }
 			);
 		},
@@ -36,7 +36,7 @@
 		Online: function(callback){
 			$.getJSON(
 				vc.API_URI,
-				{ Action: APIService.ACTION_ONLINE, Data: JSON.stringify({  }) },
+				{Data: $.jSEND(JSON.stringify({ Action: APIService.ACTION_ONLINE, Data: {  } }))},
 				function(data) { callback(data); }
 			);
 		}

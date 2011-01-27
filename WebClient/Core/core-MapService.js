@@ -28,42 +28,58 @@
 	
 		Move: function(x, y, callback){
 			var data = { X:x, Y:y };
-			vc.SendSingleRequest(vc.TYPE_MAP, vc.ms.ACTION_MOVE, data).success( function(data) { callback(data); } );
+			var requestId = vc.GenerateRequestId();
+			vc.CallbackStack[requestId] = callback;
+			vc.SendSingleRequest(requestId, vc.TYPE_MAP, vc.ms.ACTION_MOVE, data);
 		},
 		
 		ChangeMap: function(callback){
 			var data = { };
-			vc.SendSingleRequest(vc.TYPE_MAP, vc.ms.ACTION_CHANGEMAP, data).success( function(data) { callback(data); } );
+			var requestId = vc.GenerateRequestId();
+			vc.CallbackStack[requestId] = callback;
+			vc.SendSingleRequest(requestId, vc.TYPE_MAP, vc.ms.ACTION_CHANGEMAP, data);
 		},
 		
 		Buy: function(itemTemplateId, callback){
 			var data = { ItemTemplateId: itemTemplateId };
-			vc.SendSingleRequest(vc.TYPE_PLACES, vc.ms.ACTION_BUY, data).success( function(data) { callback(data); } );
+			var requestId = vc.GenerateRequestId();
+			vc.CallbackStack[requestId] = callback;
+			vc.SendSingleRequest(requestId, vc.TYPE_PLACES, vc.ms.ACTION_BUY, data);
 		},
 		
 		Sell: function(itemId, callback){
 			var data = { ItemId: itemId };
-			vc.SendSingleRequest(vc.TYPE_PLACES, vc.ms.ACTION_SELL, data).success( function(data) { callback(data, itemId); } );
+			var requestId = vc.GenerateRequestId();
+			vc.CallbackStack[requestId] = callback;
+			vc.SendSingleRequest(requestId, vc.TYPE_PLACES, vc.ms.ACTION_SELL, data);
 		},
 		
 		Revive: function(callback){
 			var data = { };
-			vc.SendSingleRequest(vc.TYPE_PLACES, vc.ms.ACTION_REVIVE, data).success( function(data) { callback(data); } );
+			var requestId = vc.GenerateRequestId();
+			vc.CallbackStack[requestId] = callback;
+			vc.SendSingleRequest(requestId, vc.TYPE_PLACES, vc.ms.ACTION_REVIVE, data);
 		},
 		
 		Widthdraw: function(gold, callback){
 			var data = { Gold: gold };
-			vc.SendSingleRequest(vc.TYPE_PLACES, vc.ms.ACTION_WITHDRAW, data).success( function(data) { callback(data, gold, 1); } );
+			var requestId = vc.GenerateRequestId();
+			vc.CallbackStack[requestId] = callback;
+			vc.SendSingleRequest(requestId, vc.TYPE_PLACES, vc.ms.ACTION_WITHDRAW, data);
 		},
 		
 		Deposit: function(gold, callback){
 			var data = { Gold: gold };
-			vc.SendSingleRequest(vc.TYPE_PLACES, vc.ms.ACTION_DEPOSIT, data).success( function(data) { callback(data, gold, 0); } );
+			var requestId = vc.GenerateRequestId();
+			vc.CallbackStack[requestId] = callback;
+			vc.SendSingleRequest(requestId, vc.TYPE_PLACES, vc.ms.ACTION_DEPOSIT, data);
 		},
 		
 		Transfer: function(gold, name, callback){
 			var data = { Gold: gold };
-			vc.SendSingleRequest(vc.TYPE_PLACES, vc.ms.ACTION_TRANSFER, data).success( function(data) { callback(data, gold); } );
+			var requestId = vc.GenerateRequestId();
+			vc.CallbackStack[requestId] = callback;
+			vc.SendSingleRequest(requestId, vc.TYPE_PLACES, vc.ms.ACTION_TRANSFER, data);
 		}
 	}
 	

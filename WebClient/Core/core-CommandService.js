@@ -23,11 +23,15 @@
 			switch(command){
 				case vc.CommandService.ACTION_EMOTE:
 					var data = { Channel: channel, Message: message };
-					vc.SendSingleRequest(vc.TYPE_CHAT, command, data).success( function(data) { callback(data); } );
+					var requestId = vc.GenerateRequestId();
+					vc.CallbackStack[requestId] = callback;
+					vc.SendSingleRequest(requestId, vc.TYPE_CHAT, command, data);
 					break;
 				case vc.CommandService.ACTION_ID:
 					var data = { Character: message };
-					vc.SendSingleRequest(vc.TYPE_CHAT, command, data).success( function(data) { callback(data, message); } );
+					var requestId = vc.GenerateRequestId();
+					vc.CallbackStack[requestId] = callback;
+					vc.SendSingleRequest(requestId, vc.TYPE_CHAT, command, data);
 					break;
 				default:
 					callback({ Result: V2Core.ER_MALFORMED, Data: {} });

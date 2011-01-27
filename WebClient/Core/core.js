@@ -22,8 +22,6 @@
 		Data: {}
 	};
 	
-	
-	
 	V2Core = V2Core.prototype = {
 		Version: "0.0.1",
 		CurrentLanguage: "en",
@@ -51,17 +49,40 @@
 		TYPE_PLACES: 7, 
 		TYPE_API: 8,
 		
-		SendSingleRequest: function(type, action, data){
-			var dataObject = { Type: type, Action: action, Data: data };
+		__requestId: 0,
+		
+		CallbackStack: [],
+		
+		GenerateRequestId: function(){
+			vc.__requestId++;
+			return vc.__requestId;
+		},
+		
+		ProcessCallbacks: function(data, textStatus, XMLHttpRequest){
+			for(var x in data){
+				if(vc.isInteger(x)){
+					var method = vc.CallbackStack[data[x].Id];
+					method(data[x]);
+				}
+			}
+		},
+		
+		SendSingleRequest: function(requestId, type, action, data){
+			var dataObject = { Id: requestId, Type: type, Action: action, Data: data };
 			var dataArray = [];
 			dataArray[0] = dataObject;
-
-			var js = $.ajax(
-				V2Core.SERVERCODE_DIRECTORY + "Index.php",
-				{dataType: "json xml", data: {Data: $.jSEND(JSON.stringify(dataArray))} }
-		    );
 			
-			return js;
+			var requestRoute = V2Core.SERVERCODE_DIRECTORY + "Index.php";
+
+			$.ajax(
+				requestRoute,
+				{
+					data: {Data: $.jSEND(JSON.stringify(dataArray))} ,
+					success: function(data, textStatus, XMLHttpRequest){
+						vc.ProcessCallbacks(data, textStatus, XMLHttpRequest);
+					}
+				}
+		    );
 		},
 		
 		SendQueue: function(queue){
@@ -113,6 +134,11 @@
 			}
 			
 			return totalAlign;
+		},
+		
+		
+		isInteger: function(s) {
+		  return (s.toString().search(/^-?[0-9]+$/) == 0);
 		}
 	};
 	
@@ -127,18 +153,7 @@
 		}
 		
 		this.AddItem = function(type, action, data){
-			this.Items.push({ Type: type, Action: action, Data: data });
-		};
-		
-		this.Submit = function(){
-			if(this.Items.length > 0){
-				vc.SendQueue(this);
-				this.Items = [];
-			}
-			
-			if(options !== undefined && options.AutoSubmit && options.SubmitLength > 0){
-				Timeout = window.setTimeout(function(){  }, options.SubmitLength);
-			}
+			this.Items.push({ Id: vc.GenerateRequestId(), Type: type, Action: action, Data: data });
 		};
 	};
 	

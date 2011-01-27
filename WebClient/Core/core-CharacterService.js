@@ -34,42 +34,59 @@
 				Vitality: vitality 
 			};
 			
-			vc.SendSingleRequest(vc.TYPE_CHARACTER, vc.cs.ACTION_CREATE, data).success( function(data) { callback(data); } );
+			var requestId = vc.GenerateRequestId();
+			vc.CallbackStack[requestId] = callback;
+			
+			vc.SendSingleRequest(requestId, requestId, vc.TYPE_CHARACTER, vc.cs.ACTION_CREATE, data);
 		},
 		
 		List: function(callback){
 			var data = { };
-			vc.SendSingleRequest(vc.TYPE_CHARACTER, vc.cs.ACTION_LIST, data).success( function(data) { callback(data); } );
+			var requestId = vc.GenerateRequestId();
+			vc.CallbackStack[requestId] = callback;
+			vc.SendSingleRequest(requestId, vc.TYPE_CHARACTER, vc.cs.ACTION_LIST, data);
 		},
 		
 		CheckName: function(name, callback){
 			var data = { Name: name };
-			vc.SendSingleRequest(vc.TYPE_CHARACTER, vc.cs.ACTION_CHECKNAME, data).success( function(data) { callback(data); } );
+			var requestId = vc.GenerateRequestId();
+			vc.CallbackStack[requestId] = callback;
+			vc.SendSingleRequest(requestId, vc.TYPE_CHARACTER, vc.cs.ACTION_CHECKNAME, data);
 		},
 		
 		Select: function(characterId, pin, callback){
 			var data = { Character: characterId, Pin: pin };
-			vc.SendSingleRequest(vc.TYPE_CHARACTER, vc.cs.ACTION_SELECTCHARACTER, data).success( function(data) { callback(data); } );
+			var requestId = vc.GenerateRequestId();
+			vc.CallbackStack[requestId] = callback;
+			vc.SendSingleRequest(requestId, vc.TYPE_CHARACTER, vc.cs.ACTION_SELECTCHARACTER, data);
 		},
 		
 		GetCurrentCharacter: function(callback){
 			var data = { };
-			vc.SendSingleRequest(vc.TYPE_CHARACTER, vc.cs.ACTION_GETCURRENTCHARACTER, data).success( function(data) { callback(data); } );
+			var requestId = vc.GenerateRequestId();
+			vc.CallbackStack[requestId] = callback;
+			vc.SendSingleRequest(requestId, vc.TYPE_CHARACTER, vc.cs.ACTION_GETCURRENTCHARACTER, data);
 		},
 		
 		LevelUp: function(stat, callback){
 			var data = { Stat: stat };
-			vc.SendSingleRequest(vc.TYPE_CHARACTER, vc.cs.ACTION_LEVELUP, data).success( function(data) { callback(data, stat); } );
+			var requestId = vc.GenerateRequestId();
+			vc.CallbackStack[requestId] = callback;
+			vc.SendSingleRequest(requestId, vc.TYPE_CHARACTER, vc.cs.ACTION_LEVELUP, data);
 		},
 		
 		PlayerListByLocation: function(callback){
 			var data = { };
-			vc.SendSingleRequest(vc.TYPE_CHARACTER, vc.cs.ACTION_LOADLISTFORCELL, data).success( function(data) { callback(data); } );
+			var requestId = vc.GenerateRequestId();
+			vc.CallbackStack[requestId] = callback;
+			vc.SendSingleRequest(requestId, vc.TYPE_CHARACTER, vc.cs.ACTION_LOADLISTFORCELL, data);
 		},
 		
 		Fight: function(enemyId, fightType, callback){
 			var data = { CharacterId: enemyId, FightType: fightType };
-			vc.SendSingleRequest(vc.TYPE_CHARACTER, vc.cs.ACTION_FIGHT, data).success( function(data) { callback(data); } );
+			var requestId = vc.GenerateRequestId();
+			vc.CallbackStack[requestId] = callback;
+			vc.SendSingleRequest(requestId, vc.TYPE_CHARACTER, vc.cs.ACTION_FIGHT, data);
 		}
 	}
 	

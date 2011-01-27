@@ -27,27 +27,37 @@
 		
 		GetInventory: function(callback){
 			var data = { };
-			vc.SendSingleRequest(vc.TYPE_ITEM, vc.is.ACTION_GETINVENTORY, data).success( function(data) { callback(data); } );
+			var requestId = vc.GenerateRequestId();
+			vc.CallbackStack[requestId] = callback;
+			vc.SendSingleRequest(requestId, vc.TYPE_ITEM, vc.is.ACTION_GETINVENTORY, data);
 		},
 	
 		Equip: function(itemId, slotType, slot, callback){
 			var data = { ItemId: itemId, SlotNumber: slot };
-			vc.SendSingleRequest(vc.TYPE_ITEM, vc.is.ACTION_EQUIP, data).success( function(data) { callback(data, itemId, slotType, slot); } );
+			var requestId = vc.GenerateRequestId();
+			vc.CallbackStack[requestId] = callback;
+			vc.SendSingleRequest(requestId, vc.TYPE_ITEM, vc.is.ACTION_EQUIP, data);
 		},
 		
 		UnEquip: function(itemId, slotType, slot, callback){
 			var data = { ItemId: itemId };
-			vc.SendSingleRequest(vc.TYPE_ITEM, vc.is.ACTION_UNEQUIP, data).success( function(data) { callback(data, itemId, slotType, slot); } );
+			var requestId = vc.GenerateRequestId();
+			vc.CallbackStack[requestId] = callback;
+			vc.SendSingleRequest(requestId, vc.TYPE_ITEM, vc.is.ACTION_UNEQUIP, data);
 		},
 		
 		SendTrade: function(itemId, gold, playerName, callback){
 			var data = { ItemId: itemId, Gold: gold, Player: playerName };
-			vc.SendSingleRequest(vc.TYPE_ITEM, vc.is.ACTION_SEND_TRADE, data).success( function(data) { callback(data); } );
+			var requestId = vc.GenerateRequestId();
+			vc.CallbackStack[requestId] = callback;
+			vc.SendSingleRequest(requestId, vc.TYPE_ITEM, vc.is.ACTION_SEND_TRADE, data);
 		},
 		
 		AcceptTrade: function(tradeId, callback){
 			var data = { Trade: tradeId };
-			vc.SendSingleRequest(vc.TYPE_ITEM, vc.is.ACTION_ACCEPT_TRADE, data).success( function(data) { callback(data); } );
+			var requestId = vc.GenerateRequestId();
+			vc.CallbackStack[requestId] = callback;
+			vc.SendSingleRequest(requestId, vc.TYPE_ITEM, vc.is.ACTION_ACCEPT_TRADE, data);
 		}
 	}
 	
