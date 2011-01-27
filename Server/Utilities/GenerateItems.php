@@ -1,5 +1,5 @@
 <?php
-include('./Common/Common.inc.php');
+include('../Common/Common.inc.php');
 
 try
 {
