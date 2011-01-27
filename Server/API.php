@@ -11,7 +11,7 @@ if ( 'GET' === $_SERVER['REQUEST_METHOD'] )
 	{
 		if(property_exists($Request->Data, 'Action'))
 		{
-			switch($Request->Data->Action);
+			switch($Request->Data->Action)
 			{
 				case ACTION_TOP:
 					include './Functions/API/Top.php';
