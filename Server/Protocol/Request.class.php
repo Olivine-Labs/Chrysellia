@@ -78,6 +78,10 @@ class Request
 					break;
 			}
 		}
+		catch(\ErrorException $e)
+		{
+			throw new \Exception($e->getMessage().' in '.$e->getFile().' at line '.$e->getLine());
+		}
 		catch(\Exception $e)
 		{
 			throw new \Exception('Failed to decompress request : '.$this->Data);

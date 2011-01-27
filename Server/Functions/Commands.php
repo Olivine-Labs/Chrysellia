@@ -48,5 +48,4 @@ else
 {
 	$Response->Set('Result', \Protocol\Response::ER_NOTLOGGEDIN);
 }
-}
 ?>
