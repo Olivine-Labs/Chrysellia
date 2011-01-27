@@ -17,9 +17,9 @@ if ( 'GET' === $_SERVER['REQUEST_METHOD'] )
 		{
 			if(property_exists($ARequest, 'Type'))
 			{
-				$Response->Set('Type', $ARequest->Type);
-				if(property_exists($ARequest, 'Action'))
-					$Response->Set('Action', $ARequest->Action);
+				if(property_exists($ARequest, 'Id'))
+					$Response->Set('Id', $ARequest->Id);
+
 				switch($ARequest->Type)
 				{
 					case TYPE_ACCOUNT:
