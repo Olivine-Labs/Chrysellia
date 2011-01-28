@@ -1,14 +1,14 @@
 <?php
 if(isset($_SESSION['AccountId']))
 {
-	define('ACTION_CREATE', 0);
-	define('ACTION_LIST', 1);
-	define('ACTION_CHECKNAME', 2);
-	define('ACTION_SELECTCHARACTER', 3);
-	define('ACTION_GETCURRENTCHARACTER', 4);
-	define('ACTION_LEVELUP', 5);
-	define('ACTION_LOADLISTFORCELL', 6);
-	define('ACTION_FIGHT', 7);
+	@define('ACTION_CREATE', 0);
+	@define('ACTION_LIST', 1);
+	@define('ACTION_CHECKNAME', 2);
+	@define('ACTION_SELECTCHARACTER', 3);
+	@define('ACTION_GETCURRENTCHARACTER', 4);
+	@define('ACTION_LEVELUP', 5);
+	@define('ACTION_LOADLISTFORCELL', 6);
+	@define('ACTION_FIGHT', 7);
 
 	if(property_exists($ARequest, 'Action'))
 	{

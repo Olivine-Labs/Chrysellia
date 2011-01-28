@@ -3,7 +3,7 @@ if(isset($_SESSION['AccountId']) && isset($_SESSION['CharacterId']))
 {
 	if(microtime(true) > $_SESSION['NextAction'])
 	{
-		define('ACTION_FIGHT', 0);
+		@define('ACTION_FIGHT', 0);
 
 		if(property_exists($ARequest, 'Action'))
 		{

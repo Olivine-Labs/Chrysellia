@@ -3,12 +3,12 @@ if(isset($_SESSION['AccountId']) && isset($_SESSION['CharacterId']))
 {
 	if(microtime(true) > $_SESSION['NextAction'])
 	{
-		define('ACTION_BUY', 0);
-		define('ACTION_SELL', 1);
-		define('ACTION_REVIVE', 2);
-		define('ACTION_WITHDRAW', 3);
-		define('ACTION_DEPOSIT', 4);
-		define('ACTION_TRANSFER', 5);
+		@define('ACTION_BUY', 0);
+		@define('ACTION_SELL', 1);
+		@define('ACTION_REVIVE', 2);
+		@define('ACTION_WITHDRAW', 3);
+		@define('ACTION_DEPOSIT', 4);
+		@define('ACTION_TRANSFER', 5);
 
 		if(property_exists($ARequest, 'Action'))
 		{

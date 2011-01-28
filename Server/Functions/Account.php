@@ -1,7 +1,7 @@
 <?php
-define('ACTION_LOGIN', 0);
-define('ACTION_REGISTER', 1);
-define('ACTION_LOGOUT', 2);
+@define('ACTION_LOGIN', 0);
+@define('ACTION_REGISTER', 1);
+@define('ACTION_LOGOUT', 2);
 
 if(property_exists($ARequest, 'Action'))
 {

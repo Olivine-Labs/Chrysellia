@@ -1,8 +1,8 @@
 <?php
 if(isset($_SESSION['AccountId']) && isset($_SESSION['CharacterId']))
 {
-	define('ACTION_SENDMESSAGE', 0);
-	define('ACTION_GETMESSAGES', 1);
+	@define('ACTION_SENDMESSAGE', 0);
+	@define('ACTION_GETMESSAGES', 1);
 
 	if(property_exists($ARequest, 'Action'))
 	{

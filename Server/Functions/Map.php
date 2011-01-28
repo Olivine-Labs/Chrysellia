@@ -3,8 +3,8 @@ if(isset($_SESSION['AccountId']) && isset($_SESSION['CharacterId']))
 {
 	if(microtime(true) > $_SESSION['NextAction'])
 	{
-		define('ACTION_MOVE', 0);
-		define('ACTION_CHANGEMAP', 1);
+		@define('ACTION_MOVE', 0);
+		@define('ACTION_CHANGEMAP', 1);
 
 		if(property_exists($ARequest, 'Action'))
 		{

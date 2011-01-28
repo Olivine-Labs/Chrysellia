@@ -1,13 +1,13 @@
 <?php
 if(isset($_SESSION['AccountId']) && isset($_SESSION['CharacterId']))
 {
-	define('ACTION_EMOTE', 0);
-	define('ACTION_CHANNEL_JOIN', 1);
-	define('ACTION_CHANNEL_CREATE', 2);
-	define('ACTION_CHANNEL_PART', 3);
-	define('ACTION_CHANNEL_SETRIGHTS', 4);
-	define('ACTION_CHANNEL_SETPARAMETERS', 5);
-	define('ACTION_ID', 6);
+	@define('ACTION_EMOTE', 0);
+	@define('ACTION_CHANNEL_JOIN', 1);
+	@define('ACTION_CHANNEL_CREATE', 2);
+	@define('ACTION_CHANNEL_PART', 3);
+	@define('ACTION_CHANNEL_SETRIGHTS', 4);
+	@define('ACTION_CHANNEL_SETPARAMETERS', 5);
+	@define('ACTION_ID', 6);
 
 	if(property_exists($ARequest, 'Action'))
 	{
