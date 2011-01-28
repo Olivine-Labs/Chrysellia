@@ -83,6 +83,7 @@ if(
 					{
 						$TargetCharacterRights['ChannelId'] = $Get->Channel;
 						$TargetCharacterRights['MessageType'] = 0;
+						$Database->Characters->LoadTraits($Character);
 						if($Database->Chat->Insert($Character, $Get->Channel, $TargetCharacterRights, 255, $TargetCharacter))
 						{
 							$Success = true;
