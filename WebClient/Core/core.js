@@ -85,7 +85,7 @@
 			var dataToSend = JSON.stringify(dataArray);
 			switch(vc.CompressionMode){
 				case vc.COMPRESSION_MODE_jSEND:
-					dataToSend = $.jSEND(datatoSend);
+					dataToSend = $.jSEND(dataToSend);
 					break;
 			}
 			

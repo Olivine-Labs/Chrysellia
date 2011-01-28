@@ -154,7 +154,9 @@ class jSEND
 		$oDictionary = range("\x0000", "\xff");
 		foreach ($aCodes as $sKey => $iCode) 
 		{
-			$sElement = $oDictionary[$iCode]; 
+			$sElement = null;
+			if(array_key_exists($iCode, $oDictionary))
+				$sElement = $oDictionary[$iCode]; 
 			if (!isset($sElement))
 				$sElement = $sWord . $sWord[0];
 			$sData .= $sElement;
