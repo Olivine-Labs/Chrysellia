@@ -31,53 +31,77 @@ class jSEND
 	public function getData(&$s)
 	{
 		/* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-			 DOUBLE DECODE & DECOMPRESS STRING(S)
+		 DOUBLE DECODE & DECOMPRESS STRING(S)
 		~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
+		@list($s1, $s2) = explode('==', $s);
+		$t1 = self::decode847($s1);
+		unset($s1);
+		$t2 = self::decodeBinary($t1);
+		unset($t1);
+		$sDataTmp1 = self::decompressLZW($t2);
+		unset($t2);
 
-		@list($s1,$s2) = explode('==',$s);
-		$sDataTmp1 = self::decompressLZW(self::decodeBinary(self::decode847($s1)));
-		$sDataTmp2 = null;
+		$sDataTmp2 = '';
 		if ($s2)
-			$sDataTmp2 = self::decompressLZW(self::decodeBinary(self::decode847($s2)));
+		{ 
+			$t1 = self::decode847($s2);
+			unset($s2);
+			$t2 = self::decodeBinary($t1);
+			unset($t1);
+			$sDataTmp2 = self::decompressLZW($t2);
+			unset($t2);
+		}
 
 		/* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-			REGENERATE DATA
+		 REGENERATE DATA
 		~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
 		$sData = '';
 		$aLookup = array(
-		128 => 8364, 130 => 8218, 131 => 402,  132 => 8222, 133 => 8230, 134 => 8224,
-		135 => 8225, 136 => 710,  137 => 8240, 138 => 352,  139 => 8249, 140 => 338,
-		142 => 381,  145 => 8216, 146 => 8217, 147 => 8220, 148 => 8221, 149 => 8226,
-		150 => 8211, 151 => 8212, 152 => 732,  153 => 8482, 154 => 353,  155 => 8250,
-		156 => 339,  158 => 382,  159 => 376
+			128 => 8364, 130 => 8218, 131 => 402,  132 => 8222, 133 => 8230,
+			134 => 8224, 135 => 8225, 136 => 710,  137 => 8240, 138 => 352,  
+			139 => 8249, 140 => 338,  142 => 381,  145 => 8216, 146 => 8217,
+			147 => 8220, 148 => 8221, 149 => 8226, 150 => 8211, 151 => 8212,
+			152 => 732,  153 => 8482, 154 => 353,  155 => 8250, 156 => 339,
+			158 => 382,  159 => 376
 		);
 		/* -------------------------------------------------------
-			Merge strings (only if UTF-8 chars were used)
+		 Merge strings (only if UTF-8 chars were used) 
 		------------------------------------------------------- */
-		if ($sDataTmp2)
+		if ($sDataTmp2) 
 		{
-			for($i = 0; $i < strlen($sDataTmp1); $i++)
+			for($i = 0; $i < strlen($sDataTmp1); $i++) 
 			{
-				$sTmp1 = substr($sDataTmp1,$i,1);
-				$sTmp2 = ord(substr($sDataTmp2,$i,1));
+				$sTmp1 = substr($sDataTmp1, $i, 1);
+				$sTmp2 = ord(substr($sDataTmp2, $i, 1));
 				if ($sTmp2 != 224)
+				{
 					$sData .= self::unichr((ord($sTmp1) + 256 * $sTmp2));
+				}
 				else
-				if (ord($sTmp1) > 127)
-					$sData .= utf8_encode($sTmp1);
-				else
-					$sData .= $sTmp1;
+				{
+					if (ord($sTmp1) > 127)
+					{
+						$sData .= utf8_encode($sTmp1);
+					}
+					else
+					{
+						$sData .= $sTmp1;
+					}
+				}
 			}
 		}
 		else
+		{
 			$sData = utf8_encode($sDataTmp1);
+		}
 		/* -----------------------------
-			ANSI Chars 128-159 to UCS
-		----------------------------- */
-		foreach($aLookup as $sKey => $iValue)
-			$sData = str_replace(chr(194).chr($sKey),self::unichr($iValue),$sData);
-
-		return substr($sData,1);
+		 ANSI Chars 128-159 to UCS
+		----------------------------- */  
+		foreach ($aLookup as $sKey => $iValue)
+		{
+			$sData = str_replace(chr(194).chr($sKey), self::unichr($iValue), $sData);
+		}
+		return substr($sData, 1);
 	}
   
 	/* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -121,7 +145,7 @@ class jSEND
 	/* ------------------
 	 * Binary Decoder
 	------------------ */ 
-	private static function decodeBinary($aCharCodes) 
+	private static function decodeBinary(&$aCharCodes) 
 	{
 		$aCodes = array();
 		$iDictCount = 256;
@@ -148,7 +172,7 @@ class jSEND
 	/* --------------------
 	 * LZW Decompressor
 	-------------------- */
-	private static function decompressLZW($aCodes) 
+	private static function decompressLZW(&$aCodes) 
 	{
 		$sData = '';
 		$oDictionary = range("\x0000", "\xff");
@@ -169,7 +193,7 @@ class jSEND
 	/* --------------------
 	 * Unicode chr
 	-------------------- */ 
-	private static function unichr(&$iCode)
+	private static function unichr($iCode)
 	{
 		if ($iCode <= 0x7F)
 		{
