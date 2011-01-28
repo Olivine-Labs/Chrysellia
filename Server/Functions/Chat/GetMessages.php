@@ -52,5 +52,6 @@ foreach($_SESSION['Channels'] AS $ChannelId=>&$Value)
 }
 
 $Response->Set('Result', \Protocol\Response::ER_SUCCESS);
-$Response->Set('Data', $ChatArray);
+if(count($ChatArray)>0)
+	$Response->Set('Data', $ChatArray);
 ?>
