@@ -6,7 +6,7 @@ namespace Database\MySQL;
 //Basic
 define('SQL_ISONLINE', 'SELECT count(*) FROM `sessions` WHERE `characterId`=?');
 define('SQL_GETCHARACTERSBYACCOUNTID', 'SELECT c.characterId, c.pin, c.name, c.createdOn, ct.strength, ct.dexterity, ct.intelligence, ct.wisdom, ct.vitality, ct.health, ct.alignGood, ct.alignOrder, ct.raceId, ct.gold, ct.gender, cl.mapId, cl.positionX, cl.positionY, ct.level, ct.freelevels, ct.experience FROM `characters` c INNER JOIN `character_traits` ct ON c.characterId=ct.characterId INNER JOIN `character_locations` cl ON c.characterId=cl.characterId WHERE c.accountId=?');
-define('SQL_GETCHARACTERBYID', 'SELECT c.accountId, c.pin, c.name, c.createdOn, inv.inventoryId FROM `characters` c INNER JOIN `inventories` inv ON c.characterId=inv.characterId WHERE c.characterId=?');
+define('SQL_GETCHARACTERBYID', 'SELECT c.accountId, c.pin, c.name, c.createdOn, inv.inventoryId, c.clanId FROM `characters` c INNER JOIN `inventories` inv ON c.characterId=inv.characterId WHERE c.characterId=?');
 define('SQL_INSERTCHARACTER', 'INSERT INTO `characters` (`accountId`, `characterId`, `pin`, `name`) VALUES (?, ?, ?, ?)');
 define('SQL_GETCHARACTERCOUNT', 'SELECT count(*) FROM `characters` WHERE `accountId`=?');
 define('SQL_CHECKCHARACTERNAME', 'SELECT `characterId` FROM `characters` WHERE `name`=?');
@@ -77,7 +77,7 @@ class Characters extends \Database\Characters
 
 		$Query->Execute();
 
-		$Query->bind_result($Character->AccountId, $Character->Pin, $Character->Name, $Character->CreatedOn, $Character->InventoryId);
+		$Query->bind_result($Character->AccountId, $Character->Pin, $Character->Name, $Character->CreatedOn, $Character->InventoryId, $Character->ClanId);
 
 		if($Query->fetch())
 			return true;

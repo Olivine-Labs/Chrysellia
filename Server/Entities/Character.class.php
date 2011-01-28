@@ -49,6 +49,15 @@ class Character extends Being
 	public $RaceId;
 
 	/**
+	 * ClanId
+	 *
+	 * An identifier that defines the character's Clan
+	 *
+	 * @var $ClanId
+	 */
+	public $ClanId;
+
+	/**
 	 * Gender
 	 *
 	 * An identifier that defines the character's gender
