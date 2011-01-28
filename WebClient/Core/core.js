@@ -108,7 +108,7 @@
 		},
 		
 		SendQueue: function(queue){
-			var dataToSend = $.jSEND(JSON.stringify(queue.Items));
+			var dataToSend = JSON.stringify(queue.Items);
 			switch(vc.CompressionMode){
 				case vc.COMPRESSION_MODE_jSEND:
 					dataToSend = $.jSEND(dataToSend);

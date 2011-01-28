@@ -375,7 +375,7 @@ function SetEnableAttack(enabled){
 
 function CreateChannel(response, data){
 	if(vc.DebugMode && response.RequestDuration > 0){vc.Requests++;  vc.RequestDurationTotal += response.RequestDuration; $("#rda_value").text(vc.RequestDurationTotal / vc.Requests);}
-if(response.Result == vc.ER_SUCCESS){ 
+	if(response.Result == vc.ER_SUCCESS){ 
 
 		$("#cc_channelName, #cc_channelMOTD").val('');
 		$("#createChannelForm").dialog("close");
@@ -432,14 +432,11 @@ function AddTab(title, channelId, motd) {
 function FillChat(response, data){
 	if(vc.DebugMode && response.RequestDuration > 0){vc.Requests++;  vc.RequestDurationTotal += response.RequestDuration; $("#rda_value").text(vc.RequestDurationTotal / vc.Requests);}
 	if(response.Result == vc.ER_SUCCESS){ 
-
 		for(var i in response.Data){
-			if(i != "remove"){
-				if(i!=0){
-					InsertChat(response.Data[i], i);
-				}else{
-					ProcessSystemMessage(response.Data[0]);
-				}
+			if(i!=0){
+				InsertChat(response.Data[i], i);
+			}else if(typeof response.Data[0] == "object" && response.Data[0].length > 0){
+				ProcessSystemMessage(response.Data[0]);
 			}
 		}
 	}
@@ -455,7 +452,7 @@ function SelectCharacter(response, data){
 	Log("Login: " + response.Result);
 	
 	if(vc.DebugMode && response.RequestDuration > 0){vc.Requests++;  vc.RequestDurationTotal += response.RequestDuration; $("#rda_value").text(vc.RequestDurationTotal / vc.Requests);}
-if(response.Result == vc.ER_SUCCESS){ 
+	if(response.Result == vc.ER_SUCCESS){ 
 
 		window.MyCharacter.Construct(response.Data);
 		vc.i.UpdateStats();
@@ -477,6 +474,9 @@ if(response.Result == vc.ER_SUCCESS){
 	$tabs.tabs('select', 0);
 	
 	vc.ch.GetMessagesFromChannel(i, FillChat);
+	
+	window.ChatQueue = new Queue({ Timeout: 4500 });
+	window.ChatQueue.AddItem(vc.TYPE_CHAT, vc.ch.ACTION_GETMESSAGESFROMCHANNEL, { Channel: window.MyCharacter.CurrentChannel }, FillChat);
 	
 	vc.is.GetInventory(LoadInventory);
 }
@@ -1052,10 +1052,13 @@ function InsertChat(response, data){
 	}
 }
 
-
-function ProcessSystemMessage(response, data){
-	for(x = 0; x< response.length; x++){
+function ProcessSystemMessage(data){
+	for(x = 0; x< data.length; x++){
 		var chatobj = data[x];
+		
+		if(chatobj.Message === undefined){
+			return;
+		}
 		
 		switch(chatobj.Message.MessageType){
 			case 0:
@@ -1312,9 +1315,8 @@ function CreatePrivateChannel(character){
 	var channelName = "!!PM" + character + "!!" + GUID();
 	vc.ch.CreateChannel(channelName, "Private Channel with " + character, 0, 0, function(response, data){
 		if(vc.DebugMode && response.RequestDuration > 0){vc.Requests++;  vc.RequestDurationTotal += response.RequestDuration; $("#rda_value").text(vc.RequestDurationTotal / vc.Requests);}
-if(response.Result == vc.ER_SUCCESS){ 
-
-			CreateChannel(data);
+		if(response.Result == vc.ER_SUCCESS){ 
+			CreateChannel(response, response.Data);
 			SubmitMessage("/invite " + character);
 		}else if(data == vc.ER_ALREADYEXISTS){
 			CreatePrivateChannel(character);
