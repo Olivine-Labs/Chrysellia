@@ -431,7 +431,7 @@ function AddTab(title, channelId, motd) {
 
 function FillChat(response, data){
 	if(vc.DebugMode && response.RequestDuration > 0){vc.Requests++;  vc.RequestDurationTotal += response.RequestDuration; $("#rda_value").text(vc.RequestDurationTotal / vc.Requests);}
-if(response.Result == vc.ER_SUCCESS){ 
+	if(response.Result == vc.ER_SUCCESS){ 
 
 		for(var i in response.Data){
 			if(i != "remove"){

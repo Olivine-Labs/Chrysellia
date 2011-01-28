@@ -60,6 +60,8 @@
 		
 		CallbackStack: [],
 		
+		QueueDefaults: { AutoSubmit: true, Timeout: 1000 },
+		
 		GenerateRequestId: function(){
 			vc.__requestId++;
 			return vc.__requestId + "m";
@@ -97,7 +99,6 @@
 			$.ajax(
 				requestRoute,
 				{
-					//data: {Data: $.jSEND(JSON.stringify(dataArray))} ,
 					data: {Data: dataToSend} ,
 					success: function(data, textStatus, XMLHttpRequest){
 						vc.ProcessCallbacks(data, textStatus, XMLHttpRequest);
@@ -107,12 +108,27 @@
 		},
 		
 		SendQueue: function(queue){
-			var js = $.ajax(
-				V2Core.SERVERCODE_DIRECTORY + "Index.php",
-				{dataType: "json xml", data: {Data: $.jSEND(JSON.stringify(queue.Items))} }
-		    );
+			var dataToSend = $.jSEND(JSON.stringify(queue.Items));
+			switch(vc.CompressionMode){
+				case vc.COMPRESSION_MODE_jSEND:
+					dataToSend = $.jSEND(dataToSend);
+					break;
+			}
 			
-			return js;
+			var requestRoute = V2Core.SERVERCODE_DIRECTORY + "Index.php";
+			$.ajax(
+				requestRoute,
+				{
+					data: {Data: dataToSend} ,
+					success: function(data, textStatus, XMLHttpRequest){
+						for(x in queue.Items){
+							vc.ProcessCallbacks(queue.Items[x], textStatus, XMLHttpRequest);
+						}
+						
+						queue.Items = [];
+					}
+				}
+		    );
 		},
 		
 		CheckVersion: function(callback){
@@ -166,15 +182,24 @@
 	// in progress
 	var Queue = function(options) {};
 	Queue = Queue.prototype = function(options){
-		this.Timeout = undefined;
-		this.Items = [];
-			
-		if(options !== undefined && options.AutoSubmit && options.SubmitLength > 0){
-			Timeout = window.setTimeout(function(){  }, options.SubmitLength);
+		this.Timeout = vc.QueueDefaults.Timeout;
+		this.AutoSubmit = vc.QueueDefaults.AutoSubmit;
+		
+		if(options.Timeout !== undefined){
+			this.Timeout = options.Timeout;
 		}
 		
-		this.AddItem = function(type, action, data){
-			this.Items.push({ Id: vc.GenerateRequestId(), Type: type, Action: action, Data: data });
+		if(options.AutoSubmit !== undefined){
+			this.AutoSubmit = options.AutoSubmit;
+		}
+		
+		this.Items = [];
+		
+		this.AddItem = function(type, action, data, callback){
+			var requestId = vc.GenerateRequestId();
+			vc.CallbackStack[requestId] = {Method: callback, Data: data};
+			
+			this.Items.push({ Id: requestId, Type: type, Action: action, Data: data });
 		};
 	};
 	
