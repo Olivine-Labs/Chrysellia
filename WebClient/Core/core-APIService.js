@@ -21,7 +21,7 @@
 			var dataToSend = JSON.stringify(data);
 			switch(vc.CompressionMode){
 				case vc.COMPRESSION_MODE_jSEND:
-					dataToSend = $.jSEND(datatoSend);
+					dataToSend = $.jSEND(dataToSend);
 					break;
 			}
 			
@@ -37,7 +37,7 @@
 			var dataToSend = JSON.stringify(data);
 			switch(vc.CompressionMode){
 				case vc.COMPRESSION_MODE_jSEND:
-					dataToSend = $.jSEND(datatoSend);
+					dataToSend = $.jSEND(dataToSend);
 					break;
 			}
 			
@@ -51,9 +51,10 @@
 		Online: function(callback){
 			var data = { Action: vc.api.ACTION_ONLINE };
 			var dataToSend = JSON.stringify(data);
+			
 			switch(vc.CompressionMode){
 				case vc.COMPRESSION_MODE_jSEND:
-					dataToSend = $.jSEND(datatoSend);
+					dataToSend = $.jSEND(dataToSend);
 					break;
 			}
 			
