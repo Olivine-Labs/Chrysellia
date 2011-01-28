@@ -28,35 +28,7 @@ namespace ThirdParty;
  */
 class jSEND
 {
-	public function getData(&$s)
-	{
-		/* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-		 DOUBLE DECODE & DECOMPRESS STRING(S)
-		~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
-		@list($s1, $s2) = explode('==', $s);
-		$t1 = self::decode847($s1);
-		unset($s1);
-		$t2 = self::decodeBinary($t1);
-		unset($t1);
-		$sDataTmp1 = self::decompressLZW($t2);
-		unset($t2);
-
-		$sDataTmp2 = '';
-		if ($s2)
-		{ 
-			$t1 = self::decode847($s2);
-			unset($s2);
-			$t2 = self::decodeBinary($t1);
-			unset($t1);
-			$sDataTmp2 = self::decompressLZW($t2);
-			unset($t2);
-		}
-
-		/* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-		 REGENERATE DATA
-		~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
-		$sData = '';
-		$aLookup = array(
+	public static $aLookup = array(
 			128 => 8364, 130 => 8218, 131 => 402,  132 => 8222, 133 => 8230,
 			134 => 8224, 135 => 8225, 136 => 710,  137 => 8240, 138 => 352,  
 			139 => 8249, 140 => 338,  142 => 381,  145 => 8216, 146 => 8217,
@@ -64,12 +36,39 @@ class jSEND
 			152 => 732,  153 => 8482, 154 => 353,  155 => 8250, 156 => 339,
 			158 => 382,  159 => 376
 		);
-		/* -------------------------------------------------------
-		 Merge strings (only if UTF-8 chars were used) 
-		------------------------------------------------------- */
-		if ($sDataTmp2) 
+
+	public function getData(&$s)
+	{
+		/* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+		 DOUBLE DECODE & DECOMPRESS STRING(S)
+		~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
+		$sDataTmp1 = '';
+		$sDataTmp2 = '';
+		$aBlocks = explode('==', $s);
+		if(count($aBlocks)>0)
 		{
-			for($i = 0; $i < strlen($sDataTmp1); $i++) 
+			$t1 = self::decode847($aBlocks[0]);
+			$t2 = self::decodeBinary($t1);
+			$sDataTmp1 = self::decompressLZW($t2);
+		}
+
+		if (count($aBlocks)>1)
+		{
+			$t1 = self::decode847($aBlocks[1]);
+			$t2 = self::decodeBinary($t1);
+			$sDataTmp2 = self::decompressLZW($t2);
+		}
+
+		/* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+		 REGENERATE DATA
+		~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
+		$sData = '';
+		/* -------------------------------------------------------
+		 Merge strings (only if UTF-8 chars were used)
+		------------------------------------------------------- */
+		if ($sDataTmp2)
+		{
+			for($i = 0; $i < strlen($sDataTmp1); $i++)
 			{
 				$sTmp1 = substr($sDataTmp1, $i, 1);
 				$sTmp2 = ord(substr($sDataTmp2, $i, 1));
@@ -96,8 +95,8 @@ class jSEND
 		}
 		/* -----------------------------
 		 ANSI Chars 128-159 to UCS
-		----------------------------- */  
-		foreach ($aLookup as $sKey => $iValue)
+		----------------------------- */
+		foreach (self::$aLookup as $sKey => $iValue)
 		{
 			$sData = str_replace(chr(194).chr($sKey), self::unichr($iValue), $sData);
 		}
@@ -110,12 +109,12 @@ class jSEND
 	/* -------------------
 	 * 847enc Decoder
 	------------------- */ 
-	private static function decode847(&$sChars) 
+	private static function decode847(&$sChars)
 	{
 		$iByte = 7;
 		$iMask = 0;
 		$aCharCodes = array();
-		for($i = 0; $i < strlen($sChars); $i++) 
+		for($i = 0; $i < strlen($sChars); $i++)
 		{
 			$iValue = ord(substr($sChars,$i,1));
 			if ($iValue == 61)
@@ -145,7 +144,7 @@ class jSEND
 	/* ------------------
 	 * Binary Decoder
 	------------------ */ 
-	private static function decodeBinary(&$aCharCodes) 
+	private static function decodeBinary(&$aCharCodes)
 	{
 		$aCodes = array();
 		$iDictCount = 256;
@@ -172,19 +171,22 @@ class jSEND
 	/* --------------------
 	 * LZW Decompressor
 	-------------------- */
-	private static function decompressLZW(&$aCodes) 
+	private static function decompressLZW(&$aCodes)
 	{
 		$sData = '';
-		$oDictionary = range("\x0000", "\xff");
+		$oDictionary = array();
+		$sElement = null;
+		$sWord = null;
 		foreach ($aCodes as $sKey => $iCode) 
 		{
-			$sElement = null;
-			if(array_key_exists($iCode, $oDictionary))
-				$sElement = $oDictionary[$iCode]; 
-			if (!isset($sElement))
+			if($iCode < 256)
+				$sElement = chr($iCode);
+			else if(count($oDictionary) > $iCode-256)
+				$sElement = $oDictionary[$iCode-256];
+			else
 				$sElement = $sWord . $sWord[0];
 			$sData .= $sElement;
-			if ($sKey)
+			if($sKey)
 				$oDictionary[] = $sWord . $sElement[0];
 			$sWord = $sElement;
 		}
