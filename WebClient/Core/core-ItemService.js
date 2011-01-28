@@ -33,14 +33,14 @@
 		},
 	
 		Equip: function(itemId, slotType, slot, callback){
-			var data = { ItemId: itemId, SlotNumber: slot };
+			var data = { ItemId: itemId, SlotType: slotType, SlotNumber: slot };
 			var requestId = vc.GenerateRequestId();
 			vc.CallbackStack[requestId] = {Method: callback, Data: data};
 			vc.SendSingleRequest(requestId, vc.TYPE_ITEM, vc.is.ACTION_EQUIP, data);
 		},
 		
 		UnEquip: function(itemId, slotType, slot, callback){
-			var data = { ItemId: itemId };
+			var data = { ItemId: itemId, SlotType: slotType, SlotNumber: slot };
 			var requestId = vc.GenerateRequestId();
 			vc.CallbackStack[requestId] = {Method: callback, Data: data};
 			vc.SendSingleRequest(requestId, vc.TYPE_ITEM, vc.is.ACTION_UNEQUIP, data);

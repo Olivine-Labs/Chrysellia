@@ -251,8 +251,8 @@ function ExamineLocation(response, data){
 
 function LevelUpResponse(response, data){
 	if(vc.DebugMode && response.RequestDuration > 0){vc.Requests++;  vc.RequestDurationTotal += response.RequestDuration; $("#rda_value").text(vc.RequestDurationTotal / vc.Requests);}
-if(response.Result == vc.ER_SUCCESS){ 
-
+	var stat = data.Stat;
+	if(response.Result == vc.ER_SUCCESS){ 
 		switch(stat){
 			case 0:
 				MyCharacter.Strength += 12;
@@ -301,9 +301,13 @@ function ResizeChat(){
 	$('#chatChannels .ui-tabs-panel').css({'height':(($(window).height())-432)+'px'});
 }
 
-function EquipItem(response, itemId, slotType, slotIndex){
+function EquipItem(response, data){
+	var slotType = data.SlotType;
+	var slotIndex = data.SlotNumber;
+	var itemId = data.ItemId;
 	if(vc.DebugMode && response.RequestDuration > 0){vc.Requests++;  vc.RequestDurationTotal += response.RequestDuration; $("#rda_value").text(vc.RequestDurationTotal / vc.Requests);}
-if(response.Result == vc.ER_SUCCESS){ 
+	
+	if(response.Result == vc.ER_SUCCESS){ 
 
 		var item = {};
 		var typeMapping = vc.is.TypeMapping;
@@ -318,7 +322,7 @@ if(response.Result == vc.ER_SUCCESS){
 		}
 		
 		var item = window.MyCharacter.Equipment[slotType][slotIndex];
-		$("option[value=" + item.ItemId + "]").remove();
+		$("option[value='" + item.ItemId + "']").remove();
 		$("<option value='" + item.ItemId + "' selected='selected'>" + item.Name + "</option>").appendTo($("select." + typeMapping[item.SlotType]).eq(slotIndex));
 	}
 	
@@ -327,14 +331,17 @@ if(response.Result == vc.ER_SUCCESS){
 	$('#itemsWindow select').removeAttr('disabled');
 }
 
-function UnEquipItem(response, itemId, slotType, slotIndex){
+function UnEquipItem(response, data){
+	var slotType = data.SlotType;
+	var slotIndex = data.SlotNumber;
+	var itemId = data.ItemId;
 	if(vc.DebugMode && response.RequestDuration > 0){vc.Requests++;  vc.RequestDurationTotal += response.RequestDuration; $("#rda_value").text(vc.RequestDurationTotal / vc.Requests);}
-if(response.Result == vc.ER_SUCCESS){ 
+	if(response.Result == vc.ER_SUCCESS){ 
 
 		var item = window.MyCharacter.Equipment[slotType][slotIndex];
 		var typeMapping = vc.is.TypeMapping;
 		
-		$("option[value=" + item.ItemId + "]").remove();
+		$("option[value='" + item.ItemId + "']").remove();
 		$("<option value='" + item.ItemId + "'>" + item.Name + "</option>").appendTo($("select." + typeMapping[item.SlotType]));
 		window.MyCharacter.Inventories["Personal"][window.MyCharacter.Inventories["Personal"].length] = item;
 		window.MyCharacter.Equipment[slotType][slotIndex] = {};
@@ -1011,17 +1018,17 @@ function BuildInventoryLists(){
 }
 
 function InsertChat(response, data){
-	var channel = data.Channel;
+	var channel = data;
 	var $chatWindow = $("#chatChannels input[value='" + channel + "']").parent();
 	var $chatTab = $("a[href='#" + $chatWindow.attr("id") + "']").parent();
 	
-	if(data[0] !== undefined && data[0].Type !=vc.ch.CHAT_TYPE_MOTD && !$chatTab.hasClass("ui-tabs-selected")){
+	if(response[0] !== undefined && response[0].Type !=vc.ch.CHAT_TYPE_MOTD && !$chatTab.hasClass("ui-tabs-selected")){
 		$chatTab.addClass("newMessage");
 	}
 	
 	for(x = 0; x < response.length; x++){
 		
-		var chatobj = data[x];
+		var chatobj = response[x];
 		if(chatobj !== undefined){
 			switch(chatobj.Type){
 				case vc.ch.CHAT_TYPE_GENERAL:
@@ -1279,15 +1286,15 @@ function SubmitMessage(message){
 					if(message.indexOf("/motd") == 0){
 						type = vc.CommandService.ACTION_CHANNEL_SETPARAMETERS;
 						var value = message.split('/motd ')[1];
-						vc.ch.SetParameters(myChannel, 'Motd', value, function(response, parameter, value){ ProcessChannelParamterChange(myChannel, parameter, value); });
+						vc.ch.SetParameters(myChannel, 'Motd', value, function(response, data){ var parameter = data.Parameter; var value = data.Value; ProcessChannelParamterChange(myChannel, parameter, value); });
 					}else if(message.indexOf("/publicRead") == 0){
 						type = vc.CommandService.ACTION_CHANNEL_SETPARAMETERS;
 						var value = message.split('/publicRead ')[1];
-						vc.ch.SetParameters(myChannel, 'PublicRead', value, function(response, parameter, value){ ProcessChannelParamterChange(myChannel, parameter, value); });
+						vc.ch.SetParameters(myChannel, 'PublicRead', value, function(response, data){ var parameter = data.Parameter; var value = data.Value; ProcessChannelParamterChange(myChannel, parameter, value); });
 					}else if(message.indexOf("/publicWrite") == 0){
 						type = vc.CommandService.ACTION_CHANNEL_SETPARAMETERS;
 						var value = message.split('/publicWrite ')[1];
-						vc.ch.SetParameters(myChannel, 'PublicWrite', value, function(response, parameter, value){ ProcessChannelParamterChange(myChannel, parameter, value); });
+						vc.ch.SetParameters(myChannel, 'PublicWrite', value, function(response, data){ var parameter = data.Parameter; var value = data.Value; ProcessChannelParamterChange(myChannel, parameter, value); });
 					}
 					break;
 			}
@@ -1315,10 +1322,10 @@ if(response.Result == vc.ER_SUCCESS){
 	});
 }
 
-function ProcessIDPlayer(response, characterName){
+function ProcessIDPlayer(response, data){
+	var characterName = data.Character;
 	if(vc.DebugMode && response.RequestDuration > 0){vc.Requests++;  vc.RequestDurationTotal += response.RequestDuration; $("#rda_value").text(vc.RequestDurationTotal / vc.Requests);}
-if(response.Result == vc.ER_SUCCESS){ 
-
+	if(response.Result == vc.ER_SUCCESS){ 
 		var character = response.Data;
 		
 		var alignName = vc.AlignName(character);
