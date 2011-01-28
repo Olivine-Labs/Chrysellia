@@ -13,7 +13,7 @@ if ( 'GET' === $_SERVER['REQUEST_METHOD'] )
 		define('TYPE_MONSTER', 6);
 		define('TYPE_PLACE', 7);
 
-		foreach($Request->Data AS $ARequest)
+		foreach($Request->Data AS &$ARequest)
 		{
 			if(property_exists($ARequest, 'Type'))
 			{
@@ -23,28 +23,36 @@ if ( 'GET' === $_SERVER['REQUEST_METHOD'] )
 				switch($ARequest->Type)
 				{
 					case TYPE_ACCOUNT:
-						include('./Functions/Account.php');
+						include_once('./Functions/Account.php');
+						\Functions\ProcessAccountRequest($ARequest, $Response, $Database);
 						break;
 					case TYPE_CHARACTER:
-						include('./Functions/Character.php');
+						include_once('./Functions/Character.php');
+						\Functions\ProcessCharacterRequest($ARequest, $Response, $Database);
 						break;
 					case TYPE_CHAT:
-						include('./Functions/Chat.php');
+						include_once('./Functions/Chat.php');
+						\Functions\ProcessChatRequest($ARequest, $Response, $Database);
 						break;
 					case TYPE_COMMAND:
-						include('./Functions/Commands.php');
+						include_once('./Functions/Commands.php');
+						\Functions\ProcessCommandRequest($ARequest, $Response, $Database);
 						break;
 					case TYPE_ITEM:
-						include('./Functions/Item.php');
+						include_once('./Functions/Item.php');
+						\Functions\ProcessItemRequest($ARequest, $Response, $Database);
 						break;
 					case TYPE_MAP:
-						include('./Functions/Map.php');
+						include_once('./Functions/Map.php');
+						\Functions\ProcessMapRequest($ARequest, $Response, $Database);
 						break;
 					case TYPE_MONSTER:
-						include('./Functions/Monster.php');
+						include_once('./Functions/Monster.php');
+						\Functions\ProcessMonsterRequest($ARequest, $Response, $Database);
 						break;
 					case TYPE_PLACE:
-						include('./Functions/Places.php');
+						include_once('./Functions/Places.php');
+						\Functions\ProcessPlaceRequest($ARequest, $Response, $Database);
 						break;
 					default:
 						$Response->Set('Result', \Protocol\Response::ER_BADDATA);
