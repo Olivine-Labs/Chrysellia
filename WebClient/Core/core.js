@@ -70,7 +70,11 @@
 				if(vc.isInteger(x)){
 					var method = vc.CallbackStack[data[x].Id];
 					if (method != undefined && typeof method.Method == "function"){
-						method.Method(data[x], method.Data);
+						var response = {};
+						if(method.Data !== undefined){
+							response = method.Data;
+						}
+						method.Method(data[x], response);
 					}
 					vc.CallbackStack.splice(data[x], 1);
 				}
