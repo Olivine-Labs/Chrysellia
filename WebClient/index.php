@@ -352,7 +352,7 @@ include_once('php/simplepie.inc');
 			</section>
 		</div>
 		
-		<script src="http://code.jquery.com/jquery-1.5rc1.js"></script>
+		<script src="http://code.jquery.com/jquery-1.5.min.js"></script>
 		<script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.9/jquery-ui.min.js"></script>
 		
 		<!--[if IE]>
