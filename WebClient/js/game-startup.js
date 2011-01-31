@@ -791,7 +791,7 @@ function BuildShop(topWindow){
 	
 	topWindow.append("<h1>" + name + "</h1>");
 	var buyForm = $("<form id='buyForm'></form>");
-	var itemTypeSelection = $("<select id='itemTypeSelection'></select>").bind("change", function(e){ FilterItemTypes(this[0].value ); });
+	var itemTypeSelection = $("<select id='itemTypeSelection'></select>").bind("change", function(e){ FilterItemTypes(this.value ); });
 	var itemSelection = $("<select id='itemSelection'></select>");
 	var buyItem = $("<button id='buyItem' class='button'>Purchase</buy>").bind("click", function(e){ e.preventDefault(); BuyItem(); });
 	var itemInfo = $("<button id='itemInfo' class='button'>Info</buy>").bind("click", function(e){ 
@@ -840,7 +840,7 @@ function BuildShop(topWindow){
 	var sellContainer = $("<div><label for='sellSelection'>Sell:</span></div>").append(sellSelection);
 	sellForm.append(sellContainer).append(sellItem).append(sellInfo).append(sellDescription);
 	topWindow.append(sellForm);
-	FilterItemTypes(_("itemTypeSelection option:first")[0].value );
+	FilterItemTypes("0|0");
 }
 
 function SellItem(){
