@@ -1,14 +1,16 @@
 ﻿$(function(){
 	vc.DebugMode = true;
 	
+	LoadICache();
+	
 	if($.cookie("theme") == "dark"){
 		$("body").addClass("dark");
-		$("#themeSelect").children("options").eq(1).attr("selected", "selected");
+		_("themeSelect").children("options").eq(1).attr("selected", "selected");
 	}
 	
-	$("#themeSelect").bind("change", function(e){ 
+	_("themeSelect").bind("change", function(e){ 
 		$this = $(this);
-		if($this.val() == 0){
+		if($this[0].value   == 0){
 			$("body").removeClass("dark");
 			$.cookie("theme", "light")
 		}else{
@@ -19,16 +21,16 @@
 	
 	window.chatTabIndex = 0;
 	
-	$("#myCharacter_ExperienceBar").progressbar();
-	$("#myCharacter_HealthBar").progressbar();
+	ICache["myCharacter_ExperienceBar"].progressbar();
+	ICache["myCharacter_HealthBar"].progressbar();
 	
 	vc.cs.GetCurrentCharacter(SelectCharacter);
 	
-	$("#chatForm").bind("submit", function(e){
+	_("chatForm").bind("submit", function(e){
 		e.preventDefault();
-		var chatbox = $("#chatInput");
-		SubmitMessage(chatbox.val());
-		chatbox.val('');
+		var chatbox = _("chatInput");
+		SubmitMessage(chatbox[0].value  );
+		chatbox[0].value    = '';
 	});
 	
 	window.$tabs = $('#chatChannels').tabs({
@@ -38,28 +40,28 @@
 			$tabs.tabs('select', '#' + ui.panel.id);
 		},
 		select: function(event, ui){
-			window.MyCharacter.CurrentChannel = $(".channelId", ui.panel).val();
+			window.MyCharacter.CurrentChannel = $(".channelId")[0].value;
 			$(ui.tab).parent().removeClass("newMessage");
 		}
 	});
 
 	$('#chatChannels span.ui-icon-close').live('click', function() {
-		var channelId = $(".channelId", $($(this).siblings("a").attr("href"))).val();
+		var channelId = $(".channelId", $($(this).siblings("a")[0].getAttribute("href")))[0].value ;
 		if(channelId != vc.ch.StaticRooms["General"] && channelId !=  vc.ch.StaticRooms["Trade"]){
 			LeaveChannel(channelId);
 		}
 	});
 	
-	$("#createChannelForm").dialog({ autoOpen: false, title:"Create Chat Channel", width: 400 });
-	$("#joinChannelForm").dialog({ autoOpen: false, title:"Join Chat Channel", width: 400 });
+	_("createChannelForm").dialog({ autoOpen: false, title:"Create Chat Channel", width: 400 });
+	_("joinChannelForm").dialog({ autoOpen: false, title:"Join Chat Channel", width: 400 });
 	
 	$("#createChannelForm form").bind("submit", function(e){
 		e.preventDefault();
 		
-		var channelName = $("#cc_channelName").val();
-		var channelMotd = $("#cc_channelMOTD").val();
-		var publicRead = $("#cc_publicRead").attr('checked');
-		var publicWrite = $("#cc_publicWrite").attr('checked');
+		var channelName = _("cc_channelName")[0].value ;
+		var channelMotd = _("cc_channelMOTD")[0].value ;
+		var publicRead = _("cc_publicRead")[0].checked;
+		var publicWrite = _("cc_publicWrite")[0].checked;
 		
 		if(publicRead){
 			publicRead = 1;
@@ -78,7 +80,7 @@
 	
 	$("#joinChannelForm form").bind("submit", function(e){
 		e.preventDefault();
-		var channelName = $("#jc_channelName").val();
+		var channelName = _("jc_channelName")[0].value ;
 		vc.ch.JoinChannel(channelName, JoinChannel);
 	});
 	
@@ -87,74 +89,74 @@
 		vc.as.Logout(Logout);
 	});
 	
-	$("#createChannelLink").bind("click", function(){ $("#createChannelForm").dialog("open"); });
-	$("#joinChannelLink").bind("click", function(){ $("#joinChannelForm").dialog("open"); });
+	_("createChannelLink").bind("click", function(){ _("createChannelForm").dialog("open"); });
+	_("joinChannelLink").bind("click", function(){ _("joinChannelForm").dialog("open"); });
 	
-	$("#moveNW").button({ icons: { primary: "ui-icon-arrowthick-1-nw" }, text: false });
-	$("#moveN").button({ icons: { primary: "ui-icon-arrowthick-1-n" }, text: false });
-	$("#moveNE").button({ icons: { primary: "ui-icon-arrowthick-1-ne" }, text: false });
-	$("#moveW").button({ icons: { primary: "ui-icon-arrowthick-1-w" }, text: false });
-	$("#moveE").button({ icons: { primary: "ui-icon-arrowthick-1-e" }, text: false });
-	$("#moveSW").button({ icons: { primary: "ui-icon-arrowthick-1-sw" }, text: false });
-	$("#moveS").button({ icons: { primary: "ui-icon-arrowthick-1-s" }, text: false });
-	$("#moveSE").button({ icons: { primary: "ui-icon-arrowthick-1-se" }, text: false });
+	_("moveNW").button({ icons: { primary: "ui-icon-arrowthick-1-nw" }, text: false });
+	_("moveN").button({ icons: { primary: "ui-icon-arrowthick-1-n" }, text: false });
+	_("moveNE").button({ icons: { primary: "ui-icon-arrowthick-1-ne" }, text: false });
+	_("moveW").button({ icons: { primary: "ui-icon-arrowthick-1-w" }, text: false });
+	_("moveE").button({ icons: { primary: "ui-icon-arrowthick-1-e" }, text: false });
+	_("moveSW").button({ icons: { primary: "ui-icon-arrowthick-1-sw" }, text: false });
+	_("moveS").button({ icons: { primary: "ui-icon-arrowthick-1-s" }, text: false });
+	_("moveSE").button({ icons: { primary: "ui-icon-arrowthick-1-se" }, text: false });
 	
 	$("#movementform button").bind("click", function(e){
 		e.preventDefault();
 		SetEnableMovement(false);
 		$this = $(this);
 		
-		var dirx = $this.siblings(".x").val() *1;
-		var diry = $this.siblings(".y").val() *1;
+		var dirx = $this.siblings(".x")[0].value   *1;
+		var diry = $this.siblings(".y")[0].value   *1;
 		
 		Move(dirx, diry);
 	});
 	
-	$("#statsWindow").dialog({ title: "Character Stats", autoOpen: false });
-	$("#itemsWindow").dialog({ title: "Inventory", autoOpen: false});
+	_("statsWindow").dialog({ title: "Character Stats", autoOpen: false });
+	_("itemsWindow").dialog({ title: "Inventory", autoOpen: false});
 	
 	$(".accountActions .logOut").bind("click", function(e){
 		e.preventDefault();
 		vc.as.Logout(Logout);
 	});
 	
-	$("#statsWindowButton").bind("click", function(e){
+	_("statsWindowButton").bind("click", function(e){
 		e.preventDefault();
-		$("#statsWindow").dialog("open");
+		_("statsWindow").dialog("open");
 	});
 	
 	$(".chooseStats").live("click", function(e){
 		e.preventDefault();
-		$("#statsWindow").dialog("open");
+		_("statsWindow").dialog("open");
 	});
 	
-	$("#itemsWindowButton").bind("click", function(e){
+	_("itemsWindowButton").bind("click", function(e){
 		e.preventDefault();
-		$("#itemsWindow").dialog("open");
+		_("itemsWindow").dialog("open");
 	});
 	
 	$(".chatMessage.system a.joinChannel").live("click", function(e){
 		e.preventDefault();
 		$this = $(this);
-		var channelName = $this.siblings(".channelName").children("input:eq(0)").val();
+		var channelName = $this.siblings(".channelName").children("input:eq(0)")[0].value ;
 		vc.ch.JoinChannel(channelName, JoinChannel);
 		$this.parentsUntil(".ui-dialog").parent().dialog("destroy").remove();
 	});
 	
 	$("#itemsWindow select").live("change", function(e){
 		$this = $(this);
-		var itemType = $this.attr("class").split(' ')[0];
+		var itemType = $this[0].className.split(' ')[0];
 		$('#itemsWindow select').attr("disabled", "disabled");
 		
-		var slotType = $this.attr("class").split(' ')[1].replace(/itemType_/,'')*1;
+		var slotType = $this[0].className.split(' ')[1].replace(/itemType_/,'')*1;
 		var slotIndex = $('#itemsWindow select.'+itemType).index($this);
-		if($this.val() == 0){
+		if($this[0].value   == 0){
 			vc.is.UnEquip(window.MyCharacter.Equipment[slotType][slotIndex].ItemId, slotType, slotIndex, UnEquipItem);
 		}else{
 			if(MyCharacter.Equipment[slotType][slotIndex] !== {}){
-				vc.is.UnEquip(window.MyCharacter.Equipment[slotType][slotIndex].ItemId, slotType, slotIndex, function(response, data){vc.is.Equip($this.val(), slotType, slotIndex, EquipItem)} );
+				vc.is.UnEquip(window.MyCharacter.Equipment[slotType][slotIndex].ItemId, slotType, slotIndex, function(response, data){vc.is.Equip($this[0].value , slotType, slotIndex, EquipItem)} );
 			}else{
-				vc.is.Equip($this.val(), slotType, slotIndex, EquipItem)
+				vc.is.Equip($this[0].value , slotType, slotIndex, EquipItem)
 			}
 		}
 	});
@@ -167,7 +169,7 @@
 		e.preventDefault();
 		$(".chooseStats").remove();
 		
-		switch($(this).parent().attr("class")){
+		switch($(this).parent()[0].className){
 			case "stat str":
 				vc.cs.LevelUp(1, LevelUpResponse);
 				break;
@@ -226,8 +228,8 @@ function Move(RelativeX, RelativeY){
 }
 
 function ExamineLocation(response, data){
-	$("#moveLook").button("option", "disabled", false);
-	if(vc.DebugMode && response.RequestDuration > 0){vc.Requests++;  vc.RequestDurationTotal += response.RequestDuration; $("#rda_value").text(vc.RequestDurationTotal / vc.Requests);}
+	_("moveLook").button("option", "disabled", false);
+	if(vc.DebugMode && response.RequestDuration > 0){vc.Requests++;  vc.RequestDurationTotal += response.RequestDuration; ICache["rda_value"].text(vc.RequestDurationTotal / vc.Requests);}
 	if(response.Result == vc.ER_SUCCESS){ 
 		$("optgroup[label='Other Players']").remove();
 		var playersOptGroup = $("<optgroup label='Other Players' />");
@@ -243,14 +245,14 @@ function ExamineLocation(response, data){
 				option = $("<option value='" + pid + "'>" + name + " (" + level + ")</option>").appendTo(playersOptGroup);
 			}
 		}
-		playersOptGroup.appendTo($("#monsterList"));
+		playersOptGroup.appendTo(_("monsterList"));
 	}
 	
 	Log("ExamineLocation: " + JSON.stringify(data));
 }
 
 function LevelUpResponse(response, data){
-	if(vc.DebugMode && response.RequestDuration > 0){vc.Requests++;  vc.RequestDurationTotal += response.RequestDuration; $("#rda_value").text(vc.RequestDurationTotal / vc.Requests);}
+	if(vc.DebugMode && response.RequestDuration > 0){vc.Requests++;  vc.RequestDurationTotal += response.RequestDuration; ICache["rda_value"].text(vc.RequestDurationTotal / vc.Requests);}
 	var stat = data.Stat;
 	if(response.Result == vc.ER_SUCCESS){ 
 		switch(stat){
@@ -291,7 +293,7 @@ function LevelUpResponse(response, data){
 		}
 		MyCharacter.Health = MyCharacter.Vitality;
 		
-		vc.i.UpdateStats();
+		UpdateStats();
 	}
 	
 	Log("Level Up: " + JSON.stringify(data));
@@ -305,7 +307,7 @@ function EquipItem(response, data){
 	var slotType = data.SlotType;
 	var slotIndex = data.SlotNumber;
 	var itemId = data.ItemId;
-	if(vc.DebugMode && response.RequestDuration > 0){vc.Requests++;  vc.RequestDurationTotal += response.RequestDuration; $("#rda_value").text(vc.RequestDurationTotal / vc.Requests);}
+	if(vc.DebugMode && response.RequestDuration > 0){vc.Requests++;  vc.RequestDurationTotal += response.RequestDuration; ICache["rda_value"].text(vc.RequestDurationTotal / vc.Requests);}
 	
 	if(response.Result == vc.ER_SUCCESS){ 
 
@@ -335,7 +337,7 @@ function UnEquipItem(response, data){
 	var slotType = data.SlotType;
 	var slotIndex = data.SlotNumber;
 	var itemId = data.ItemId;
-	if(vc.DebugMode && response.RequestDuration > 0){vc.Requests++;  vc.RequestDurationTotal += response.RequestDuration; $("#rda_value").text(vc.RequestDurationTotal / vc.Requests);}
+	if(vc.DebugMode && response.RequestDuration > 0){vc.Requests++;  vc.RequestDurationTotal += response.RequestDuration; ICache["rda_value"].text(vc.RequestDurationTotal / vc.Requests);}
 	if(response.Result == vc.ER_SUCCESS){ 
 
 		var item = window.MyCharacter.Equipment[slotType][slotIndex];
@@ -355,7 +357,7 @@ function UnEquipItem(response, data){
 }
 
 function RefreshMap(response, data){
-	if(vc.DebugMode && response.RequestDuration > 0){vc.Requests++;  vc.RequestDurationTotal += response.RequestDuration; $("#rda_value").text(vc.RequestDurationTotal / vc.Requests);}
+	if(vc.DebugMode && response.RequestDuration > 0){vc.Requests++;  vc.RequestDurationTotal += response.RequestDuration; ICache["rda_value"].text(vc.RequestDurationTotal / vc.Requests);}
 	if(response.Result == vc.ER_SUCCESS){ 
 		MyCharacter.PositionX = response.Data.X;
 		MyCharacter.PositionY = response.Data.Y;
@@ -374,11 +376,11 @@ function SetEnableAttack(enabled){
 }
 
 function CreateChannel(response, data){
-	if(vc.DebugMode && response.RequestDuration > 0){vc.Requests++;  vc.RequestDurationTotal += response.RequestDuration; $("#rda_value").text(vc.RequestDurationTotal / vc.Requests);}
+	if(vc.DebugMode && response.RequestDuration > 0){vc.Requests++;  vc.RequestDurationTotal += response.RequestDuration; ICache["rda_value"].text(vc.RequestDurationTotal / vc.Requests);}
 	if(response.Result == vc.ER_SUCCESS){ 
 
-		$("#cc_channelName, #cc_channelMOTD").val('');
-		$("#createChannelForm").dialog("close");
+		_("cc_channelName").add(_("#cc_channelMOTD"))[0].value   = '';
+		_("createChannelForm").dialog("close");
 		AddTab(response.Data.Name, response.Data.ChannelId, response.Data.Motd);
 		
 		window.MyCharacter.Channels[response.Data.ChannelId] = { Motd: response.Data.Motd, Name: response.Data.Name, Permissions: { Read: 1, Write: 1, Moderate: 1, Administrate: 1, isJoined: 1 } }
@@ -392,11 +394,11 @@ function CreateChannel(response, data){
 }
 
 function JoinChannel(response, data){
-	if(vc.DebugMode && response.RequestDuration > 0){vc.Requests++;  vc.RequestDurationTotal += response.RequestDuration; $("#rda_value").text(vc.RequestDurationTotal / vc.Requests);}
+	if(vc.DebugMode && response.RequestDuration > 0){vc.Requests++;  vc.RequestDurationTotal += response.RequestDuration; ICache["rda_value"].text(vc.RequestDurationTotal / vc.Requests);}
 if(response.Result == vc.ER_SUCCESS){ 
 
-		$("#jc_channelName, #cc_channelMOTD").val('');
-		$("#joinChannelForm").dialog("close");
+		$("#jc_channelName, #cc_channelMOTD")[0].value   = '';
+		_("joinChannelForm").dialog("close");
 		AddTab(response.Data.Name, response.Data.ChannelId, response.Data.Motd);
 		response.Data.Permissions.isJoined = 1;
 		window.MyCharacter.Channels[response.Data.ChannelId] = { Motd: response.Data.Motd, Name: response.Data.Name, Permissions: response.Data.Permissions }
@@ -410,7 +412,7 @@ if(response.Result == vc.ER_SUCCESS){
 
 function LeaveChannel(channelId){
 	var $chatWindow = $("#chatChannels input[value='" + channelId + "']").parent();
-	var $chatTab = $("a[href='#" + $chatWindow.attr("id") + "']").parent();
+	var $chatTab = $("a[href='#" + $chatWindow[0].id + "']").parent();
 	var chatToCloseIndex =  $('li',$tabs).index($chatTab); 
 	vc.ch.PartChannel(channelId, function(){ $tabs.tabs('remove', chatToCloseIndex); });
 	delete window.MyCharacter.Channels[channelId];
@@ -430,7 +432,7 @@ function AddTab(title, channelId, motd) {
 }
 
 function FillChat(response, data){
-	if(vc.DebugMode && response.RequestDuration > 0){vc.Requests++;  vc.RequestDurationTotal += response.RequestDuration; $("#rda_value").text(vc.RequestDurationTotal / vc.Requests);}
+	if(vc.DebugMode && response.RequestDuration > 0){vc.Requests++;  vc.RequestDurationTotal += response.RequestDuration; ICache["rda_value"].text(vc.RequestDurationTotal / vc.Requests);}
 	if(response.Result == vc.ER_SUCCESS){ 
 		for(var i in response.Data){
 			if(i!=0){
@@ -451,11 +453,11 @@ function SelectCharacter(response, data){
 	
 	Log("Login: " + response.Result);
 	
-	if(vc.DebugMode && response.RequestDuration > 0){vc.Requests++;  vc.RequestDurationTotal += response.RequestDuration; $("#rda_value").text(vc.RequestDurationTotal / vc.Requests);}
+	if(vc.DebugMode && response.RequestDuration > 0){vc.Requests++;  vc.RequestDurationTotal += response.RequestDuration; ICache["rda_value"].text(vc.RequestDurationTotal / vc.Requests);}
 	if(response.Result == vc.ER_SUCCESS){ 
 
 		window.MyCharacter.Construct(response.Data);
-		vc.i.UpdateStats();
+		UpdateStats();
 	}else{
 		if(!vc.DebugMode){
 			alert("Please login again.");
@@ -482,8 +484,8 @@ function SelectCharacter(response, data){
 }
 
 function BuildMap(){
-	$("#currentMapName").text(MyCharacter.CurrentMap.Name);
-	var $currentMap = $("#currentMap");
+	_("currentMapName").text(MyCharacter.CurrentMap.Name);
+	var $currentMap = _("currentMap");
 	$currentMap.empty();
 	
 	for(my = MyCharacter.CurrentMap.DimensionY-1; my >= 0; my--){
@@ -508,7 +510,7 @@ function BuildMap(){
 
 function BuildGameWindow(){
 	var myLocation = MyCharacter.CurrentMap.Places[MyCharacter.PositionY][MyCharacter.PositionX];
-	var topWindow = $("#topCenter");
+	var topWindow = _("topCenter");
 	topWindow.html('&nbsp;');
 	
 	if(myLocation.Type === undefined){
@@ -561,8 +563,8 @@ function BuildGameWindow(){
 }
 
 function SubmitBankTransaction(){
-	var amt = $("#transactionAmount").val();
-	var action = $("#transactionTypeSelection").val();
+	var amt = _("transactionAmount")[0].value ;
+	var action = _("transactionTypeSelection")[0].value ;
 	
 	if((action == 0 && amt == "all") || action == 2){
 		amt = MyCharacter.Gold*1;
@@ -604,9 +606,9 @@ function ProcessBankWithdraw(response, data){
 
 function ProcessBankTransaction(response, data, transactionType){
 	var gold = data.Gold;
-	if(vc.DebugMode && response.RequestDuration > 0){vc.Requests++;  vc.RequestDurationTotal += response.RequestDuration; $("#rda_value").text(vc.RequestDurationTotal / vc.Requests);}
+	if(vc.DebugMode && response.RequestDuration > 0){vc.Requests++;  vc.RequestDurationTotal += response.RequestDuration; ICache["rda_value"].text(vc.RequestDurationTotal / vc.Requests);}
 	if(response.Result == vc.ER_SUCCESS){ 
-		$("#transactionAmount").val('')
+		_("transactionAmount")[0].value   = '';
 		
 		if(transactionType == 0){
 			window.MyCharacter.Gold -= (gold*1);
@@ -618,7 +620,7 @@ function ProcessBankTransaction(response, data, transactionType){
 		
 		$("#bankTransaction h3").text("You have " + window.MyCharacter.Bank + " gold in your account.");
 		
-		vc.i.UpdateStats();
+		UpdateStats();
 	}else{
 		alert("You don't have that much gold!");
 	}
@@ -629,14 +631,14 @@ function ProcessBankTransaction(response, data, transactionType){
 function ProcessBankTransfer(response, data){
 	var gold = data.Gold;
 	
-	if(vc.DebugMode && response.RequestDuration > 0){vc.Requests++;  vc.RequestDurationTotal += response.RequestDuration; $("#rda_value").text(vc.RequestDurationTotal / vc.Requests);}
+	if(vc.DebugMode && response.RequestDuration > 0){vc.Requests++;  vc.RequestDurationTotal += response.RequestDuration; ICache["rda_value"].text(vc.RequestDurationTotal / vc.Requests);}
 	
 	if(response.Result == vc.ER_SUCCESS){ 
 
-		$("#transferAmount, #transferTarget").val('')
+		$("#transferAmount, #transferTarget")[0].value   = ''
 		window.MyCharacter.Bank -= gold;
 		$("#bankTransaction h3").text("You have " + window.MyCharacter.Bank + " gold in your account.");
-		vc.i.UpdateStats();
+		UpdateStats();
 	}else{
 		alert("You don't have that much gold!");
 	}
@@ -645,8 +647,8 @@ function ProcessBankTransfer(response, data){
 }
 
 function SubmitBankTransfer(){
-	var amt = $("#transferAmount").val();
-	var name = $("#transferTarget").val();
+	var amt = _("transferAmount")[0].value ;
+	var name = _("transferTarget")[0].value ;
 	vc.ms.Transfer(amt, name, ProcessBankTransfer);
 }
 
@@ -665,7 +667,7 @@ function BuildExit(topWindow){
 }
 
 function ProcessMapChange(response, data){
-	if(vc.DebugMode && response.RequestDuration > 0){vc.Requests++;  vc.RequestDurationTotal += response.RequestDuration; $("#rda_value").text(vc.RequestDurationTotal / vc.Requests);}
+	if(vc.DebugMode && response.RequestDuration > 0){vc.Requests++;  vc.RequestDurationTotal += response.RequestDuration; ICache["rda_value"].text(vc.RequestDurationTotal / vc.Requests);}
 if(response.Result == vc.ER_SUCCESS){ 
 
 		window.MyCharacter.CurrentMap = Maps[response.Data.MapId];
@@ -673,7 +675,7 @@ if(response.Result == vc.ER_SUCCESS){
 		window.MyCharacter.PositionY =  response.Data.PositionY;
 		BuildMap();
 		BuildGameWindow();
-		vc.i.UpdateStats();
+		UpdateStats();
 	}
 	
 	Log("Map Change: " + JSON.stringify(data));
@@ -711,11 +713,11 @@ function BuildBank(topWindow){
 }
 
 function ReviveCharacter(response, data){
-	if(vc.DebugMode && response.RequestDuration > 0){vc.Requests++;  vc.RequestDurationTotal += response.RequestDuration; $("#rda_value").text(vc.RequestDurationTotal / vc.Requests);}
+	if(vc.DebugMode && response.RequestDuration > 0){vc.Requests++;  vc.RequestDurationTotal += response.RequestDuration; ICache["rda_value"].text(vc.RequestDurationTotal / vc.Requests);}
 if(response.Result == vc.ER_SUCCESS){ 
 
 		MyCharacter.Health = MyCharacter.Vitality;
-		vc.i.UpdateStats();
+		UpdateStats();
 		BuildGameWindow();
 	}
 	
@@ -725,8 +727,8 @@ if(response.Result == vc.ER_SUCCESS){
 function Attack(fightType){
 	SetEnableAttack(false); 
 	$("#fightResults .result").remove();
-	var enemyId = $("#monsterList").val();
-	var fightResults = $("#fightResults");
+	var enemyId = _("monsterList")[0].value ;
+	var fightResults = _("fightResults");
 	
 	if(MyCharacter.Health < 1){
 		alert("You can't fight! You're dead!");
@@ -759,10 +761,10 @@ function Attack(fightType){
 
 function AttackRound(response, data){
 	window.setTimeout(function(){SetEnableAttack(true)}, 1500);
-	if(vc.DebugMode && response.RequestDuration > 0){vc.Requests++;  vc.RequestDurationTotal += response.RequestDuration; $("#rda_value").text(vc.RequestDurationTotal / vc.Requests);}
+	if(vc.DebugMode && response.RequestDuration > 0){vc.Requests++;  vc.RequestDurationTotal += response.RequestDuration; ICache["rda_value"].text(vc.RequestDurationTotal / vc.Requests);}
 if(response.Result == vc.ER_SUCCESS){ 
 
-		var fightResults = $("#fightResults");
+		var fightResults = _("fightResults");
 		var battleObject = response.Data;
 		
 		if($(".round", fightResults).length > 0){
@@ -789,7 +791,7 @@ function BuildShop(topWindow){
 	
 	topWindow.append("<h1>" + name + "</h1>");
 	var buyForm = $("<form id='buyForm'></form>");
-	var itemTypeSelection = $("<select id='itemTypeSelection'></select>").bind("change", function(e){ FilterItemTypes($(this).val()); });
+	var itemTypeSelection = $("<select id='itemTypeSelection'></select>").bind("change", function(e){ FilterItemTypes(this[0].value ); });
 	var itemSelection = $("<select id='itemSelection'></select>");
 	var buyItem = $("<button id='buyItem' class='button'>Purchase</buy>").bind("click", function(e){ e.preventDefault(); BuyItem(); });
 	var itemInfo = $("<button id='itemInfo' class='button'>Info</buy>").bind("click", function(e){ 
@@ -798,7 +800,7 @@ function BuildShop(topWindow){
 		if(index < 0){ 
 			index = 0; 
 		} 
-		var split = $("#itemTypeSelection").val().split("|");
+		var split = _("itemTypeSelection")[0].value .split("|");
 		var item = V2Core.ItemTypes[2][split[0]][split[1]];
 	
 		DisplayItemInfo(item[index]); 
@@ -838,19 +840,20 @@ function BuildShop(topWindow){
 	var sellContainer = $("<div><label for='sellSelection'>Sell:</span></div>").append(sellSelection);
 	sellForm.append(sellContainer).append(sellItem).append(sellInfo).append(sellDescription);
 	topWindow.append(sellForm);
-	FilterItemTypes($("#itemTypeSelection option:first").val());
+	FilterItemTypes(_("itemTypeSelection option:first")[0].value );
 }
 
 function SellItem(){
-	if($("#sellSelection").val() !== null){
-		itemId = $("#sellSelection").val();
+	var val = _("sellSelection")[0].value ;
+	if(val !== null && val != ""){
+		itemId = val;
 		vc.ms.Sell(itemId, ProcessSale);
 	}
 }
 
 function BuyItem(){
 	if(MyCharacter.Inventories["Personal"].length < 20){
-		vc.ms.Buy($("#itemSelection").val(), ProcessPurchase);
+		vc.ms.Buy(_("itemSelection")[0].value , ProcessPurchase);
 	}
 }
 
@@ -862,7 +865,7 @@ function DisplayItemInfo(item){
 
 function FilterItemTypes(itemSlotType){
 	var currentItem = {};
-	var itemSelection = $("#itemSelection").empty();
+	var itemSelection = _("itemSelection").empty();
 	var split = itemSlotType.split("|");
 	var items = V2Core.ItemTypes[2][split[0]][split[1]];
 	for(item in V2Core.ItemTypes[2][split[0]][split[1]]){
@@ -879,13 +882,13 @@ function FilterItemTypes(itemSlotType){
 }
 
 function ProcessPurchase(response, data){
-	if(vc.DebugMode && response.RequestDuration > 0){vc.Requests++;  vc.RequestDurationTotal += response.RequestDuration; $("#rda_value").text(vc.RequestDurationTotal / vc.Requests);}
+	if(vc.DebugMode && response.RequestDuration > 0){vc.Requests++;  vc.RequestDurationTotal += response.RequestDuration; ICache["rda_value"].text(vc.RequestDurationTotal / vc.Requests);}
 if(response.Result == vc.ER_SUCCESS){ 
 
 		var item = response.Data;	
 		MyCharacter.Inventories["Personal"][MyCharacter.Inventories["Personal"].length] = item;
 		MyCharacter.Gold -= item.BuyPrice;
-		vc.i.UpdateStats();
+		UpdateStats();
 		BuildInitialInventory();
 		BuildInventoryLists();
 		BuildGameWindow()
@@ -896,7 +899,7 @@ if(response.Result == vc.ER_SUCCESS){
 
 function ProcessSale(response, data){
 	var ItemId = data.ItemId;
-	if(vc.DebugMode && response.RequestDuration > 0){vc.Requests++;  vc.RequestDurationTotal += response.RequestDuration; $("#rda_value").text(vc.RequestDurationTotal / vc.Requests);}
+	if(vc.DebugMode && response.RequestDuration > 0){vc.Requests++;  vc.RequestDurationTotal += response.RequestDuration; ICache["rda_value"].text(vc.RequestDurationTotal / vc.Requests);}
 	if(response.Result == vc.ER_SUCCESS){ 
 
 		var item = {};
@@ -917,7 +920,7 @@ function ProcessSale(response, data){
 		
 		MyCharacter.Inventories["Personal"].remove(asdf);
 		MyCharacter.Gold += price;
-		vc.i.UpdateStats();
+		UpdateStats();
 		BuildInitialInventory();
 		BuildInventoryLists();
 		BuildGameWindow()
@@ -948,7 +951,7 @@ function BuildShrine(topWindow){
 }
 
 function BuildInitialInventory(){
-	$("#itemsWindow").html('');
+	_("itemsWindow").html('');
 	var typeMapping = vc.is.TypeMapping;	
 	var slotName = "";
 	var body = window.MyCharacter.Equipment;
@@ -974,7 +977,7 @@ function BuildInitialInventory(){
 						$("<option value='" + item.ItemId + "' selected='selected'>" + item.Name + "</option>").prependTo($select);
 					}
 					
-					$("#itemsWindow").append($selectRow);
+					_("itemsWindow").append($selectRow);
 				}
 			}
 		}
@@ -984,7 +987,7 @@ function BuildInitialInventory(){
 }
 
 function LoadInventory(response, data){
-	if(vc.DebugMode && response.RequestDuration > 0){vc.Requests++;  vc.RequestDurationTotal += response.RequestDuration; $("#rda_value").text(vc.RequestDurationTotal / vc.Requests);}
+	if(vc.DebugMode && response.RequestDuration > 0){vc.Requests++;  vc.RequestDurationTotal += response.RequestDuration; ICache["rda_value"].text(vc.RequestDurationTotal / vc.Requests);}
 if(response.Result == vc.ER_SUCCESS){ 
 
 		window.MyCharacter.Inventories["Personal"] = response.Data;
@@ -995,7 +998,7 @@ if(response.Result == vc.ER_SUCCESS){
 	}
 	
 	BuildMap();
-	$("#loading").animate({ opacity: 0 }, 500, function(){ $("#loading").remove(); });
+	_("loading").animate({ opacity: 0 }, 500, function(){ _("loading").remove(); });
 }
 
 function BuildInventoryLists(){
@@ -1020,7 +1023,7 @@ function BuildInventoryLists(){
 function InsertChat(response, data){
 	var channel = data;
 	var $chatWindow = $("#chatChannels input[value='" + channel + "']").parent();
-	var $chatTab = $("a[href='#" + $chatWindow.attr("id") + "']").parent();
+	var $chatTab = $("a[href='#" + $chatWindow.id + "']").parent();
 	
 	if(response[0] !== undefined && response[0].Type !=vc.ch.CHAT_TYPE_MOTD && !$chatTab.hasClass("ui-tabs-selected")){
 		$chatTab.addClass("newMessage");
@@ -1068,13 +1071,13 @@ function ProcessSystemMessage(data){
 			case 1:
 				var fightResults = {};
 				
-				if($("#pvpMessage").length > 0){
-					fightResults = $("#pvpMessage");
+				if(_("pvpMessage").length > 0){
+					fightResults = _("pvpMessage");
 				}else{
 					fightResults = $("<div id='pvpMessage' class='fightResults' />");
 				}
 				
-				BuildAttackMessage(chatobj.Message.BattleData, chatobj.Message.AttackedBy, false, fightResults).dialog({ title: "You Were Attacked!", modal: true, close:function(e){ $("#pvpMessage").remove() } });
+				BuildAttackMessage(chatobj.Message.BattleData, chatobj.Message.AttackedBy, false, fightResults).dialog({ title: "You Were Attacked!", modal: true, close:function(e){ _("pvpMessage").remove() } });
 				break;
 			case 2: //trades
 				break;
@@ -1129,12 +1132,12 @@ function BuildAttackMessage(Attack, EnemyName, PlayerIsAttacker, fightResults){
 						MyCharacter.Health = MyCharacter.Vitality;
 					}
 					
-					vc.i.UpdateHealth();
+					UpdateHealth();
 				}
 			}else{
 				if(bo.Actor != myActor){
 					MyCharacter.Health -= bo.Damage;
-					vc.i.UpdateHealth();
+					UpdateHealth();
 				}
 			}
 			
@@ -1208,12 +1211,12 @@ function BuildAttackMessage(Attack, EnemyName, PlayerIsAttacker, fightResults){
 				MyCharacter.Experience -= MyCharacter.NextLevelAt();
 				MyCharacter.FreeLevels++;
 			}
-			vc.i.UpdateStats();
+			UpdateStats();
 		}else{
 			fightResults.append("<div class='result lostFight'><span class='attacker enemy'>You</span> were defeated!</span></div>");
 			MyCharacter.Health = 0;
 			MyCharacter.Gold = 0;
-			vc.i.UpdateStats();
+			UpdateStats();
 		}
 	}
 	
@@ -1289,15 +1292,15 @@ function SubmitMessage(message){
 					if(message.indexOf("/motd") == 0){
 						type = vc.CommandService.ACTION_CHANNEL_SETPARAMETERS;
 						var value = message.split('/motd ')[1];
-						vc.ch.SetParameters(myChannel, 'Motd', value, function(response, data){ var parameter = data.Parameter; var value = data.Value; ProcessChannelParamterChange(myChannel, parameter, value); });
+						vc.ch.SetParameters(myChannel, 'Motd', value, function(response, data){ var parameter = data.Parameter; var value = data[0].value ; ProcessChannelParamterChange(myChannel, parameter, value); });
 					}else if(message.indexOf("/publicRead") == 0){
 						type = vc.CommandService.ACTION_CHANNEL_SETPARAMETERS;
 						var value = message.split('/publicRead ')[1];
-						vc.ch.SetParameters(myChannel, 'PublicRead', value, function(response, data){ var parameter = data.Parameter; var value = data.Value; ProcessChannelParamterChange(myChannel, parameter, value); });
+						vc.ch.SetParameters(myChannel, 'PublicRead', value, function(response, data){ var parameter = data.Parameter; var value = data[0].value ; ProcessChannelParamterChange(myChannel, parameter, value); });
 					}else if(message.indexOf("/publicWrite") == 0){
 						type = vc.CommandService.ACTION_CHANNEL_SETPARAMETERS;
 						var value = message.split('/publicWrite ')[1];
-						vc.ch.SetParameters(myChannel, 'PublicWrite', value, function(response, data){ var parameter = data.Parameter; var value = data.Value; ProcessChannelParamterChange(myChannel, parameter, value); });
+						vc.ch.SetParameters(myChannel, 'PublicWrite', value, function(response, data){ var parameter = data.Parameter; var value = data[0].value ; ProcessChannelParamterChange(myChannel, parameter, value); });
 					}
 					break;
 			}
@@ -1314,7 +1317,7 @@ function ProcessChannelParamterChange(channel, parameter, value){
 function CreatePrivateChannel(character){
 	var channelName = "!!PM" + character + "!!" + GUID();
 	vc.ch.CreateChannel(channelName, "Private Channel with " + character, 0, 0, function(response, data){
-		if(vc.DebugMode && response.RequestDuration > 0){vc.Requests++;  vc.RequestDurationTotal += response.RequestDuration; $("#rda_value").text(vc.RequestDurationTotal / vc.Requests);}
+		if(vc.DebugMode && response.RequestDuration > 0){vc.Requests++;  vc.RequestDurationTotal += response.RequestDuration; ICache["rda_value"].text(vc.RequestDurationTotal / vc.Requests);}
 		if(response.Result == vc.ER_SUCCESS){ 
 			CreateChannel(response, response.Data);
 			SubmitMessage("/invite " + character);
@@ -1326,7 +1329,7 @@ function CreatePrivateChannel(character){
 
 function ProcessIDPlayer(response, data){
 	var characterName = data.Character;
-	if(vc.DebugMode && response.RequestDuration > 0){vc.Requests++;  vc.RequestDurationTotal += response.RequestDuration; $("#rda_value").text(vc.RequestDurationTotal / vc.Requests);}
+	if(vc.DebugMode && response.RequestDuration > 0){vc.Requests++;  vc.RequestDurationTotal += response.RequestDuration; ICache["rda_value"].text(vc.RequestDurationTotal / vc.Requests);}
 	if(response.Result == vc.ER_SUCCESS){ 
 		var character = response.Data;
 		
@@ -1390,10 +1393,77 @@ function GUID() {
 function Log(text){
 	if(vc.DebugMode){
 		$("#logs div:nth-child(n+30)").remove();
-		$("#logs").prepend("<div>" + text + "</div>");
+		_("logs").prepend("<div>" + text + "</div>");
 	}
 }
 
 function OpenDebugWindow(){
-	$("#debugWindow").toggle();
+	_("debugWindow").toggle();
+}
+
+function UpdateStats(){
+	var mc = window.MyCharacter;
+			
+	ICache["myCharacter_Name"].text(mc.Name);
+	ICache["myCharacter_Strength"].text(mc.Strength);
+	ICache["myCharacter_Dexterity"].text(mc.Dexterity);
+	ICache["myCharacter_Wisdom"].text(mc.Wisdom);
+	ICache["myCharacter_Intelligence"].text(mc.Intelligence);
+	ICache["myCharacter_Vitality"].text(mc.Vitality);
+	ICache["myCharacter_Gold"].add(ICache["myCharacter_CurrentGold"]).text(mc.Gold);
+	ICache["myCharacter_ExperienceBar"].progressbar("value", (mc.Experience / mc.NextLevelAt()) * 100)[0].setAttribute("title", mc.Experience + " / " + mc.NextLevelAt());
+	ICache["myCharacter_HealthBar"].progressbar("value", ((mc.Health / mc.Vitality) * 100))[0].setAttribute("title", mc.Health + " / " + mc.Vitality);
+	ICache["myCharacter_LevelTitle"].add(ICache["myCharacter_Level"]).text(mc.Level);
+	ICache["myCharacter_FreeLevels"].text(mc.FreeLevels);
+	ICache["myCharacter_Health"].text(mc.Health);
+	ICache["myCharacter_Experience"].text(mc.Experience);
+	ICache["myCharacter_Bank"].text(mc.Bank);
+	
+	var alignName = mc.AlignName();
+	var alignClass = "neutral";
+	if(alignName.indexOf("Good") > -1){
+		alignClass = "good";
+	}else if(alignName.indexOf("Evil") > -1){
+		alignClass = "evil";
+	}
+	
+	_("myCharacter_Alignment").text(alignName + " (" + mc.AlignGood + " / " + mc.AlignOrder + ")").siblings(".statLabel").addClass(alignClass);
+	
+	if(MyCharacter.FreeLevels > 0){
+		$("#statsWindow button, #statsWindow .all").show();
+	}
+}
+
+function UpdateHealth(){
+	var mc = window.MyCharacter;
+	ICache["myCharacter_HealthBar"].progressbar("value", ((mc.Health / mc.Vitality) * 100))[0].setAttribute("title", mc.Health + " / " + mc.Vitality);
+	ICache["myCharacter_Health"].text(mc.Health);
+}
+
+function LoadICache(){
+	ICache = new Array();
+	ICache["myCharacter_Name"] = _("myCharacter_Name");
+	ICache["myCharacter_Strength"] = _("myCharacter_Strength");
+	ICache["myCharacter_Dexterity"] = _("myCharacter_Dexterity");
+	ICache["myCharacter_Wisdom"] = _("myCharacter_Wisdom");
+	ICache["myCharacter_Intelligence"] = _("myCharacter_Intelligence");
+	ICache["myCharacter_Vitality"] = _("myCharacter_Vitality");
+	ICache["myCharacter_Gold"] = _("myCharacter_Gold");
+	ICache["myCharacter_CurrentGold"] = _("myCharacter_CurrentGold");
+	ICache["myCharacter_ExperienceBar"] = _("myCharacter_ExperienceBar");
+	ICache["myCharacter_HealthBar"] = _("myCharacter_HealthBar");
+	ICache["myCharacter_LevelTitle"] = _("myCharacter_LevelTitle");
+	ICache["myCharacter_Level"] = _("myCharacter_Level");
+	ICache["myCharacter_FreeLevels"] = _("myCharacter_FreeLevels");
+	ICache["myCharacter_Health"] = _("myCharacter_Health");
+	ICache["myCharacter_Experience"] = _("myCharacter_Experience");
+	ICache["myCharacter_Name"] = _("myCharacter_Name");
+	ICache["myCharacter_Bank"] = _("myCharacter_Bank");
+	ICache["rda_value"] = _("rda_value");
+	
+	window.ICache = ICache;
+}
+
+function _(e){
+	return $(document.getElementById(e));
 }

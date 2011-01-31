@@ -288,7 +288,6 @@
 		<script src="./Core/core-MapService.js"></script>
 		<script src="./Core/core-ItemService.js"></script>
 		<script src="./Core/core-MonsterService.js"></script>
-		<script src="./Core/core-Interface.js"></script>
 		<!--<script src="./Core/core.min.js"></script>-->
 		
 		<!-- Data Libraries -->

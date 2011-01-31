@@ -173,7 +173,6 @@
 			return totalAlign;
 		},
 		
-		
 		isInteger: function(s) {
 		  return (s.toString().search(/^-?[0-9]+$/) == 0);
 		}
