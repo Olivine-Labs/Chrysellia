@@ -267,7 +267,7 @@
 		</div>
 		<![endif]-->
 		<!-- -->
-		<script src="http://code.jquery.com/jquery-1.5rc1.js"></script>
+		<script src="http://code.jquery.com/jquery-1.5.min.js"></script>
 		<script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.9/jquery-ui.min.js"></script>
 		
 		<!-- Here come the plugins -->
