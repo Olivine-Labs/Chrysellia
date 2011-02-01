@@ -128,7 +128,7 @@
 					<form action="submitaction.php" id="chatForm" class="CHAN_00000000000000000000001">
 						<input type="hidden" value="chat" class="button">
 						Say: 
-						<input type="text" id="chatInput" style="width: 400px;" />
+						<input type="text" id="chatInput" style="width: 400px;" maxlength="500" />
 						<input type="submit" value="Send">
 						
 						<a href="#" id="createChannelLink" class="button" style="float:right;">Create Channel</a>

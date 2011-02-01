@@ -28,9 +28,14 @@
 	
 	_("chatForm").bind("submit", function(e){
 		e.preventDefault();
-		var chatbox = _("chatInput");
-		SubmitMessage(chatbox[0].value  );
-		chatbox[0].value    = '';
+		var chatbox = _("chatInput")[0];
+		var message= chatbox.value;
+		if(message.length > 500){
+			message = message.substr(0,500);
+		}
+		
+		SubmitMessage(message);
+		chatbox.value = '';
 	});
 	
 	window.$tabs = $('#chatChannels').tabs({
