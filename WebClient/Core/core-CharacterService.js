@@ -91,9 +91,10 @@
 		
 		
 		CalculateAlignColor: function(AlignGood, AlignOrder){
-			var red = [214, 192, 192, 107, 44]; //good, evil, ordered, chaotic, neutral
-			var green = [214, 0, 192, 36, 130];
-			var blue = [51, 0, 192, 178, 95];
+			
+			var red = [214, 192, 192, 107, 0]; //good, evil, ordered, chaotic, neutral
+			var green = [214, 0, 192, 36, 170];
+			var blue = [51, 0, 192, 178, 238];
 				
 			var ResultRed = red[4].toString(16);
 			var ResultGreen = green[4].toString(16);
@@ -143,6 +144,18 @@
 				ResultRed = ResultRed.toString(16);
 				ResultGreen = ResultGreen.toString(16);
 				ResultBlue = ResultBlue.toString(16);
+			}
+			
+			if(ResultRed == 0){
+				ResultRed = "00";
+			}
+			
+			if(ResultGreen == 0){
+				ResultGreen = "00";
+			}
+			
+			if(ResultBlue == 0){
+				ResultBlue = "00";
 			}
 			
 			return ResultRed + "" + ResultGreen + "" + ResultBlue;
