@@ -2,7 +2,7 @@
 
 namespace Database\MySQL;
 
-define('SQL_GETRACE', 'SELECT `name`, `homeMapId`, `homePositionX`, `homePositionY`, `levelRequirement`, `alignMin`, `alignMax`, `strength`, `dexterity`, `intelligence`, `wisdom`, `vitality`, `strengthMax`, `dexterityMax`, `intelligenceMax`, `wisdomMax`, `vitalityMax`, `weaponSlots`, `armorSlots`, `accessorySlots`, `spellSlots` FROM `races` WHERE raceId=?');
+define('SQL_GETRACE', 'SELECT `name`, `homeMapId`, `homePositionX`, `homePositionY`, `levelRequirement`, `alignMin`, `alignMax`, `strength`, `dexterity`, `intelligence`, `wisdom`, `vitality`, `strengthMax`, `dexterityMax`, `intelligenceMax`, `wisdomMax`, `vitalityMax`, `weaponSlots`, `armorSlots`, `accessorySlots`, `spellSlots`, `alignGood`, `alignOrder` FROM `races` WHERE raceId=?');
 define('SQL_LOADDEFAULTMASTERIES', 'SELECT `masteryId`, `value`, `minValue`, `maxValue` FROM `race_default_masteries` WHERE `raceId`=?');
 /**
  * Class that holds definitions for race query functions
@@ -43,7 +43,7 @@ class Races
 		$Query->bind_param('s', $Race->RaceId);
 		$Query->Execute();
 
-		$Query->bind_result($Race->Name, $Race->HomeMapId, $Race->HomePositionX, $Race->HomePositionY, $Race->LevelRequirement, $Race->AlignMin, $Race->AlignMax, $Race->Strength, $Race->Dexterity, $Race->Intelligence, $Race->Wisdom, $Race->Vitality, $Race->StrengthMax, $Race->DexterityMax, $Race->IntelligenceMax, $Race->WisdomMax, $Race->VitalityMax, $Race->WeaponSlots, $Race->ArmorSlots, $Race->AccessorySlots, $Race->SpellSlots);
+		$Query->bind_result($Race->Name, $Race->HomeMapId, $Race->HomePositionX, $Race->HomePositionY, $Race->LevelRequirement, $Race->AlignMin, $Race->AlignMax, $Race->Strength, $Race->Dexterity, $Race->Intelligence, $Race->Wisdom, $Race->Vitality, $Race->StrengthMax, $Race->DexterityMax, $Race->IntelligenceMax, $Race->WisdomMax, $Race->VitalityMax, $Race->WeaponSlots, $Race->ArmorSlots, $Race->AccessorySlots, $Race->SpellSlots, $Race->AlignGood, $Race->AlignOrder);
 
 		if($Query->fetch()){
 			return $Race;

@@ -173,6 +173,20 @@ class Race
 	public $SpellSlots;
 
 	/**
+	 * AlignGood
+	 *
+	 * @var AlignGood
+	 */
+	public $AlignGood;
+
+	/**
+	 * AlignOrder
+	 *
+	 * @var AlignOrder
+	 */
+	public $AlignOrder;
+
+	/**
 	 * Default constructor for the Account Class
 	 */
 	public function __construct()

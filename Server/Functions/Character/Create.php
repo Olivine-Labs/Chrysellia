@@ -58,6 +58,8 @@ if(
 			$ACharacter->Vitality = $ARace->Vitality + $ACharacter->RacialVitality;
 			$ACharacter->Health = $ACharacter->Vitality;
 			$ACharacter->Gold = STARTING_GOLD;
+			$ACharacter->AlignGood = $ARace->AlignGood;
+			$ACharacter->AlignOrder = $ARace->AlignOrder;
 
 			$Database->startTransaction();
 			$Success = false;

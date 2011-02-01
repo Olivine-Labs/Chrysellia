@@ -15,7 +15,7 @@ define('SQL_CHECKCHARACTERNAME', 'SELECT `characterId` FROM `characters` WHERE `
 define('SQL_GETCHARACTERTRAITS', 'SELECT `raceId`, `gender`, `alignGood`, `alignOrder`, `level`, `freelevels`, `experience`, `strength`, `dexterity`, `intelligence`, `wisdom`, `vitality`, `health`, `experienceBonus`, `alignBonus`, `strengthBonus`, `dexterityBonus`, `intelligenceBonus`, `wisdomBonus`, `vitalityBonus`, `gold`, `bank` FROM `character_traits` WHERE `characterId`=?');
 define('SQL_UPDATECHARACTERTRAITS', 'UPDATE `character_traits` SET `alignGood`=?, `alignOrder`=?, `level`=?, `freelevels`=?, `experience`=?, `strength`=?, `dexterity`=?, `intelligence`=?, `wisdom`=?, `vitality`=?, `health`=?, `experienceBonus`=?, `alignBonus`=?, `strengthBonus`=?, `dexterityBonus`=?, `intelligenceBonus`=?, `wisdomBonus`=?, `vitalityBonus`=?, `gold`=?, `bank`=? WHERE `characterId`=?');
 define('SQL_GETCHARACTERRACETRAITS', 'SELECT (rt.strength + r.strength) AS `strength`, (rt.dexterity + r.dexterity) AS `dexterity`, (rt.wisdom + r.wisdom) AS `wisdom`, (rt.intelligence + r.intelligence) AS `intelligence`, (rt.vitality + r.vitality) AS `vitality`, `racialAbility` FROM `character_race_traits` rt INNER JOIN `character_traits` ct ON ct.characterId=rt.characterId INNER JOIN `races` r ON r.raceId=ct.raceId  WHERE rt.characterId=?');
-define('SQL_INSERTCHARACTERTRAITS', 'INSERT INTO `character_traits` (`characterId`, `raceId`, `gender`, `strength`, `dexterity`, `intelligence`, `wisdom`, `vitality`, `health`, `gold`) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?)');
+define('SQL_INSERTCHARACTERTRAITS', 'INSERT INTO `character_traits` (`characterId`, `raceId`, `gender`, `strength`, `dexterity`, `intelligence`, `wisdom`, `vitality`, `health`, `gold`, `alignGood`, `alignOrder`) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)');
 define('SQL_INSERTCHARACTERRACETRAITS', 'INSERT INTO `character_race_traits` (`characterId`, `strength`, `dexterity`, `wisdom`, `intelligence`, `vitality`, `racialAbility`) VALUES (?, ?, ?, ?, ?, ?, ?)');
 
 //Location
@@ -194,7 +194,7 @@ class Characters extends \Database\Characters
 	function InsertTraits(\Entities\Character $Character)
 	{
 		$Query = $this->Database->Connection->prepare(SQL_INSERTCHARACTERTRAITS);
-		$Query->bind_param('ssiiiiiiii', $Character->CharacterId, $Character->RaceId, $Character->Gender, $Character->Strength, $Character->Dexterity, $Character->Intelligence, $Character->Wisdom, $Character->Vitality, $Character->Health, $Character->Gold);
+		$Query->bind_param('ssiiiiiiiiii', $Character->CharacterId, $Character->RaceId, $Character->Gender, $Character->Strength, $Character->Dexterity, $Character->Intelligence, $Character->Wisdom, $Character->Vitality, $Character->Health, $Character->Gold, $Character->AlignGood, $Character->AlignOrder);
 		$Query->Execute();
 		if($Query->affected_rows > 0)
 			return true;
