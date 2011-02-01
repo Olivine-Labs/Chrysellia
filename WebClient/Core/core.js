@@ -25,6 +25,8 @@
 	V2Core = V2Core.prototype = {
 		//enums!
 		ER_SUCCESS: 0, //when Murphy is not around everything works.
+		ER_NOTONLINE: 249, //when the target is not online
+		ER_NOTLOGGEDIN: 250, //when the session fails
 		ER_BADDATA: 251, //when the data is bad
 		ER_ALREADYEXISTS: 252, //when the data already exists in the database
 		ER_MALFORMED: 253, //when a post/get is malformed for the function requested
@@ -95,16 +97,12 @@
 					break;
 			}
 			
-			var requestRoute = V2Core.SERVERCODE_DIRECTORY + "Index.php";
-			$.ajax(
-				requestRoute,
-				{
-					data: {Data: dataToSend} ,
-					success: function(data, textStatus, XMLHttpRequest){
-						vc.ProcessCallbacks(data, textStatus, XMLHttpRequest);
-					}
+			$.ajax({
+				data: {Data: dataToSend} ,
+				success: function(data, textStatus, XMLHttpRequest){
+					vc.ProcessCallbacks(data, textStatus, XMLHttpRequest);
 				}
-		    );
+			});
 		},
 		
 		SendQueue: function(queue){
@@ -115,20 +113,16 @@
 					break;
 			}
 			
-			var requestRoute = V2Core.SERVERCODE_DIRECTORY + "Index.php";
-			$.ajax(
-				requestRoute,
-				{
-					data: {Data: dataToSend} ,
-					success: function(data, textStatus, XMLHttpRequest){
-						for(x in queue.Items){
-							vc.ProcessCallbacks(queue.Items[x], textStatus, XMLHttpRequest);
-						}
-						
-						queue.Items = [];
+			$.ajax({
+				data: {Data: dataToSend} ,
+				success: function(data, textStatus, XMLHttpRequest){
+					for(x in queue.Items){
+						vc.ProcessCallbacks(queue.Items[x], textStatus, XMLHttpRequest);
 					}
+					
+					queue.Items = [];
 				}
-		    );
+			});
 		},
 		
 		CheckVersion: function(callback){

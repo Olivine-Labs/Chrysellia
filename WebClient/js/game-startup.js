@@ -883,8 +883,7 @@ function FilterItemTypes(itemSlotType){
 
 function ProcessPurchase(response, data){
 	if(vc.DebugMode && response.RequestDuration > 0){vc.Requests++;  vc.RequestDurationTotal += response.RequestDuration; ICache["rda_value"].text(vc.RequestDurationTotal / vc.Requests);}
-if(response.Result == vc.ER_SUCCESS){ 
-
+	if(response.Result == vc.ER_SUCCESS){ 
 		var item = response.Data;	
 		MyCharacter.Inventories["Personal"][MyCharacter.Inventories["Personal"].length] = item;
 		MyCharacter.Gold -= item.BuyPrice;
@@ -901,7 +900,6 @@ function ProcessSale(response, data){
 	var ItemId = data.ItemId;
 	if(vc.DebugMode && response.RequestDuration > 0){vc.Requests++;  vc.RequestDurationTotal += response.RequestDuration; ICache["rda_value"].text(vc.RequestDurationTotal / vc.Requests);}
 	if(response.Result == vc.ER_SUCCESS){ 
-
 		var item = {};
 		var asdf = 0;
 		
@@ -1030,13 +1028,12 @@ function InsertChat(response, data){
 	}
 	
 	for(x = 0; x < response.length; x++){
-		
 		var chatobj = response[x];
 		if(chatobj !== undefined){
 			switch(chatobj.Type){
 				case vc.ch.CHAT_TYPE_GENERAL:
 					var msg = $("<span class='message' />").text(chatobj.Message);
-					$("<div class='chatMessage'><strong>" + chatobj.FromName + "</strong>: </div>").append(msg).prependTo($chatWindow);
+					$("<div class='chatMessage'><span class='name' style='color: #" + vc.cs.CalculateAlignColor(chatobj.AlignGood, chatobj.AlignOrder) + "'>" + chatobj.FromName + "</span>: </div>").append(msg).prependTo($chatWindow);
 					break;
 				case vc.ch.CHAT_TYPE_EMOTE:
 					var msg = $("<span class='message' />").text(chatobj.Message);
@@ -1274,7 +1271,7 @@ function SubmitMessage(message){
 		
 		if(!msgobj.NonMessageCommand){
 			vc.ch.SendMessageToChannel(MyCharacter.CurrentChannel, message, function(){});
-			InsertChat([{ "Type": msgobj.Type, "FromName": MyCharacter.Name, "Message": msgobj.Message }],myChannel);
+			InsertChat([{ "Type": msgobj.Type, "FromName": MyCharacter.Name, "Message": msgobj.Message, AlignGood: MyCharacter.AlignGood, AlignOrder: MyCharacter.AlignOrder  }],myChannel);
 		}else{
 			switch(msgobj.Type){
 				

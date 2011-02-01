@@ -87,6 +87,65 @@
 			var requestId = vc.GenerateRequestId();
 			vc.CallbackStack[requestId] = {Method: callback, Data: data};
 			vc.SendSingleRequest(requestId, vc.TYPE_CHARACTER, vc.cs.ACTION_FIGHT, data);
+		},
+		
+		
+		CalculateAlignColor: function(AlignGood, AlignOrder){
+			var red = [214, 192, 192, 107, 44]; //good, evil, ordered, chaotic, neutral
+			var green = [214, 0, 192, 36, 130];
+			var blue = [51, 0, 192, 178, 95];
+				
+			var ResultRed = red[4].toString(16);
+			var ResultGreen = green[4].toString(16);
+			var ResultBlue = blue[4].toString(16)
+			
+			if(AlignGood > 99 || AlignGood < -99 || AlignOrder > 99 || AlignOrder < -99 ) {
+				var Color1Red = red[4];
+				var Color1Green = green[4];
+				var Color1Blue = blue[4];
+				
+				var Color2Red = red[4];
+				var Color2Green = green[4];
+				var Color2Blue = blue[4];
+			
+				if(AlignGood > 99 ) {
+					Color1Red = red[0];
+					Color1Green = green[0];
+					Color1Blue = blue[0];
+				} else if(AlignGood < -99 ) {
+					Color1Red = red[1];
+					Color1Green = green[1];
+					Color1Blue = blue[1];
+				}
+				
+				if(AlignOrder > 99 ) {
+					Color2Red = red[2];
+					Color2Green = green[2];
+					Color2Blue = blue[2];
+				} else if(AlignOrder < -99 ) {
+					Color2Red = red[3];
+					Color2Green = green[3];
+					Color2Blue = blue[3];
+				}else {
+					Color2Red = Color1Red;
+					Color2Green = Color1Green;
+					Color2Blue = Color1Blue;
+				}
+			
+				
+				var RatioGoodOrder = Math.abs(AlignGood) / (Math.abs(AlignOrder) + Math.abs(AlignGood));
+				var RatioOrderGood = Math.abs(AlignOrder) / (Math.abs(AlignOrder) + Math.abs(AlignGood));
+				
+				ResultRed = ((Color2Red * RatioOrderGood) + (Color1Red * RatioGoodOrder)) >> 1 << 1;
+				ResultGreen = ((Color2Green * RatioOrderGood) + (Color1Green * RatioGoodOrder)) >> 1 << 1;
+				ResultBlue = ((Color2Blue * RatioOrderGood) + (Color1Blue * RatioGoodOrder)) >> 1 << 1;
+				
+				ResultRed = ResultRed.toString(16);
+				ResultGreen = ResultGreen.toString(16);
+				ResultBlue = ResultBlue.toString(16);
+			}
+			
+			return ResultRed + "" + ResultGreen + "" + ResultBlue;
 		}
 	}
 	
