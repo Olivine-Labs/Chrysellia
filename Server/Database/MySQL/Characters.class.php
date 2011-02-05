@@ -238,7 +238,7 @@ class Characters extends \Database\Characters
 	function InsertRaceTraits(\Entities\Character $Character)
 	{
 		$Query = $this->Database->Connection->prepare(SQL_INSERTCHARACTERRACETRAITS);
-		$Query->bind_param('sssssss', $Character->CharacterId, $Character->RacialStrength, $Character->RacialDexterity, $Character->RacialIntelligence, $Character->RacialWisdom, $Character->RacialVitality, $Character->RacialAbilityId);
+		$Query->bind_param('sssssss', $Character->CharacterId, $Character->RacialStrength, $Character->RacialDexterity, $Character->RacialWisdom, $Character->RacialIntelligence, $Character->RacialVitality, $Character->RacialAbilityId);
 
 		$Query->Execute();
 		if($Query->affected_rows > 0)
