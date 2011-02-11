@@ -12,6 +12,7 @@ if ( 'GET' === $_SERVER['REQUEST_METHOD'] )
 		define('TYPE_MAP', 5);
 		define('TYPE_MONSTER', 6);
 		define('TYPE_PLACE', 7);
+		define('TYPE_API', 8);
 
 		foreach($Request->Data AS &$ARequest)
 		{
@@ -53,6 +54,10 @@ if ( 'GET' === $_SERVER['REQUEST_METHOD'] )
 					case TYPE_PLACE:
 						include_once('./Functions/Places.php');
 						\Functions\ProcessPlaceRequest($ARequest, $Response, $Database);
+						break;
+					case TYPE_API:
+						include_once('./Functions/API.php');
+						\Functions\ProcessAPIRequest($ARequest, $Response, $Database);
 						break;
 					default:
 						$Response->Set('Result', \Protocol\Response::ER_BADDATA);
