@@ -6,6 +6,7 @@ const ACTION_COUNT = 1;//Gets total number of characters based on criteria
 const ACTION_ONLINE = 2;//Gets online users count
 const ACTION_CHANNELS = 3;//Lists all public channels
 const ACTION_CHANNELCOUNT = 4;//Count of all public channels
+const ACTION_LOADMAPDATA = 5;//Loads an area of map data
 
 /**
  * Processor for API Requests
@@ -35,6 +36,9 @@ function ProcessAPIRequest($ARequest, $Response, $Database)
 				break;
 			case ACTION_CHANNELCOUNT:
 				include './Functions/API/ChannelCount.php';
+				break;
+			case ACTION_LOADMAPDATA:
+				include './Functions/API/LoadMapData.php';
 				break;
 			default:
 				$Response->Set('Result', \Protocol\Response::ER_BADDATA);

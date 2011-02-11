@@ -3,7 +3,6 @@ namespace Functions;
 
 const ACTION_MOVE = 0;
 const ACTION_CHANGEMAP = 1;
-const ACTION_LOADDATA = 2;
 
 /**
  * Processor for Map Requests
@@ -28,9 +27,6 @@ function ProcessMapRequest($ARequest, $Response, $Database)
 						break;
 					case ACTION_CHANGEMAP:
 						include './Functions/Map/ChangeMap.php';
-						break;
-					case ACTION_LOADDATA:
-						include './Functions/Map/LoadData.php';
 						break;
 					default:
 						$Response->Set('Result', \Protocol\Response::ER_BADDATA);

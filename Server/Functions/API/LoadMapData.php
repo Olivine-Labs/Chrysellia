@@ -1,6 +1,6 @@
 <?php
 /**
- * Character movement logic
+ * Load Map Data logic
  */
 
 $Get = null;
