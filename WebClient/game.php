@@ -98,6 +98,7 @@
 					
 					<section id="topRight" class="container top grid_3">
 						<h1 id="currentMapName"></h1>
+						<h3 id="currentMapPosition"></h3>
 						<table id="currentMap"></table>
 						<form action="submitaction.php" id="movementform">
 							<input type="hidden" value="move">

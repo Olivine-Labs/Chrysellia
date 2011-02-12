@@ -357,7 +357,7 @@ function UnEquipItem(response, data){
 	$('#itemsWindow select').removeAttr('disabled');
 	
 	var myPlace = {};
-	if(myPlace = vc.Maps["MAP_00000000000000000000001"].SpecialPlaces[1][0]){
+	if(myPlace = vc.Maps["MAP_00000000000000000000001"].SpecialPlaces[0][1]){
 		if(myPlace.Type == 0){
 			BuildGameWindow()
 		}
@@ -492,8 +492,9 @@ function SelectCharacter(response, data){
 }
 
 function BuildMap(){
-	_("currentMapName").text(MyCharacter.CurrentMap.Name);
-	var $currentMap = _("currentMap");
+	$(ICache["currentMapName"]).text(MyCharacter.CurrentMap.Name);
+	$(ICache["currentMapPosition"]).text(MyCharacter.PositionX + " , " + MyCharacter.PositionY);
+	/*var $currentMap = _("currentMap");
 	$currentMap.empty();
 	
 	for(my = MyCharacter.CurrentMap.DimensionY-1; my >= 0; my--){
@@ -512,12 +513,17 @@ function BuildMap(){
 	}
 	
 	$currentMap.css({ height: 30*MyCharacter.CurrentMap.DimensionY, width: 30*MyCharacter.CurrentMap.DimensionX });
+	*/
 	
 	BuildGameWindow();
 }
 
 function BuildGameWindow(){
-	var myLocation = MyCharacter.CurrentMap.SpecialPlaces[MyCharacter.PositionY][MyCharacter.PositionX] || { Monsters: MyCharacter.CurrentMap.Monsters["Default"] };
+	var myLocation = { Monsters: MyCharacter.CurrentMap.Monsters["Default"] };
+	
+	if(MyCharacter.CurrentMap.SpecialPlaces[MyCharacter.PositionX] !== undefined){
+		myLocation = MyCharacter.CurrentMap.SpecialPlaces[MyCharacter.PositionX][MyCharacter.PositionY] || { Monsters: MyCharacter.CurrentMap.Monsters["Default"] };
+	}
 
 	var topWindow = _("topCenter");
 	topWindow.html('&nbsp;');
@@ -663,7 +669,7 @@ function SubmitBankTransfer(){
 
 function BuildExit(topWindow){
 	//ChangeMapvar
-	myLocation = MyCharacter.CurrentMap.SpecialPlaces[MyCharacter.PositionY][MyCharacter.PositionX];
+	myLocation = MyCharacter.CurrentMap.SpecialPlaces[MyCharacter.PositionX][MyCharacter.PositionY];
 	var name = "Bank";
 	if(myLocation.Name !== undefined){
 		var name = myLocation.Name;
@@ -691,7 +697,7 @@ if(response.Result == vc.ER_SUCCESS){
 }
 
 function BuildBank(topWindow){
-	var myLocation = MyCharacter.CurrentMap.SpecialPlaces[MyCharacter.PositionY][MyCharacter.PositionX];
+	var myLocation = MyCharacter.CurrentMap.SpecialPlaces[MyCharacter.PositionX][MyCharacter.PositionY];
 	var name = "Bank";
 	if(myLocation.Name !== undefined){
 		var name = myLocation.Name;
@@ -791,7 +797,7 @@ if(response.Result == vc.ER_SUCCESS){
 
 function BuildShop(topWindow){
 	var item = {};
-	var myLocation = MyCharacter.CurrentMap.SpecialPlaces[MyCharacter.PositionY][MyCharacter.PositionX];
+	var myLocation = MyCharacter.CurrentMap.SpecialPlaces[MyCharacter.PositionX][MyCharacter.PositionY];
 	var name = "Shop";
 	var itemTypeLabels = ["Weapons", "Accessories", "Armors", "Spells"];
 	if(myLocation.Name !== undefined){
@@ -937,7 +943,7 @@ function ProcessSale(response, data){
 }
 
 function BuildShrine(topWindow){
-	var myLocation = MyCharacter.CurrentMap.SpecialPlaces[MyCharacter.PositionY][MyCharacter.PositionX];
+	var myLocation = MyCharacter.CurrentMap.SpecialPlaces[MyCharacter.PositionX][MyCharacter.PositionY];
 	var name = "Shrine";
 	
 	if(myLocation.Name !== undefined){
@@ -1361,7 +1367,11 @@ function ProcessIDPlayer(response, data){
 function GetFullMonsterId(id){
 	var monsterId = "MONS_00000000000000000000001";
 	
-	var myLocation = MyCharacter.CurrentMap.SpecialPlaces[MyCharacter.PositionY][MyCharacter.PositionX] || { Monsters: MyCharacter.CurrentMap.Monsters["Default"] };
+	var myLocation = { Monsters: MyCharacter.CurrentMap.Monsters["Default"] };
+	
+	if(MyCharacter.CurrentMap.SpecialPlaces[MyCharacter.PositionX] !== undefined){
+		myLocation = MyCharacter.CurrentMap.SpecialPlaces[MyCharacter.PositionX][MyCharacter.PositionY] || { Monsters: MyCharacter.CurrentMap.Monsters["Default"] };
+	}
 	
 	monsterId = monsterId.substr(0, monsterId.length - (id + "").length) + myLocation.Monsters[m];
 	return monsterId;
@@ -1468,6 +1478,8 @@ function LoadICache(){
 	ICache["myCharacter_Name"] = _("myCharacter_Name");
 	ICache["myCharacter_Bank"] = _("myCharacter_Bank");
 	ICache["rda_value"] = _("rda_value");
+	ICache["currentMapPosition"] = _("currentMapPosition");
+	ICache["currentMapName"] = _("currentMapName");
 	
 	window.ICache = ICache;
 }
