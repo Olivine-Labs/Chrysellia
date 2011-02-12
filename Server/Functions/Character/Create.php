@@ -1,12 +1,12 @@
 <?php
+namespace Functions\Character;
 /**
  * This file contains the Character creation logic
  */
 
-define('CHANNEL_GENERAL', 'CHAN_00000000000000000000001');
-define('CHANNEL_TRADE', 'CHAN_00000000000000000000002');
-
-define('STARTING_GOLD', '150');
+const CHANNEL_GENERAL = 'CHAN_00000000000000000000001';
+const CHANNEL_TRADE = 'CHAN_00000000000000000000002';
+const STARTING_GOLD = '150';
 
 $Get = null;
 if(property_exists($ARequest, 'Data'))
@@ -149,5 +149,4 @@ else
 {
 	$Response->Set('Result', \Protocol\Response::ER_MALFORMED);
 }
-
 ?>

@@ -1,4 +1,5 @@
 <?php
+namespace Functions\Account;
 /**
  * This file contains the Register function logic for Accounts
  */
@@ -41,5 +42,4 @@ else
 {
 	$Response->Set('Result', \Protocol\Response::ER_MALFORMED);
 }
-
 ?>

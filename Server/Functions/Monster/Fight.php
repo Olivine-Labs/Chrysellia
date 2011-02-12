@@ -1,4 +1,5 @@
 <?php
+namespace Functions\Monster;
 /**
  * PvE Logic
  */
@@ -178,5 +179,4 @@ else
 {
 	$Response->Set('Result', \Protocol\Response::ER_MALFORMED);
 }
-
 ?>

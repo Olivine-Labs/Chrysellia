@@ -1,4 +1,5 @@
 <?php
+namespace Functions\Item;
 /**
  * Equip item to character
  */

@@ -1,4 +1,5 @@
 <?php
+namespace Functions\Map;
 /**
  * Character movement logic
  */

@@ -1,4 +1,5 @@
 <?php
+namespace Functions\Places;
 /**
  * Buy Logic
  */
@@ -77,5 +78,4 @@ else
 {
 	$Response->Set('Result', \Protocol\Response::ER_MALFORMED);
 }
-
 ?>

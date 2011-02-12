@@ -1,4 +1,5 @@
 <?php
+namespace Functions\API;
 /**
  * Top list logic
  */
@@ -34,5 +35,4 @@ else
 {
 	$Response->Set('Result', \Protocol\Response::ER_MALFORMED);
 }
-
 ?>

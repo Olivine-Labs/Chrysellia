@@ -1,4 +1,5 @@
 <?php
+namespace Functions\Item;
 /**
  * Get Inventory
  */

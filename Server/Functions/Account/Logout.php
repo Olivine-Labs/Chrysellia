@@ -1,4 +1,5 @@
 <?php
+namespace Functions\Account;
 /**
  * This file contains the Logout method
  */
@@ -25,5 +26,4 @@ $Response->Set('Result', \Protocol\Response::ER_SUCCESS);
 
 // Finally, destroy the session.
 session_destroy();
-
 ?>

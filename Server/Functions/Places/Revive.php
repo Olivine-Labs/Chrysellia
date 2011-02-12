@@ -1,4 +1,5 @@
 <?php
+namespace Functions\Places;
 /**
  * Revive Logic
  */
@@ -57,5 +58,4 @@ if(isset($_SESSION['RevivePenaltyMultiplier']))
 		$Response->Set('Result', \Protocol\Response::ER_DBERROR);
 	}
 //}
-
 ?>

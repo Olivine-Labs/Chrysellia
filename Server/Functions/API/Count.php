@@ -1,4 +1,5 @@
 <?php
+namespace Functions\API;
 /**
  * Character Count logic
  */
@@ -22,5 +23,4 @@ else
 {
 	$Response->Set('Result', \Protocol\Response::ER_MALFORMED);
 }
-
 ?>

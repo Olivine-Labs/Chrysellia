@@ -1,4 +1,5 @@
 <?php
+namespace Functions\Map;
 /**
  * Character movement logic
  */
@@ -88,5 +89,4 @@ else
 {
 	$Response->Set('Result', \Protocol\Response::ER_MALFORMED);
 }
-
 ?>

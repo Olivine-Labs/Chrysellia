@@ -1,4 +1,5 @@
 <?php
+namespace Functions\Character;
 /**
  * Check to see if a name already exists
  */

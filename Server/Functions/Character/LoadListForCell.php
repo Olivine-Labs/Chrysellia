@@ -1,4 +1,5 @@
 <?php
+namespace Functions\Character;
 /**
  * Character list in cell logic
  */

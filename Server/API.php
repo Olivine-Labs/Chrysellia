@@ -1,12 +1,14 @@
 <?php
+
+const ACTION_TOP = 0;//Top List
+const ACTION_COUNT = 1;//Gets total number of characters based on criteria
+const ACTION_ONLINE = 2;//Gets online users count
+const ACTION_CHANNELS = 3;//Lists all public channels
+const ACTION_CHANNELCOUNT = 4;//Count of all public channels
+
 if ( 'GET' === $_SERVER['REQUEST_METHOD'] )
 {
 	include('./Common/Common.inc.php');
-	define('ACTION_TOP', 0);//Top List
-	define('ACTION_COUNT', 1);//Gets total number of characters based on criteria
-	define('ACTION_ONLINE', 2);//Gets online users count
-	define('ACTION_CHANNELS', 3);//Lists all public channels
-	define('ACTION_CHANNELCOUNT', 4);//Count of all public channels
 	try
 	{
 		if(property_exists($Request->Data, 'Action'))
@@ -49,5 +51,4 @@ if ( 'GET' === $_SERVER['REQUEST_METHOD'] )
 		$Response->AddError($e->getMessage());
 	}
 }
-
 ?>

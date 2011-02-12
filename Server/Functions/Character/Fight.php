@@ -1,4 +1,5 @@
 <?php
+namespace Functions\Character;
 /**
  * PvP Logic
  */
@@ -133,5 +134,4 @@ else
 {
 	$Response->Set('Result', \Protocol\Response::ER_MALFORMED);
 }
-
 ?>

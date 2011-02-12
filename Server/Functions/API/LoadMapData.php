@@ -1,4 +1,5 @@
 <?php
+namespace Functions\API;
 /**
  * Load Map Data logic
  */

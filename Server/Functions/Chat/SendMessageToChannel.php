@@ -1,4 +1,5 @@
 <?php
+namespace Functions\Chat;
 /**
  * Chat send logic
  */
@@ -49,5 +50,4 @@ else
 {
 	$Response->Set('Result', \Protocol\Response::ER_MALFORMED);
 }
-
 ?>

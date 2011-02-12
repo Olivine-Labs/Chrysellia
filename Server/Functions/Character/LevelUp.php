@@ -1,4 +1,5 @@
 <?php
+namespace Functions\Character;
 /**
  * try to spend a freelevel
  */

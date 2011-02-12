@@ -1,4 +1,5 @@
 <?php
+namespace Functions\Chat;
 /**
  * Channel refresh logic
  */

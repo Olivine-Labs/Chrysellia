@@ -1,4 +1,5 @@
 <?php
+namespace Functions\Character;
 /**
  * Load a character in it's entirety - called on first selecting a character
  */

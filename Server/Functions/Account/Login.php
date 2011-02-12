@@ -1,4 +1,5 @@
 <?php
+namespace Functions\Account;
 /**
  * This file contains the Login function logic for Accounts
  */

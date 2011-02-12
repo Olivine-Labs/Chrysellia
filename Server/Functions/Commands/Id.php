@@ -1,4 +1,5 @@
 <?php
+namespace Functions\Commands;
 /**
  * /id implementation
  */

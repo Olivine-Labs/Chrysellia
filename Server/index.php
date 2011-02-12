@@ -1,19 +1,19 @@
 <?php
+const TYPE_ACCOUNT = 0;
+const TYPE_CHARACTER = 1;
+const TYPE_CHAT = 2;
+const TYPE_COMMAND = 3;
+const TYPE_ITEM = 4;
+const TYPE_MAP = 5;
+const TYPE_MONSTER = 6;
+const TYPE_PLACE = 7;
+const TYPE_API = 8;
+
 if ( 'GET' === $_SERVER['REQUEST_METHOD'] )
 {
 	include('./Common/Common.inc.php');
 	try
 	{
-		define('TYPE_ACCOUNT', 0);
-		define('TYPE_CHARACTER', 1);
-		define('TYPE_CHAT', 2);
-		define('TYPE_COMMAND', 3);
-		define('TYPE_ITEM', 4);
-		define('TYPE_MAP', 5);
-		define('TYPE_MONSTER', 6);
-		define('TYPE_PLACE', 7);
-		define('TYPE_API', 8);
-
 		foreach($Request->Data AS &$ARequest)
 		{
 			if(property_exists($ARequest, 'Type'))

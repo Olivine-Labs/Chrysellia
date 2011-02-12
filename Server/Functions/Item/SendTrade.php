@@ -1,4 +1,5 @@
 <?php
+namespace Functions\Item;
 /**
  * Send trade to character
  */
