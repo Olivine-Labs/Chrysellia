@@ -2,18 +2,20 @@ body {
 	font-family: Georgia, 'Times New Roman', serif;
 	font-size: 10pt;
 	line-height: 1.25em;
+	background: #222;
+	color: #fff;
 }
 
 .alternate { font-family: 'DejaWeb', Arial, Helvetica, sans-serif; }
 
 a, a:link, a:visited {
 	text-decoration: none;
-	color: #940000;
+	color: #ff0;
 }
 
 a:hover {
 	text-decoration: underline;
-	color: #a00000;
+	color: #cc0;
 }
 
 input, select, textarea {
@@ -78,7 +80,7 @@ ul { list-style: none; margin: 0; padding: 0; }
 p { margin: .5em 0; font-size: 11pt; line-height: 1.1em; }
 section, header { margin-bottom: 2em; }
 
-section h1 { color: #940000; }
+section h1 { color: #c33; }
 
 input.watermark {
 	color: #999;
@@ -130,11 +132,11 @@ input.watermark {
 	display: inline-block;
 }
 
-#top10 { margin: .5em auto; }
+#top10 { margin: .5em auto 4em auto; }
 #top10 ul { margin: 0 0 0 1em; float: right; }
 #top10 li { display: inline-block; width: 24px; height: 24px; margin-right: 5px; background-color: #ccc; }
 #top10 h1 {     
-color: #000000;
+color: #fff;
     display: inline;
     float: left;
     font-size: 12pt;
@@ -143,10 +145,17 @@ color: #000000;
     margin-top: 4px; 
 }
 
-#info { margin-top: 7px; }
+#info { 
+    border-bottom: 1px dotted #555555;
+    padding: 3px;
+    text-align: right; }
 .info { margin-right: 3em; font-family: 'DejaWeb', Arial, Helvetica, sans-serif; }
+.game #info { border-bottom: none; font-size: .75em; }
+.game #info a:not(.button) { color: #999; }
+.pageHeader { display: none; }
 
-#messages { background: url(images/greypattern.png) #666; color: #fff; height: 34px; border-bottom: solid 2px #202020; }
+#messages { background: url("images/header.png") no-repeat scroll center 23px #000000; border-bottom: 1px solid #202020; color: #FFFFFF; height: 190px; }
+.game #messages { height: auto; background: none; }
 #messages a, .copyright a { color: #ff0; }
 
 #navigation { background: #940000; color: #fff; height: 31px; border-top: solid 1px #bf6666 }
@@ -155,14 +164,10 @@ color: #000000;
 #navigation a, #navigation button { display: inline-block; height: 20px; padding: 3px 10px; color: #fff; text-shadow: 0px 1px 1px #000; background: transparent; border: 0 none; font-family: Georgia,'Times New Roman',serif; }
 #navigation button { cursor: hand; font-size: 100%; position: relative; top: -1px; cursor: pointer; }
 #navigation button:hover { text-decoration: underline; }
-#navigation a.selected { text-shadow: none; color: #940000; background-color: #fff; -webkit-border-top-left-radius: 5px; -webkit-border-top-right-radius: 5px; -moz-border-radius-topleft: 5px; -moz-border-radius-topright: 5px; border-top-left-radius: 5px; border-top-right-radius: 5px; }
+#navigation a.selected { text-shadow: none; color: #fff; background-color: #222; -webkit-border-top-left-radius: 5px; -webkit-border-top-right-radius: 5px; -moz-border-radius-topleft: 5px; -moz-border-radius-topright: 5px; border-top-left-radius: 5px; border-top-right-radius: 5px; }
 .fb_ltr { position: relative; top: 4px; }
 .quickLogin { float: right; }
 .quickLogin .button { position: relative; top: 1px; }
-
-.pageHeader { margin-top: 2em; text-align: center; }
-.pageHeader h1 { background: url('images/logo.png') top center no-repeat; overflow: hidden; text-indent: 10000%; height: 135px; }
-.pageHeader h2 { display: none; }
 
 .news > h1 { display: none; }
 .newsItem ul, .newsItem li { margin: .5em; }
@@ -172,11 +177,11 @@ color: #000000;
 .rssFeed { background: url('images/feed-icon-14x14.png') center left  no-repeat; padding-left: 18px; }
 .twitter { background: url('images/Twitter-icon.png') center left  no-repeat; padding-left: 18px; }
 
-.fromManual h1, .secondaryNews h1 { font-size: 24px; color: #000; }
+.fromManual h1, .secondaryNews h1 { font-size: 24px; color: #aaa; }
 .fromManual h2 { font-size: 36px; color: #940000; }
 
-.goodx { background: url('images/goodx.png') no-repeat scroll right top transparent; width:299px; height: 488px; position: relative; top: -150px; }
-.mainContainer { background: url('images/background_2.png') no-repeat scroll left bottom transparent; padding-bottom:100px; }
+.goodx { background: url('images/goodx.png') no-repeat scroll right top transparent; width:299px; height: 488px;  }
+.mainContainer { padding-bottom:100px; }
 
 .copyright { background: url('images/greypattern.png') #666; border-top: solid 1px #202020; color: #fff; text-align: center; font-size: 12pt; line-height: 1.75em; padding: 5px 0; }
 .register { float: right; width: 270px; margin: 0 5px 0 0; border-left: solid 5px #ccc; padding-left: 12px; }

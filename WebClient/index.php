@@ -149,17 +149,17 @@ include_once('php/simplepie.inc');
 		
 		<div class="container_12">
 			<div class="mainContainer">
+				<div class="grid_12">
+					<header class="pageHeader">
+						<h1>Chrysellia</h1>
+						<h2>The classic free online RPG</h2>
+						<a class="button bigButton" href="#" id="btnPlayNow">Play Now!</a>
+					</header>
+				</div>
+				
+				<div class="clear"></div>
+				
 				<div class="container_8">
-					<div class="grid_8">
-						<header class="pageHeader">
-							<h1>Chrysellia</h1>
-							<h2>The classic free online RPG</h2>
-							<a class="button bigButton" href="#" id="btnPlayNow">Play Now!</a>
-						</header>
-					</div>
-					
-					<div class="clear"></div>
-					
 					<section class="grid_8 news">
 						<h1>News</h1>
 						<section class="mainNews newsItem">

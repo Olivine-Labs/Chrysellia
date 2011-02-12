@@ -47,9 +47,9 @@ $_CONFIG[CF_DATABASE] = array();
 //Prepending a 'p:' here makes us use persistent connections.
 $_CONFIG[CF_DATABASE][CF_DB_HOST] = 'p:localhost';
 $_CONFIG[CF_DATABASE][CF_DB_PORT] = 3306;
-$_CONFIG[CF_DATABASE][CF_DB_USER] = 'root';
-$_CONFIG[CF_DATABASE][CF_DB_PASS] = '';
-$_CONFIG[CF_DATABASE][CF_DB_BASE] = 'chrysellia';
+$_CONFIG[CF_DATABASE][CF_DB_USER] = 'neflariaroot';
+$_CONFIG[CF_DATABASE][CF_DB_PASS] = 'PhS6vEtujZrNRJdn';
+$_CONFIG[CF_DATABASE][CF_DB_BASE] = 'neflaria';
 $_CONFIG[CF_DATABASE][CF_DB_TYPE] = DB_MYSQL;
 
 /* Crimson 
