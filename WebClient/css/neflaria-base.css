@@ -154,11 +154,11 @@ color: #fff;
 .game #info a:not(.button) { color: #999; }
 .pageHeader { display: none; }
 
-#messages { background: url("images/header.png") no-repeat scroll center 23px #000000; border-bottom: 1px solid #202020; color: #FFFFFF; height: 190px; }
+#messages { background: url("images/header.png") no-repeat scroll center #000000; border-bottom: 1px solid #202020; color: #FFFFFF; height: 200px; }
 .game #messages { height: auto; background: none; }
 #messages a, .copyright a { color: #ff0; }
 
-#navigation { background: #940000; color: #fff; height: 31px; border-top: solid 1px #bf6666 }
+#navigation { background: #940000; color: #fff; height: 31px; border-top: solid 1px #bf6666; margin-bottom: 1em }
 #navigation ul { float: left;  margin-top: 5px; }
 #navigation li { display: inline-block; margin-right: .5em; height: 26px; overflow: hidden; }
 #navigation a, #navigation button { display: inline-block; height: 20px; padding: 3px 10px; color: #fff; text-shadow: 0px 1px 1px #000; background: transparent; border: 0 none; font-family: Georgia,'Times New Roman',serif; }
@@ -379,6 +379,8 @@ form label { display: inline-block; margin-right: .5em; }
 
 body.game.dark {	background-color: #111;	color: #fff;}
 .game.dark section h1 { color: #c33; }
+article h1 { color: #999; font-size: 16pt; }
+article h2 { color: #ccc; font-size: 12pt; font-style: italic; }
 .game.dark .fightResults .enemy { color: #c33; }
 .dark .ui-widget-content { background: #222; color: #ccc; }
 .dark .statsWindow .stat:nth-child(even), .dark .itemSelection:nth-child(even), .dark .row:nth-child(even){background:#444;}
@@ -396,10 +398,10 @@ li.Troll { background-image: url("images/race_24s/troll.jpg"); }
 .loading { opacity: .5; }
 
 .tops #topList li { height: 150px; margin-bottom: 6px; border-bottom: solid 1px #ccc; padding: 0px 6px 6px 160px; background-position: 3px 3px; }
-.tops #topList li:nth-child(odd){ background-color: #eee; }
-.tops #topList li:first-child { background-color: #ffc; }
-.tops #topList h2 { text-shadow: 0px 1px 1px #000; color: #900; font-size: 32px; float: right; }
-.tops #topList h3 { text-shadow: 0px 1px 1px #000; color: #900; font-size: 48px;  }
+.tops #topList li:nth-child(odd){ background-color: #333; }
+.tops #topList li:first-child { background-color: #ffc; color: #000; }
+.tops #topList h2 { text-shadow: 0px 1px 1px #000; color: #c33; font-size: 32px; float: right; }
+.tops #topList h3 { text-shadow: 0px 1px 1px #000; color: #c33; font-size: 48px;  }
 .tops #topList .charDetails { font-size: 14pt; }
 #topsOptions { margin-bottom: .5em; }
 .monsterType { font-weight: bold; }
@@ -436,6 +438,18 @@ li.Troll { background-image: url("images/race_24s/troll.jpg"); }
 	z-index: 10000;
 }
 
+#team img { float: left; margin: 0.25em .75em 0 0; border: solid 1px #000; -moz-box-shadow:1px 1px 1px #111; -webkit-box-shadow:1px 1px 1px #111; box-shadow:1px 1px 1px #111;  }
+#team article { background: #333; -moz-border-radius: 5px; -webkit-border-radius: 5px; border-radius: 5px; padding: .5em; margin: .5em 0; }
+
 #logs  div:nth-child(even){
 	background-color: #666;
+}
+
+.about ul {
+	list-style: disc;
+	margin-left: 1em;
+}
+
+.about li p {
+	margin-left: .5em;
 }

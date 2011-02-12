@@ -75,6 +75,7 @@ include_once('php/simplepie.inc');
 		<link rel="alternate" type="application/rss+xml" title="Neflaria News RSS Feed" href="http://v2.neflaria.com/blog/feed/" />
 	</head>
 	<body class="tops">	
+		<div id="messages"></div>
 		<div id="navigation">
 			<div class="container_12">
 				<div class="grid_12" id="mainNav">
@@ -87,20 +88,12 @@ include_once('php/simplepie.inc');
 							<li><a href="tops.php" class="selected">Rankings</a></li>
 							<li><a href="http://forum.chrysellia.com" target="_blank">Forum</a></li>
 							<li><form target="_blank" method="post" action="https://www.paypal.com/cgi-bin/webscr"><input type="hidden" value="_s-xclick" name="cmd"><input type="hidden" value="U9PMXZHBZPVPJ" name="hosted_button_id"><button type="image" border="0" alt="PayPal - The safer, easier way to pay online!" name="submit" >Donate</button><img width="1" height="1" border="0" src="https://www.paypal.com/en_US/i/scr/pixel.gif" alt=""></form></li>
+							<li><a href="about.php">About</a></li>
+							<li><a href="api.php">API</a></li>
 							<li class='fbButton'><iframe src="http://www.facebook.com/plugins/like.php?href=http%3A%2F%2Fwww.chrysellia.com&amp;layout=button_count&amp;show_faces=true&amp;width=75&amp;action=like&amp;colorscheme=light&amp;height=21" scrolling="no" frameborder="0" style="border:none; overflow:hidden; width:75px; height:21px;" allowTransparency="true"></iframe></li>
 							<!--<li><a href="#">Store</a></li>-->
 						</ul>
 					</nav>
-					
-					<div class="quickLogin" style="display: none;">
-						<form action="submitaction.php" method="post" id="quickLoginForm">
-							<input type="text" placeholder="Username" name="quickLogin_un" id="quickLogin_un" />
-							<input type="password" placeholder="Password" name="quickLogin_pw" id="quickLogin_pw" />
-							<input type="hidden" value="login" name="action" id="action" />
-							
-							<button type="submit" class="button">Log in</button>
-						</form>
-					</div>
 				</div>
 			</div>
 		</div>

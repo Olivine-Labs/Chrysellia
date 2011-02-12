@@ -75,7 +75,7 @@ include_once('php/simplepie.inc');
 		<link rel="icon" type="image/png" href="images/favicon.ico" /> 
 		<link rel="alternate" type="application/rss+xml" title="Neflaria News RSS Feed" href="http://v2.neflaria.com/blog/feed/" />
 	</head>
-	<body class="index">	
+	<body class="about">	
 	<?php
 		$newsFeed = new SimplePie();
 
@@ -87,39 +87,21 @@ include_once('php/simplepie.inc');
 		
 		
 		?>
-		<div id="messages">
-			<div class="container_12">
-				<div class="grid_12" id="info">
-					<span class="info">Online: <span id="onlines" class="loading">...</span></span>
-					<span class="info">News: 
-						<?php
-							if ($newsFeedSuccess):
-							?>
-								<?php 
-								foreach($newsFeed->get_items(0, 1) as $item){
-								?>
-									<a href="<?php if ($item->get_permalink()) echo $item->get_permalink() ?>" target="_blank"><?php echo $item->get_title(); ?></a> - (<date><?php echo $item->get_date('j M Y, g:i a'); ?></date>)
-								<?php } ?>
-						<?php endif; ?>
-					</span>
-				</div>
-			</div>
-			<div class="clear"></div>
-		</div>
+		<div id="messages"></div>
 		
 		<div id="navigation">
 			<div class="container_12">
 				<div class="grid_12" id="mainNav">
 					<nav>
 						<ul>
-							<li><a href="index.php" class="selected">Home</a></li>
+							<li><a href="index.php">Home</a></li>
 							<li><a href="account.php" class="playNow">Play</a></li>
 							<li><a href="http://blog.chrysellia.com" target="_blank">Blog</a></li>
 							<li><a href="http://wiki.chrysellia.com" target="_blank">Manual</a></li>
 							<li><a href="tops.php">Rankings</a></li>
 							<li><a href="http://forum.chrysellia.com" target="_blank">Forum</a></li>
 							<li><form target="_blank" method="post" action="https://www.paypal.com/cgi-bin/webscr"><input type="hidden" value="_s-xclick" name="cmd"><input type="hidden" value="U9PMXZHBZPVPJ" name="hosted_button_id"><button type="image" border="0" alt="PayPal - The safer, easier way to pay online!" name="submit" >Donate</button><img width="1" height="1" border="0" src="https://www.paypal.com/en_US/i/scr/pixel.gif" alt=""></form></li>
-							<li><a href="about.php">About</a></li>
+							<li><a href="about.php" class="selected">About</a></li>
 							<li><a href="api.php">API</a></li>
 							<li class='fbButton'><iframe src="http://www.facebook.com/plugins/like.php?href=http%3A%2F%2Fwww.chrysellia.com&amp;layout=button_count&amp;show_faces=true&amp;width=75&amp;action=like&amp;colorscheme=light&amp;height=21" scrolling="no" frameborder="0" style="border:none; overflow:hidden; width:75px; height:21px;" allowTransparency="true"></iframe></li>
 							<!--<li><a href="#">Store</a></li>-->
@@ -128,14 +110,6 @@ include_once('php/simplepie.inc');
 				</div>
 			</div>
 		</div>
-		
-		<section id="top10" class="container_12">
-			<div class="grid_12">
-			<h1>Top 25 (Level):</h1>
-				<ul id="topList">
-				</ul>
-			</div>
-		</section>
 		
 		<div class="container_12">
 			<div class="mainContainer">
@@ -149,74 +123,162 @@ include_once('php/simplepie.inc');
 				
 				<div class="clear"></div>
 				
-				<div class="container_8">
-					<section class="grid_8 news">
-						<h1>News</h1>
-						<section class="mainNews newsItem">
-							<h1>Chrysellia Beta Open</h1>
-							<em class="alternate"><date>1/11/11</date> - by Silwar Naiilo</em>
-							<p>
-								Chrysellia is finally in beta! Here's a few points to remember:
-								<ul>
-									<li>
-										Chrysellia was developed for the <a href="https://gaming.mozillalabs.com/" target="_blank">Mozilla Labs Game On</a> 
-										competition. As such, <strong>Chrysellia is NOT feature-complete</strong>. We took the game to the point of playability, 
-										with some of the features of Neflaria, and we plan on adding a whole lot more after the judging period. In other words,
-										Don't come in expecting Neflaria, or a Neflaria replacement YET. We plan on adding like:
-										<ul>
-											<li>18,000 locations and over 50 zones on the first plane of seven</li>
-											<li>Thousands of monsters and items</li>
-											<li>Extended Clan Wars</li>
-											<li>New Continents to Explore</li>
-											<li>New Races, Weapons, Spells, and Armors</li>
-											<li>Storyline Quests</li>
-										</ul>
-									</li>
-									<li>
-										Chrysellia is in beta and you may run into a bug or two. Tell Silwar Naiilo or Sexy Lingerie and you'll find 
-										help as quickly as possible. Due to the rules of the gaming competition, however, we can't actually <em>fix</em>
-										bugs until the judging period has ended.
-									</li>
-									<li>
-										Chrysellia is run entirely by donations. If you enjoy the game, please consider donating towards our servers.
-										That means less lag and better availability.
-									</li>
-									<li>
-										Keep up with the <a href="http://blog.chrysellia.com">Chrysellia blog</a> for updates and answers to questions!
-									</li>
-								</ul>
-							</p>
-						</section>
-						
-						<section class="secondaryNews newsItem">
-							<h1>News</h1>
-								<?php
-									if ($newsFeedSuccess):
-									?>
-									<ul>
-										<?php 
-										foreach($newsFeed->get_items(0, 5) as $item){
-										?>
-											<li class="alternate"><a href="<?php if ($item->get_permalink()) echo $item->get_permalink() ?>" target="_blank"><?php echo $item->get_title(); ?></a> - (<date><?php echo $item->get_date('j M Y, g:i a'); ?></date>)</li>
-										<?php } ?>
-										<li><a href="http://blog.chrysellia.com/atom/" class="alternate rssFeed">Subscribe to the Chrysellia News RSS</a></li>
-										<li><a href="http://www.twitter.com/chrysellia" class="twitter">Follow Chrysellia</a> on Twitter</li>
-									</ul>
-									
-								<?php endif; ?>
-						</section>
+				<div class="grid_8">
+					<section id="about">
+						<h1>About Chrysellia</h1>
+						<p>
+							Chrysellia is the sequel to the popular online game Neflaria, which itself was a ressurection of the game Shimlar.
+							Ut ut lorem id sem blandit mollis lobortis sodales dui. Donec interdum aliquam tincidunt. Pellentesque posuere ligula ut mi scelerisque et porta felis accumsan. Nam faucibus tortor in quam cursus fringilla vel euismod nibh. Suspendisse potenti. Mauris consectetur sollicitudin turpis sit amet fermentum. Donec non hendrerit mauris. Duis at mi et lorem porttitor pretium. Pellentesque eu purus consectetur ligula tincidunt iaculis nec et velit. Nullam ut scelerisque leo. Vivamus tincidunt nibh eu ipsum dignissim eu ultrices elit euismod. Sed non nibh sem. Morbi sagittis, libero eget hendrerit hendrerit, nibh diam porta magna, at condimentum tellus libero vel lorem. Etiam laoreet laoreet dui ac adipiscing. Nullam eget ligula non est viverra aliquet sed vitae diam. Aliquam gravida felis at ipsum vestibulum mattis placerat erat imperdiet.
+						</p>
+						<p>
+							Integer bibendum tincidunt felis, sed vehicula sapien volutpat ac. In lobortis nulla a metus accumsan euismod. Suspendisse eu urna erat. Nullam scelerisque turpis nec ante eleifend non accumsan turpis ultrices. Proin porta molestie eros sed pellentesque. Suspendisse vehicula luctus scelerisque. Suspendisse elementum mollis libero, pulvinar adipiscing quam convallis non. Etiam iaculis cursus consectetur. Fusce libero mauris, dictum in ornare tincidunt, iaculis in mi. Suspendisse facilisis interdum sapien at mollis. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Proin molestie odio eget lectus pharetra volutpat. Nam sit amet leo id est luctus auctor a quis tellus. Curabitur dapibus pellentesque est, nec dictum metus ullamcorper eget.
+						</p>
 					</section>
-					
-					<!--
-					<section class="grid_4 fromManual">
-						<h1>From the Manual</h1>
-						<h2>Race Choices</h2>
-						<p></p>
-						<a href="#" class="alternate">Visit the Manual</a>
-					</section>-->
+					<section id="tech">
+						<h1>Technology Credits</h1>
+						<p>
+							Chrysellia couldn't be possible without the awesome open-source tools and libraries provided at no cost, under free licenses.
+							Some of the many tools we used include:
+						</p>
+						<ul>
+							<li>
+								<a href="http://www.php.net/" target="_blank">PHP</a>
+								<p>
+									Chrysellia's engine runs on PHP; all of the logic flows through a series of PHP methods, 
+									which retrieve and process information from the database.
+								</p>
+							</li>
+							<li>
+								<a href="http://jsend.org/" target="_blank">jSend</a>
+								<p>
+									jSend is a compression library for encoding and decoding request strings, making server
+									requests even faster by compressing the data sent to the server.
+								</p>
+							</li>
+							<li>
+								<a href="http://simplepie.org/" target="_blank">SimplePie</a>
+								<p>
+									SimplePie provided the RSS reader for our news post on our index page, and other locations.
+								</p>
+							</li>
+							<li>
+								<a href="http://www.mysql.com/" target="_blank">MySQL</a>
+								<p>
+									All of the data that flows through the game comes from the MySQL database engine - the most
+									popular open-source database solution.
+								</p>
+							</li>
+							<li>
+								<a href="http://jquery.com/" target="_blank">jQuery</a>
+								<p>
+									The incredible jQuery library allowed us to complete rapid development on the client-side, saving
+									us literally weeks of work by providing much of the functionality that we would have otherwise
+									hand-written.
+								</p>
+							</li>
+							<li>
+								<a href="http://jqueryui.com/" target="_blank">jQuery UI</a>
+								<p>
+									Just as the jQuery library gave us the core of our application, jQuery UI provided the framework
+									for much of the interactions.
+								</p>
+							</li>
+							<li>
+								<a href="https://github.com/jquery/jquery-datalink" target="_blank">jQuery datalink</a>
+								<p>
+									The jQuery datalink plugin allowed us to create and bind data to templates, thus simplifying much
+									of our client code.
+								</p>
+							</li>
+							<li>
+								<a href="http://onehackoranother.com/projects/jquery/tipsy/" target="_blank">jQuery Tipsy</a>
+								<p>
+									Tipsy provided the tooltips across the interface; most notably, the tops list on the home page.
+								</p>
+							</li>
+							<li>
+								<a href="http://code.google.com/p/jquery-watermark/" target="_blank">jQuery Watermark</a>
+								<p>
+									jQuery Watermark provided friendly browser textbox hints for non-html5 browsers.
+								</p>
+							</li>
+							<li>
+								<a href="http://gsgd.co.uk/sandbox/jquery/easing/" target="_blank">jQuery Easing</a>
+								<p>
+									jQuery Easing allowed us to use advanced transitions in the UI.
+								</p>
+							</li>
+						</ul>
+					</section>
 				</div>
-				
-				<div class="grid_4 goodx"></div>
+				<div class="grid_4">
+					<section id="team">
+						<h1>Chrysellia Team</h1>
+						<article>
+							<h1>Drew Ditthardt</h1>
+							<h2>Sexy Lingerie</h2>
+							<p>
+								<img src="./css/images/sexy_lingerie.jpg" />
+								Drew is the lead server developer. He handles management and implementation of the code that facilitates modification and access to the database on the client's behalf. His PHP skills are legendary as is his love of cheesecake and beer, but not mixed together.
+							</p>
+						</article>
+						<article>
+							<h1>Jack Lawson</h1>
+							<h2>Silwar Naiilo</h2>
+							<p>
+								<img src="./css/images/silwar.jpg" />
+								Jack Lawson is the lead UI developer, in charge of creating the code with which users interact with the game. He directs the flow of the
+								interface and creates the user experience with his wicked sweet jQuery and html 5 skills. Outside of Chrys, he is a husband, a father, and
+								a UI consultant- and, most of all, an obscenely snobbish coffee <em>connoisseur</em>.
+								<br />
+								<br />
+								<a href="http://www.twitter.com/ajacksified">@ajacksified</a> on twitter
+							</p>
+						</article>
+						<article>
+							<h1>Don Horn</h1>
+							<h2>Nullifiednll</h2>
+							<p>
+								I just copypasted some lorem ipsum. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris blandit, nunc nec iaculis consequat, lacus erat tincidunt sem, eu aliquet tortor dui non ipsum. Duis sollicitudin neque in sapien adipiscing porttitor. Donec sapien diam, fringilla et imperdiet in, porttitor eu velit. Nulla ornare mi eget nunc lobortis lacinia.
+							</p>
+						</article>
+						<article>
+							<h1>Kirus Tiberius</h1>
+							<h2>Kirus</h2>
+							<p>
+								I just copypasted some lorem ipsum. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris blandit, nunc nec iaculis consequat, lacus erat tincidunt sem, eu aliquet tortor dui non ipsum. Duis sollicitudin neque in sapien adipiscing porttitor. Donec sapien diam, fringilla et imperdiet in, porttitor eu velit. Nulla ornare mi eget nunc lobortis lacinia.
+							</p>
+						</article>
+						<article>
+							<h1>Dave Thomas</h1>
+							<h2>Mage</h2>
+							<p>
+								I just copypasted some lorem ipsum. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris blandit, nunc nec iaculis consequat, lacus erat tincidunt sem, eu aliquet tortor dui non ipsum. Duis sollicitudin neque in sapien adipiscing porttitor. Donec sapien diam, fringilla et imperdiet in, porttitor eu velit. Nulla ornare mi eget nunc lobortis lacinia.
+							</p>
+						</article>
+						<article>
+							<h1>Chris</h1>
+							<h2>RequieM</h2>
+							<p>
+								I just copypasted some lorem ipsum. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris blandit, nunc nec iaculis consequat, lacus erat tincidunt sem, eu aliquet tortor dui non ipsum. Duis sollicitudin neque in sapien adipiscing porttitor. Donec sapien diam, fringilla et imperdiet in, porttitor eu velit. Nulla ornare mi eget nunc lobortis lacinia.
+							</p>
+						</article>
+						<article>
+							<h1>Roger Thomas</h1>
+							<h2>Outkast</h2>
+							<p>
+								I just copypasted some lorem ipsum. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris blandit, nunc nec iaculis consequat, lacus erat tincidunt sem, eu aliquet tortor dui non ipsum. Duis sollicitudin neque in sapien adipiscing porttitor. Donec sapien diam, fringilla et imperdiet in, porttitor eu velit. Nulla ornare mi eget nunc lobortis lacinia.
+							</p>
+						</article>
+						<article>
+							<h1>William Thomas</h1>
+							<h2>Irish Drinker</h2>
+							<p>
+								I just copypasted some lorem ipsum. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris blandit, nunc nec iaculis consequat, lacus erat tincidunt sem, eu aliquet tortor dui non ipsum. Duis sollicitudin neque in sapien adipiscing porttitor. Donec sapien diam, fringilla et imperdiet in, porttitor eu velit. Nulla ornare mi eget nunc lobortis lacinia.
+							</p>
+						</article>
+					</section>
+				</div>
 				
 				<div class="clear"></div>
 			</div>
@@ -377,15 +439,11 @@ include_once('php/simplepie.inc');
 		<script src="./Core/core.js"></script>
 		<script src="./Core/core-AccountService.js"></script>
 		<script src="./Core/core-CharacterService.js"></script>
-		<script src="./Core/core-APIService.js"></script>
-		<!-- <script src="./Core/core.min.js"></script>
-		<script src="./Core/core-APIService.js"></script>-->
-		
-		<script src="./Core/staticInfo/races.js"></script>
+		<!-- <script src="./Core/core.min.js"></script> -->
 		
 		<!-- Page setup -->
 		<script src="./js/startup.js"></script>
-		<script src="./js/index-startup.js"></script>
+		<script src="./js/about-startup.js"></script>
 		
 		<div id="fb-root"></div>
 		<script src="http://connect.facebook.net/en_US/all.js"></script>
