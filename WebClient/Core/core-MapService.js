@@ -15,6 +15,8 @@
 		ACTION_MOVE: 0,
 		ACTION_CHANGEMAP: 1,
 		
+		ACTION_LOADDATA: 5,
+		
 		ACTION_BUY: 0,
 		ACTION_SELL: 1,
 		ACTION_REVIVE: 2,
@@ -40,6 +42,13 @@
 			vc.SendSingleRequest(requestId, vc.TYPE_MAP, vc.ms.ACTION_CHANGEMAP, data);
 		},
 		
+		LoadData: function(mapId, xLow, yLow, xHigh, yHigh, callback){
+			var data = { MapId: mapId, XLow: xLow, XHigh: xHigh, YLow: yLow, YHigh: yHigh };
+			var requestId = vc.GenerateRequestId();
+			vc.CallbackStack[requestId] = {Method: callback, Data: data};
+			vc.SendSingleRequest(requestId, vc.TYPE_API, vc.ms.ACTION_LOADDATA, data);
+		},
+
 		Buy: function(itemTemplateId, callback){
 			var data = { ItemTemplateId: itemTemplateId };
 			var requestId = vc.GenerateRequestId();

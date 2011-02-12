@@ -91,6 +91,7 @@
 			dataArray[0] = dataObject;
 			
 			var dataToSend = JSON.stringify(dataArray);
+			console.log(dataToSend);
 			switch(vc.CompressionMode){
 				case vc.COMPRESSION_MODE_jSEND:
 					dataToSend = $.jSEND(dataToSend);

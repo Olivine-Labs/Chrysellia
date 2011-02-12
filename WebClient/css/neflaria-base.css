@@ -160,10 +160,9 @@ color: #000000;
 .quickLogin { float: right; }
 .quickLogin .button { position: relative; top: 1px; }
 
-.pageHeader { margin-top: 2em; }
-.pageHeader h1 { background: url('images/logo.png') top left no-repeat; overflow: hidden; text-indent: 10000%; width: 473px; height: 188px; }
+.pageHeader { margin-top: 2em; text-align: center; }
+.pageHeader h1 { background: url('images/logo.png') top center no-repeat; overflow: hidden; text-indent: 10000%; height: 135px; }
 .pageHeader h2 { display: none; }
-.pageHeader .bigButton { position: relative; left: 215px; top: -55px; }
 
 .news > h1 { display: none; }
 .newsItem ul, .newsItem li { margin: .5em; }

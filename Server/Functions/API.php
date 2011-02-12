@@ -16,11 +16,11 @@ const ACTION_LOADMAPDATA = 5;//Loads an area of map data
  * @param $ARequest
  *   The request object to process.
  */
-function ProcessAPIRequest($ARequest, $Response, $Database)
+function ProcessAPIRequest($Request, $Response, $Database)
 {
-	if(property_exists($Request->Data, 'Action'))
+	if(property_exists($Request, 'Action'))
 	{
-		switch($Request->Data->Action)
+		switch($Request->Action)
 		{
 			case ACTION_TOP:
 				include './Functions/API/Top.php';

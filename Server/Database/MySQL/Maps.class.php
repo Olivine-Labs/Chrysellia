@@ -119,12 +119,12 @@ class Maps extends \Database\Maps
 
 			if($Continue = $Query->fetch())
 			{
-				if(!array_key_exists($Result, $X))
+				if(!array_key_exists($X, $Result))
 				{
 					$Result[$X] = array($Y=>array());
 				}
 				else
-				if(!array_key_exists($Result[$X], $Y))
+				if(!array_key_exists($Y, $Result[$X]))
 				{
 					$Result[$X][$Y] = array();
 				}

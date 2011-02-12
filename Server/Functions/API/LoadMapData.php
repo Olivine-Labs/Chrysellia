@@ -4,9 +4,9 @@
  */
 
 $Get = null;
-if(property_exists($ARequest, 'Data'))
+if(property_exists($Request, 'Data'))
 {
-	$Get = $ARequest->Data;
+	$Get = $Request->Data;
 }
 else
 {
@@ -33,7 +33,7 @@ if(
 			($DiffY <= 5)
 		){
 			$Map = new \Entities\Map();
-			$Map->MapId = $Character->MapId;
+			$Map->MapId = $Get->MapId;
 			if($Database->Maps->LoadMapById($Map))
 			{
 				if(
@@ -42,8 +42,12 @@ if(
 					($Get->XHigh < $Map->DimensionX) &&
 					($Get->YHigh < $Map->DimensionY)
 				){
-					$Response->Set('Result', \Protocol\Response::ER_SUCCESS);
-					$Response->Set('Data', $Database->Maps->LoadCellRange($Map, $Get->XLow, $Get->YLow, $Get->XHigh, $Get->YHigh);
+					if($Data = $Database->Maps->LoadCellRange($Map, $Get->XLow, $Get->YLow, $Get->XHigh, $Get->YHigh)){
+						$Response->Set('Result', \Protocol\Response::ER_SUCCESS);
+						$Response->Set('Data', $Data);
+					}else{
+						$Response->Set('Result', 7);
+					}
 				}
 				else
 				{
