@@ -133,7 +133,6 @@ input.watermark {
 }
 
 #top10 { margin: .5em auto 4em auto; }
-#top10 ul { margin: 0 0 0 1em; float: right; }
 #top10 li { display: inline-block; width: 24px; height: 24px; margin-right: 5px; background-color: #ccc; }
 #top10 h1 {     
 color: #fff;

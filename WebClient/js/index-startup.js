@@ -135,7 +135,7 @@ $(function(){
 	});
 	
 	vc.api.Online(ProcessOnline);
-	vc.api.GetTops(25, 0, 0, 0, "", ProcessTops);
+	vc.api.GetTops(30, 0, 0, 0, "", ProcessTops);
 });
 
 function ProcessOnline(data){

@@ -356,8 +356,11 @@ function UnEquipItem(response, data){
 	
 	$('#itemsWindow select').removeAttr('disabled');
 	
-	if(MyCharacter.CurrentMap.Places[MyCharacter.PositionY][MyCharacter.PositionX].Type == 0){
-		BuildGameWindow()
+	var myPlace = {};
+	if(myPlace = vc.Maps["MAP_00000000000000000000001"].SpecialPlaces[1][0]){
+		if(myPlace.Type == 0){
+			BuildGameWindow()
+		}
 	}
 }
 
@@ -514,7 +517,8 @@ function BuildMap(){
 }
 
 function BuildGameWindow(){
-	var myLocation = MyCharacter.CurrentMap.Places[MyCharacter.PositionY][MyCharacter.PositionX];
+	var myLocation = MyCharacter.CurrentMap.SpecialPlaces[MyCharacter.PositionY][MyCharacter.PositionX] || { Monsters: MyCharacter.CurrentMap.Monsters["Default"] };
+
 	var topWindow = _("topCenter");
 	topWindow.html('&nbsp;');
 	
@@ -659,7 +663,7 @@ function SubmitBankTransfer(){
 
 function BuildExit(topWindow){
 	//ChangeMapvar
-	myLocation = MyCharacter.CurrentMap.Places[MyCharacter.PositionY][MyCharacter.PositionX];
+	myLocation = MyCharacter.CurrentMap.SpecialPlaces[MyCharacter.PositionY][MyCharacter.PositionX];
 	var name = "Bank";
 	if(myLocation.Name !== undefined){
 		var name = myLocation.Name;
@@ -687,7 +691,7 @@ if(response.Result == vc.ER_SUCCESS){
 }
 
 function BuildBank(topWindow){
-	var myLocation = MyCharacter.CurrentMap.Places[MyCharacter.PositionY][MyCharacter.PositionX];
+	var myLocation = MyCharacter.CurrentMap.SpecialPlaces[MyCharacter.PositionY][MyCharacter.PositionX];
 	var name = "Bank";
 	if(myLocation.Name !== undefined){
 		var name = myLocation.Name;
@@ -787,7 +791,7 @@ if(response.Result == vc.ER_SUCCESS){
 
 function BuildShop(topWindow){
 	var item = {};
-	var myLocation = MyCharacter.CurrentMap.Places[MyCharacter.PositionY][MyCharacter.PositionX];
+	var myLocation = MyCharacter.CurrentMap.SpecialPlaces[MyCharacter.PositionY][MyCharacter.PositionX];
 	var name = "Shop";
 	var itemTypeLabels = ["Weapons", "Accessories", "Armors", "Spells"];
 	if(myLocation.Name !== undefined){
@@ -933,7 +937,7 @@ function ProcessSale(response, data){
 }
 
 function BuildShrine(topWindow){
-	var myLocation = MyCharacter.CurrentMap.Places[MyCharacter.PositionY][MyCharacter.PositionX];
+	var myLocation = MyCharacter.CurrentMap.SpecialPlaces[MyCharacter.PositionY][MyCharacter.PositionX];
 	var name = "Shrine";
 	
 	if(myLocation.Name !== undefined){
@@ -1356,7 +1360,9 @@ function ProcessIDPlayer(response, data){
 
 function GetFullMonsterId(id){
 	var monsterId = "MONS_00000000000000000000001";
-	var myLocation = MyCharacter.CurrentMap.Places[MyCharacter.PositionY][MyCharacter.PositionX];
+	
+	var myLocation = MyCharacter.CurrentMap.SpecialPlaces[MyCharacter.PositionY][MyCharacter.PositionX] || { Monsters: MyCharacter.CurrentMap.Monsters["Default"] };
+	
 	monsterId = monsterId.substr(0, monsterId.length - (id + "").length) + myLocation.Monsters[m];
 	return monsterId;
 }

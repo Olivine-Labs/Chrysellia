@@ -131,7 +131,7 @@ include_once('php/simplepie.inc');
 		
 		<section id="top10" class="container_12">
 			<div class="grid_12">
-			<h1>Top 25 (Level):</h1>
+			<h1>Top 30:</h1>
 				<ul id="topList">
 				</ul>
 			</div>
@@ -153,38 +153,50 @@ include_once('php/simplepie.inc');
 					<section class="grid_8 news">
 						<h1>News</h1>
 						<section class="mainNews newsItem">
-							<h1>Chrysellia Beta Open</h1>
-							<em class="alternate"><date>1/11/11</date> - by Silwar Naiilo</em>
+							<h1>Chrysellia: Beta 2 Has Begun!</h1>
+							<em class="alternate"><date>2/14/11</date> - by Silwar Naiilo</em>
 							<p>
-								Chrysellia is finally in beta! Here's a few points to remember:
-								<ul>
-									<li>
-										Chrysellia was developed for the <a href="https://gaming.mozillalabs.com/" target="_blank">Mozilla Labs Game On</a> 
-										competition. As such, <strong>Chrysellia is NOT feature-complete</strong>. We took the game to the point of playability, 
-										with some of the features of Neflaria, and we plan on adding a whole lot more after the judging period. In other words,
-										Don't come in expecting Neflaria, or a Neflaria replacement YET. We plan on adding like:
-										<ul>
-											<li>18,000 locations and over 50 zones on the first plane of seven</li>
-											<li>Thousands of monsters and items</li>
-											<li>Extended Clan Wars</li>
-											<li>New Continents to Explore</li>
-											<li>New Races, Weapons, Spells, and Armors</li>
-											<li>Storyline Quests</li>
-										</ul>
-									</li>
-									<li>
-										Chrysellia is in beta and you may run into a bug or two. Tell Silwar Naiilo or Sexy Lingerie and you'll find 
-										help as quickly as possible. Due to the rules of the gaming competition, however, we can't actually <em>fix</em>
-										bugs until the judging period has ended.
-									</li>
-									<li>
-										Chrysellia is run entirely by donations. If you enjoy the game, please consider donating towards our servers.
-										That means less lag and better availability.
-									</li>
-									<li>
-										Keep up with the <a href="http://blog.chrysellia.com">Chrysellia blog</a> for updates and answers to questions!
-									</li>
-								</ul>
+								We made a lot of changes to Chrysellia. <a href="https://docs.google.com/a/neflaria.com/document/d/1IPe8gfz3TidozV7xrtKNO2ij2lRmHRQcQI-kw2Zsd3o/edit?hl=en&pli=1&authkey=COr4h7UB" target="_blank">View the patch notes here</a>. Notable entries:
+							</p>
+							
+							<ul>
+								<li>
+									Alignment gains from monsters- and alignment colors for anyone with positive or negative 100! Alignment colors blend
+									based on your overall alignment. <a href="http://blog.chrysellia.com/2011/02/01/blended-alignment-colors/" target="_blank">Read more here</a>.
+								</li>
+								<li>
+									More items! Over 350, to be exact. All kinds of weapons, spells, and armor for you to use.
+								</li>
+								<li>
+									New chat commands: /id, /m, and some new chat settings. Read about all of the commands at the <a href="http://wiki.chrysellia.com/index.php?title=Chat_System" target="_blank">chat commands wiki page</a>.
+								</li>
+								<li>
+									Masteries that improve how you use your gear
+								</li>
+								<li>
+									Tops list page
+								</li>
+								<li>
+									More locations to explore, and more monsters to fight
+								</li>
+								<li>
+									Myriad bug fixes
+								</li>
+								<li>
+									Decreased movement delay, and TONS of code optimizations
+								</li>
+							</ul>
+							<p>
+								Remember- Chrysellia is in beta and you may run into a bug or two. Tell Silwar Naiilo or Sexy Lingerie and you'll find 
+								help as quickly as possible. We'll try to get bug fixes in asap.
+							</p>
+							<p>
+								Chrysellia is run entirely by donations. If you enjoy the game, please consider donating towards our servers-
+								that means less lag and better availability!
+							</p>
+							<p>
+								Keep up with the <a href="http://blog.chrysellia.com">Chrysellia Blog</a> for update notes, and join the 
+								<a href="http://forum.chrysellia.com">Chrysellia Forum</a> for up-to-date information.
 							</p>
 						</section>
 						
