@@ -11,7 +11,7 @@ if(property_exists($Request, 'Data'))
 }
 else
 {
-	$Get = new stdClass();
+	$Get = new \stdClass();
 }
 
 if(

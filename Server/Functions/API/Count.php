@@ -11,7 +11,7 @@ if(property_exists($Request->Data, 'Data'))
 }
 else
 {
-	$Get = new stdClass();
+	$Get = new \stdClass();
 }
 
 if(property_exists($Get, 'Race'))

@@ -4,19 +4,16 @@
  *
  */
 
-//Setup error handling immediately.
-include('./Common/ErrorHandler.php');
-$ErrorHandler = new ErrorHandler();
-
 //Set up autoloading classes.
 include('./Common/autoload.php');
 
+//Setup error handling
+$ErrorHandler = new \Common\ErrorHandler();
+
 //Application specific includes.
-include('./Common/Compatibility.php');
 include('./Common/Config.php');
 include('./Common/Utilities.php');
 include('./Common/Database.php');
-include('./Common/Session.php');
 
 //Bring the Configuration variable into the local namespace
 global $_CONFIG;
@@ -29,7 +26,7 @@ $Database = InitializeDatabase($_CONFIG[CF_DATABASE], $Response);
 $Database->Log = $Response;//Temporary until I can implement proper logging.
 
 //Initialize session
-$SessionHandler = new Session($Database);
+$SessionHandler = new \Common\Session($Database);
 $SessionHandler->Start();
 
 //Create the Request object to decode, decompress, and handle incoming data

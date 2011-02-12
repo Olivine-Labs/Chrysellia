@@ -15,7 +15,7 @@ if(property_exists($ARequest, 'Data'))
 }
 else
 {
-	$Get = new stdClass();
+	$Get = new \stdClass();
 }
 
 if(

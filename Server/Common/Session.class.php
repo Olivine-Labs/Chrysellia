@@ -1,11 +1,11 @@
 <?php
+namespace Common;
 
 /**
  * This file implements a session handler to store sessions in the database.
  *
  *
  */
-
 class Session
 {
 	private $Database = null;
@@ -46,8 +46,12 @@ class Session
 
 	public function _write($Id, $Data)
 	{
-		@$AccountId=$_SESSION['AccountId'];
-		@$CharacterId = $_SESSION['CharacterId'];
+		$AccountId=null;
+		if(array_key_exists('AccountId', $_SESSION))
+			$AccountId=$_SESSION['AccountId'];
+		$CharacterId=null;
+		if(array_key_exists('CharacterId', $_SESSION))
+			$CharacterId = $_SESSION['CharacterId'];
 		return $this->Database->Sessions->Replace($Id, $AccountId, $CharacterId, $Data);
 	}
 
@@ -65,6 +69,5 @@ class Session
 	{
 		session_write_close();
 	}
-
 }
 ?>

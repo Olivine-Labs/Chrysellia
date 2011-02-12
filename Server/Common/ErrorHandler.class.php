@@ -1,5 +1,5 @@
 <?php
-
+namespace Common;
 /**
  * This file implements an error handler to figure out what to do with errors
  *
@@ -20,7 +20,7 @@ class ErrorHandler
 		{
 			return false;
 		}
-		throw new ErrorException($errstr, 0, $errno, $errfile, $errline);
+		throw new \ErrorException($errstr, 0, $errno, $errfile, $errline);
 	}
 
 }
