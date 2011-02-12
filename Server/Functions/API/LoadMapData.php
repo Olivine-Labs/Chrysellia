@@ -46,7 +46,7 @@ if(
 						$Response->Set('Result', \Protocol\Response::ER_SUCCESS);
 						$Response->Set('Data', $Data);
 					}else{
-						$Response->Set('Result', 7);
+						$Response->Set('Result', \Protocol\Response::ER_BADDATA);
 					}
 				}
 				else
