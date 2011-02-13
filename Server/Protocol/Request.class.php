@@ -61,17 +61,18 @@ class Request
 	 */
 	public function Decompress()
 	{
+		$Result = false;
 		try
 		{
 			switch($this->CompressionMethod)
 			{
 				case Request::CT_NONE:
-					return true;
+					$Result = true;
 					break;
 				case Request::CT_JSEND:
 					$jSEND = new \ThirdParty\jSEND();
 					$this->Data = $jSEND->getData($this->Data);
-					return true;
+					$Result = true;
 					break;
 				default:
 					throw new \Exception('Compression type not valid');
@@ -86,6 +87,7 @@ class Request
 		{
 			throw new \Exception('Failed to decompress request : '.$this->Data);
 		}
+		return $Result;
 	}
 	/**
 	 * Decodes input data
@@ -95,11 +97,12 @@ class Request
 	 */
 	public function Decode()
 	{
+		$Result = false;
 		switch($this->InputMethod)
 		{
 			case Request::IT_JSON:
 				$this->Data = json_decode($this->Data);
-				return true;
+				$Result = true;
 				break;
 			case Request::IT_XML:
 				if(class_exists('XML_Unserializer'))
@@ -109,6 +112,7 @@ class Request
 					if (!PEAR::isError($status))
 					{
 						$this->Data = $serializer->getUnserializedOutput();
+						$Result = true;
 					}
 					else
 					{
@@ -122,6 +126,7 @@ class Request
 				throw new \Exception('Invalid input type in configuration file');
 				break;
 		}
+		return $Result;
 	}
 }
 
