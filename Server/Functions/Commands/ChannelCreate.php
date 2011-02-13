@@ -32,7 +32,7 @@ if(
 			$Database->commitTransaction();
 			$Response->Set('Result', \Protocol\Response::ER_SUCCESS);
 			$Response->Set('Data', Array('ChannelId'=>$ChannelId, 'Name'=>$Get->Channel, 'Motd'=>$Get->Motd, 'PublicRead'=>$Get->PublicRead, 'PublicWrite'=>$Get->PublicWrite));
-			$_SESSION['Channels'][$ChannelId] = new stdClass();
+			$_SESSION['Channels'][$ChannelId] = new \stdClass();
 		}
 	}
 	if(!$Success)

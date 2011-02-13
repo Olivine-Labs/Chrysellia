@@ -31,7 +31,7 @@ if(property_exists($Get, 'Channel'))
 				$Channel['Permissions'] = $Rights;
 				$Response->Set('Result', \Protocol\Response::ER_SUCCESS);
 				$Response->Set('Data', $Channel);
-				$_SESSION['Channels'][$Channel['ChannelId']] = new stdClass();
+				$_SESSION['Channels'][$Channel['ChannelId']] = new \stdClass();
 				$_SESSION['Channels'][$Channel['ChannelId']]->LastRefresh = time() - 300;
 			}
 			else

@@ -23,7 +23,7 @@ if(!isset($_SESSION['Channels']))
 	$_SESSION['Channels'] = $Database->Chat->LoadJoinedChannels($Character);
 	foreach($_SESSION['Channels'] AS &$Value)
 	{
-		$Value = new stdClass();
+		$Value = new \stdClass();
 	}
 }
 if(!isset($_SESSION['LastSystemMessage']))
