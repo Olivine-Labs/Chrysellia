@@ -544,7 +544,7 @@ function BuildGameWindow(){
 			
 			for(m in myLocation.Monsters){
 				if(m != "remove"){
-					var monsterId = GetFullMonsterId(myLocation.Monsters[m]);
+					var monsterId = myLocation.Monsters[m];
 					monster = V2Core.Monsters[monsterId];
 					option = $("<option value='" + monster.Id + "'>" + monster.Name + "</option>").appendTo(monstersOptGroup);
 				}
@@ -683,8 +683,8 @@ function BuildExit(topWindow){
 
 function ProcessMapChange(response, data){
 	if(vc.DebugMode && response.RequestDuration > 0){vc.Requests++;  vc.RequestDurationTotal += response.RequestDuration; ICache["rda_value"].text(vc.RequestDurationTotal / vc.Requests);}
-if(response.Result == vc.ER_SUCCESS){ 
-
+	
+	if(response.Result == vc.ER_SUCCESS){ 
 		window.MyCharacter.CurrentMap = Maps[response.Data.MapId];
 		window.MyCharacter.PositionX = response.Data.PositionX;
 		window.MyCharacter.PositionY =  response.Data.PositionY;
@@ -729,8 +729,8 @@ function BuildBank(topWindow){
 
 function ReviveCharacter(response, data){
 	if(vc.DebugMode && response.RequestDuration > 0){vc.Requests++;  vc.RequestDurationTotal += response.RequestDuration; ICache["rda_value"].text(vc.RequestDurationTotal / vc.Requests);}
-if(response.Result == vc.ER_SUCCESS){ 
-
+	
+	if(response.Result == vc.ER_SUCCESS){ 
 		MyCharacter.Health = MyCharacter.Vitality;
 		UpdateStats();
 		BuildGameWindow();
@@ -898,6 +898,7 @@ function FilterItemTypes(itemSlotType){
 
 function ProcessPurchase(response, data){
 	if(vc.DebugMode && response.RequestDuration > 0){vc.Requests++;  vc.RequestDurationTotal += response.RequestDuration; ICache["rda_value"].text(vc.RequestDurationTotal / vc.Requests);}
+	
 	if(response.Result == vc.ER_SUCCESS){ 
 		var item = response.Data;	
 		MyCharacter.Inventories["Personal"][MyCharacter.Inventories["Personal"].length] = item;
@@ -1362,19 +1363,6 @@ function ProcessIDPlayer(response, data){
 	}else{
 		Log("ID Player: Player(" + characterName + ") " + JSON.stringify(data));
 	}
-}
-
-function GetFullMonsterId(id){
-	var monsterId = "MONS_00000000000000000000001";
-	
-	var myLocation = { Monsters: MyCharacter.CurrentMap.Monsters["Default"] };
-	
-	if(MyCharacter.CurrentMap.SpecialPlaces[MyCharacter.PositionX] !== undefined){
-		myLocation = MyCharacter.CurrentMap.SpecialPlaces[MyCharacter.PositionX][MyCharacter.PositionY] || { Monsters: MyCharacter.CurrentMap.Monsters["Default"] };
-	}
-	
-	monsterId = monsterId.substr(0, monsterId.length - (id + "").length) + myLocation.Monsters[m];
-	return monsterId;
 }
 
 function Logout(response, data){

@@ -80,7 +80,12 @@ ul { list-style: none; margin: 0; padding: 0; }
 p { margin: .5em 0; font-size: 11pt; line-height: 1.1em; }
 section, header { margin-bottom: 2em; }
 
-section h1 { color: #c33; }
+/*section h1 { color: #79f; }*/
+section h1 { color: #c90; }
+
+.newsItem a {
+    color: #79f;
+}
 
 input.watermark {
 	color: #999;
@@ -153,11 +158,11 @@ color: #fff;
 .game #info a:not(.button) { color: #999; }
 .pageHeader { display: none; }
 
-#messages { background: url("images/header.png") no-repeat scroll center #000000; border-bottom: 1px solid #202020; color: #FFFFFF; height: 200px; }
+#messages { background: url("images/header.png") no-repeat scroll center #000; border-bottom: 1px solid #202020; height: 200px; }
 .game #messages { height: auto; background: none; }
 #messages a, .copyright a { color: #ff0; }
 
-#navigation { background: #940000; color: #fff; height: 31px; border-top: solid 1px #bf6666; margin-bottom: 1em }
+#navigation { background: #b70; color: #fff; height: 31px; border-top: solid 1px #c90; margin-bottom: 1em }
 #navigation ul { float: left;  margin-top: 5px; }
 #navigation li { display: inline-block; margin-right: .5em; height: 26px; overflow: hidden; }
 #navigation a, #navigation button { display: inline-block; height: 20px; padding: 3px 10px; color: #fff; text-shadow: 0px 1px 1px #000; background: transparent; border: 0 none; font-family: Georgia,'Times New Roman',serif; }

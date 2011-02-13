@@ -236,46 +236,32 @@ include_once('php/simplepie.inc');
 							</p>
 						</article>
 						<article>
+							<h1>Dave Thomas</h1>
+							<h2>Mage</h2>
+							<p>
+								<img src="./css/images/mage.jpg" />
+								Dave Thomas (not related to the other Thomas's) joined our team late, but quickly come up to speed. He has been responsible for managing the database, and the large amounts of content within it. He's married, has a young son, and works as a Java programmer. His love of Java is only surpassed by that of chocolate chip cookies.
+							</p>
+						</article>
+						<article>
 							<h1>Don Horn</h1>
 							<h2>Nullifiednll</h2>
-							<p>
-								I just copypasted some lorem ipsum. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris blandit, nunc nec iaculis consequat, lacus erat tincidunt sem, eu aliquet tortor dui non ipsum. Duis sollicitudin neque in sapien adipiscing porttitor. Donec sapien diam, fringilla et imperdiet in, porttitor eu velit. Nulla ornare mi eget nunc lobortis lacinia.
-							</p>
 						</article>
 						<article>
 							<h1>Kirus Tiberius</h1>
 							<h2>Kirus</h2>
-							<p>
-								I just copypasted some lorem ipsum. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris blandit, nunc nec iaculis consequat, lacus erat tincidunt sem, eu aliquet tortor dui non ipsum. Duis sollicitudin neque in sapien adipiscing porttitor. Donec sapien diam, fringilla et imperdiet in, porttitor eu velit. Nulla ornare mi eget nunc lobortis lacinia.
-							</p>
-						</article>
-						<article>
-							<h1>Dave Thomas</h1>
-							<h2>Mage</h2>
-							<p>
-								I just copypasted some lorem ipsum. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris blandit, nunc nec iaculis consequat, lacus erat tincidunt sem, eu aliquet tortor dui non ipsum. Duis sollicitudin neque in sapien adipiscing porttitor. Donec sapien diam, fringilla et imperdiet in, porttitor eu velit. Nulla ornare mi eget nunc lobortis lacinia.
-							</p>
 						</article>
 						<article>
 							<h1>Chris</h1>
 							<h2>RequieM</h2>
-							<p>
-								I just copypasted some lorem ipsum. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris blandit, nunc nec iaculis consequat, lacus erat tincidunt sem, eu aliquet tortor dui non ipsum. Duis sollicitudin neque in sapien adipiscing porttitor. Donec sapien diam, fringilla et imperdiet in, porttitor eu velit. Nulla ornare mi eget nunc lobortis lacinia.
-							</p>
 						</article>
 						<article>
 							<h1>Roger Thomas</h1>
 							<h2>Outkast</h2>
-							<p>
-								I just copypasted some lorem ipsum. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris blandit, nunc nec iaculis consequat, lacus erat tincidunt sem, eu aliquet tortor dui non ipsum. Duis sollicitudin neque in sapien adipiscing porttitor. Donec sapien diam, fringilla et imperdiet in, porttitor eu velit. Nulla ornare mi eget nunc lobortis lacinia.
-							</p>
 						</article>
 						<article>
 							<h1>William Thomas</h1>
 							<h2>Irish Drinker</h2>
-							<p>
-								I just copypasted some lorem ipsum. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris blandit, nunc nec iaculis consequat, lacus erat tincidunt sem, eu aliquet tortor dui non ipsum. Duis sollicitudin neque in sapien adipiscing porttitor. Donec sapien diam, fringilla et imperdiet in, porttitor eu velit. Nulla ornare mi eget nunc lobortis lacinia.
-							</p>
 						</article>
 					</section>
 				</div>
