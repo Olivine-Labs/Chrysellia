@@ -369,7 +369,7 @@ function RefreshMap(response, data){
 	if(response.Result == vc.ER_SUCCESS){ 
 		MyCharacter.PositionX = response.Data.X;
 		MyCharacter.PositionY = response.Data.Y;
-		BuildMap();
+		BuildMap(false);
 	}
 	
 	Log("Refresh Map: " + JSON.stringify(data));
@@ -491,7 +491,7 @@ function SelectCharacter(response, data){
 	vc.is.GetInventory(LoadInventory);
 }
 
-function BuildMap(){
+function BuildMap(loadMapInfo){
 	$(ICache["currentMapName"]).text(MyCharacter.CurrentMap.Name);
 	$(ICache["currentMapPosition"]).text(MyCharacter.PositionX + " , " + MyCharacter.PositionY);
 	/*var $currentMap = _("currentMap");
@@ -514,6 +514,10 @@ function BuildMap(){
 	
 	$currentMap.css({ height: 30*MyCharacter.CurrentMap.DimensionY, width: 30*MyCharacter.CurrentMap.DimensionX });
 	*/
+	
+	if(loadMapInfo){
+		$.getScript("./core/staticInfo/" + MyCharacter.CurrentMap.Name + ".js", function(){});
+	}
 	
 	BuildGameWindow();
 }
@@ -688,7 +692,7 @@ function ProcessMapChange(response, data){
 		window.MyCharacter.CurrentMap = Maps[response.Data.MapId];
 		window.MyCharacter.PositionX = response.Data.PositionX;
 		window.MyCharacter.PositionY =  response.Data.PositionY;
-		BuildMap();
+		BuildMap(true);
 		BuildGameWindow();
 		UpdateStats();
 	}
@@ -1002,7 +1006,7 @@ function BuildInitialInventory(){
 
 function LoadInventory(response, data){
 	if(vc.DebugMode && response.RequestDuration > 0){vc.Requests++;  vc.RequestDurationTotal += response.RequestDuration; ICache["rda_value"].text(vc.RequestDurationTotal / vc.Requests);}
-if(response.Result == vc.ER_SUCCESS){ 
+	if(response.Result == vc.ER_SUCCESS){ 
 
 		window.MyCharacter.Inventories["Personal"] = response.Data;
 		BuildInitialInventory();
@@ -1011,7 +1015,7 @@ if(response.Result == vc.ER_SUCCESS){
 		Log("Load Inventory Error: " + JSON.stringify(data));
 	}
 	
-	BuildMap();
+	BuildMap(true);
 	_("loading").animate({ opacity: 0 }, 500, function(){ _("loading").remove(); });
 }
 
