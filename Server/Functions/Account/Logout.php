@@ -1,4 +1,5 @@
 <?php
+namespace Functions\Account;
 /**
  * This file contains the Logout method
  */
@@ -21,8 +22,8 @@ if (ini_get("session.use_cookies"))
 		$params["httponly"]
 	);
 }
+$Response->Set('Result', \Protocol\Response::ER_SUCCESS);
 
 // Finally, destroy the session.
 session_destroy();
-
 ?>

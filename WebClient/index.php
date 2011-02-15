@@ -52,12 +52,13 @@ include_once('php/simplepie.inc');
 		<link href='http://fonts.googleapis.com/css?family=Crimson+Text&subset=latin' rel='stylesheet' type='text/css'>
 		
 		
-		<!--<link href="css/html5-reset.css" rel="stylesheet" media="screen" />
+		<link href="css/html5-reset.css" rel="stylesheet" media="screen" />
 		<link href="css/jquery-ui.css" rel="stylesheet" media="screen" />
-		<link href="css/grid-fluid.css" rel="stylesheet" media="screen" />
-		<link href="css/neflaria-base.css" rel="stylesheet" media="screen" />-->
-		<link href="css/neflaria.min.css" rel="stylesheet" media="screen" />
-		<link href="css/grid.min.css" rel="stylesheet" media="screen" />
+		<link href="css/grid.css" rel="stylesheet" media="screen" />
+		<link href="css/neflaria-base.css" rel="stylesheet" media="screen" />
+		<link href="css/tipsy.css" rel="stylesheet" media="screen" />
+		<!--<link href="css/neflaria.min.css" rel="stylesheet" media="screen" />
+		<link href="css/grid.min.css" rel="stylesheet" media="screen" />-->
 		
 		<!--[if IE 8]>
 		<link href="css/ie8.css" rel="stylesheet" media="screen" />
@@ -74,17 +75,37 @@ include_once('php/simplepie.inc');
 		<link rel="icon" type="image/png" href="images/favicon.ico" /> 
 		<link rel="alternate" type="application/rss+xml" title="Neflaria News RSS Feed" href="http://v2.neflaria.com/blog/feed/" />
 	</head>
-	<body>	
+	<body class="index">	
+	<?php
+		$newsFeed = new SimplePie();
 
-		<!--<div id="messages">
+		$newsFeed->set_feed_url("http://blog.chrysellia.com/atom/");
+		$newsFeed->set_item_limit(4);
+
+		$newsFeedSuccess = $newsFeed->init();
+		$newsFeed->handle_content_type();
+		
+		
+		?>
+		<div id="messages">
 			<div class="container_12">
 				<div class="grid_12" id="info">
-					<span class="info">Online: <span id="onlines">0</span></span>
-					<span class="info">News: <a href="#">We've updated the graphics, and redeveloped some...</a></span>
+					<span class="info">Online: <span id="onlines" class="loading">...</span></span>
+					<span class="info">News: 
+						<?php
+							if ($newsFeedSuccess):
+							?>
+								<?php 
+								foreach($newsFeed->get_items(0, 1) as $item){
+								?>
+									<a href="<?php if ($item->get_permalink()) echo $item->get_permalink() ?>" target="_blank"><?php echo $item->get_title(); ?></a> - (<date><?php echo $item->get_date('j M Y, g:i a'); ?></date>)
+								<?php } ?>
+						<?php endif; ?>
+					</span>
 				</div>
 			</div>
 			<div class="clear"></div>
-		</div>-->
+		</div>
 		
 		<div id="navigation">
 			<div class="container_12">
@@ -92,33 +113,25 @@ include_once('php/simplepie.inc');
 					<nav>
 						<ul>
 							<li><a href="index.php" class="selected">Home</a></li>
-							<li><a href="#" class="playNow">Play</a></li>
+							<li><a href="account.php" class="playNow">Play</a></li>
 							<li><a href="http://blog.chrysellia.com" target="_blank">Blog</a></li>
 							<li><a href="http://wiki.chrysellia.com" target="_blank">Manual</a></li>
-							<!--<li><a href="#">Rankings</a></li>-->
+							<li><a href="tops.php">Rankings</a></li>
 							<li><a href="http://forum.chrysellia.com" target="_blank">Forum</a></li>
-							<li><form target="_blank" method="post" action="https://www.paypal.com/cgi-bin/webscr"><input type="hidden" value="_s-xclick" name="cmd"><input type="hidden" value="U9PMXZHBZPVPJ" name="hosted_button_id"><input type="image" border="0" alt="PayPal - The safer, easier way to pay online!" name="submit" src="./css/images/donate.png" class='donateButton'><img width="1" height="1" border="0" src="https://www.paypal.com/en_US/i/scr/pixel.gif" alt=""></form></li>
-							<!--<li class='fbButton'><script src="http://connect.facebook.net/en_US/all.js#xfbml=1"></script><fb:like href="http://www.chrysellia.com" layout="button_count" show_faces="true" width="100"></fb:like></li>-->
+							<li><form target="_blank" method="post" action="https://www.paypal.com/cgi-bin/webscr"><input type="hidden" value="_s-xclick" name="cmd"><input type="hidden" value="U9PMXZHBZPVPJ" name="hosted_button_id"><button type="image" border="0" alt="PayPal - The safer, easier way to pay online!" name="submit" >Donate</button><img width="1" height="1" border="0" src="https://www.paypal.com/en_US/i/scr/pixel.gif" alt=""></form></li>
+							<li><a href="about.php">About</a></li>
+							<li><a href="api.php">API</a></li>
+							<li class='fbButton'><iframe src="http://www.facebook.com/plugins/like.php?href=http%3A%2F%2Fwww.chrysellia.com&amp;layout=button_count&amp;show_faces=true&amp;width=75&amp;action=like&amp;colorscheme=light&amp;height=21" scrolling="no" frameborder="0" style="border:none; overflow:hidden; width:75px; height:21px;" allowTransparency="true"></iframe></li>
 							<!--<li><a href="#">Store</a></li>-->
 						</ul>
 					</nav>
-					
-					<div class="quickLogin" style="display: none;">
-						<form action="submitaction.php" method="post" id="quickLoginForm">
-							<input type="text" placeholder="Username" name="quickLogin_un" id="quickLogin_un" />
-							<input type="password" placeholder="Password" name="quickLogin_pw" id="quickLogin_pw" />
-							<input type="hidden" value="login" name="action" id="action" />
-							
-							<button type="submit" class="button">Log in</button>
-						</form>
-					</div>
 				</div>
 			</div>
 		</div>
 		
 		<section id="top10" class="container_12">
 			<div class="grid_12">
-			<h1>Top 25 (Level):</h1>
+			<h1>Top 30:</h1>
 				<ul id="topList">
 				</ul>
 			</div>
@@ -126,76 +139,82 @@ include_once('php/simplepie.inc');
 		
 		<div class="container_12">
 			<div class="mainContainer">
+				<div class="grid_12">
+					<header class="pageHeader">
+						<h1>Chrysellia</h1>
+						<h2>The classic free online RPG</h2>
+						<a class="button bigButton" href="#" id="btnPlayNow">Play Now!</a>
+					</header>
+				</div>
+				
+				<div class="clear"></div>
+				
 				<div class="container_8">
-					<div class="grid_8">
-						<header class="pageHeader">
-							<h1>Chrysellia</h1>
-							<h2>The classic free online RPG</h2>
-							<a class="button bigButton" href="#" id="btnPlayNow">Play Now!</a>
-						</header>
-					</div>
-					
-					<div class="clear"></div>
-					
 					<section class="grid_8 news">
 						<h1>News</h1>
 						<section class="mainNews newsItem">
-							<h1>Chrysellia Beta Open</h1>
-							<em class="alternate"><date>1/11/11</date> - by Silwar Naiilo</em>
+							<h1>Chrysellia: Beta 2 Has Begun!</h1>
+							<em class="alternate"><date>2/14/11</date> - by Silwar Naiilo</em>
 							<p>
-								Chrysellia is finally in beta! Here's a few points to remember:
-								<ul>
-									<li>
-										Chrysellia was developed for the <a href="https://gaming.mozillalabs.com/" target="_blank">Mozilla Labs Game On</a> 
-										competition. As such, <strong>Chrysellia is NOT feature-complete</strong> We took the game to the point of playability, 
-										with some of the features of Neflaria, and we plan on adding a whole lot more after the judging period. In other words,
-										Don't come in expecting Neflaria, or a Neflaria replacement YET. We plan on adding like:
-										<ul>
-											<li>18,000 locations and over 50 zones on the first plane of seven</li>
-											<li>Thousands of monsters and items</li>
-											<li>Extended Clan Wars</li>
-											<li>New Continents to Explore</li>
-											<li>New Races, Weapons, Spells, and Armors</li>
-											<li>Storyline Quests</li>
-										</ul>
-									</li>
-									<li>
-										Chrysellia is in beta and you may run into a bug or two. Tell Silwar Naiilo or Sexy Lingerie and you'll find 
-										help as quickly as possible. Due to the rules of the gaming competition, however, we can't actually <em>fix</em>
-										bugs until the judging period has ended.
-									</li>
-									<li>
-										Chrysellia is run entirely by donations. If you enjoy the game, please consider donating towards our servers.
-										That means less lag and better availability.
-									</li>
-									<li>
-										Keep up with the <a href="http://blog.chrysellia.com">Chrysellia blog</a> for updates and answers to questions!
-									</li>
-								</ul>
+								We made a lot of changes to Chrysellia. <a href="https://docs.google.com/a/neflaria.com/document/d/1IPe8gfz3TidozV7xrtKNO2ij2lRmHRQcQI-kw2Zsd3o/edit?hl=en&pli=1&authkey=COr4h7UB" target="_blank">View the patch notes here</a>. Notable entries:
+							</p>
+							
+							<ul>
+								<li>
+									Alignment gains from monsters- and alignment colors for anyone with positive or negative 100! Alignment colors blend
+									based on your overall alignment. <a href="http://blog.chrysellia.com/2011/02/01/blended-alignment-colors/" target="_blank">Read more here</a>.
+								</li>
+								<li>
+									More items! Over 350, to be exact. All kinds of weapons, spells, and armor for you to use.
+								</li>
+								<li>
+									New chat commands: /id, /m, and some new chat settings. Read about all of the commands at the <a href="http://wiki.chrysellia.com/index.php?title=Chat_System" target="_blank">chat commands wiki page</a>.
+								</li>
+								<li>
+									Masteries that improve how you use your gear
+								</li>
+								<li>
+									Tops list page
+								</li>
+								<li>
+									More locations to explore, and more monsters to fight
+								</li>
+								<li>
+									Myriad bug fixes
+								</li>
+								<li>
+									Decreased movement delay, and TONS of code optimizations
+								</li>
+							</ul>
+							<p>
+								Remember- Chrysellia is in beta and you may run into a bug or two. Tell Silwar Naiilo or Sexy Lingerie and you'll find 
+								help as quickly as possible. We'll try to get bug fixes in asap.
+							</p>
+							<p>
+								Chrysellia is run entirely by donations. If you enjoy the game, please consider donating towards our servers-
+								that means less lag and better availability!
+							</p>
+							<p>
+								Keep up with the <a href="http://blog.chrysellia.com">Chrysellia Blog</a> for update notes, and join the 
+								<a href="http://forum.chrysellia.com">Chrysellia Forum</a> for up-to-date information.
 							</p>
 						</section>
 						
 						<section class="secondaryNews newsItem">
 							<h1>News</h1>
-							<?php
-								$newsFeed = new SimplePie();
-
-								$newsFeed->set_feed_url("http://blog.chrysellia.com/atom/");
-								$newsFeed->set_item_limit(4);
-
-								$newsFeedSuccess = $newsFeed->init();
-								$newsFeed->handle_content_type();
-								
-								if ($newsFeedSuccess):
+								<?php
+									if ($newsFeedSuccess):
 									?>
 									<ul>
 										<?php 
-										foreach($newsFeed->get_items() as $item){
+										foreach($newsFeed->get_items(0, 5) as $item){
 										?>
-											<li class="alternate"><a href="<?php if ($item->get_permalink()) echo $item->get_permalink() ?>"><?php echo $item->get_title(); ?></a> - (<date><?php echo $item->get_date('j M Y, g:i a'); ?></date>)</li>
+											<li class="alternate"><a href="<?php if ($item->get_permalink()) echo $item->get_permalink() ?>" target="_blank"><?php echo $item->get_title(); ?></a> - (<date><?php echo $item->get_date('j M Y, g:i a'); ?></date>)</li>
 										<?php } ?>
+										<li><a href="http://blog.chrysellia.com/atom/" class="alternate rssFeed">Subscribe to the Chrysellia News RSS</a></li>
+										<li><a href="http://www.twitter.com/chrysellia" class="twitter">Follow Chrysellia</a> on Twitter</li>
 									</ul>
-									<a href="http://blog.chrysellia.com/atom/" class="alternate">Subscribe to RSS</a> - <a href="http://www.twitter.com/neflaria">@Neflaria</a> on twitter
+									
 								<?php endif; ?>
 						</section>
 					</section>
@@ -223,10 +242,49 @@ include_once('php/simplepie.inc');
 		</footer>
 		
 		<div id="playNow" style="display:none">
+			<section class="logIn">
+				<h1>Log In</h1>
+				<p><a class="fb_button fb_button_medium" id="fblogin" href="#"><span class="fb_button_text">Log In</span></a> using Facebook</p>
+				<em class="or"> - or - </em>
+				<h3>Log In Manually:</h3>
+				<form action="submitaction.php" method="post"  id="loginForm">
+					<div class="formRow">
+						<div class="formLabel">
+							<label for="li_username">Username:</label>
+						</div>
+						<div class="formInput">
+							<input type="text" id="li_username" placeholder="Account Username" />
+						</div>
+						<div class="formValidator">
+							<span id="li_username_validator"></span>
+						</div>
+					</div>
+					
+					<div class="formRow">
+						<div class="formLabel">
+							<label for="li_password">Password:</label>
+						</div>
+						<div class="formInput">
+							<input type="password" id="li_password" placeholder="Password" />
+						</div>
+						<div class="formValidator">
+							<span id="li_password_validator"></span>
+						</div>
+					</div>
+					
+					<div class="formRow">
+						<div class="formLabel"></div>
+						<div class="formInput">
+							<button type="submit" id="submitLogIn" class="button">Log In</button>
+						</div>
+					</div>
+				</form>
+			</section>
 			<section class="register">
 				<h1>Register</h1>
-				<p><a class="fb_button fb_button_medium" id="fbregister" href="#"><span class="fb_button_text">Register</span></a> and skip registration!</p>
-				<em class="or">or</em>
+				<p><a class="fb_button fb_button_medium" id="fbregister" href="#"><span class="fb_button_text">Register</span></a> using Facebook</p>
+				<em class="or"> - or - </em>
+				<h3>Register Manually:</h3>
 				<form action="submitaction.php" method="post"  id="registerForm">
 					<div class="formRow">
 						<div class="formLabel">
@@ -296,47 +354,10 @@ include_once('php/simplepie.inc');
 					</div>
 				</form>
 			</section>
-			<section class="logIn">
-				<h1>Log In</h1>
-				<p><a class="fb_button fb_button_medium" id="fblogin" href="#"><span class="fb_button_text">Log In</span></a></p>
-				<em class="or">or</em>
-				<form action="submitaction.php" method="post"  id="loginForm">
-					<div class="formRow">
-						<div class="formLabel">
-							<label for="li_username">Username:</label>
-						</div>
-						<div class="formInput">
-							<input type="text" id="li_username" placeholder="Account Username" />
-						</div>
-						<div class="formValidator">
-							<span id="li_username_validator"></span>
-						</div>
-					</div>
-					
-					<div class="formRow">
-						<div class="formLabel">
-							<label for="li_password">Password:</label>
-						</div>
-						<div class="formInput">
-							<input type="password" id="li_password" placeholder="Password" />
-						</div>
-						<div class="formValidator">
-							<span id="li_password_validator"></span>
-						</div>
-					</div>
-					
-					<div class="formRow">
-						<div class="formLabel"></div>
-						<div class="formInput">
-							<button type="submit" id="submitLogIn" class="button">Log In</button>
-						</div>
-					</div>
-				</form>
-			</section>
 		</div>
 		
-		<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.4/jquery.min.js"></script>
-		<script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.7/jquery-ui.min.js"></script>
+		<script src="http://code.jquery.com/jquery-1.5.min.js"></script>
+		<script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.9/jquery-ui.min.js"></script>
 		
 		<!--[if IE]>
 		<div id='incompatible'>
@@ -356,18 +377,21 @@ include_once('php/simplepie.inc');
 		<![endif]-->
 		
 		<!-- Here come the plugins -->
-		<!-- <script src="./js/jquery.watermark.min.js"></script>
+		<script src="./js/jquery.watermark.min.js"></script>
 		<script src="./js/jquery.cookie.js"></script>
 		<script src="./Core/jquery-md5.js" type="text/javascript"></script>
-		<script src="./Core/json.js" type="text/javascript"></script>-->
-		<script src="./js/plugins.min.js"></script>
+		<script src="./Core/json.js" type="text/javascript"></script>
+		<script src="./js/jsend.min.js"></script>
+		<script src="./js/jquery.tipsy.js"></script>
+		<!-- <script src="./js/plugins.min.js"></script>-->
 				
 		<!-- For the production version, we'll minify and combine our javascript, and keep a plain version for us -->
-		<!-- <script src="./Core/core.js"></script>
+		<script src="./Core/core.js"></script>
 		<script src="./Core/core-AccountService.js"></script>
-		<script src="./Core/core-CharacterService.js"></script>-->
-		<script src="./Core/core.min.js"></script>
+		<script src="./Core/core-CharacterService.js"></script>
 		<script src="./Core/core-APIService.js"></script>
+		<!-- <script src="./Core/core.min.js"></script>
+		<script src="./Core/core-APIService.js"></script>-->
 		
 		<script src="./Core/staticInfo/races.js"></script>
 		

@@ -16,27 +16,24 @@
 		ACTION_LOGOUT: 2,
 		
 		Login: function(username, password, callback){
-			$.getJSON(
-				V2Core.SERVERCODE_DIRECTORY + "Account.php",
-				{ Action: AccountService.ACTION_LOGIN, Data: JSON.stringify({ UserName: username, Password: password }) },
-				function(data) { callback(data); }
-			);
+			var data = { UserName: username, Password: password };
+			var requestId = vc.GenerateRequestId();
+			vc.CallbackStack[requestId] = {Method: callback, Data: data};
+			vc.SendSingleRequest(requestId, vc.TYPE_ACCOUNT, vc.as.ACTION_LOGIN, data);
 		},
 		
 		Register: function(username, password, email, callback){
-			$.getJSON(
-				V2Core.SERVERCODE_DIRECTORY + "Account.php",
-				{ Action: AccountService.ACTION_REGISTER, Data: JSON.stringify({ UserName: username, Password: password, Email: email}) },
-				function(data) { callback(data); }
-			);
+			var data = { UserName: username, Password: password, Email: email};
+			var requestId = vc.GenerateRequestId();
+			vc.CallbackStack[requestId] = {Method: callback, Data: data};
+			vc.SendSingleRequest(requestId, vc.TYPE_ACCOUNT, vc.as.ACTION_REGISTER, data);
 		},
 		
 		Logout: function(callback){
-			$.getJSON(
-				V2Core.SERVERCODE_DIRECTORY + "Account.php",
-				{ Action: AccountService.ACTION_LOGOUT, Data: JSON.stringify({ }) },
-				function(data) { callback(data); }
-			);
+			var data = { };
+			var requestId = vc.GenerateRequestId();
+			vc.CallbackStack[requestId] = {Method: callback, Data: data};
+			vc.SendSingleRequest(requestId, vc.TYPE_ACCOUNT, vc.as.ACTION_LOGOUT, data);
 		}
 	}
 	

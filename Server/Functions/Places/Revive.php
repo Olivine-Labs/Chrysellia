@@ -1,12 +1,17 @@
 <?php
+namespace Functions\Places;
 /**
  * Revive Logic
  */
 
-$Get = (object)Array('Data'=>'');
-if(isset($_GET['Data']))
+$Get = null;
+if(property_exists($ARequest, 'Data'))
 {
-	$Get = json_decode($_GET['Data']);
+	$Get = $ARequest->Data;
+}
+else
+{
+	$Get = new \stdClass();
 }
 
 $LastReviveTime = 0;
@@ -33,25 +38,24 @@ if(isset($_SESSION['RevivePenaltyMultiplier']))
 					$Character->Health = $Character->Vitality;
 					if($Database->Characters->UpdateTraits($Character))
 					{
-						$Result->Set('Result', \Protocol\Result::ER_SUCCESS);
+						$Response->Set('Result', \Protocol\Response::ER_SUCCESS);
 						$_SESSION['LastReviveTime'] = time();
 					}
 					else
 					{
-						$Result->Set('Result', \Protocol\Result::ER_DBERROR);
+						$Response->Set('Result', \Protocol\Response::ER_DBERROR);
 					}
 				}
 			}
 		}
 		else
 		{
-			$Result->Set('Result', \Protocol\Result::ER_DBERROR);
+			$Response->Set('Result', \Protocol\Response::ER_DBERROR);
 		}
 	}
 	else
 	{
-		$Result->Set('Result', \Protocol\Result::ER_DBERROR);
+		$Response->Set('Result', \Protocol\Response::ER_DBERROR);
 	}
 //}
-
 ?>

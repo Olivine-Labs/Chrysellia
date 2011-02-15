@@ -1,48 +1,48 @@
 <?php
+namespace Functions\Commands;
 /**
  * Create Channel
  */
 
-$Get = (object)Array('Data'=>'');
-if(isset($_GET['Data']))
+$Get = null;
+if(property_exists($ARequest, 'Data'))
 {
-	$Get = json_decode($_GET['Data']);
+	$Get = $ARequest->Data;
+}
+else
+{
+	$Get = new \stdClass();
 }
 
-if(property_exists($Get, 'Channel') && property_exists($Get, 'Motd'))
-{
-	try
+if(
+	property_exists($Get, 'Channel') &&
+	property_exists($Get, 'Motd') &&
+	property_exists($Get, 'PublicRead') &&
+	property_exists($Get, 'PublicWrite')
+){
+	$Character = new \Entities\Character();
+	$Character->CharacterId = $_SESSION['CharacterId'];
+	$Database->startTransaction();
+	$Success = false;
+	if($ChannelId = $Database->Chat->CreateChannel($Get->Channel, $Get->Motd, $Get->PublicRead, $Get->PublicWrite))
 	{
-		$Character = new \Entities\Character();
-		$Character->CharacterId = $_SESSION['CharacterId'];
-		$Database->startTransaction();
-		$Success = false;
-		if($ChannelId = $Database->Chat->CreateChannel($Get->Channel, $Get->Motd))
+		if($Database->Chat->SetRights($Character, $ChannelId, Array('Read'=>1,'Write'=>1,'Moderate'=>1,'Administrate'=>1,'isJoined'=>1)))
 		{
-			if($Database->Chat->SetRights($Character, $ChannelId, Array('Read'=>1,'Write'=>1,'Moderate'=>1,'Administrate'=>1,'isJoined'=>1)))
-			{
-				$Success = true;
-				$Database->commitTransaction();
-				$Result->Set('Result', \Protocol\Result::ER_SUCCESS);
-				$Result->Set('Data', Array('ChannelId'=>$ChannelId, 'Name'=>$Get->Channel, 'Motd'=>$Get->Motd));
-				$_SESSION['Channels'][$ChannelId] = new stdClass();
-			}
+			$Success = true;
+			$Database->commitTransaction();
+			$Response->Set('Result', \Protocol\Response::ER_SUCCESS);
+			$Response->Set('Data', Array('ChannelId'=>$ChannelId, 'Name'=>$Get->Channel, 'Motd'=>$Get->Motd, 'PublicRead'=>$Get->PublicRead, 'PublicWrite'=>$Get->PublicWrite));
+			$_SESSION['Channels'][$ChannelId] = new \stdClass();
 		}
-		if(!$Success)
-		{
-			$Database->rollbackTransaction();
-			$Result->Set('Result', \Protocol\Result::ER_ALREADYEXISTS);
-		}
-
 	}
-	catch(Exception $e)
+	if(!$Success)
 	{
 		$Database->rollbackTransaction();
-		$Result->Set('Result', \Protocol\Result::ER_DBERROR);
+		$Response->Set('Result', \Protocol\Response::ER_ALREADYEXISTS);
 	}
 }
 else
 {
-	$Result->Set('Result', \Protocol\Result::ER_MALFORMED);
+	$Response->Set('Result', \Protocol\Response::ER_MALFORMED);
 }
 ?>

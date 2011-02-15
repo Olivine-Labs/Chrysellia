@@ -24,74 +24,78 @@
 		
 		//System types
 		CHAT_TYPE_SYSTEM: 255,
+		CHAT_TYPE_IDPLAYER: 997,
+		CHAT_TYPE_OPENPRIVATECHANNEL:998,
 		CHAT_TYPE_MOTD: 999,
 		
 		StaticRooms: StaticRooms,
 	
 		GetMessagesFromChannel: function(channel, callback){
-			$.getJSON(
-				V2Core.SERVERCODE_DIRECTORY + "Chat.php",
-				{ Action: ChatService.ACTION_GETMESSAGESFROMCHANNEL, Data: JSON.stringify({ Channel: channel }) },
-				function(data) { callback(data); }
-			);
+			var data = { Channel: channel };
+			var requestId = vc.GenerateRequestId();
+			vc.CallbackStack[requestId] = {Method: callback, Data: data};
+			vc.SendSingleRequest(requestId, vc.TYPE_CHAT, vc.ch.ACTION_GETMESSAGESFROMCHANNEL, data);
 		},
 		
 		GetMessagesForCharacter: function(callback){
-			$.getJSON(
-				V2Core.SERVERCODE_DIRECTORY + "Chat.php",
-				{ Action: ChatService.ACTION_GETMESSAGESFORCHARACTER, Data: JSON.stringify({ }) },
-				function(data) { callback(data); }
-			);
+			var data = { };
+			var requestId = vc.GenerateRequestId();
+			vc.CallbackStack[requestId] = {Method: callback, Data: data};
+			vc.SendSingleRequest(requestId, vc.TYPE_CHAT, vc.ch.ACTION_GETMESSAGESFORCHARACTER, data);
 		},
 		
 		SendMessageToChannel: function(channel, message, callback){
 			var chatobj = vc.ch.Utilities.ParseMessage(message);
 			
-			if(chatobj.Type == 0){
-				$.getJSON(
-					V2Core.SERVERCODE_DIRECTORY + "Chat.php",
-					{ Action: ChatService.ACTION_SENDMESSAGE, Data: JSON.stringify({ Channel: channel, Message: message }) },
-					function(data) { callback(data); }
-				);
-			}else{
-				if(chatobj.Type == 1){
-					vc.cmd.SendChatCommand(channel, vc.CommandService.ACTION_EMOTE, chatobj.Message, callback);
-				}else{
-					callback({ Result: V2Core.ER_MALFORMED, Data: {} });
-				}
+			switch(chatobj.Type){
+				case vc.ChatService.CHAT_TYPE_GENERAL:
+					var data = { Channel: channel, Message: message };
+					var requestId = vc.GenerateRequestId();
+					vc.CallbackStack[requestId] = {Method: callback, Data: data};
+					vc.SendSingleRequest(requestId, vc.TYPE_CHAT, vc.ch.ACTION_SENDMESSAGE, data);
+					break;
+				case vc.ChatService.CHAT_TYPE_EMOTE:
+					vc.cmd.SendChatCommand(channel, vc.cmd.ACTION_EMOTE, chatobj.Message, callback);
+					break;
+				default:
+					callback({ Result: V2Core.ER_MALFORMED, Data: data });
+					break;
 			}
 		},
 		
 		JoinChannel: function(channel, callback){
-			$.getJSON(
-				V2Core.SERVERCODE_DIRECTORY + "Commands.php",
-				{ Action: vc.CommandService.ACTION_JOINCHANNEL, Data: JSON.stringify({ Channel: channel }) },
-				function(data) { callback(data); }
-			);
+			var data = { Channel: channel };
+			var requestId = vc.GenerateRequestId();
+			vc.CallbackStack[requestId] = {Method: callback, Data: data};
+			vc.SendSingleRequest(requestId, vc.TYPE_COMMANDS, vc.cmd.ACTION_JOINCHANNEL, data);
 		},
 		
 		PartChannel: function(channel, callback){
-			$.getJSON(
-				V2Core.SERVERCODE_DIRECTORY + "Commands.php",
-				{ Action: vc.CommandService.ACTION_CHANNEL_PART, Data: JSON.stringify({ Channel: channel }) },
-				function(data) { callback(data); }
-			);
+			var data = { Channel: channel };
+			var requestId = vc.GenerateRequestId();
+			vc.CallbackStack[requestId] = {Method: callback, Data: data};
+			vc.SendSingleRequest(requestId, vc.TYPE_COMMANDS, vc.cmd.ACTION_CHANNEL_PART, data);
 		},
 		
-		CreateChannel: function(name, motd, callback){
-			$.getJSON(
-				V2Core.SERVERCODE_DIRECTORY + "Commands.php",
-				{ Action: vc.CommandService.ACTION_CHANNEL_CREATE, Data: JSON.stringify({ Channel: name, Motd: motd }) },
-				function(data) { callback(data); }
-			);
+		CreateChannel: function(name, motd, publicRead, publicWrite, callback){
+			var data = { Channel: name, Motd: motd, PublicRead: publicRead, PublicWrite: publicWrite };
+			var requestId = vc.GenerateRequestId();
+			vc.CallbackStack[requestId] = {Method: callback, Data: data};
+			vc.SendSingleRequest(requestId, vc.TYPE_COMMANDS, vc.cmd.ACTION_CHANNEL_CREATE, data);
 		},
 		
 		SetRights: function(channel, characterName, rights, callback){
-			$.getJSON(
-				V2Core.SERVERCODE_DIRECTORY + "Commands.php",
-				{ Action: vc.CommandService.ACTION_CHANNEL_SETRIGHTS, Data: JSON.stringify({ Channel: channel, Character: characterName, Rights: rights }) },
-				function(data) { callback(data); }
-			);
+			var data = { Channel: channel, Character: characterName, Rights: rights };
+			var requestId = vc.GenerateRequestId();
+			vc.CallbackStack[requestId] = {Method: callback, Data: data};
+			vc.SendSingleRequest(requestId, vc.TYPE_COMMANDS, vc.cmd.ACTION_CHANNEL_SETRIGHTS, data);
+		},
+		
+		SetParameters: function(channel, parameter, value, callback){
+			var data = { ChannelId: channel, Parameter: parameter, Value: value };
+			var requestId = vc.GenerateRequestId();
+			vc.CallbackStack[requestId] = {Method: callback, Data: data};
+			vc.SendSingleRequest(requestId, vc.TYPE_COMMANDS, vc.cmd.ACTION_CHANNEL_SETPARAMETERS, data);
 		},
 		
 		Utilities: {},
@@ -117,7 +121,7 @@
 				nonMessageCommand = true;
 			}else if(message.indexOf("/part") == 0){
 				type = vc.CommandService.ACTION_CHANNEL_PART;
-				message = message.substr(1, message.length - 1);
+				message = message.substr(5, message.length - 1);
 				nonMessageCommand = true;
 			}else if(message.indexOf("/mod") == 0){
 				type = vc.CommandService.ACTION_CHANNEL_SETRIGHTS;
@@ -142,6 +146,23 @@
 				nonMessageCommand = true;
 			}else if(message.indexOf("/unmod") == 0){
 				type = vc.CommandService.ACTION_CHANNEL_SETRIGHTS;
+				nonMessageCommand = true;
+			}else if(message.indexOf("/m ") == 0){
+				type = vc.ChatService.CHAT_TYPE_OPENPRIVATECHANNEL;
+				message = message.substr(3, message.length - 1);
+				nonMessageCommand = true;
+			}else if(message.indexOf("/id ") == 0){
+				type = vc.ChatService.CHAT_TYPE_IDPLAYER;
+				message = message.substr(4, message.length - 1);
+				nonMessageCommand = true;
+			}else if(message.indexOf("/motd") == 0){
+				type = vc.CommandService.ACTION_CHANNEL_SETPARAMETERS;
+				nonMessageCommand = true;
+			}else if(message.indexOf("/publicRead") == 0){
+				type = vc.CommandService.ACTION_CHANNEL_SETPARAMETERS;
+				nonMessageCommand = true;
+			}else if(message.indexOf("/publicWrite") == 0){
+				type = vc.CommandService.ACTION_CHANNEL_SETPARAMETERS;
 				nonMessageCommand = true;
 			}
 			

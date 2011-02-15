@@ -16,15 +16,12 @@
 			<script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
 		<![endif]-->
 		
-		<link href='http://fonts.googleapis.com/css?family=Crimson+Text&subset=latin' rel='stylesheet' type='text/css'>
-		
-		
-		<!--<link href="css/html5-reset.css" rel="stylesheet" media="screen" />
+		<link href="css/html5-reset.css" rel="stylesheet" media="screen" />
 		<link href="css/jquery-ui.css" rel="stylesheet" media="screen" />
 		<link href="css/grid-fluid.css" rel="stylesheet" media="screen" />
-		<link href="css/neflaria-base.css" rel="stylesheet" media="screen" />-->
-		<link href="css/neflaria.min.css" rel="stylesheet" media="screen" />
-		<link href="css/grid-fluid.min.css" rel="stylesheet" media="screen" />
+		<link href="css/neflaria-base.css" rel="stylesheet" media="screen" />
+		<!--<link href="css/neflaria.min.css" rel="stylesheet" media="screen" />
+		<link href="css/grid-fluid.min.css" rel="stylesheet" media="screen" />-->
 		
 		
 		<!--[if IE 8]>
@@ -42,7 +39,7 @@
 		<link rel="icon" type="image/png" href="images/favicon.ico" /> 
 		<link rel="alternate" type="application/rss+xml" title="Chrysellia News RSS Feed" href="http://v2.neflaria.com/blog/feed/" />
 	</head>
-	<body class="game">
+	<body class="game dark">
 		<div id="loading" style="width: 100%; height: 100%; background-color: #000; text-align: center; position: absolute; top: 0; left: 0; z-index: 10000;"><div style="margin-top: 100px; color: #fff;"><h1>Loading</h1></div></div>
 		<div id="messages">
 			<div class="container_12">
@@ -53,7 +50,8 @@
 					</span>
 					
 					<div class="accountActions">
-						Theme: <select id='themeSelect'><option value='0'>Light</option><option value='1'>Dark</option></select>
+						<!--Theme: <select id='themeSelect'><option value='1'>Dark</option><option value='0'>Light</option></select>-->
+						<a href="./tops.php" target="_blank">Rankings</a>
 						<a href="http://forum.chrysellia.com" target="_blank">Forum</a>
 						<a href="http://wiki.chrysellia.com" target="_blank">Manual</a>
 						<a href="http://blog.chrysellia.com" target="_blank">Blog</a>
@@ -100,6 +98,7 @@
 					
 					<section id="topRight" class="container top grid_3">
 						<h1 id="currentMapName"></h1>
+						<h3 id="currentMapPosition"></h3>
 						<table id="currentMap"></table>
 						<form action="submitaction.php" id="movementform">
 							<input type="hidden" value="move">
@@ -130,11 +129,11 @@
 					<form action="submitaction.php" id="chatForm" class="CHAN_00000000000000000000001">
 						<input type="hidden" value="chat" class="button">
 						Say: 
-						<input type="text" id="chatInput" style="width: 400px;" />
+						<input type="text" id="chatInput" style="width: 400px;" maxlength="500" />
 						<input type="submit" value="Send">
 						
-						<a href="#" id="createChannelLink" class="button" style="float:right;">Create channel</a>
-						<a href="#" id="joinChannelLink" class="button" style="float:right;">Join channel</a>
+						<a href="#" id="createChannelLink" class="button" style="float:right;">Create Channel</a>
+						<a href="#" id="joinChannelLink" class="button" style="float:right;">Join Channel</a>
 					</form>
 					
 					<div id="chatChannels" class="chatChannels">
@@ -165,6 +164,14 @@
 					<div class="formInput"><input id="cc_channelMOTD" /></div>
 				</div>
 				<div class="formRow">
+					<div class="formLabel"><label for="cc_publicRead">Public Read</label></div>
+					<div class="formInput"><input id="cc_publicRead" type="checkbox" /></div>
+				</div>
+				<div class="formRow">
+					<div class="formLabel"><label for="cc_publicWrite">Public Write</label></div>
+					<div class="formInput"><input id="cc_publicWrite" type="checkbox" /></div>
+				</div>
+				<div class="formRow">
 					<div class="formLabel">&nbsp;</div>
 					<div class="formInput"><button type="submit" class="button">Create</button></div>
 				</div>
@@ -185,7 +192,7 @@
 			</form>
 		</div>
 		
-		<div style="hidden" id="statsWindow" style="display: none;">
+		<div style="hidden" id="statsWindow" class="statsWindow" style="display: none;">
 			<div class="stat lvl">
 				<span class="statLabel icon lvl" title="Level">Level</span>
 				<span id="myCharacter_Level"></span>
@@ -194,7 +201,7 @@
 				<span class="statLabel icon freeLevels" title="Free Levels">Free Levels</span>
 				<span id="myCharacter_FreeLevels"></span>
 			</div>
-			<div class="stat freeLvls">
+			<div class="stat align">
 				<span class="statLabel icon alignment" title="Alignment">Alignment</span>
 				<span id="myCharacter_Alignment"></span>
 			</div>
@@ -243,6 +250,12 @@
 		
 		<div style="hidden" id="itemsWindow" style="display: none;"></div>
 		
+		<div id="debugWindow">
+			<h1>Debug</h1>
+			<div class='row' id="rda"><span class='label'>RequestDuration Average</span><span class='value' id="rda_value"></span></div>
+			<div id="logs"></div>
+		</div>
+		
 		<!--[if IE 8]>
 		</div>
 		<![endif]-->
@@ -255,18 +268,19 @@
 		</div>
 		<![endif]-->
 		<!-- -->
-		<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.4/jquery.min.js"></script>
-		<script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.7/jquery-ui.min.js"></script>
+		<script src="http://code.jquery.com/jquery-1.5.min.js"></script>
+		<script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.9/jquery-ui.min.js"></script>
 		
 		<!-- Here come the plugins -->
-		<!--<script src="./js/jquery.watermark.min.js"></script>
-		<script src="./js/jquery-easing.js"></script>
+		<script src="./js/jquery.watermark.min.js"></script>
 		<script src="./js/jquery.cookie.js"></script>
+		<script src="./js/jquery-easing.js"></script>
 		<script src="./Core/jquery-md5.js" type="text/javascript"></script>
-		<script src="./Core/json.js" type="text/javascript"></script>-->
-		<script src="./js/plugins.min.js"></script>
+		<script src="./Core/json.js" type="text/javascript"></script>
+		<script src="./js/jsend.min.js"></script>
+		<!--<script src="./js/plugins.min.js"></script>-->
 				
-		<!-- For the production version, we'll minify and combine our javascript, and keep a plain version for us
+		<!-- For the production version, we'll minify and combine our javascript, and keep a plain version for us-->
 		<script src="./Core/core.js"></script>
 		<script src="./Core/core-AccountService.js"></script>
 		<script src="./Core/core-CharacterService.js"></script>
@@ -275,8 +289,7 @@
 		<script src="./Core/core-MapService.js"></script>
 		<script src="./Core/core-ItemService.js"></script>
 		<script src="./Core/core-MonsterService.js"></script>
-		<script src="./Core/core-Interface.js"></script>-->
-		<script src="./Core/core.min.js"></script>
+		<!--<script src="./Core/core.min.js"></script>-->
 		
 		<!-- Data Libraries -->
 		<script src="./Core/staticInfo/races.js"></script>
@@ -286,7 +299,6 @@
 		<!--<script src="./Core/staticInfo/libraries.min.js"></script>-->
 		
 		<script src="./js/startup.js"></script>
-		
 		<script src="./js/game-startup.js"></script>
 		<!--<script src="./js/game-startup.min.js"></script>-->
 		

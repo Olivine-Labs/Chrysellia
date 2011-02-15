@@ -34,5 +34,13 @@ abstract class Items
 	 *   An array containing all the inventory items
 	 */
 	abstract public function LoadInventory(\Entities\Character $Character);
+	
+	/**
+	 * Abstract - Load all system item templates
+	 *
+	 * @return Array
+	 *   An array containing all the item templates
+	 */
+	abstract public function LoadAllItemTemplates();
 }
 ?>

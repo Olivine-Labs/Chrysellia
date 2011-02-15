@@ -1,11 +1,17 @@
 <?php
+namespace Functions\Account;
 /**
  * This file contains the Login function logic for Accounts
  */
-$Get = (object)Array('Data'=>'');
-if(isset($_GET['Data']))
+
+$Get = null;
+if(property_exists($ARequest, 'Data'))
 {
-	$Get = json_decode($_GET['Data']);
+	$Get = $ARequest->Data;
+}
+else
+{
+	$Get = new \stdClass();
 }
 
 if(
@@ -14,28 +20,23 @@ if(
 ){
 	$AnAccount = new \Entities\Account();
 	$AnAccount->Fill($Get);
+
 	if($AnAccount->Verify())
 	{
-		try
+		if($Database->Accounts->Login($AnAccount))
 		{
-			if($Database->Accounts->Login($AnAccount))
-			{
-				$Result->Set('Result', \Protocol\Result::ER_SUCCESS);
-				$_SESSION['AccountId'] = $AnAccount->AccountId;
-			}
-		}
-		catch(Exception $e)
-		{
-			$Result->Set('Result', \Protocol\Result::ER_DBERROR);
+			$Database->Accounts->Kick($AnAccount);
+			$Response->Set('Result', \Protocol\Response::ER_SUCCESS);
+			$_SESSION['AccountId'] = $AnAccount->AccountId;
 		}
 	}
 	else
 	{
-		$Result->Set('Result', \Protocol\Result::ER_BADDATA);
+		$Response->Set('Result', \Protocol\Response::ER_BADDATA);
 	}
 }
 else
 {
-	$Result->Set('Result', \Protocol\Result::ER_MALFORMED);
+	$Response->Set('Result', \Protocol\Response::ER_MALFORMED);
 }
 ?>

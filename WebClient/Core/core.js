@@ -13,18 +13,20 @@
  (function( window, undefined ) {
 
 	var V2Core = function (){};
+	var ShortQueue = function(){};
+	var LongQueue = function(){};
 	
 	var V2Result = {};
 	V2Result = V2Result.prototype = {
 		Result: 0,
 		Data: {}
-	}	
+	};
 	
 	V2Core = V2Core.prototype = {
-		Version: "0.0.1",
-		CurrentLanguage: "en",
-		
+		//enums!
 		ER_SUCCESS: 0, //when Murphy is not around everything works.
+		ER_NOTONLINE: 249, //when the target is not online
+		ER_NOTLOGGEDIN: 250, //when the session fails
 		ER_BADDATA: 251, //when the data is bad
 		ER_ALREADYEXISTS: 252, //when the data already exists in the database
 		ER_MALFORMED: 253, //when a post/get is malformed for the function requested
@@ -32,6 +34,97 @@
 		ER_ACCESSDENIED: 255, //when they just don't have access.
 		SERVERCODE_DIRECTORY: "./Server/",
 		STATICINFO_DIRECTORY: "./Core/staticInfo/",
+		API_URI: "../Server/API.php",
+		
+		TYPE_ACCOUNT: 0, 
+		TYPE_CHARACTER: 1, 
+		TYPE_CHAT: 2, 
+		TYPE_COMMANDS: 3, 
+		TYPE_ITEM: 4, 
+		TYPE_MAP: 5, 
+		TYPE_MONSTER: 6, 
+		TYPE_PLACES: 7, 
+		TYPE_API: 8,
+		
+		COMPRESSION_MODE_NONE: 0,
+		COMPRESSION_MODE_jSEND: 1,
+		
+		//config options!
+		Version: "0.0.1",
+		CurrentLanguage: "en",
+		DebugMode: false,
+		RequestDurationTotal: 0,
+		Requests: 0,
+		
+		CompressionMode: this.COMPRESSION_MODE_NONE,
+		
+		__requestId: 0,
+		
+		CallbackStack: [],
+		
+		QueueDefaults: { AutoSubmit: true, Timeout: 1000 },
+		
+		GenerateRequestId: function(){
+			vc.__requestId++;
+			return vc.__requestId + "m";
+		},
+		
+		ProcessCallbacks: function(data, textStatus, XMLHttpRequest){
+			for(var x in data){
+				if(vc.isInteger(x)){
+					var method = vc.CallbackStack[data[x].Id];
+					if (method != undefined && typeof method.Method == "function"){
+						var response = {};
+						if(method.Data !== undefined){
+							response = method.Data;
+						}
+						method.Method(data[x], response);
+					}
+					vc.CallbackStack.splice(data[x], 1);
+				}
+			}
+		},
+		
+		SendSingleRequest: function(requestId, type, action, data){
+			var dataObject = { Id: requestId, Type: type, Action: action, Data: data };
+			var dataArray = [];
+			dataArray[0] = dataObject;
+			
+			var dataToSend = JSON.stringify(dataArray);
+			console.log(dataToSend);
+			switch(vc.CompressionMode){
+				case vc.COMPRESSION_MODE_jSEND:
+					dataToSend = $.jSEND(dataToSend);
+					break;
+			}
+			
+			$.ajax({
+				data: {Data: dataToSend} ,
+				success: function(data, textStatus, XMLHttpRequest){
+					vc.ProcessCallbacks(data, textStatus, XMLHttpRequest);
+				}
+			});
+		},
+		
+		SendQueue: function(queue){
+			var dataToSend = JSON.stringify(queue.Items);
+			switch(vc.CompressionMode){
+				case vc.COMPRESSION_MODE_jSEND:
+					dataToSend = $.jSEND(dataToSend);
+					break;
+			}
+			
+			$.ajax({
+				data: {Data: dataToSend} ,
+				success: function(data, textStatus, XMLHttpRequest){
+					for(x in queue.Items){
+						vc.ProcessCallbacks(queue.Items[x], textStatus, XMLHttpRequest);
+					}
+					
+					queue.Items = [];
+				}
+			});
+		},
 		
 		CheckVersion: function(callback){
 			$.ajax({
@@ -44,10 +137,67 @@
 			});
 		},
 		
-		CalculateLevelRequiredExp: function(level, freelevels){
-			return Math.round(Math.pow(level + freelevels, (8/5)) * 100 * Math.log(level + 1));
+		CalculateLevelRequiredExp: function(level){
+			return Math.round(Math.pow(level+38.19, Math.log((level+38.19)*5)/Math.log(17-(level/150)))-829.53);
+		},
+		
+		AlignName: function(character){
+			var goodAlign = "";
+			var orderAlign = "";
+			if(character.AlignGood <= -100){
+				goodAlign = "Evil ";
+			}else if(character.AlignGood >= 100){
+				goodAlign = "Good";
+			}
+			
+			if(character.AlignOrder <= -100){
+				orderAlign = "Chaotic";
+			}else if(character.AlignOrder >= 100){
+				orderAlign = "Ordered";
+			}
+			
+			var totalAlign = "Neutral";
+			if(goodAlign != "" || orderAlign != ""){
+				var spacing = "";
+				if(goodAlign != ""){
+					spacing = " ";
+				}
+				totalAlign = goodAlign + spacing + orderAlign;
+			}
+			
+			return totalAlign;
+		},
+		
+		isInteger: function(s) {
+		  return (s.toString().search(/^-?[0-9]+$/) == 0);
 		}
 	};
+	
+	// in progress
+	var Queue = function(options) {};
+	Queue = Queue.prototype = function(options){
+		this.Timeout = vc.QueueDefaults.Timeout;
+		this.AutoSubmit = vc.QueueDefaults.AutoSubmit;
+		
+		if(options.Timeout !== undefined){
+			this.Timeout = options.Timeout;
+		}
+		
+		if(options.AutoSubmit !== undefined){
+			this.AutoSubmit = options.AutoSubmit;
+		}
+		
+		this.Items = [];
+		
+		this.AddItem = function(type, action, data, callback){
+			var requestId = vc.GenerateRequestId();
+			vc.CallbackStack[requestId] = {Method: callback, Data: data};
+			
+			this.Items.push({ Id: requestId, Type: type, Action: action, Data: data });
+		};
+	};
+	
+	Queue.constructor = Queue;
 	
 	var Character = function() {};
 	
@@ -94,35 +244,12 @@
 			}
 		}
 		
-		this.AlignName = function(){
-			var goodAlign = "";
-			var orderAlign = "";
-			if(this.AlignGood <= -100){
-				goodAlign = "Evil ";
-			}else if(this.AlignGood >= 100){
-				goodAlign = "Good";
-			}
-			
-			if(this.AlignOrder <= -100){
-				orderAlign = "Chaotic";
-			}else if(this.AlignOrder >= 100){
-				orderAlign = "Ordered";
-			}
-			
-			var totalAlign = "Neutral";
-			if(goodAlign != "" || orderAlign != ""){
-				var spacing = "";
-				if(goodAlign != ""){
-					spacing = " ";
-				}
-				totalAlign = goodAlign + spacing + orderAlign;
-			}
-			
-			return totalAlign;
+		this.NextLevelAt = function(){
+			return vc.CalculateLevelRequiredExp(this.Level+this.FreeLevels);
 		}
 		
-		this.NextLevelAt = function(){
-			return vc.CalculateLevelRequiredExp(this.Level, 0);
+		this.AlignName = function(){
+			return vc.AlignName(this);
 		}
 		
 		this.Construct = function(data){
@@ -163,5 +290,6 @@
 	
 	window.V2Core = window.vc = V2Core;
 	window.Character = Character;
+	window.Queue = Queue;
 	
 })(window);

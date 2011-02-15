@@ -1,12 +1,17 @@
 <?php
+namespace Functions\Chat;
 /**
  * Chat send logic
  */
 
-$Get = (object)Array('Data'=>'');
-if(isset($_GET['Data']))
+$Get = null;
+if(property_exists($ARequest, 'Data'))
 {
-	$Get = json_decode($_GET['Data']);
+	$Get = $ARequest->Data;
+}
+else
+{
+	$Get = new \stdClass();
 }
 
 if(
@@ -14,36 +19,35 @@ if(
 	property_exists($Get, 'Message')
 )
 {
-	try
+	$Character = new \Entities\Character();
+	$Character->CharacterId = $_SESSION['CharacterId'];
+	if($Database->Characters->LoadById($Character))
 	{
-		$Character = new \Entities\Character();
-		$Character->CharacterId = $_SESSION['CharacterId'];
-		if($Database->Characters->LoadById($Character))
+		if(is_array($Rights = $Database->Chat->GetRights($Character, $Get->Channel)))
 		{
-			if($Rights = $Database->Chat->GetRights($Character, $Get->Channel))
+			if($Rights['Write'])
 			{
-				if($Rights['Write'])
+				if($Database->Characters->LoadTraits($Character))
 				{
 					if($Database->Chat->Insert($Character, $Get->Channel, $Get->Message))
 					{
-						$Result->Set('Result', \Protocol\Result::ER_SUCCESS);
+						$Response->Set('Result', \Protocol\Response::ER_SUCCESS);
 					}
+				}
+				else
+				{
+					$Response->Set('Result', \Protocol\Response::ER_DBERROR);
 				}
 			}
 		}
-		else
-		{
-			$Result->Set('Result', \Protocol\Result::ER_BADDATA);
-		}
 	}
-	catch(Exception $e)
+	else
 	{
-		$Result->Set('Result', \Protocol\Result::ER_DBERROR);
+		$Response->Set('Result', \Protocol\Response::ER_BADDATA);
 	}
 }
 else
 {
-	$Result->Set('Result', \Protocol\Result::ER_MALFORMED);
+	$Response->Set('Result', \Protocol\Response::ER_MALFORMED);
 }
-
 ?>

@@ -15,6 +15,8 @@
 		ACTION_MOVE: 0,
 		ACTION_CHANGEMAP: 1,
 		
+		ACTION_LOADDATA: 5,
+		
 		ACTION_BUY: 0,
 		ACTION_SELL: 1,
 		ACTION_REVIVE: 2,
@@ -23,71 +25,86 @@
 		ACTION_TRANSFER: 5,
 		
 		PLACE_TYPE_STORE: 0,
-		PLACE_TYPE_BANK: 1,
-		PLACE_TYPE_SHRINE: 2,
+		PLACE_TYPE_SHRINE: 1,
+		PLACE_TYPE_BANK: 2,
+		
+		LOCATION_TYPE_STREET: 0,
+		LOCATION_TYPE_WALL: 1,
+		LOCATION_TYPE_GUARD: 2,
+		LOCATION_TYPE_RESIDENTIAL: 3,
+		LOCATION_TYPE_COMMERCE: 4,
+		LOCATION_TYPE_MARKET: 5,
+		LOCATION_TYPE_BANK: 6,
+		LOCATION_TYPE_SHOP: 7,
+		LOCATION_TYPE_GRAVEYARD: 8,
+		LOCATION_TYPE_SHRINE: 9,
+		LOCATION_TYPE_SIEGE: 10,
+		LOCATION_TYPE_BAR: 11,
+		LOCATION_TYPE_COURT: 12,
+		LOCATION_TYPE_WATER: 13,
+		LOCATION_TYPE_COLISEUM: 14,
 	
 		Move: function(x, y, callback){
-			$.getJSON(
-				V2Core.SERVERCODE_DIRECTORY + "Map.php",
-				{ Action: MapService.ACTION_MOVE, Data: JSON.stringify({ X:x, Y:y }) },
-				function(data) { callback(data); }
-			);
+			var data = { X:x, Y:y };
+			var requestId = vc.GenerateRequestId();
+			vc.CallbackStack[requestId] = {Method: callback, Data: data};
+			vc.SendSingleRequest(requestId, vc.TYPE_MAP, vc.ms.ACTION_MOVE, data);
 		},
 		
 		ChangeMap: function(callback){
-			$.getJSON(
-				V2Core.SERVERCODE_DIRECTORY + "Map.php",
-				{ Action: MapService.ACTION_CHANGEMAP, Data: JSON.stringify({  }) },
-				function(data) { callback(data); }
-			);
+			var data = { };
+			var requestId = vc.GenerateRequestId();
+			vc.CallbackStack[requestId] = {Method: callback, Data: data};
+			vc.SendSingleRequest(requestId, vc.TYPE_MAP, vc.ms.ACTION_CHANGEMAP, data);
 		},
 		
+		LoadData: function(mapId, xLow, yLow, xHigh, yHigh, callback){
+			var data = { MapId: mapId, XLow: xLow, XHigh: xHigh, YLow: yLow, YHigh: yHigh };
+			var requestId = vc.GenerateRequestId();
+			vc.CallbackStack[requestId] = {Method: callback, Data: data};
+			vc.SendSingleRequest(requestId, vc.TYPE_API, vc.ms.ACTION_LOADDATA, data);
+		},
+
 		Buy: function(itemTemplateId, callback){
-			$.getJSON(
-				V2Core.SERVERCODE_DIRECTORY + "Places.php",
-				{ Action: MapService.ACTION_BUY, Data: JSON.stringify({ ItemTemplateId: itemTemplateId }) },
-				function(data) { callback(data); }
-			);
+			var data = { ItemTemplateId: itemTemplateId };
+			var requestId = vc.GenerateRequestId();
+			vc.CallbackStack[requestId] = {Method: callback, Data: data};
+			vc.SendSingleRequest(requestId, vc.TYPE_PLACES, vc.ms.ACTION_BUY, data);
 		},
 		
 		Sell: function(itemId, callback){
-			$.getJSON(
-				V2Core.SERVERCODE_DIRECTORY + "Places.php",
-				{ Action: MapService.ACTION_SELL, Data: JSON.stringify({ ItemId: itemId }) },
-				function(data) { callback(data, itemId); }
-			);
+			var data = { ItemId: itemId };
+			var requestId = vc.GenerateRequestId();
+			vc.CallbackStack[requestId] = {Method: callback, Data: data};
+			vc.SendSingleRequest(requestId, vc.TYPE_PLACES, vc.ms.ACTION_SELL, data);
 		},
 		
 		Revive: function(callback){
-			$.getJSON(
-				V2Core.SERVERCODE_DIRECTORY + "Places.php",
-				{ Action: MapService.ACTION_REVIVE, Data: JSON.stringify({ }) },
-				function(data) { callback(data); }
-			);
+			var data = { };
+			var requestId = vc.GenerateRequestId();
+			vc.CallbackStack[requestId] = {Method: callback, Data: data};
+			vc.SendSingleRequest(requestId, vc.TYPE_PLACES, vc.ms.ACTION_REVIVE, data);
 		},
 		
 		Widthdraw: function(gold, callback){
-			$.getJSON(
-				V2Core.SERVERCODE_DIRECTORY + "Places.php",
-				{ Action: MapService.ACTION_WITHDRAW, Data: JSON.stringify({ Gold: gold }) },
-				function(data) { callback(data); }
-			);
+			var data = { Gold: gold };
+			var requestId = vc.GenerateRequestId();
+			vc.CallbackStack[requestId] = {Method: callback, Data: data};
+			vc.SendSingleRequest(requestId, vc.TYPE_PLACES, vc.ms.ACTION_WITHDRAW, data);
 		},
 		
 		Deposit: function(gold, callback){
-			$.getJSON(
-				V2Core.SERVERCODE_DIRECTORY + "Places.php",
-				{ Action: MapService.ACTION_DEPOSIT, Data: JSON.stringify({ Gold: gold }) },
-				function(data) { callback(data); }
-			);
+			var data = { Gold: gold };
+			var requestId = vc.GenerateRequestId();
+			vc.CallbackStack[requestId] = {Method: callback, Data: data};
+			vc.SendSingleRequest(requestId, vc.TYPE_PLACES, vc.ms.ACTION_DEPOSIT, data);
 		},
 		
 		Transfer: function(gold, name, callback){
-			$.getJSON(
-				V2Core.SERVERCODE_DIRECTORY + "Places.php",
-				{ Action: MapService.ACTION_TRANSFER, Data: JSON.stringify({ Gold: gold, Name: name }) },
-				function(data) { callback(data); }
-			);
+			var data = { Gold: gold };
+			var requestId = vc.GenerateRequestId();
+			vc.CallbackStack[requestId] = {Method: callback, Data: data};
+			vc.SendSingleRequest(requestId, vc.TYPE_PLACES, vc.ms.ACTION_TRANSFER, data);
 		}
 	}
 	

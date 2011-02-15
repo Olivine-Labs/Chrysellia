@@ -1,12 +1,17 @@
 <?php
+namespace Functions\Places;
 /**
  * Buy Logic
  */
 
-$Get = (object)Array('Data'=>'');
-if(isset($_GET['Data']))
+$Get = null;
+if(property_exists($ARequest, 'Data'))
 {
-	$Get = json_decode($_GET['Data']);
+	$Get = $ARequest->Data;
+}
+else
+{
+	$Get = new \stdClass();
 }
 
 if(
@@ -38,20 +43,20 @@ if(
 						}
 						else
 						{
-							$Result->Set('Result', \Protocol\Result::ER_DBERROR);
+							$Response->Set('Result', \Protocol\Response::ER_DBERROR);
 						}
 					}
 				}
 				else
 				{
-					$Result->Set('Result', \Protocol\Result::ER_BADDATA);
+					$Response->Set('Result', \Protocol\Response::ER_BADDATA);
 				}
 
 				if($Success)
 				{
 					$Database->commitTransaction();
-					$Result->Set('Result', \Protocol\Result::ER_SUCCESS);
-					$Result->Set('Data', $Item);
+					$Response->Set('Result', \Protocol\Response::ER_SUCCESS);
+					$Response->Set('Data', $Item);
 				}
 				else
 				{
@@ -61,17 +66,16 @@ if(
 		}
 		else
 		{
-			$Result->Set('Result', \Protocol\Result::ER_DBERROR);
+			$Response->Set('Result', \Protocol\Response::ER_DBERROR);
 		}
 	}
 	else
 	{
-		$Result->Set('Result', \Protocol\Result::ER_DBERROR);
+		$Response->Set('Result', \Protocol\Response::ER_DBERROR);
 	}
 }
 else
 {
-	$Result->Set('Result', \Protocol\Result::ER_MALFORMED);
+	$Response->Set('Result', \Protocol\Response::ER_MALFORMED);
 }
-
 ?>

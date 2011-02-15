@@ -12,7 +12,7 @@
 			$("#myCharacter_Intelligence").text(mc.Intelligence);
 			$("#myCharacter_Vitality").text(mc.Vitality);
 			$("#myCharacter_Gold, #myCharacter_CurrentGold").text(mc.Gold);
-			$("#myCharacter_ExperienceBar").progressbar("value", (((mc.Experience*1 - vc.CalculateLevelRequiredExp(mc.Level-1, 0)) / (mc.NextLevelAt() - vc.CalculateLevelRequiredExp(mc.Level-1, 0)) ) * 100)).attr("title", mc.Experience + " / " + mc.NextLevelAt());
+			$("#myCharacter_ExperienceBar").progressbar("value", (mc.Experience / mc.NextLevelAt()) * 100).attr("title", mc.Experience + " / " + mc.NextLevelAt());
 			$("#myCharacter_HealthBar").progressbar("value", ((mc.Health / mc.Vitality) * 100)).attr("title", mc.Health + " / " + mc.Vitality);
 			$("#myCharacter_LevelTitle, #myCharacter_Level").text(mc.Level);
 			$("#myCharacter_FreeLevels").text(mc.FreeLevels);

@@ -1,77 +1,122 @@
 (function( window, undefined ) {
+	var MonsterSpecialTypes = new Array();
+	MonsterSpecialTypes[0] = "Normal";
+	MonsterSpecialTypes[1] = "Merchant";
+	MonsterSpecialTypes[2] = "Defender";
+	MonsterSpecialTypes[3] = "Assassin";
+	MonsterSpecialTypes[4] = "Leader";
+	MonsterSpecialTypes[5] = "Elder";
+	MonsterSpecialTypes[6] = "Veteran";
+	MonsterSpecialTypes[7] = "Fanatic";
+	MonsterSpecialTypes[8] = "Enigma";
+	MonsterSpecialTypes[9] = "Saint";
+	MonsterSpecialTypes[10] = "Demon";
+	MonsterSpecialTypes[11] = "Judge";
+	MonsterSpecialTypes[12] = "Anarchist";
+	MonsterSpecialTypes[13] = "Fool";
+	MonsterSpecialTypes[14] = "Illusionist";
+	V2Core.MonsterSpecialTypes = MonsterSpecialTypes;
+	
 	var Monsters = new Array();
 	
-	Monsters["MONS_00000000000000000000001"] = { 
-		Id: "MONS_00000000000000000000001", 
-		Name: "Drunk Beggar",
-		Level: 1
-	},
+	Monsters["MONS_00000000000000000000001"] = { Id: "MONS_00000000000000000000001", Name: "Drunk Beggar", Level: 1 },
+	Monsters["MONS_00000000000000000000002"] = { Id: "MONS_00000000000000000000002", Name: "Street Urchin", Level: 2 },
+	Monsters["MONS_00000000000000000000003"] = { Id: "MONS_00000000000000000000003", Name: "Sly Peddler", Level: 3 },
+	Monsters["MONS_00000000000000000000004"] = { Id: "MONS_00000000000000000000004", Name: "Stray Dog", Level: 4 },
+	Monsters["MONS_00000000000000000000005"] = { Id: "MONS_00000000000000000000005", Name: "Cultist Initiate", Level: 5 },
+	Monsters["MONS_00000000000000000000006"] = { Id: "MONS_00000000000000000000006", Name: "Militia Volunteer", Level: 6 },
+	Monsters["MONS_00000000000000000000007"] = { Id: "MONS_00000000000000000000007", Name: "Murderous Cultist", Level: 7 },
+	Monsters["MONS_00000000000000000000008"] = { Id: "MONS_00000000000000000000008", Name: "Street Performer", Level: 8 },
+	Monsters["MONS_00000000000000000000009"] = { Id: "MONS_00000000000000000000009", Name: "Enticing Ladies", Level: 9 },
+	Monsters["MONS_00000000000000000000010"] = { Id: "MONS_00000000000000000000010", Name: "Novice Assassin", Level: 10 },
+	Monsters["MONS_00000000000000000000011"] = { Id: "MONS_00000000000000000000011", Name: "Street Brawler", Level: 11 },
+	Monsters["MONS_00000000000000000000012"] = { Id: "MONS_00000000000000000000012",  Name: "Hired Thug", Level: 12 },
 	
-	Monsters["MONS_00000000000000000000002"] = { 
-		Id: "MONS_00000000000000000000002", 
-		Name: "Street Urchin",
-		Level: 2
-	},
-	
-	Monsters["MONS_00000000000000000000003"] = { 
-		Id: "MONS_00000000000000000000003", 
-		Name: "Sly Peddler",
-		Level: 3
-	},
-	
-	Monsters["MONS_00000000000000000000004"] = { 
-		Id: "MONS_00000000000000000000004", 
-		Name: "Stray Dog",
-		Level: 4
-	},
-	
-	Monsters["MONS_00000000000000000000005"] = { 
-		Id: "MONS_00000000000000000000005", 
-		Name: "Cultist Initiate",
-		Level: 5
-	},
-	
-	Monsters["MONS_00000000000000000000006"] = { 
-		Id: "MONS_00000000000000000000006", 
-		Name: "Militia Volunteer",
-		Level: 6
-	},
-	
-	Monsters["MONS_00000000000000000000007"] = { 
-		Id: "MONS_00000000000000000000007", 
-		Name: "Murderous Cultist",
-		Level: 7
-	},
-	
-	Monsters["MONS_00000000000000000000008"] = { 
-		Id: "MONS_00000000000000000000008", 
-		Name: "Street Performer",
-		Level: 8
-	},
-	
-	Monsters["MONS_00000000000000000000009"] = { 
-		Id: "MONS_00000000000000000000009", 
-		Name: "Enticing Ladies",
-		Level: 9
-	},
-	
-	Monsters["MONS_00000000000000000000010"] = { 
-		Id: "MONS_00000000000000000000010", 
-		Name: "Novice Assassin",
-		Level: 10
-	},
-	
-	Monsters["MONS_00000000000000000000011"] = { 
-		Id: "MONS_00000000000000000000011", 
-		Name: "Street Brawler",
-		Level: 11
-	},
-	
-	Monsters["MONS_00000000000000000000012"] = { 
-		Id: "MONS_00000000000000000000012", 
-		Name: "Hired Thug",
-		Level: 12
-	}
+	Monsters["MONS_00000000001297218525596"] = { Id: "MONS_00000000001297218525596", Name: "Squatter", Level: 1 },
+	Monsters["MONS_00000000001297218525723"] = { Id: "MONS_00000000001297218525723", Name: "Animated Skeleton", Level: 3 },
+	Monsters["MONS_00000000001297218525799"] = { Id: "MONS_00000000001297218525799", Name: "Giant Rat Scavengers", Level: 5 },
+	Monsters["MONS_00000000001297218525818"] = { Id: "MONS_00000000001297218525818", Name: "Wild Dog Scavengers", Level: 7 },
+	Monsters["MONS_00000000001297218525837"] = { Id: "MONS_00000000001297218525837", Name: "Giant Scorpion", Level: 9 },
+	Monsters["MONS_00000000001297218525862"] = { Id: "MONS_00000000001297218525862", Name: "Animated Zombie", Level: 12 },
+	Monsters["MONS_00000000001297218525881"] = { Id: "MONS_00000000001297218525881", Name: "Ravening Huge Owl", Level: 15 },
+	Monsters["MONS_00000000001297218525899"] = { Id: "MONS_00000000001297218525899", Name: "Drunk Beggar", Level: 18 },
+	Monsters["MONS_00000000001297218526090"] = { Id: "MONS_00000000001297218526090", Name: "Gravedigger", Level: 21 },
+	Monsters["MONS_00000000001297218526107"] = { Id: "MONS_00000000001297218526107", Name: "Crazed Mourners", Level: 24 },
+	Monsters["MONS_00000000001297218526123"] = { Id: "MONS_00000000001297218526123", Name: "Grave-robbers", Level: 27 },
+	Monsters["MONS_00000000001297218526138"] = { Id: "MONS_00000000001297218526138", Name: "Undertakers", Level: 30 },
+	Monsters["MONS_00000000001297218526153"] = { Id: "MONS_00000000001297218526153", Name: "Drunk Beggar", Level: 3 },
+	Monsters["MONS_00000000001297218526171"] = { Id: "MONS_00000000001297218526171", Name: "Street Urchin", Level: 7 },
+	Monsters["MONS_00000000001297218526192"] = { Id: "MONS_00000000001297218526192", Name: "Sly peddler", Level: 12 },
+	Monsters["MONS_00000000001297218526208"] = { Id: "MONS_00000000001297218526208", Name: "Stray Dog", Level: 18 },
+	Monsters["MONS_00000000001297218526222"] = { Id: "MONS_00000000001297218526222", Name: "Cultist Initiate", Level: 24 },
+	Monsters["MONS_00000000001297218526236"] = { Id: "MONS_00000000001297218526236", Name: "Militia Volunteer", Level: 30 },
+	Monsters["MONS_00000000001297218526250"] = { Id: "MONS_00000000001297218526250", Name: "Murderous Cultist", Level: 36 },
+	Monsters["MONS_00000000001297218526264"] = { Id: "MONS_00000000001297218526264", Name: "Street Performer", Level: 43 },
+	Monsters["MONS_00000000001297218526283"] = { Id: "MONS_00000000001297218526283", Name: "Enticing Ladies", Level: 50 },
+	Monsters["MONS_00000000001297218526297"] = { Id: "MONS_00000000001297218526297", Name: "Novice Assassin", Level: 57 },
+	Monsters["MONS_00000000001297218526311"] = { Id: "MONS_00000000001297218526311", Name: "Street Brawler", Level: 64 },
+	Monsters["MONS_00000000001297218526326"] = { Id: "MONS_00000000001297218526326", Name: "Hired Thug", Level: 71 },
+	Monsters["MONS_00000000001297218526341"] = { Id: "MONS_00000000001297218526341", Name: "Petty Nobles", Level: 18 },
+	Monsters["MONS_00000000001297218526362"] = { Id: "MONS_00000000001297218526362", Name: "Pickpocket", Level: 26 },
+	Monsters["MONS_00000000001297218526381"] = { Id: "MONS_00000000001297218526381", Name: "Burglars", Level: 34 },
+	Monsters["MONS_00000000001297218526401"] = { Id: "MONS_00000000001297218526401", Name: "Thieves Guild Initiate", Level: 42 },
+	Monsters["MONS_00000000001297218526429"] = { Id: "MONS_00000000001297218526429", Name: "House Guard", Level: 50 },
+	Monsters["MONS_00000000001297218526451"] = { Id: "MONS_00000000001297218526451", Name: "City Guard Patrol", Level: 58 },
+	Monsters["MONS_00000000001297218526466"] = { Id: "MONS_00000000001297218526466", Name: "Hired Assassin", Level: 64 },
+	Monsters["MONS_00000000001297218526481"] = { Id: "MONS_00000000001297218526481", Name: "Angry Barmaid", Level: 3 },
+	Monsters["MONS_00000000001297218526494"] = { Id: "MONS_00000000001297218526494", Name: "Violent Drunk", Level: 7 },
+	Monsters["MONS_00000000001297218526507"] = { Id: "MONS_00000000001297218526507", Name: "Sly Gambler", Level: 11 },
+	Monsters["MONS_00000000001297218526520"] = { Id: "MONS_00000000001297218526520", Name: "Canny Barkeep", Level: 18 },
+	Monsters["MONS_00000000001297218526535"] = { Id: "MONS_00000000001297218526535", Name: "Bar Enforcer", Level: 27 },
+	Monsters["MONS_00000000001297218526548"] = { Id: "MONS_00000000001297218526548", Name: "Off-duty Guard", Level: 36 },
+	Monsters["MONS_00000000001297218526561"] = { Id: "MONS_00000000001297218526561", Name: "Cult Leader", Level: 40 },
+	Monsters["MONS_00000000001297218526576"] = { Id: "MONS_00000000001297218526576", Name: "Wizard Apprentice", Level: 64 },
+	Monsters["MONS_00000000001297218526600"] = { Id: "MONS_00000000001297218526600", Name: "Local Militia", Level: 70 },
+	Monsters["MONS_00000000001297218526686"] = { Id: "MONS_00000000001297218526686", Name: "Escaped Panther", Level: 75 },
+	Monsters["MONS_00000000001297218526709"] = { Id: "MONS_00000000001297218526709", Name: "Mercenary Soldier", Level: 79 },
+	Monsters["MONS_00000000001297218526769"] = { Id: "MONS_00000000001297218526769", Name: "Mercenary Captain", Level: 83 },
+	Monsters["MONS_00000000001297218526820"] = { Id: "MONS_00000000001297218526820", Name: "Wandering Monk", Level: 87 },
+	Monsters["MONS_00000000001297218526834"] = { Id: "MONS_00000000001297218526834", Name: "Corrupted Lord", Level: 91 },
+	Monsters["MONS_00000000001297218526849"] = { Id: "MONS_00000000001297218526849", Name: "Palaorian Guard", Level: 95 },
+	Monsters["MONS_00000000001297218526863"] = { Id: "MONS_00000000001297218526863", Name: "Wizard Apprentice", Level: 73 },
+	Monsters["MONS_00000000001297218526877"] = { Id: "MONS_00000000001297218526877", Name: "Summoned Elemental", Level: 75 },
+	Monsters["MONS_00000000001297218526891"] = { Id: "MONS_00000000001297218526891", Name: "Retired Wizard", Level: 78 },
+	Monsters["MONS_00000000001297218526905"] = { Id: "MONS_00000000001297218526905", Name: "Mercenary Soldier", Level: 80 },
+	Monsters["MONS_00000000001297218526919"] = { Id: "MONS_00000000001297218526919", Name: "Forge Apprentice", Level: 83 },
+	Monsters["MONS_00000000001297218526934"] = { Id: "MONS_00000000001297218526934", Name: "Master Smith", Level: 86 },
+	Monsters["MONS_00000000001297218526947"] = { Id: "MONS_00000000001297218526947", Name: "Mercenary Soldier", Level: 89 },
+	Monsters["MONS_00000000001297218526961"] = { Id: "MONS_00000000001297218526961", Name: "Vault Keeper", Level: 93 },
+	Monsters["MONS_00000000001297218526974"] = { Id: "MONS_00000000001297218526974", Name: "Palaorian Guard", Level: 97 },
+	Monsters["MONS_00000000001297218526987"] = { Id: "MONS_00000000001297218526987", Name: "Loaning Guild Initiate", Level: 83 },
+	Monsters["MONS_00000000001297218527002"] = { Id: "MONS_00000000001297218527002", Name: "Loaning Guild Enforcer", Level: 87 },
+	Monsters["MONS_00000000001297218527016"] = { Id: "MONS_00000000001297218527016", Name: "Bet Taker", Level: 91 },
+	Monsters["MONS_00000000001297218527031"] = { Id: "MONS_00000000001297218527031", Name: "Assassination Guild Apprentice", Level: 95 },
+	Monsters["MONS_00000000001297218527045"] = { Id: "MONS_00000000001297218527045", Name: "Agile Gladiator", Level: 99 },
+	Monsters["MONS_00000000001297218527059"] = { Id: "MONS_00000000001297218527059", Name: "Assassination Guild Trainer", Level: 104 },
+	Monsters["MONS_00000000001297218527074"] = { Id: "MONS_00000000001297218527074", Name: "Vigilant Archer", Level: 109 },
+	Monsters["MONS_00000000001297218527088"] = { Id: "MONS_00000000001297218527088", Name: "Experienced Gladiator", Level: 128 },
+	Monsters["MONS_00000000001297218527104"] = { Id: "MONS_00000000001297218527104", Name: "Elite Fighter", Level: 160 },
+	Monsters["MONS_00000000001297218527118"] = { Id: "MONS_00000000001297218527118", Name: "Supreme Challenger", Level: 250 },
+	Monsters["MONS_00000000001297218527132"] = { Id: "MONS_00000000001297218527132", Name: "Supreme Champion", Level: 325 },
+	Monsters["MONS_00000000001297218527147"] = { Id: "MONS_00000000001297218527147", Name: "Clockwork Training Dummy", Level: 95 },
+	Monsters["MONS_00000000001297218527160"] = { Id: "MONS_00000000001297218527160", Name: "Hand-picked Guard", Level: 99 },
+	Monsters["MONS_00000000001297218527173"] = { Id: "MONS_00000000001297218527173", Name: "Training Cadet", Level: 104 },
+	Monsters["MONS_00000000001297218527186"] = { Id: "MONS_00000000001297218527186", Name: "Ornery Drill Master", Level: 110 },
+	Monsters["MONS_00000000001297218527200"] = { Id: "MONS_00000000001297218527200", Name: "Day-shift Guardsman", Level: 116 },
+	Monsters["MONS_00000000001297218527214"] = { Id: "MONS_00000000001297218527214", Name: "Veteran Guardsman", Level: 122 },
+	Monsters["MONS_00000000001297218527229"] = { Id: "MONS_00000000001297218527229", Name: "Elite Guardsman", Level: 128 },
+	Monsters["MONS_00000000001297218527242"] = { Id: "MONS_00000000001297218527242", Name: "Night-shift Guardsman", Level: 140 },
+	Monsters["MONS_00000000001297218527255"] = { Id: "MONS_00000000001297218527255", Name: "Night-shift Captain", Level: 150 },
+	Monsters["MONS_00000000001297218527268"] = { Id: "MONS_00000000001297218527268", Name: "Tower Captain", Level: 160 },
+	Monsters["MONS_00000000001297218527281"] = { Id: "MONS_00000000001297218527281", Name: "Wicked Concubine", Level: 180 },
+	Monsters["MONS_00000000001297218527296"] = { Id: "MONS_00000000001297218527296", Name: "Corrupted Cleric", Level: 190 },
+	Monsters["MONS_00000000001297218527309"] = { Id: "MONS_00000000001297218527309", Name: "Palace Guard", Level: 200 },
+	Monsters["MONS_00000000001297218527323"] = { Id: "MONS_00000000001297218527323", Name: "Palace Guard Captain", Level: 215 },
+	Monsters["MONS_00000000001297218527337"] = { Id: "MONS_00000000001297218527337", Name: "Royal Guardsman", Level: 250 },
+	Monsters["MONS_00000000001297218527350"] = { Id: "MONS_00000000001297218527350", Name: "Assassination Guild Master", Level: 325 },
+	Monsters["MONS_00000000001297218527367"] = { Id: "MONS_00000000001297218527367", Name: "Stoic General", Level: 500 },
+	Monsters["MONS_00000000001297218527381"] = { Id: "MONS_00000000001297218527381", Name: "Elite Bodyguard", Level: 700 },
+	Monsters["MONS_00000000001297218527394"] = { Id: "MONS_00000000001297218527394", Name: "King of Palaor", Level: 900 }
 	
 	V2Core.Monsters = Monsters;
 })(window);

@@ -16,23 +16,28 @@
 		ACTION_CHANNEL_CREATE: 2,
 		ACTION_CHANNEL_PART: 3,
 		ACTION_CHANNEL_SETRIGHTS: 4,
+		ACTION_CHANNEL_SETPARAMETERS: 5,
+		ACTION_ID: 6,
 
 		SendChatCommand: function(channel, command, message, callback){
 			switch(command){
-				case CommandService.ACTION_EMOTE:
-					responseData = { Action: CommandService.ACTION_EMOTE, Data: JSON.stringify({ Channel: channel, Message: message }) }
+				case vc.CommandService.ACTION_EMOTE:
+					var data = { Channel: channel, Message: message };
+					var requestId = vc.GenerateRequestId();
+					vc.CallbackStack[requestId] = {Method: callback, Data: data};
+					vc.SendSingleRequest(requestId, vc.TYPE_COMMANDS, command, data);
+					break;
+				case vc.CommandService.ACTION_ID:
+					var data = { Character: message };
+					var requestId = vc.GenerateRequestId();
+					vc.CallbackStack[requestId] = {Method: callback, Data: data};
+					vc.SendSingleRequest(requestId, vc.TYPE_COMMANDS, command, data);
 					break;
 				default:
-					callback({ Result: V2Core.ER_MALFORMED, Data: {} });
+					callback({ Result: V2Core.ER_MALFORMED, Data: data });
 					return;
 					break;
 			}
-			
-			$.getJSON(
-				V2Core.SERVERCODE_DIRECTORY + "Commands.php",
-				responseData,
-				function(data) { callback(data); }
-			);
 		}
 	}
 	

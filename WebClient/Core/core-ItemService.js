@@ -26,43 +26,38 @@
 		TypeMapping: ["Weapon", "Armor", "Accessory", "Spell"],
 		
 		GetInventory: function(callback){
-			$.getJSON(
-				V2Core.SERVERCODE_DIRECTORY + "Item.php",
-				{ Action: ItemService.ACTION_GETINVENTORY, Data: JSON.stringify({ }) },
-				function(data) { callback(data); }
-			);
+			var data = { };
+			var requestId = vc.GenerateRequestId();
+			vc.CallbackStack[requestId] = {Method: callback, Data: data};
+			vc.SendSingleRequest(requestId, vc.TYPE_ITEM, vc.is.ACTION_GETINVENTORY, data);
 		},
 	
 		Equip: function(itemId, slotType, slot, callback){
-			$.getJSON(
-				V2Core.SERVERCODE_DIRECTORY + "Item.php",
-				{ Action: ItemService.ACTION_EQUIP, Data: JSON.stringify({ ItemId: itemId, SlotNumber: slot }) },
-				function(data) { callback(data, itemId, slotType, slot); }
-			);
+			var data = { ItemId: itemId, SlotType: slotType, SlotNumber: slot };
+			var requestId = vc.GenerateRequestId();
+			vc.CallbackStack[requestId] = {Method: callback, Data: data};
+			vc.SendSingleRequest(requestId, vc.TYPE_ITEM, vc.is.ACTION_EQUIP, data);
 		},
 		
 		UnEquip: function(itemId, slotType, slot, callback){
-			$.getJSON(
-				V2Core.SERVERCODE_DIRECTORY + "Item.php",
-				{ Action: ItemService.ACTION_UNEQUIP, Data: JSON.stringify({ ItemId: itemId }) },
-				function(data) { callback(data, itemId, slotType, slot); }
-			);
+			var data = { ItemId: itemId, SlotType: slotType, SlotNumber: slot };
+			var requestId = vc.GenerateRequestId();
+			vc.CallbackStack[requestId] = {Method: callback, Data: data};
+			vc.SendSingleRequest(requestId, vc.TYPE_ITEM, vc.is.ACTION_UNEQUIP, data);
 		},
 		
 		SendTrade: function(itemId, gold, playerName, callback){
-			$.getJSON(
-				V2Core.SERVERCODE_DIRECTORY + "Item.php",
-				{ Action: ItemService.ACTION_SEND_TRADE, Data: JSON.stringify({ ItemId: itemId, Gold: gold, Player: playerName }) },
-				function(data) { callback(data); }
-			);
+			var data = { ItemId: itemId, Gold: gold, Player: playerName };
+			var requestId = vc.GenerateRequestId();
+			vc.CallbackStack[requestId] = {Method: callback, Data: data};
+			vc.SendSingleRequest(requestId, vc.TYPE_ITEM, vc.is.ACTION_SEND_TRADE, data);
 		},
 		
 		AcceptTrade: function(tradeId, callback){
-			$.getJSON(
-				V2Core.SERVERCODE_DIRECTORY + "Item.php",
-				{ Action: ItemService.ACTION_ACCEPT_TRADE, Data: JSON.stringify({ Trade: tradeId }) },
-				function(data) { callback(data); }
-			);
+			var data = { Trade: tradeId };
+			var requestId = vc.GenerateRequestId();
+			vc.CallbackStack[requestId] = {Method: callback, Data: data};
+			vc.SendSingleRequest(requestId, vc.TYPE_ITEM, vc.is.ACTION_ACCEPT_TRADE, data);
 		}
 	}
 	

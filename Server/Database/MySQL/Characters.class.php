@@ -4,8 +4,9 @@ namespace Database\MySQL;
 
 //Queries
 //Basic
+define('SQL_ISONLINE', 'SELECT count(*) FROM `sessions` WHERE `characterId`=?');
 define('SQL_GETCHARACTERSBYACCOUNTID', 'SELECT c.characterId, c.pin, c.name, c.createdOn, ct.strength, ct.dexterity, ct.intelligence, ct.wisdom, ct.vitality, ct.health, ct.alignGood, ct.alignOrder, ct.raceId, ct.gold, ct.gender, cl.mapId, cl.positionX, cl.positionY, ct.level, ct.freelevels, ct.experience FROM `characters` c INNER JOIN `character_traits` ct ON c.characterId=ct.characterId INNER JOIN `character_locations` cl ON c.characterId=cl.characterId WHERE c.accountId=?');
-define('SQL_GETCHARACTERBYID', 'SELECT c.accountId, c.pin, c.name, c.createdOn, inv.inventoryId FROM `characters` c INNER JOIN `inventories` inv ON c.characterId=inv.characterId WHERE c.characterId=?');
+define('SQL_GETCHARACTERBYID', 'SELECT c.accountId, c.pin, c.name, c.createdOn, inv.inventoryId, c.clanId FROM `characters` c INNER JOIN `inventories` inv ON c.characterId=inv.characterId WHERE c.characterId=?');
 define('SQL_INSERTCHARACTER', 'INSERT INTO `characters` (`accountId`, `characterId`, `pin`, `name`) VALUES (?, ?, ?, ?)');
 define('SQL_GETCHARACTERCOUNT', 'SELECT count(*) FROM `characters` WHERE `accountId`=?');
 define('SQL_CHECKCHARACTERNAME', 'SELECT `characterId` FROM `characters` WHERE `name`=?');
@@ -14,7 +15,7 @@ define('SQL_CHECKCHARACTERNAME', 'SELECT `characterId` FROM `characters` WHERE `
 define('SQL_GETCHARACTERTRAITS', 'SELECT `raceId`, `gender`, `alignGood`, `alignOrder`, `level`, `freelevels`, `experience`, `strength`, `dexterity`, `intelligence`, `wisdom`, `vitality`, `health`, `experienceBonus`, `alignBonus`, `strengthBonus`, `dexterityBonus`, `intelligenceBonus`, `wisdomBonus`, `vitalityBonus`, `gold`, `bank` FROM `character_traits` WHERE `characterId`=?');
 define('SQL_UPDATECHARACTERTRAITS', 'UPDATE `character_traits` SET `alignGood`=?, `alignOrder`=?, `level`=?, `freelevels`=?, `experience`=?, `strength`=?, `dexterity`=?, `intelligence`=?, `wisdom`=?, `vitality`=?, `health`=?, `experienceBonus`=?, `alignBonus`=?, `strengthBonus`=?, `dexterityBonus`=?, `intelligenceBonus`=?, `wisdomBonus`=?, `vitalityBonus`=?, `gold`=?, `bank`=? WHERE `characterId`=?');
 define('SQL_GETCHARACTERRACETRAITS', 'SELECT (rt.strength + r.strength) AS `strength`, (rt.dexterity + r.dexterity) AS `dexterity`, (rt.wisdom + r.wisdom) AS `wisdom`, (rt.intelligence + r.intelligence) AS `intelligence`, (rt.vitality + r.vitality) AS `vitality`, `racialAbility` FROM `character_race_traits` rt INNER JOIN `character_traits` ct ON ct.characterId=rt.characterId INNER JOIN `races` r ON r.raceId=ct.raceId  WHERE rt.characterId=?');
-define('SQL_INSERTCHARACTERTRAITS', 'INSERT INTO `character_traits` (`characterId`, `raceId`, `gender`, `strength`, `dexterity`, `intelligence`, `wisdom`, `vitality`, `health`, `gold`) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?)');
+define('SQL_INSERTCHARACTERTRAITS', 'INSERT INTO `character_traits` (`characterId`, `raceId`, `gender`, `strength`, `dexterity`, `intelligence`, `wisdom`, `vitality`, `health`, `gold`, `alignGood`, `alignOrder`) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)');
 define('SQL_INSERTCHARACTERRACETRAITS', 'INSERT INTO `character_race_traits` (`characterId`, `strength`, `dexterity`, `wisdom`, `intelligence`, `vitality`, `racialAbility`) VALUES (?, ?, ?, ?, ?, ?, ?)');
 
 //Location
@@ -24,6 +25,11 @@ define('SQL_UPDATECHARACTERLOCATIONXY', 'UPDATE `character_locations` SET `posit
 define('SQL_INSERTCHARACTERLOCATION', 'INSERT INTO `character_locations` (`characterId`, `mapId`, `positionX`, `positionY`) VALUES (?, ?, ?, ?)');
 
 define('SQL_LOADLISTFORCELL', 'SELECT c.characterId, c.name, ct.gender, ct.raceId, c.clanId, ct.level, ct.alignGood, ct.alignOrder FROM `characters` c INNER JOIN `character_locations` cl ON cl.characterId=c.characterId INNER JOIN `character_traits` ct ON ct.characterId=c.characterId WHERE cl.mapId=? AND cl.positionX=? AND cl.positionY=? AND ct.Health > 0');
+
+//Masteries
+define('SQL_LOADMASTERIESFORCHARACTER', 'SELECT `masteryId`, `value`, `masteryBonus` FROM `character_masteries` WHERE `characterId`=?');
+define('SQL_UPDATEMASTERYFORCHARACTER', 'UPDATE `character_masteries` SET `value`=?, `masteryBonus`=? WHERE `characterId`=? AND `masteryId`=?');
+define('SQL_INSERTMASTERYFORCHARACTER', 'INSERT INTO `character_masteries` (`characterId`, `masteryId`, `value`) VALUES(?, ?, ?)');
 
 //API
 define('SQL_LOADTOPLIST', 'SELECT c.name, ct.gender, ct.raceId, c.clanId, ct.level, ct.alignGood, ct.alignOrder FROM `characters` c INNER JOIN `character_traits` ct ON ct.characterId=c.characterId');
@@ -67,12 +73,11 @@ class Characters extends \Database\Characters
 	function LoadById(\Entities\Character $Character)
 	{
 		$Query = $this->Database->Connection->prepare(SQL_GETCHARACTERBYID);
-		$this->Database->logError();
 		$Query->bind_param('s', $Character->CharacterId);
 
 		$Query->Execute();
 
-		$Query->bind_result($Character->AccountId, $Character->Pin, $Character->Name, $Character->CreatedOn, $Character->InventoryId);
+		$Query->bind_result($Character->AccountId, $Character->Pin, $Character->Name, $Character->CreatedOn, $Character->InventoryId, $Character->ClanId);
 
 		if($Query->fetch())
 			return true;
@@ -93,7 +98,6 @@ class Characters extends \Database\Characters
 	{
 		$Result = Array();
 		$Query = $this->Database->Connection->prepare(SQL_GETCHARACTERSBYACCOUNTID);
-		$this->Database->logError();
 		$Query->bind_param('s', $Account->AccountId);
 
 		$Query->Execute();
@@ -145,7 +149,6 @@ class Characters extends \Database\Characters
 	{
 		$Character->CharacterId = uniqid('CHAR_', true);
 		$Query = $this->Database->Connection->prepare(SQL_INSERTCHARACTER);
-		$this->Database->logError();
 		$Query->bind_param('ssis', $Character->AccountId, $Character->CharacterId, $Character->Pin, $Character->Name);
 		$Query->Execute();
 
@@ -167,7 +170,6 @@ class Characters extends \Database\Characters
 	function LoadTraits(\Entities\Character $Character)
 	{
 		$Query = $this->Database->Connection->prepare(SQL_GETCHARACTERTRAITS);
-		$this->Database->logError();
 		$Query->bind_param('s', $Character->CharacterId);
 
 		$Query->Execute();
@@ -192,8 +194,7 @@ class Characters extends \Database\Characters
 	function InsertTraits(\Entities\Character $Character)
 	{
 		$Query = $this->Database->Connection->prepare(SQL_INSERTCHARACTERTRAITS);
-		$this->Database->logError();
-		$Query->bind_param('ssiiiiiiii', $Character->CharacterId, $Character->RaceId, $Character->Gender, $Character->Strength, $Character->Dexterity, $Character->Intelligence, $Character->Wisdom, $Character->Vitality, $Character->Health, $Character->Gold);
+		$Query->bind_param('ssiiiiiiiiii', $Character->CharacterId, $Character->RaceId, $Character->Gender, $Character->Strength, $Character->Dexterity, $Character->Intelligence, $Character->Wisdom, $Character->Vitality, $Character->Health, $Character->Gold, $Character->AlignGood, $Character->AlignOrder);
 		$Query->Execute();
 		if($Query->affected_rows > 0)
 			return true;
@@ -213,12 +214,11 @@ class Characters extends \Database\Characters
 	function LoadRaceTraits(\Entities\Character $Character)
 	{
 		$Query = $this->Database->Connection->prepare(SQL_GETCHARACTERRACETRAITS);
-		$this->Database->logError();
 		$Query->bind_param('s', $Character->CharacterId);
 
 		$Query->Execute();
 
-		$Query->bind_result($Character->RacialStrength, $Character->RacialDexterity, $Character->RacialIntelligence, $Character->RacialWisdom, $Character->RacialVitality, $Character->RacialAbilityId);
+		$Query->bind_result($Character->RacialStrength, $Character->RacialDexterity, $Character->RacialWisdom, $Character->RacialIntelligence, $Character->RacialVitality, $Character->RacialAbilityId);
 
 		if($Query->fetch())
 			return true;
@@ -238,8 +238,7 @@ class Characters extends \Database\Characters
 	function InsertRaceTraits(\Entities\Character $Character)
 	{
 		$Query = $this->Database->Connection->prepare(SQL_INSERTCHARACTERRACETRAITS);
-		$this->Database->logError();
-		$Query->bind_param('sssssss', $Character->CharacterId, $Character->RacialStrength, $Character->RacialDexterity, $Character->RacialIntelligence, $Character->RacialWisdom, $Character->RacialVitality, $Character->RacialAbilityId);
+		$Query->bind_param('sssssss', $Character->CharacterId, $Character->RacialStrength, $Character->RacialDexterity, $Character->RacialWisdom, $Character->RacialIntelligence, $Character->RacialVitality, $Character->RacialAbilityId);
 
 		$Query->Execute();
 		if($Query->affected_rows > 0)
@@ -260,7 +259,6 @@ class Characters extends \Database\Characters
 	function LoadPosition(\Entities\Character $Character)
 	{
 		$Query = $this->Database->Connection->prepare(SQL_GETCHARACTERLOCATION);
-		$this->Database->logError();
 		$Query->bind_param('s', $Character->CharacterId);
 
 		$Query->Execute();
@@ -285,7 +283,6 @@ class Characters extends \Database\Characters
 	function UpdatePosition(\Entities\Character $Character)
 	{
 		$Query = $this->Database->Connection->prepare(SQL_UPDATECHARACTERLOCATION);
-		$this->Database->logError();
 		$Query->bind_param('siis', $Character->MapId, $Character->PositionX, $Character->PositionY, $Character->CharacterId);
 
 		$Query->Execute();
@@ -308,7 +305,6 @@ class Characters extends \Database\Characters
 	function UpdatePositionXY(\Entities\Character $Character)
 	{
 		$Query = $this->Database->Connection->prepare(SQL_UPDATECHARACTERLOCATION);
-		$this->Database->logError();
 		$Query->bind_param('sss', $Character->CharacterId, $Character->PositionX, $Character->PositionY);
 
 		$Query->Execute();
@@ -331,11 +327,9 @@ class Characters extends \Database\Characters
 	function InsertPosition(\Entities\Character $Character)
 	{
 		$Query = $this->Database->Connection->prepare(SQL_INSERTCHARACTERLOCATION);
-		$this->Database->logError();
 		$Query->bind_param('ssss', $Character->CharacterId, $Character->MapId, $Character->PositionX, $Character->PositionY);
 
 		$Query->Execute();
-		//die($this->Database->Connection->error);
 		if($Query->affected_rows > 0)
 			return true;
 		else
@@ -354,7 +348,6 @@ class Characters extends \Database\Characters
 	public function GetCount(\Entities\Account $Account)
 	{
 		$Query = $this->Database->Connection->prepare(SQL_GETCHARACTERCOUNT);
-		$this->Database->logError();
 		$Query->bind_param('s', $Account->AccountId);
 
 		$Query->Execute();
@@ -377,7 +370,6 @@ class Characters extends \Database\Characters
 	public function CheckName(\Entities\Character $Character)
 	{
 		$Query = $this->Database->Connection->prepare(SQL_CHECKCHARACTERNAME);
-		$this->Database->logError();
 		$Query->bind_param('s', $Character->Name);
 
 		$Query->Execute();
@@ -403,7 +395,6 @@ class Characters extends \Database\Characters
 	function UpdateTraits(\Entities\Character $Character)
 	{
 		$Query = $this->Database->Connection->prepare(SQL_UPDATECHARACTERTRAITS);
-		$this->Database->logError();
 		$Query->bind_param('iiiiiiiiiiiiiiiiiiiis', $Character->AlignGood, $Character->AlignOrder, $Character->Level, $Character->FreeLevels, $Character->Experience, $Character->Strength, $Character->Dexterity, $Character->Intelligence, $Character->Wisdom, $Character->Vitality, $Character->Health, $Character->ExperienceBonus, $Character->AlignBonus, $Character->StrengthBonus, $Character->DexterityBonus, $Character->IntelligenceBonus, $Character->WisdomBonus, $Character->VitalityBonus, $Character->Gold, $Character->Bank, $Character->CharacterId);
 		$Query->Execute();
 		
@@ -427,7 +418,6 @@ class Characters extends \Database\Characters
 	{
 		$Result = Array();
 		$Query = $this->Database->Connection->prepare(SQL_LOADLISTFORCELL);
-		$this->Database->logError();
 		$Query->bind_param('sss', $ACharacter->MapId, $ACharacter->PositionX, $ACharacter->PositionY);
 
 		$Query->Execute();
@@ -468,9 +458,9 @@ class Characters extends \Database\Characters
 		if(!$Direction)
 			$DirectionString=' DESC';
 		$Where='';
-		if(isset($ByRace))
+		if(isset($ByRace) && $ByRace != "")
 		{
-			$Where = ' WHERE c.raceId="'.$this->Database->Connection->real_escape_string($ByRace).'"';
+			$Where = ' WHERE ct.raceId="'.$this->Database->Connection->real_escape_string($ByRace).'"';
 		}
 		switch($ListType)
 		{
@@ -485,9 +475,8 @@ class Characters extends \Database\Characters
 				break;
 		}
 
-		$Query = $this->Database->Connection->prepare(SQL_LOADTOPLIST.$Where.SQL_ORDERBY.$Field.$Direction.SQL_LIMIT);
+		$Query = $this->Database->Connection->prepare(SQL_LOADTOPLIST.$Where.SQL_ORDERBY.$Field.$DirectionString.SQL_LIMIT);
 
-		$this->Database->logError();
 		$Query->bind_param('ii', $Position, $NumRows);
 
 		$Query->Execute();
@@ -523,12 +512,121 @@ class Characters extends \Database\Characters
 			$Where = ' WHERE c.raceId="'.$this->Database->Connection->real_escape_string($ByRace).'"';
 		}
 		$Query = $this->Database->Connection->prepare(SQL_GETCOUNT.$Where);
-		$this->Database->logError();
 		$Query->Execute();
 
 		$Query->bind_result($Count);
 		$Query->fetch();
 		return $Count;
+	}
+
+	/**
+	 * Load a character's masteries
+	 *
+	 * @param $Character
+	 *   The character entity that will be used to load the list.
+	 *   Must have it's character id property set
+	 *
+	 * @return Array
+	 *   An array containing all the masteries
+	 */
+	public function LoadMasteries(\Entities\Character $Character)
+	{
+		$Query = $this->Database->Connection->prepare(SQL_LOADMASTERIESFORCHARACTER);
+		$Query->bind_param('s', $Character->CharacterId);
+
+		$Query->Execute();
+		$Continue = true;
+		$Result = Array();
+		while($Continue)
+		{
+			$AMastery = array();
+			$Query->bind_result($AMastery['MasteryId'], $AMastery['Value'], $AMastery['Bonus']);
+			$Continue = $Query->Fetch();
+			if($Continue)
+			{
+				$Result[$AMastery['MasteryId']] = $AMastery;
+			}
+		}
+
+		return $Result;
+	}
+
+	/**
+	 * Update a character's mastery value
+	 *
+	 * @param $Character
+	 *   The Character object that will be updated.
+	 *
+	 * @param $MasteryId
+	 *   The Mastery to be updated
+	 *
+	 * @param $Value
+	 *   The new mastery value
+	 *
+	 * @param $Bonus
+	 *   The new mastery bonus
+	 *
+	 * @return Boolean
+	 *   Whether the mastery row was successfully updated or not
+	 */
+	function UpdateMastery(\Entities\Character $Character, $MasteryId, $Value, $Bonus)
+	{
+		$Query = $this->Database->Connection->prepare(SQL_UPDATEMASTERYFORCHARACTER);
+		$Query->bind_param('iisi', $Value, $Bonus, $Character->CharacterId, $MasteryId);
+		$Query->Execute();
+		
+		if($Query->affected_rows > -1)
+			return true;
+		else
+			return false;
+	}
+
+	/**
+	 * Insert an Character object's position data into the database.
+	 *
+	 * @param $Character
+	 *   The Character object that will be inserted.
+	 *
+	 * @return Boolean
+	 *   Whether the Character object was successfully inserted or not
+	 */
+	function InsertMastery(\Entities\Character $Character, $MasteryId, $Value)
+	{
+		$Query = $this->Database->Connection->prepare(SQL_INSERTMASTERYFORCHARACTER);
+		$Query->bind_param('sii', $Character->CharacterId, $MasteryId, $Value);
+
+		$Query->Execute();
+
+		if($Query->affected_rows > 0)
+			return true;
+		else
+			return false;
+	}
+
+	/**
+	 * Checks if a character is online
+	 *
+	 * @param $Character
+	 *   The character entity, must have it's characterId property set
+	 *
+	 * @return boolean
+	 *   Whether the character is online or not
+	 */
+	public function IsOnline(\Entities\Character $Character)
+	{
+		$Query = $this->Database->Connection->prepare(SQL_ISONLINE);
+		$Query->bind_param('s', $Character->CharacterId);
+
+		$Query->Execute();
+
+		$Query->bind_result($Count);
+
+		$Query->Fetch();
+
+		if($Count)
+			return true;
+		else
+			return false;
 	}
 }
 ?>

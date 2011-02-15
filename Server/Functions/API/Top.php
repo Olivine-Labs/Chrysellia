@@ -1,12 +1,17 @@
 <?php
+namespace Functions\API;
 /**
  * Top list logic
  */
 
-$Get = (object)Array('Data'=>'');
-if(isset($_GET['Data']))
+$Get = null;
+if(property_exists($Request->Data, 'Data'))
 {
-	$Get = json_decode($_GET['Data']);
+	$Get = $Request->Data->Data;
+}
+else
+{
+	$Get = new \stdClass();
 }
 
 if(
@@ -18,24 +23,16 @@ if(
 ){
 	if($Get->Num <= 100)
 	{
-		try
-		{
-			$Result->Set('Data', $Database->Characters->LoadTopList($Get->Num, $Get->Position, $Get->Sort, $Get->ListType, $Get->Race));
-			$Result->Set('Result', \Protocol\Result::ER_SUCCESS);
-		}
-		catch(Exception $e)
-		{
-			$Result->Set('Result', \Protocol\Result::ER_DBERROR);
-		}
+		$Response->Set('Data', $Database->Characters->LoadTopList($Get->Num, $Get->Position, $Get->Sort, $Get->ListType, $Get->Race));
+		$Response->Set('Result', \Protocol\Response::ER_SUCCESS);
 	}
 	else
 	{
-		$Result->Set('Result', \Protocol\Result::ER_BADDATA);
+		$Response->Set('Result', \Protocol\Response::ER_BADDATA);
 	}
 }
 else
 {
-	$Result->Set('Result', \Protocol\Result::ER_MALFORMED);
+	$Response->Set('Result', \Protocol\Response::ER_MALFORMED);
 }
-
 ?>

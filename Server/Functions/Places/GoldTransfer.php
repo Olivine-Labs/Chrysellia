@@ -1,12 +1,17 @@
 <?php
+namespace Functions\Places;
 /**
  * Transfer Logic
  */
 
-$Get = (object)Array('Data'=>'');
-if(isset($_GET['Data']))
+$Get = null;
+if(property_exists($ARequest, 'Data'))
 {
-	$Get = json_decode($_GET['Data']);
+	$Get = $ARequest->Data;
+}
+else
+{
+	$Get = new \stdClass();
 }
 
 if(
@@ -43,47 +48,47 @@ if(
 									$Message['From'] = $Character->Name;
 									if($Database->Chat->Insert($Character, 'CHAN_00000000000000000000001', $Message, 255, $TargetCharacter))
 									{
-										$Result->Set('Result', \Protocol\Result::ER_SUCCESS);
+										$Response->Set('Result', \Protocol\Response::ER_SUCCESS);
 									}
 									else
 									{
-										$Result->Set('Result', \Protocol\Result::ER_DBERROR);
+										$Response->Set('Result', \Protocol\Response::ER_DBERROR);
 									}
 								}
 								else
 								{
-									$Result->Set('Result', \Protocol\Result::ER_DBERROR);
+									$Response->Set('Result', \Protocol\Response::ER_DBERROR);
 								}
 							}
 							else
 							{
-								$Result->Set('Result', \Protocol\Result::ER_DBERROR);
+								$Response->Set('Result', \Protocol\Response::ER_DBERROR);
 							}
 						}
 						else
 						{
-							$Result->Set('Result', \Protocol\Result::ER_BADDATA);
+							$Response->Set('Result', \Protocol\Response::ER_BADDATA);
 						}
 					}
 					else
 					{
-						$Result->Set('Result', \Protocol\Result::ER_BADDATA);
+						$Response->Set('Result', \Protocol\Response::ER_BADDATA);
 					}
 				}
 			}
 		}
 		else
 		{
-			$Result->Set('Result', \Protocol\Result::ER_DBERROR);
+			$Response->Set('Result', \Protocol\Response::ER_DBERROR);
 		}
 	}
 	else
 	{
-		$Result->Set('Result', \Protocol\Result::ER_DBERROR);
+		$Response->Set('Result', \Protocol\Response::ER_DBERROR);
 	}
 }
 else
 {
-	$Result->Set('Result', \Protocol\Result::ER_MALFORMED);
+	$Response->Set('Result', \Protocol\Response::ER_MALFORMED);
 }
 ?>

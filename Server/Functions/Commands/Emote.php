@@ -1,43 +1,41 @@
 <?php
+namespace Functions\Commands;
 /**
  * Emotion
  */
 
-$Get = (object)Array('Data'=>'');
-if(isset($_GET['Data']))
+$Get = null;
+if(property_exists($ARequest, 'Data'))
 {
-	$Get = json_decode($_GET['Data']);
+	$Get = $ARequest->Data;
+}
+else
+{
+	$Get = new \stdClass();
 }
 
 if(
 	property_exists($Get, 'Message') &&
 	property_exists($Get, 'Channel')
 ){
-	try
+	$Character = new \Entities\Character();
+	$Character->CharacterId = $_SESSION['CharacterId'];
+	if($Database->Characters->LoadById($Character))
 	{
-		$Character = new \Entities\Character();
-		$Character->CharacterId = $_SESSION['CharacterId'];
-		if($Database->Characters->LoadById($Character))
+		if($Database->Chat->Insert($Character, $Get->Channel, $Get->Message, 1))
 		{
-			if($Database->Chat->Insert($Character, $Get->Channel, $Get->Message, 1))
-			{
-				$Result->Set('Result', \Protocol\Result::ER_SUCCESS);
-			}else
-			{
-				$Result->Set('Result', \Protocol\Result::ER_BADDATA);
-			}
+			$Response->Set('Result', \Protocol\Response::ER_SUCCESS);
 		}else
 		{
-			$Result->Set('Result', \Protocol\Result::ER_DBERROR);
+			$Response->Set('Result', \Protocol\Response::ER_BADDATA);
 		}
-	}
-	catch(Exception $e)
+	}else
 	{
-		$Result->Set('Result', \Protocol\Result::ER_DBERROR);
+		$Response->Set('Result', \Protocol\Response::ER_DBERROR);
 	}
 }
 else
 {
-	$Result->Set('Result', \Protocol\Result::ER_MALFORMED);
+	$Response->Set('Result', \Protocol\Response::ER_MALFORMED);
 }
 ?>

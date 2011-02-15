@@ -1,12 +1,17 @@
 <?php
+namespace Functions\Account;
 /**
  * This file contains the Register function logic for Accounts
  */
 
-$Get = (object)Array('Data'=>'');
-if(isset($_GET['Data']))
+$Get = null;
+if(property_exists($ARequest, 'Data'))
 {
-	$Get = json_decode($_GET['Data']);
+	$Get = $ARequest->Data;
+}
+else
+{
+	$Get = new \stdClass();
 }
 
 if(
@@ -19,30 +24,22 @@ if(
 
 	if($AnAccount->Verify())
 	{
-		try
+		if($Database->Accounts->Insert($AnAccount))
 		{
-			if($Database->Accounts->Insert($AnAccount))
-			{
-				$Result->Set('Result', \Protocol\Result::ER_SUCCESS);
-			}
-			else
-			{
-				$Result->Set('Result', \Protocol\Result::ER_ALREADYEXISTS);
-			}
+			$Response->Set('Result', \Protocol\Response::ER_SUCCESS);
 		}
-		catch(Exception $e)
+		else
 		{
-			$Result->Set('Result', \Protocol\Result::ER_DBERROR);
+			$Response->Set('Result', \Protocol\Response::ER_ALREADYEXISTS);
 		}
 	}
 	else
 	{
-		$Result->Set('Result', \Protocol\Result::ER_BADDATA);
+		$Response->Set('Result', \Protocol\Response::ER_BADDATA);
 	}
 }
 else
 {
-	$Result->Set('Result', \Protocol\Result::ER_MALFORMED);
+	$Response->Set('Result', \Protocol\Response::ER_MALFORMED);
 }
-
 ?>

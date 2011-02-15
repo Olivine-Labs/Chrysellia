@@ -1,31 +1,28 @@
 <?php
+namespace Functions\Item;
 /**
  * Get Inventory
  */
 
-$Get = (object)Array('Data'=>'');
-if(isset($_GET['Data']))
+$Get = null;
+if(property_exists($ARequest, 'Data'))
 {
-	$Get = json_decode($_GET['Data']);
+	$Get = $ARequest->Data;
+}
+else
+{
+	$Get = new \stdClass();
 }
 
-try
+$Character = new \Entities\Character();
+$Character->CharacterId = $_SESSION['CharacterId'];
+if(is_array($Inventory = $Database->Items->LoadInventory($Character)))
 {
-	$Character = new \Entities\Character();
-	$Character->CharacterId = $_SESSION['CharacterId'];
-	if(is_array($Inventory = $Database->Items->LoadInventory($Character)))
-	{
-		$Result->Set('Result', \Protocol\Result::ER_SUCCESS);
-		$Result->Set('Data', $Inventory);
-	}
-	else
-	{
-		$Result->Set('Result', \Protocol\Result::ER_DBERROR);
-	}
+	$Response->Set('Result', \Protocol\Response::ER_SUCCESS);
+	$Response->Set('Data', $Inventory);
 }
-catch(Exception $e)
+else
 {
-	$Result->Set('Result', \Protocol\Result::ER_DBERROR);
+	$Response->Set('Result', \Protocol\Response::ER_DBERROR);
 }
-
 ?>

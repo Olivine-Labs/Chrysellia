@@ -57,12 +57,15 @@
 					<nav>
 						<ul>
 							<li><a href="index.php">Home</a></li>
-							<li><a href="#" class="playNow" class="selected">Play</a></li>
+							<li><a href="account.php" class="playNow selected">Play</a></li>
 							<li><a href="http://blog.chrysellia.com" target="_blank">Blog</a></li>
 							<li><a href="http://wiki.chrysellia.com" target="_blank">Manual</a></li>
-							<!--<li><a href="#">Rankings</a></li>-->
+							<li><a href="tops.php">Rankings</a></li>
 							<li><a href="http://forum.chrysellia.com" target="_blank">Forum</a></li>
-							<li><a href="#">Donate</a></li>
+							<li><form target="_blank" method="post" action="https://www.paypal.com/cgi-bin/webscr"><input type="hidden" value="_s-xclick" name="cmd"><input type="hidden" value="U9PMXZHBZPVPJ" name="hosted_button_id"><button type="image" border="0" alt="PayPal - The safer, easier way to pay online!" name="submit" >Donate</button><img width="1" height="1" border="0" src="https://www.paypal.com/en_US/i/scr/pixel.gif" alt=""></form></li>
+							<li><a href="about.php">About</a></li>
+							<li><a href="api.php">API</a></li>
+							<li class='fbButton'><iframe src="http://www.facebook.com/plugins/like.php?href=http%3A%2F%2Fwww.chrysellia.com&amp;layout=button_count&amp;show_faces=true&amp;width=75&amp;action=like&amp;colorscheme=light&amp;height=21" scrolling="no" frameborder="0" style="border:none; overflow:hidden; width:75px; height:21px;" allowTransparency="true"></iframe></li>
 							<!--<li><a href="#">Store</a></li>-->
 						</ul>
 					</nav>
@@ -260,16 +263,17 @@
 			</div>
 		</footer>
 
-		<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.4/jquery.min.js"></script>
-		<script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.7/jquery-ui.min.js"></script>
+		<script src="http://code.jquery.com/jquery-1.5.min.js"></script>
+		<script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.9/jquery-ui.min.js"></script>
 		
 		<!-- Here come the plugins -->
-		<!--<script src="./js/jquery.watermark.min.js"></script>
+		<script src="./js/jquery.watermark.min.js"></script>
 		<script src="./js/jquery.cookie.js"></script>
-		<script src="./Core/json.js" type="text/javascript"></script>-->
-		<script src="./js/plugins.min.js"></script>
+		<script src="./Core/json.js" type="text/javascript"></script>
+		<script src="./js/jsend.min.js"></script>
+		<!-- <script src="./js/plugins.min.js"></script>-->
 		
-		<!-- For the production version, we'll minify and combine our javascript, and keep a plain version for us
+		<!-- For the production version, we'll minify and combine our javascript, and keep a plain version for us-->
 		<script src="./Core/core.js"></script>
 		<script src="./Core/core-AccountService.js"></script>
 		<script src="./Core/core-CharacterService.js"></script>
@@ -278,8 +282,8 @@
 		<script src="./Core/core-MapService.js"></script>
 		<script src="./Core/core-ItemService.js"></script>
 		<script src="./Core/core-MonsterService.js"></script>
-		<script src="./Core/core-Interface.js"></script>-->
-		<script src="./Core/core.min.js"></script>
+		<script src="./Core/core-Interface.js"></script>
+		<!-- <script src="./Core/core.min.js"></script>-->
 
 		<!-- Data Libraries -->
 		<script src="./Core/staticInfo/races.js"></script>

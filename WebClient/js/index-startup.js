@@ -2,7 +2,7 @@ $(function(){
 	
 	FB.init({appId: '119442588120693', status: true, cookie: true, xfbml: true});
 	
-	$("#playNow").dialog({ modal: true, title: "Register or Log In", width: 600, autoOpen: false });
+	$("#playNow").dialog({ modal: true, title: "Log In / Register a New Account", width: 600, autoOpen: false });
 	
 	$("#btnPlayNow, .playNow").bind("click", function(e){
 		e.preventDefault();
@@ -134,17 +134,15 @@ $(function(){
 		});
 	});
 	
-	vc.api.GetTops(25, 0, 1, ProcessTops);
-	/*$Character = new \Entities\Character();
-			$Character->Name = $Name;
-			$Character->RaceId = $RaceId;
-			$Character->Gender = $Gender;
-			$Character->ClanId = $ClanId;
-			$Character->Level = $Level;
-			$Character->AlignGood = $AlignGood;
-			$Character->AlignOrder = $AlignOrder;*/
-
+	vc.api.Online(ProcessOnline);
+	vc.api.GetTops(30, 0, 0, 0, "", ProcessTops);
 });
+
+function ProcessOnline(data){
+	if(data.Result == vc.ER_SUCCESS){
+		$("#onlines").text(data.Data.Count).removeClass("loading");
+	}
+}
 
 
 function ProcessTops(data){
@@ -154,8 +152,10 @@ function ProcessTops(data){
 		for(var c=0; c < data.Data.length; c++){
 			character = data.Data[c];
 			raceName = vc.Races[character.RaceId].Name;
-			$("#topList").append("<li title='#"+((c*1)+1)+": "+character.Name+" " + AlignName(character.AlignGood, character.AlignOrder) + " Level "+character.Level+ " " + raceName + "' class='" + raceName + "'></li>");
+			$("#topList").append("<li title='#"+(c*1 + 1)+" | "+character.Name+" | " + AlignName(character.AlignGood, character.AlignOrder) + " Level "+character.Level+ " " + raceName + "' class='" + raceName + "'></li>");
 		}
+		
+		$("#topList li").tipsy({gravity: $.fn.tipsy.S, fade: true, html: true });
 	}
 }
 
@@ -191,7 +191,7 @@ function RegisterAccount(username, password, email){
 function ProcessLogin(result){
 	switch(result){
 		case vc.ER_SUCCESS:
-			$.cookie("l",true)
+			$.cookie("l",true);
 			window.location = "./account.php";
 			break;
 		case vc.ER_BADDATA:
@@ -208,28 +208,29 @@ function ProcessLogin(result){
 	}
 }
 
-AlignName = function(goodAlign, orderAlign){
+AlignName = function(AlignGood, AlignOrder){
 	var goodAlign = "";
 	var orderAlign = "";
-	if(this.AlignGood <= -100){
-		goodAlign = "Evil ";
-	}else if(this.AlignGood >= 100){
-		goodAlign = "Good";
-	}
-	
-	if(this.AlignOrder <= -100){
-		orderAlign = "Chaotic";
-	}else if(this.AlignOrder >= 100){
-		orderAlign = "Ordered";
-	}
-	
 	var totalAlign = "Neutral";
-	if(goodAlign != "" || orderAlign != ""){
-		var spacing = "";
-		if(goodAlign != ""){
-			spacing = " ";
+	
+	if(AlignGood <= -100){
+		totalAlign = "Evil ";
+	}else if(AlignGood >= 100){
+		totalAlign = "Good";
+	}
+	
+	if(AlignOrder <= -100){
+		if(totalAlign != "Neutral"){
+			totalAlign += " ";
 		}
-		totalAlign = goodAlign + spacing + orderAlign;
+		
+		totalAlign +=  "Chaotic";
+	}else if(AlignOrder >= 100){
+		if(totalAlign != "Neutral"){
+			totalAlign += " ";
+		}
+		
+		totalAlign += "Ordered";
 	}
 	
 	return totalAlign;

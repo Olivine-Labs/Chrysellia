@@ -1,38 +1,35 @@
 <?php
+namespace Functions\Item;
 /**
  * Unequip item from character
  */
 
-$Get = (object)Array('Data'=>'');
-if(isset($_GET['Data']))
+$Get = null;
+if(property_exists($ARequest, 'Data'))
 {
-	$Get = json_decode($_GET['Data']);
+	$Get = $ARequest->Data;
+}
+else
+{
+	$Get = new \stdClass();
 }
 
-try
+if(property_exists($Get, 'ItemId'))
 {
-	if(property_exists($Get, 'ItemId'))
+	$Character = new \Entities\Character();
+	$Character->CharacterId = $_SESSION['CharacterId'];
+	$Item = new \Entities\Item();
+	$Item->ItemId = $Get->ItemId;
+	if($Database->Items->UnequipItem($Character, $Item))
 	{
-		$Character = new \Entities\Character();
-		$Character->CharacterId = $_SESSION['CharacterId'];
-		$Item = new \Entities\Item();
-		$Item->ItemId = $Get->ItemId;
-		if($Database->Items->UnequipItem($Character, $Item))
-		{
-			$Result->Set('Result', \Protocol\Result::ER_SUCCESS);
-		}else
-		{
-			$Result->Set('Result', \Protocol\Result::ER_DBERROR);
-		}
-	}
-	else
+		$Response->Set('Result', \Protocol\Response::ER_SUCCESS);
+	}else
 	{
-		$Result->Set('Result', \Protocol\Result::ER_BADDATA);
+		$Response->Set('Result', \Protocol\Response::ER_DBERROR);
 	}
 }
-catch(Exception $e)
+else
 {
-	$Result->Set('Result', \Protocol\Result::ER_DBERROR);
+	$Response->Set('Result', \Protocol\Response::ER_BADDATA);
 }
-
 ?>

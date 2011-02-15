@@ -1,42 +1,39 @@
 <?php
+namespace Functions\Character;
 /**
  * Check to see if a name already exists
  */
 
-$Get = (object)Array('Data'=>'');
-if(isset($_GET['Data']))
+$Get = null;
+if(property_exists($ARequest, 'Data'))
 {
-	$Get = json_decode($_GET['Data']);
+	$Get = $ARequest->Data;
+}
+else
+{
+	$Get = new \stdClass();
 }
 
-try
-{
-	if(
-		property_exists($Get, 'Name')
-	){
-		$Character = new \Entities\Character();
-		$Character->Name = $Get->Name;
-		$Race = new \Entities\Race();
-		if($Character->Verify($Race))
-		{
-			if(!$Database->Characters->CheckName($Character))
-				$Result->Set('Result', \Protocol\Result::ER_SUCCESS);
-			else
-				$Result->Set('Result', \Protocol\Result::ER_ALREADYEXISTS);
-		}
+if(
+	property_exists($Get, 'Name')
+){
+	$Character = new \Entities\Character();
+	$Character->Name = $Get->Name;
+	$Race = new \Entities\Race();
+	if($Character->Verify($Race))
+	{
+		if(!$Database->Characters->CheckName($Character))
+			$Response->Set('Result', \Protocol\Response::ER_SUCCESS);
 		else
-		{
-			$Result->Set('Result', \Protocol\Result::ER_BADDATA);
-		}
+			$Response->Set('Result', \Protocol\Response::ER_ALREADYEXISTS);
 	}
 	else
 	{
-		$Result->Set('Result', \Protocol\Result::ER_MALFORMED);
+		$Response->Set('Result', \Protocol\Response::ER_BADDATA);
 	}
 }
-catch(Exception $e)
+else
 {
-	$Result->Set('Result', \Protocol\Result::ER_DBERROR);
+	$Response->Set('Result', \Protocol\Response::ER_MALFORMED);
 }
-
 ?>

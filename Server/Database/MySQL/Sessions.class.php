@@ -3,7 +3,7 @@
 namespace Database\MySQL;
 
 define('SQL_GETSESSION', 'SELECT `data` FROM `sessions` WHERE `sessionId`=?');
-define('SQL_REPLACESESSION', 'INSERT INTO `sessions` (`sessionId`, `data`, `lastUsedOn`) VALUES (?, ?, NOW()) ON DUPLICATE KEY UPDATE `data`=?, `lastUsedOn`=NOW()');
+define('SQL_REPLACESESSION', 'INSERT INTO `sessions` (`sessionId`, `accountId`, `characterId`, `data`, `lastUsedOn`) VALUES (?, ?, ?, ?, NOW()) ON DUPLICATE KEY UPDATE `accountId`=?, `characterId`=?, `data`=?, `lastUsedOn`=NOW()');
 define('SQL_DELETESESSION', 'DELETE FROM `sessions` WHERE `sessionId`=?');
 define('SQL_CLEANSESSIONS', 'DELETE FROM `sessions` WHERE `lastUsedOn` < (NOW() - INTERVAL ? SECOND)');
 define('SQL_GETONLINE', 'SELECT count(*) FROM `sessions` WHERE `lastUsedOn` > (NOW() - INTERVAL 360 SECOND)');
@@ -43,18 +43,21 @@ class Sessions extends \Database\Sessions
 	 */
 	public function Load($Id)
 	{
-		$Query = $this->Database->Connection->prepare(SQL_GETSESSION);
-		$this->Database->logError();
-		$Query->bind_param('s', $Id);
+		
+		if($Query = $this->Database->Connection->prepare(SQL_GETSESSION))
+		{
+			$Query->bind_param('s', $Id);
 
-		$Query->Execute();
+			$Query->Execute();
 
-		$Query->bind_result($Data);
+			$Query->bind_result($Data);
 
-		if($Query->fetch())
-			return $Data;
-		else
-			return '';
+			if($Query->fetch())
+				return $Data;
+			else
+				return '';
+		}
+		return '';
 	}
 
 	/**
@@ -66,18 +69,19 @@ class Sessions extends \Database\Sessions
 	 * @return Boolean
 	 *   Whether the Account object was successfully inserted or not
 	 */
-	public function Replace($Id, $Data)
+	public function Replace($Id, $AccountId, $CharacterId, $Data)
 	{
-		$Query = $this->Database->Connection->prepare(SQL_REPLACESESSION);
-		$this->Database->logError();
-		$Query->bind_param('sss', $Id, $Data, $Data);
+		if($Query = $this->Database->Connection->prepare(SQL_REPLACESESSION))
+		{
+			$Query->bind_param('sssssss', $Id, $AccountId, $CharacterId, $Data, $AccountId, $CharacterId, $Data);
 
-		$Query->Execute();
+			$Query->Execute();
 
-		if($Query->affected_rows > 0)
-			return true;
-		else
-			return false;
+			if($Query->affected_rows > 0)
+				return true;
+			else
+				return false;
+		}
 	}
 
 	/**
@@ -92,7 +96,6 @@ class Sessions extends \Database\Sessions
 	public function Delete($Id)
 	{
 		$Query = $this->Database->Connection->prepare(SQL_DELETESESSION);
-		$this->Database->logError();
 		$Query->bind_param('s', $Id);
 
 		$Query->Execute();
@@ -113,7 +116,6 @@ class Sessions extends \Database\Sessions
 	public function Clean($Seconds)
 	{
 		$Query = $this->Database->Connection->prepare(SQL_CLEANSESSIONS);
-		$this->Database->logError();
 		$Query->bind_param('s', $Seconds);
 		$Query->Execute();
 
@@ -129,7 +131,6 @@ class Sessions extends \Database\Sessions
 	public function GetOnline()
 	{
 		$Query = $this->Database->Connection->prepare(SQL_GETONLINE);
-		$this->Database->logError();
 		$Query->Execute();
 		$Query->bind_result($Count);
 		$Query->Fetch();

@@ -43,7 +43,7 @@ abstract class Sessions
 	 * @return Boolean
 	 *   Whether the Account object was successfully inserted or not
 	 */
-	abstract public function Replace($Id, $Data);
+	abstract public function Replace($Id, $AccountId, $CharacterId, $Data);
 
 	/**
 	 * Abstract - Replace a Session into the database

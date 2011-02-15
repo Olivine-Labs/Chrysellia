@@ -145,146 +145,6 @@ class Race
 	public $VitalityMax;
 
 	/**
-	 * ArmorMasteryMin
-	 *
-	 * @var ArmorMasteryMin
-	 */
-	public $ArmorMasteryMin;
-
-	/**
-	 * ArmorMasteryMax
-	 *
-	 * @var ArmorMasteryMax
-	 */
-	public $ArmorMasteryMax;
-
-	/**
-	 * SwordMasteryMin
-	 *
-	 * @var SwordMasteryMin
-	 */
-	public $SwordMasteryMin;
-
-	/**
-	 * SwordMasteryMax
-	 *
-	 * @var SwordMasteryMax
-	 */
-	public $SwordMasteryMax;
-
-	/**
-	 * AxeMasteryMin
-	 *
-	 * @var AxeMasteryMin
-	 */
-	public $AxeMasteryMin;
-
-	/**
-	 * AxeMasteryMax
-	 *
-	 * @var AxeMasteryMax
-	 */
-	public $AxeMasteryMax;
-
-	/**
-	 * MaceMasteryMin
-	 *
-	 * @var MaceMasteryMin
-	 */
-	public $MaceMasteryMin;
-
-	/**
-	 * MaceMasteryMax
-	 *
-	 * @var MaceMasteryMax
-	 */
-	public $MaceMasteryMax;
-
-	/**
-	 * StaffMasteryMin
-	 *
-	 * @var StaffMasteryMin
-	 */
-	public $StaffMasteryMin;
-
-	/**
-	 * StaffMasteryMax
-	 *
-	 * @var StaffMasteryMax
-	 */
-	public $StaffMasteryMax;
-
-	/**
-	 * ShieldMasteryMin
-	 *
-	 * @var ShieldMasteryMin
-	 */
-	public $ShieldMasteryMin;
-
-	/**
-	 * ShieldMasteryMax
-	 *
-	 * @var ShieldMasteryMax
-	 */
-	public $ShieldMasteryMax;
-
-	/**
-	 * FireMasteryMin
-	 *
-	 * @var FireMasteryMin
-	 */
-	public $FireMasteryMin;
-
-	/**
-	 * FireMasteryMax
-	 *
-	 * @var FireMasteryMax
-	 */
-	public $FireMasteryMax;
-
-	/**
-	 * ColdMasteryMin
-	 *
-	 * @var ColdMasteryMin
-	 */
-	public $ColdMasteryMin;
-
-	/**
-	 * ColdMasteryMax
-	 *
-	 * @var ColdMasteryMax
-	 */
-	public $ColdMasteryMax;
-
-	/**
-	 * ArcaneMasteryMin
-	 *
-	 * @var ArcaneMasteryMin
-	 */
-	public $ArcaneMasteryMin;
-
-	/**
-	 * ArcaneMasteryMax
-	 *
-	 * @var ArcaneMasteryMax
-	 */
-	public $ArcaneMasteryMax;
-
-	/**
-	 * AirMasteryMin
-	 *
-	 * @var AirMasteryMin
-	 */
-	public $AirMasteryMin;
-
-	/**
-	 * AirMasteryMax
-	 *
-	 * @var AirMasteryMax
-	 */
-	public $AirMasteryMax;
-
-	/**
 	 * WeaponSlots
 	 *
 	 * @var WeaponSlots
@@ -311,6 +171,20 @@ class Race
 	 * @var SpellSlots
 	 */
 	public $SpellSlots;
+
+	/**
+	 * AlignGood
+	 *
+	 * @var AlignGood
+	 */
+	public $AlignGood;
+
+	/**
+	 * AlignOrder
+	 *
+	 * @var AlignOrder
+	 */
+	public $AlignOrder;
 
 	/**
 	 * Default constructor for the Account Class

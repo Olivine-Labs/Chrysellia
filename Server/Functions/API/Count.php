@@ -1,29 +1,26 @@
 <?php
+namespace Functions\API;
 /**
  * Character Count logic
  */
 
-$Get = (object)Array('Data'=>'');
-if(isset($_GET['Data']))
+$Get = null;
+if(property_exists($Request->Data, 'Data'))
 {
-	$Get = json_decode($_GET['Data']);
+	$Get = $Request->Data->Data;
+}
+else
+{
+	$Get = new \stdClass();
 }
 
 if(property_exists($Get, 'Race'))
 {
-	try
-	{
-		$Result->Set('Data', Array('Count'=>$Database->Characters->GetTotalCount($Get->Race)));
-		$Result->Set('Result', \Protocol\Result::ER_SUCCESS);
-	}
-	catch(Exception $e)
-	{
-		$Result->Set('Result', \Protocol\Result::ER_DBERROR);
-	}
+	$Response->Set('Data', Array('Count'=>$Database->Characters->GetTotalCount($Get->Race)));
+	$Response->Set('Result', \Protocol\Response::ER_SUCCESS);
 }
 else
 {
-	$Result->Set('Result', \Protocol\Result::ER_MALFORMED);
+	$Response->Set('Result', \Protocol\Response::ER_MALFORMED);
 }
-
 ?>

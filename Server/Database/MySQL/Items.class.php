@@ -35,14 +35,20 @@ define('SQL_LOADRACEDEFAULTITEMS', 'SELECT rdi.itemTemplateId, it.name, it.descr
 define('SQL_ITEMCHANGEINVENTORY', 'UPDATE `items` SET `inventoryId`=? WHERE `itemId`=?');
 define('SQL_LOADINVENTORY', 'SELECT i.itemId, i.name, i.description, i.buyPrice, i.sellPrice, i.itemType, i.createdOn, ie.masteryType, ie.itemClass, ie.sockets, ie.slots, ie.slotType FROM `items` i INNER JOIN `inventories` inv ON i.inventoryId=inv.inventoryId LEFT JOIN `item_equippables` ie ON i.itemId=ie.itemId LEFT JOIN `item_socketables` isk ON i.itemId=isk.itemId WHERE inv.characterId=? AND isk.socketedIn IS NULL AND i.itemId NOT IN(SELECT itemId FROM `character_equipment` WHERE `characterId`=inv.characterId)');
 define('SQL_INSERTINVENTORYFORCHARACTER', 'INSERT INTO `inventories` (`inventoryId`, `characterId`) VALUES (?, ?)');
-define('SQL_ITEMGETOWNERSHIP', 'SELECT inv.characterId FROM `inventories` inv INNER JOIN `items` i ON i.inventoryId=inv.inventoryId WHERE i.itemId=? AND i.itemId NOT IN(SELECT `itemId` FROM `character_equipment` WHERE `characterId`=inv.characterId)');
+define('SQL_ITEMGETOWNERSHIP', 'SELECT inv.characterId FROM `inventories` inv INNER JOIN `items` i ON i.inventoryId=inv.inventoryId WHERE i.itemId=? AND i.itemId NOT IN(SELECT `itemId` FROM `character_equipment` WHERE `characterId`=inv.characterId) AND i.itemId NOT IN(SELECT `itemId` FROM `trade_items`)');
 
 define('SQL_INSERTTRADE', 'INSERT INTO `trades` (`tradeId`, `inventoryTo`, `inventoryFrom`, `cost`) VALUES (?, ?, ?, ?)');
-define('SQL_INSERTTRADEITEM', 'INSERT INTO `trade_items` (`trade_id`, `sendRecv`, `itemId`) VALUES (?, ?, ?)');
+define('SQL_INSERTTRADEITEM', 'INSERT INTO `trade_items` (`tradeId`, `sendRecv`, `itemId`) VALUES (?, ?, ?)');
+define('SQL_LOADTRADE', 'SELECT t.tradeId, ti.sendRecv, inventoryIdTo, inventoryIdFrom, ti.itemId, t.cost, it.itemTemplateId FROM `trades` t INNER JOIN `trade_items` ti ON t.tradeId=ti.tradeId INNER JOIN `items` i ON i.itemId=ti.itemId WHERE t.tradeId=?');
+define('SQL_DELETETRADE', 'DELETE FROM `trades` WHERE `tradeId`=?');
+define('SQL_LOADINCOMINGTRADES', 'SELECT t.tradeId, ti.sendRecv, inventoryIdTo, inventoryIdFrom, ti.itemId, t.cost, i.name, i.description, i.buyPrice, i.sellPrice, i.itemType, ie.masteryType, ie.itemClass, ie.sockets, ie.slots, ie.slotType FROM `trades` t INNER JOIN `trade_items` ti ON t.tradeId=ti.tradeId INNER JOIN `items` i ON i.itemId=ti.itemId INNER JOIN `inventories` inv ON inv.inventoryId=t.inventoryIdTo LEFT JOIN `item_equippables` ie ON i.itemId=ie.itemId LEFT JOIN `item_socketables` isk ON i.itemId=isk.itemId WHERE inv.characterId=?');
+define('SQL_LOADOUTGOINGTRADES', 'SELECT t.tradeId, ti.sendRecv, inventoryIdTo, inventoryIdFrom, ti.itemId, t.cost, i.name, i.description, i.buyPrice, i.sellPrice, i.itemType, ie.masteryType, ie.itemClass, ie.sockets, ie.slots, ie.slotType FROM `trades` t INNER JOIN `trade_items` ti ON t.tradeId=ti.tradeId INNER JOIN `items` i ON i.itemId=ti.itemId INNER JOIN `inventories` inv ON inv.inventoryId=t.inventoryIdFrom LEFT JOIN `item_equippables` ie ON i.itemId=ie.itemId LEFT JOIN `item_socketables` isk ON i.itemId=isk.itemId WHERE inv.characterId=?');
 
 define('SQL_GETEQUIPPEDITEMS', 'SELECT e.itemId, e.slotType, e.slots, e.slotNumber, i.name, i.description, i.buyPrice, i.sellPrice, i.itemType, i.createdOn, ie.masteryType, ie.itemClass, ie.sockets FROM `character_equipment` e INNER JOIN `items` i ON i.itemId=e.itemId INNER JOIN `item_equippables` ie ON ie.itemId=i.itemId WHERE e.characterId=? ORDER BY e.slotNumber ASC');
 define('SQL_EQUIPITEM', 'INSERT INTO  `character_equipment` (`characterId`, `itemId`, `slotType`, `slots`, `slotNumber`) VALUES (?, ?, ?, ?, ?)');
 define('SQL_UNEQUIPITEM', 'DELETE FROM `character_equipment` WHERE `characterId`=? AND `itemId`=?');
+
+define('SQL_LOADTEMPLATES', 'SELECT i.itemTemplateId, i.name, i.description, i.buyPrice, i.sellPrice, i.itemType, ie.masteryType, ie.itemClass, ie.sockets, ie.slots, ie.slotType FROM `item_templates` i  LEFT JOIN `item_template_equippables` ie ON i.itemTemplateId=ie.itemTemplateId');
 
 /**
  * Class that holds definitions for Item query functions
@@ -81,7 +87,6 @@ class Items
 	public function LoadById(\Entities\Item $AnItem)
 	{
 		$Query = $this->Database->Connection->prepare(SQL_LOADITEM);
-		$this->Database->logError();
 		$Query->bind_param('s', $AnItem->ItemId);
 
 		$Query->Execute();
@@ -105,7 +110,6 @@ class Items
 	public function LoadTemplateById(\Entities\Item $AnItem)
 	{
 		$Query = $this->Database->Connection->prepare(SQL_LOADITEM_TEMPLATE);
-		$this->Database->logError();
 		$Query->bind_param('s', $AnItem->ItemTemplateId);
 
 		$Query->Execute();
@@ -130,10 +134,8 @@ class Items
 	{
 		$Item->ItemId = uniqid('ITEM_', true);
 		$Query = $this->Database->Connection->prepare(SQL_INSERTITEM);
-		$this->Database->logError();
 		$Query->bind_param('ssisssii', $Item->ItemId, $Item->ItemTemplateId, $Item->Type, $Item->InventoryId, $Item->Name, $Item->Description, $Item->BuyPrice, $Item->SellPrice);
 		$Query->Execute();
-		$this->Database->logError();
 
 		if($Query->affected_rows > 0)
 		{
@@ -143,17 +145,14 @@ class Items
 			{
 				case IT_CONSUMABLE:
 					$Query2 = $this->Database->Connection->prepare(SQL_INSERTITEM_CONSUMABLE);
-					$this->Database->logError();
 					$Query2->bind_param('ss', $Item->ItemId, $Item->OnUse);
 					break;
 				case IT_SOCKETABLE:
 					$Query2 = $this->Database->Connection->prepare(SQL_INSERTITEM_SOCKETABLE);
-					$this->Database->logError();
 					$Query2->bind_param('sss', $Item->ItemId, $Item->SocketedIn, $Item->OnSocket);
 					break;
 				case IT_EQUIPPABLE:
 					$Query2 = $this->Database->Connection->prepare(SQL_INSERTITEM_EQUIPPABLE);
-					$this->Database->logError();
 					$Query2->bind_param('siiiiissss', $Item->ItemId, $Item->MasteryType, $Item->ItemClass, $Item->Sockets, $Item->Slots, $Item->SlotType, $Item->OnEquip, $Item->OnUnequip, $Item->OnAttack, $Item->OnDefend);
 					break;
 				default:
@@ -198,7 +197,6 @@ class Items
 	{
 		$InventoryId = uniqid('IVTY_', true);
 		$Query = $this->Database->Connection->prepare(SQL_INSERTINVENTORYFORCHARACTER);
-		$this->Database->logError();
 		$Query->bind_param('ss', $InventoryId, $Character->CharacterId);
 		$Query->Execute();
 
@@ -220,7 +218,6 @@ class Items
 	public function Delete(\Entities\Item $Item)
 	{
 		$Query = $this->Database->Connection->prepare(SQL_DELETEITEM);
-		$this->Database->logError();
 		$Query->bind_param('s', $Item->ItemId);
 		$Query->Execute();
 
@@ -243,7 +240,6 @@ class Items
 	public function LoadInventory(\Entities\Character $Character)
 	{
 		$Query = $this->Database->Connection->prepare(SQL_LOADINVENTORY);
-		$this->Database->logError();
 		$Query->bind_param('s', $Character->CharacterId);
 
 		$Query->Execute();
@@ -278,7 +274,6 @@ class Items
 	public function LoadRaceDefaultItems(\Entities\Race $Race)
 	{
 		$Query = $this->Database->Connection->prepare(SQL_LOADRACEDEFAULTITEMS);
-		$this->Database->logError();
 		$Query->bind_param('s', $Race->RaceId);
 
 		$Query->Execute();
@@ -312,7 +307,6 @@ class Items
 	public function LoadEquippedItems(\Entities\Character $Character)
 	{
 		$Query = $this->Database->Connection->prepare(SQL_GETEQUIPPEDITEMS);
-		$this->Database->logError();
 		$Query->bind_param('s', $Character->CharacterId);
 		$Query->Execute();
 		$Continue = true;
@@ -353,7 +347,6 @@ class Items
 	public function EquipItem(\Entities\Character $Character, \Entities\Item $Item, $SlotNumber)
 	{
 		$Query = $this->Database->Connection->prepare(SQL_EQUIPITEM);
-		$this->Database->logError();
 		$Query->bind_param('ssiii', $Character->CharacterId, $Item->ItemId, $Item->SlotType, $Item->Slots, $SlotNumber);
 		$Query->Execute();
 
@@ -380,7 +373,6 @@ class Items
 	public function UnequipItem(\Entities\Character $Character, \Entities\Item $Item)
 	{
 		$Query = $this->Database->Connection->prepare(SQL_UNEQUIPITEM);
-		$this->Database->logError();
 		$Query->bind_param('ss', $Character->CharacterId, $Item->ItemId);
 		$Query->Execute();
 
@@ -407,7 +399,6 @@ class Items
 	public function CharacterOwnsItem(\Entities\Character $Character, \Entities\Item $Item)
 	{
 		$Query = $this->Database->Connection->prepare(SQL_ITEMGETOWNERSHIP);
-		$this->Database->logError();
 		$Query->bind_param('s', $Item->ItemId);
 		$Query->Execute();
 		$Query->bind_result($CharacterId);
@@ -437,7 +428,6 @@ class Items
 	{
 		$TradeId = uniqid('TRAD_', true);
 		$Query = $this->Database->Connection->prepare(SQL_INSERTTRADE);
-		$this->Database->logError();
 		$Query->bind_param('sssi', $TradeId, $InventoryIdDestination, $InventoryIdSource, $Cost);
 		$Query->Execute();
 
@@ -466,14 +456,160 @@ class Items
 	{
 		$TradeId = uniqid('TRAD_', true);
 		$Query = $this->Database->Connection->prepare(SQL_INSERTTRADEITEM);
-		$this->Database->logError();
 		$Query->bind_param('sssi', $TradeId, $InventoryIdDestination, $InventoryIdSource, $Cost);
 		$Query->Execute();
 
 		if($Query->affected_rows > 0)
-			return $true;
+			return true;
 		else
 			return false;
+	}
+
+	/**
+	 * Load a trade
+	 *
+	 * @param $TradeId
+	 *   The source InventoryId
+	 *
+	 * @return Boolean
+	 *   Whether or not the insert succeeded
+	 */
+	public function LoadTrade($TradeId)
+	{
+		$Result = array();
+		$Query = $this->Database->Connection->prepare(SQL_LOADTRADE);
+		$Query->bind_param('s', $TradeId);
+		$Query->Execute();
+		$Array = array();
+		$Query->bind_result($Array['TradeId'], $Array['SendRecv'], $Array['InventoryTo'], $Array['InventoryFrom'], $Array['ItemId'], $Array['Cost'], $Array['ItemTemplateId']);
+		while($Query->Fetch())
+		{
+			array_push($Result, $Array);
+		}
+		return $Result;
+	}
+
+	/**
+	 * Load incoming trades
+	 *
+	 * @param $Character
+	 *   A character entity
+	 *
+	 * @return Boolean
+	 *   Whether or not the load succeeded
+	 */
+	public function LoadIncomingTrades(\Entities\Character $Character)
+	{
+		$Result = array();
+		$Query = $this->Database->Connection->prepare(SQL_LOADINCOMINGTRADES);
+		$Query->bind_param('s', $Character->CharacterId);
+		$Query->Execute();
+		$Array = array();
+		$Query->bind_result($Array['TradeId'], $Array['SendRecv'], $Array['InventoryTo'], $Array['InventoryFrom'], $Array['ItemId'], $Array['Cost'], $Array['ItemName'], $Array['Description'], $Array['BuyPrice'], $Array['SellPrice'], $Array['ItemType'], $Array['MasteryType'], $Array['ItemClass'], $Array['Sockets'], $Array['Slots'], $Array['SlotType']);
+		while($Query->Fetch())
+		{
+			array_push($Result, $Array);
+		}
+		return $Result;
+	}
+
+	/**
+	 * Load incoming trades
+	 *
+	 * @param $Character
+	 *   A character entity
+	 *
+	 * @return Boolean
+	 *   Whether or not the load succeeded
+	 */
+	public function LoadOutgoingTrades(\Entities\Character $Character)
+	{
+		$Result = array();
+		$Query = $this->Database->Connection->prepare(SQL_LOADINCOMINGTRADES);
+		$Query->bind_param('s', $Character->CharacterId);
+		$Query->Execute();
+		$Array = array();
+		$Query->bind_result($Array['TradeId'], $Array['SendRecv'], $Array['InventoryTo'], $Array['InventoryFrom'], $Array['ItemId'], $Array['Cost'], $Array['ItemName'], $Array['Description'], $Array['BuyPrice'], $Array['SellPrice'], $Array['ItemType'], $Array['MasteryType'], $Array['ItemClass'], $Array['Sockets'], $Array['Slots'], $Array['SlotType']);
+		while($Query->Fetch())
+		{
+			array_push($Result, $Array);
+		}
+		return $Result;
+	}
+
+	/**
+	 * Delete a trade
+	 *
+	 * @param $TradeId
+	 *   The source TradeId
+	 *
+	 * @return Boolean
+	 *   Whether or not the insert succeeded
+	 */
+	public function DeleteTrade($TradeId)
+	{
+		$Result = array();
+		$Query = $this->Database->Connection->prepare(SQL_DELETETRADE);
+		$Query->bind_param('s', $TradeId);
+		$Query->Execute();
+
+		if($Query->affected_rows > 0)
+			return true;
+		else
+			return false;
+	}
+
+	/**
+	 * Change Inventory
+	 *
+	 * @param $Character
+	 *   The Character entity that will have an item equipped
+	 *   Must have it's characterId property set
+	 *
+	 * @param $Item
+	 *   The Item entity will be equipped
+	 *   Must have it's ItemId, SlotType, and slots properties set 
+	 *
+	 * @param $SlotNumber
+	 *   The slot which the item should be equipped in
+	 *
+	 * @return Boolean
+	 *   Whether or not the insert succeeded
+	 */
+	public function ChangeInventory(\Entities\Item $Item, $InventoryId)
+	{
+		$Query = $this->Database->Connection->prepare(SQL_ITEMCHANGEINVENTORY);
+		$Query->bind_param('ss', $Item->ItemId, $InventoryId);
+		$Query->Execute();
+
+		if($Query->affected_rows > 0)
+			return true;
+		else
+			return false;
+	}
+	
+	public function LoadAllItemTemplates()
+	{
+		$Query = $this->Database->Connection->prepare(SQL_LOADTEMPLATES);
+
+		$Query->Execute();
+		$Continue = true;
+		$Result = Array();
+		$Index = 0;
+		while($Continue)
+		{
+			$AnItem = new \Entities\Item();
+			//i.itemTemplateId, i.name, i.description, i.buyPrice, i.sellPrice, i.itemType, ie.masteryType, ie.itemClass, ie.sockets, ie.slots, ie.slotType
+			$Query->bind_result($AnItem->ItemId, $AnItem->Name, $AnItem->Description, $AnItem->BuyPrice, $AnItem->SellPrice, $AnItem->Type, $AnItem->MasteryType, $AnItem->ItemClass, $AnItem->Sockets, $AnItem->Slots, $AnItem->SlotType);
+			$Continue = $Query->Fetch();
+			if($Continue)
+			{
+				$Result[$Index] = $AnItem;
+				$Index++;
+			}
+		}
+
+		return $Result;
 	}
 }
 ?>

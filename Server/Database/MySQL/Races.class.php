@@ -2,8 +2,8 @@
 
 namespace Database\MySQL;
 
-define('SQL_GETRACE', 'SELECT `name`, `homeMapId`, `homePositionX`, `homePositionY`, `levelRequirement`, `alignMin`, `alignMax`, `strength`, `dexterity`, `intelligence`, `wisdom`, `vitality`, `strengthMax`, `dexterityMax`, `intelligenceMax`, `wisdomMax`, `vitalityMax`, `armorMasteryMin`, `armorMasteryMax`, `swordMasteryMin`, `swordMasteryMax`, `axeMasteryMin`, `axeMasteryMax`, `maceMasteryMinimum`, `maceMasteryMax`, `staffMasteryMin`, `staffMasteryMax`, `shieldMasteryMin`, `shieldMasteryMax`, `fireMasteryMin`, `fireMastereyMax`, `coldMasteryMin`, `coldMasteryMax`, `arcaneMasteryMin`, `arcaneMasteryMax`, `airMasteryMin`, `airMasterytMax`, `weaponSlots`, `armorSlots`, `accessorySlots`, `spellSlots` FROM `races` WHERE raceId=?');
-
+define('SQL_GETRACE', 'SELECT `name`, `homeMapId`, `homePositionX`, `homePositionY`, `levelRequirement`, `alignMin`, `alignMax`, `strength`, `dexterity`, `intelligence`, `wisdom`, `vitality`, `strengthMax`, `dexterityMax`, `intelligenceMax`, `wisdomMax`, `vitalityMax`, `weaponSlots`, `armorSlots`, `accessorySlots`, `spellSlots`, `alignGood`, `alignOrder` FROM `races` WHERE raceId=?');
+define('SQL_LOADDEFAULTMASTERIES', 'SELECT `masteryId`, `value`, `minValue`, `maxValue` FROM `race_default_masteries` WHERE `raceId`=?');
 /**
  * Class that holds definitions for race query functions
  */
@@ -40,11 +40,10 @@ class Races
 	public function LoadById(\Entities\Race $Race)
 	{
 		$Query = $this->Database->Connection->prepare(SQL_GETRACE);
-		$this->Database->logError();
 		$Query->bind_param('s', $Race->RaceId);
 		$Query->Execute();
 
-		$Query->bind_result($Race->Name, $Race->HomeMapId, $Race->HomePositionX, $Race->HomePositionY, $Race->LevelRequirement, $Race->AlignMin, $Race->AlignMax, $Race->Strength, $Race->Dexterity, $Race->Intelligence, $Race->Wisdom, $Race->Vitality, $Race->StrengthMax, $Race->DexterityMax, $Race->IntelligenceMax, $Race->WisdomMax, $Race->VitalityMax, $Race->ArmorMasteryMin, $Race->ArmorMasteryMax, $Race->SwordMasteryMin, $Race->SwordMasteryMax, $Race->AxeMasteryMin, $Race->AxeMasteryMax, $Race->MaceMasteryMinimum, $Race->MaceMasteryMax, $Race->StaffMasteryMin, $Race->StaffMasteryMax, $Race->ShieldMasteryMin, $Race->ShieldMasteryMax, $Race->FireMasteryMin, $Race->FireMastereyMax, $Race->ColdMasteryMin, $Race->ColdMasteryMax, $Race->ArcaneMasteryMin, $Race->ArcaneMasteryMax, $Race->AirMasteryMin, $Race->AirMasterytMax, $Race->WeaponSlots, $Race->ArmorSlots, $Race->AccessorySlots, $Race->SpellSlots);
+		$Query->bind_result($Race->Name, $Race->HomeMapId, $Race->HomePositionX, $Race->HomePositionY, $Race->LevelRequirement, $Race->AlignMin, $Race->AlignMax, $Race->Strength, $Race->Dexterity, $Race->Intelligence, $Race->Wisdom, $Race->Vitality, $Race->StrengthMax, $Race->DexterityMax, $Race->IntelligenceMax, $Race->WisdomMax, $Race->VitalityMax, $Race->WeaponSlots, $Race->ArmorSlots, $Race->AccessorySlots, $Race->SpellSlots, $Race->AlignGood, $Race->AlignOrder);
 
 		if($Query->fetch()){
 			return $Race;
@@ -52,6 +51,38 @@ class Races
 		else{
 			return false;
 		}
+	}
+
+	/**
+	 * Load a race's default masteries
+	 *
+	 * @param $Race
+	 *   The race entity that will be used to load the list.
+	 *   Must have it's race id property set
+	 *
+	 * @return Array
+	 *   An array containing all the default masteried
+	 */
+	public function LoadDefaultMasteries(\Entities\Race $Race)
+	{
+		$Query = $this->Database->Connection->prepare(SQL_LOADDEFAULTMASTERIES);
+		$Query->bind_param('s', $Race->RaceId);
+
+		$Query->Execute();
+		$Continue = true;
+		$Result = Array();
+		while($Continue)
+		{
+			$AMastery = array();
+			$Query->bind_result($AMastery['MasteryId'], $AMastery['Value'], $AMastery['Min'], $AMastery['Max']);
+			$Continue = $Query->Fetch();
+			if($Continue)
+			{
+				$Result[$AMastery['MasteryId']] = $AMastery;
+			}
+		}
+
+		return $Result;
 	}
 }
 ?>

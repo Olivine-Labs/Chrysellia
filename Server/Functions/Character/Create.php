@@ -1,17 +1,21 @@
 <?php
+namespace Functions\Character;
 /**
  * This file contains the Character creation logic
  */
 
-define('CHANNEL_GENERAL', 'CHAN_00000000000000000000001');
-define('CHANNEL_TRADE', 'CHAN_00000000000000000000002');
+const CHANNEL_GENERAL = 'CHAN_00000000000000000000001';
+const CHANNEL_TRADE = 'CHAN_00000000000000000000002';
+const STARTING_GOLD = '150';
 
-define('STARTING_GOLD', '150');
-
-$Get = (object)Array('Data'=>'');
-if(isset($_GET['Data']))
+$Get = null;
+if(property_exists($ARequest, 'Data'))
 {
-	$Get = json_decode($_GET['Data']);
+	$Get = $ARequest->Data;
+}
+else
+{
+	$Get = new \stdClass();
 }
 
 if(
@@ -54,91 +58,95 @@ if(
 			$ACharacter->Vitality = $ARace->Vitality + $ACharacter->RacialVitality;
 			$ACharacter->Health = $ACharacter->Vitality;
 			$ACharacter->Gold = STARTING_GOLD;
+			$ACharacter->AlignGood = $ARace->AlignGood;
+			$ACharacter->AlignOrder = $ARace->AlignOrder;
 
-			try
+			$Database->startTransaction();
+			$Success = false;
+
+			if($Database->Characters->Insert($ACharacter))
 			{
-				$Database->startTransaction();
-				$Success = false;
-
-				if($Database->Characters->Insert($ACharacter))
+				if($Database->Characters->InsertTraits($ACharacter))
 				{
-					if($Database->Characters->InsertTraits($ACharacter))
+					if($Database->Characters->InsertRaceTraits($ACharacter))
 					{
-						if($Database->Characters->InsertRaceTraits($ACharacter))
+						if($Database->Characters->InsertPosition($ACharacter))
 						{
-							if($Database->Characters->InsertPosition($ACharacter))
+							if($Database->Chat->SetRights($ACharacter, CHANNEL_GENERAL, Array('Read'=>1, 'Write'=>1, 'Moderate'=>0, 'Administrate'=>0, 'isJoined' =>1)))
 							{
-								if($Database->Chat->SetRights($ACharacter, CHANNEL_GENERAL, Array('Read'=>1, 'Write'=>1, 'Moderate'=>0, 'Administrate'=>0, 'isJoined' =>1)))
+								if($Database->Chat->SetRights($ACharacter, CHANNEL_TRADE, Array('Read'=>1, 'Write'=>1, 'Moderate'=>0, 'Administrate'=>0, 'isJoined' =>1)))
 								{
-									if($Database->Chat->SetRights($ACharacter, CHANNEL_TRADE, Array('Read'=>1, 'Write'=>1, 'Moderate'=>0, 'Administrate'=>0, 'isJoined' =>1)))
+									if($InventoryId = $Database->Items->InsertInventoryForCharacter($ACharacter))
 									{
-										if($InventoryId = $Database->Items->InsertInventoryForCharacter($ACharacter))
-										{
-											if(is_array($DefaultItemsList = $Database->Items->LoadRaceDefaultItems($ARace)))
+										if(
+											is_array($DefaultItemsList = $Database->Items->LoadRaceDefaultItems($ARace)) &&
+											is_array($DefaultMasteriesList = $Database->Races->LoadDefaultMasteries($ARace))
+										){
+											$Run = true;
+											$Index = 0;
+											while(($Run) && ($Index < count($DefaultItemsList)))
 											{
-												$Run = true;
-												$Index = 0;
-												while(($Run) && ($Index < count($DefaultItemsList)))
+												$AnItem = $DefaultItemsList[$Index];
+												$AnItem->InventoryId = $InventoryId;
+												if(!$Database->Items->Insert($AnItem))
 												{
-													$AnItem = $DefaultItemsList[$Index];
-													$AnItem->InventoryId = $InventoryId;
-													if(!$Database->Items->Insert($AnItem))
-													{
-														$Run = false;
-													}else
-													{
-														$Database->Items->EquipItem($ACharacter, $AnItem, 0);
-													}
-													$Index++;
+													$Run = false;
+												}else
+												{
+													$Database->Items->EquipItem($ACharacter, $AnItem, 0);
 												}
-												if($Run)
-													$Success = true;
+												$Index++;
 											}
+											$Index = 0;
+											while(($Run) && ($Index < count($DefaultMasteriesList)))
+											{
+												$AMastery = $DefaultMasteriesList[$Index];
+												if(!$Database->Characters->InsertMastery($ACharacter, $Index, $AMastery['Value']))
+												{
+													$Run = false;
+												}
+												$Index++;
+											}
+											if($Run)
+												$Success = true;
 										}
 									}
 								}
 							}
 						}
 					}
-
-					if(!$Success)
-					{
-						$Result->Set('Result', \Protocol\Result::ER_DBERROR);
-					}
-				}else
-				{
-					$Result->Set('Result', \Protocol\Result::ER_ALREADYEXISTS);
 				}
-
-				if($Success)
+				if(!$Success)
 				{
-					$Database->commitTransaction();
-					$Result->Set('Result', \Protocol\Result::ER_SUCCESS);
+					$Response->Set('Result', \Protocol\Response::ER_DBERROR);
 				}
-				else
-				{
-					$Database->rollbackTransaction();
-				}
-			}
-			catch(Exception $e)
+			}else
 			{
-				$Result->Set('Result', \Protocol\Result::ER_DBERROR);
+				$Response->Set('Result', \Protocol\Response::ER_ALREADYEXISTS);
+			}
+
+			if($Success)
+			{
+				$Database->commitTransaction();
+				$Response->Set('Result', \Protocol\Response::ER_SUCCESS);
+			}
+			else
+			{
 				$Database->rollbackTransaction();
 			}
 		}
 		else
 		{
-			$Result->Set('Result', \Protocol\Result::ER_BADDATA);
+			$Response->Set('Result', \Protocol\Response::ER_BADDATA);
 		}
 	}
 	else
 	{
-		$Result->Set('Result', \Protocol\Result::ER_BADDATA);
+		$Response->Set('Result', \Protocol\Response::ER_BADDATA);
 	}
 }
 else
 {
-	$Result->Set('Result', \Protocol\Result::ER_MALFORMED);
+	$Response->Set('Result', \Protocol\Response::ER_MALFORMED);
 }
-
 ?>

@@ -32,18 +32,68 @@ class Database extends \Database\Database
 	 */
 	public function __construct($Host, $Port, $UserName, $Password, $Database)
 	{
-		$this->Connection = new \mysqli($Host, $UserName, $Password, $Database, $Port);
-		if(mysqli_connect_error())
-			throw new \Exception(mysqli_connect_error());
+		try
+		{
+			$this->Connection = new MySQLiExtension($Host, $UserName, $Password, $Database, $Port);
+			$this->Connection->Log = $this->Log;
+		}
+		catch(\Exception $e)
+		{
+			if(isset($this->Log))
+			{
+				$this->Log->AddError($e->getMessage());
+			}
+			else
+			{
+				throw $e;
+			}
+		}
+	}
 
-		$this->Accounts = new Accounts($this);
-		$this->Characters = new Characters($this);
-		$this->Sessions = new Sessions($this);
-		$this->Chat = new Chat($this);
-		$this->Races = new Races($this);
-		$this->Maps = new Maps($this);
-		$this->Items = new Items($this);
-		$this->Monsters = new Monsters($this);
+	public function __get($PropertyName)
+	{
+		$PropertyName = '_'.$PropertyName;
+		if(property_exists($this, $PropertyName))
+		{
+			if(!isset($this->$PropertyName))
+			{
+				switch($PropertyName)
+				{
+					case '_Accounts':
+						return ($this->_Accounts = new Accounts($this));
+						break;
+					case '_Characters':
+						return ($this->_Characters = new Characters($this));
+						break;
+					case '_Sessions':
+						return ($this->_Sessions = new Sessions($this));
+						break;
+					case '_Chat':
+						return ($this->_Chat = new Chat($this));
+						break;
+					case '_Races':
+						return ($this->_Races = new Races($this));
+						break;
+					case '_Maps':
+						return ($this->_Maps = new Maps($this));
+						break;
+					case '_Items':
+						return ($this->_Items = new Items($this));
+						break;
+					case '_Monsters':
+						return ($this->_Monsters = new Monsters($this));
+						break;
+				}
+			}
+			else
+			{
+				return $this->$PropertyName;
+			}
+		}
+		else
+		{
+			return null;
+		}
 	}
 
 	/**
@@ -78,25 +128,6 @@ class Database extends \Database\Database
 	{
 		$this->Connection->rollback();
 		$this->Connection->autocommit(true);
-	}
-
-	/**
-	 * Rolls back a MySQL database to before a transaction was started.
-	 *
-	 * Causes queries submitted after a startTransaction() call not to be applied to the database.
-	 * Also causes connection to return to autocommit mode.
-	 */
-	public function logError()
-	{
-		if($this->Connection->error)
-		{
-			if(isset($this->Log))
-			{
-				$this->Log->Set('Error', $this->Connection->error);
-				$this->Log->Output();
-				die();
-			}
-		}
 	}
 }
 

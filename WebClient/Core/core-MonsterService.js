@@ -15,11 +15,10 @@
 		ACTION_FIGHT: 0,
 		
 		Fight: function(monsterId, fightType, callback){
-			$.getJSON(
-				V2Core.SERVERCODE_DIRECTORY + "Monster.php",
-				{ Action: MonsterService.ACTION_FIGHT, Data: JSON.stringify({ MonsterId: monsterId, FightType: fightType }) },
-				function(data) { callback(data); }
-			);
+			var data = { MonsterId: monsterId, FightType: fightType };
+			var requestId = vc.GenerateRequestId();
+			vc.CallbackStack[requestId] = {Method: callback, Data: data};
+			vc.SendSingleRequest(requestId, vc.TYPE_MONSTER, vc.mn.ACTION_FIGHT, data);
 		}
 	}
 	
