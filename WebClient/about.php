@@ -219,7 +219,8 @@ include_once('php/simplepie.inc');
 							<h2>Sexy Lingerie</h2>
 							<p>
 								<img src="./css/images/sexy_lingerie.jpg" />
-								Drew is the lead server developer. He handles management and implementation of the code that facilitates modification and access to the database on the client's behalf. His PHP skills are legendary as is his love of cheesecake and beer, but not mixed together.
+								Drew is the lead server developer. He handles management and implementation of the code that facilitates modification and access to the 
+								database on the client's behalf. His PHP skills are legendary as is his love of cheesecake and beer, but not mixed together.
 							</p>
 						</article>
 						<article>
@@ -240,12 +241,20 @@ include_once('php/simplepie.inc');
 							<h2>Mage</h2>
 							<p>
 								<img src="./css/images/mage.jpg" />
-								Dave Thomas (not related to the other Thomas's) joined our team late, but quickly come up to speed. He has been responsible for managing the database, and the large amounts of content within it. He's married, has a young son, and works as a Java programmer. His love of Java is only surpassed by that of chocolate chip cookies.
+								Dave Thomas (not related to the other Thomas's) joined our team late, but quickly come up to speed. He has been responsible for managing 
+								the database, and the large amounts of content within it. He's married, has a young son, and works as a Java programmer. His love of Java 
+								is only surpassed by that of chocolate chip cookies.
 							</p>
 						</article>
 						<article>
 							<h1>Don Horn</h1>
 							<h2>Nullifiednll</h2>
+							<p>
+								<img src="./css/images/nullifiednll.jpg" />
+								Don Horn is a server administrator for Chrysellia; he runs one of the data clusters and works with Drew on server and network architecture. 
+								He's always had a passion for computers; and, when he's not working, he spens time with the other hardware in his life- his car, a carefully
+								restored Camaro.<span style="color: #333;">lulz</span>
+							</p>
 						</article>
 						<article>
 							<h1>Kirus Tiberius</h1>
