@@ -501,7 +501,7 @@ function BuildMap(loadMapInfo){
 
 function BuildGameWindow(){
 	var myLocation = MyCharacter.CurrentMap.Places[MyCharacter.PositionX][MyCharacter.PositionY];
-	var monsters = MyCharacter.CurrentMap.Monsters[myLocation.LocationType]
+	var monsters = MyCharacter.CurrentMap.Monsters[myLocation.LocationType];
 	
 	var topWindow = _("topCenter");
 	topWindow.html('&nbsp;');
