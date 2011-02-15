@@ -2111,5 +2111,7 @@
 			{ LocationType: vc.ms.LOCATION_TYPE_WALL },
 			{ LocationType: vc.ms.LOCATION_TYPE_WALL },
 			{ LocationType: vc.ms.LOCATION_TYPE_WALL }
+		]
 	];
-}
+	window.MyCharacter.CurrentMap.Places = Places;
+})(window);

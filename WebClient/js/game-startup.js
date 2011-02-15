@@ -356,11 +356,8 @@ function UnEquipItem(response, data){
 	
 	$('#itemsWindow select').removeAttr('disabled');
 	
-	var myPlace = {};
-	if(myPlace = vc.Maps["MAP_00000000000000000000001"].SpecialPlaces[0][1]){
-		if(myPlace.Type == 0){
-			BuildGameWindow()
-		}
+	if(MyCharacter.CurrentMap.Places[MyCharacter.PositionX][MyCharacter.PositionY].PlaceType == vc.ms.PLACE_TYPE_STORE){
+		BuildGameWindow()
 	}
 }
 
@@ -494,46 +491,23 @@ function SelectCharacter(response, data){
 function BuildMap(loadMapInfo){
 	$(ICache["currentMapName"]).text(MyCharacter.CurrentMap.Name);
 	$(ICache["currentMapPosition"]).text(MyCharacter.PositionX + " , " + MyCharacter.PositionY);
-	/*var $currentMap = _("currentMap");
-	$currentMap.empty();
-	
-	for(my = MyCharacter.CurrentMap.DimensionY-1; my >= 0; my--){
-		var $tr = $("<tr />");
-		for(mx = 0; mx < MyCharacter.CurrentMap.DimensionY; mx++){
-			var $td = $("<td />");
-			if(my == MyCharacter.PositionY && mx == MyCharacter.PositionX){
-				$td.html("<span class='mapData player'>X</span>");
-			}else{
-				$td.html("<span class='mapData empty'>&nbsp;</span>");
-			}
-			$td.appendTo($tr);
-		}
-		
-		$tr.appendTo($currentMap);
-	}
-	
-	$currentMap.css({ height: 30*MyCharacter.CurrentMap.DimensionY, width: 30*MyCharacter.CurrentMap.DimensionX });
-	*/
 	
 	if(loadMapInfo){
-		$.getScript("./core/staticInfo/" + MyCharacter.CurrentMap.Name + ".js", function(){});
+		$.getScript("./core/staticInfo/" + MyCharacter.CurrentMap.Name + ".js", function(){ BuildGameWindow(); });
+	}else{
+		BuildGameWindow();
 	}
-	
-	BuildGameWindow();
 }
 
 function BuildGameWindow(){
-	var myLocation = { Monsters: MyCharacter.CurrentMap.Monsters["Default"] };
+	var myLocation = MyCharacter.CurrentMap.Places[MyCharacter.PositionX][MyCharacter.PositionY];
+	var monsters = MyCharacter.CurrentMap.Monsters[myLocation.LocationType]
 	
-	if(MyCharacter.CurrentMap.SpecialPlaces[MyCharacter.PositionX] !== undefined){
-		myLocation = MyCharacter.CurrentMap.SpecialPlaces[MyCharacter.PositionX][MyCharacter.PositionY] || { Monsters: MyCharacter.CurrentMap.Monsters["Default"] };
-	}
-
 	var topWindow = _("topCenter");
 	topWindow.html('&nbsp;');
 	
-	if(myLocation.Type === undefined){
-		if(myLocation.Monsters !== undefined){
+	if(myLocation.PlaceType === undefined){
+		if(monsters !== undefined){
 			var container = $("<form id='fightForm'><h1>Fight!</h1><span class='attackLabel'>Attack:</span></form>");
 			var select = $("<select id='monsterList' />");
 			select.appendTo(container);
@@ -546,9 +520,9 @@ function BuildGameWindow(){
 			var option = {};
 			var monstersOptGroup = $("<optgroup label='Monsters' />");
 			
-			for(m in myLocation.Monsters){
+			for(m in monsters){
 				if(m != "remove"){
-					var monsterId = myLocation.Monsters[m];
+					var monsterId = monsters[m];
 					monster = V2Core.Monsters[monsterId];
 					option = $("<option value='" + monster.Id + "'>" + monster.Name + "</option>").appendTo(monstersOptGroup);
 				}
@@ -561,16 +535,16 @@ function BuildGameWindow(){
 			fightResults.appendTo(topWindow);
 		}
 	}else{
-		switch(myLocation.Type){
-			case 0: //store
+		switch(myLocation.PlaceType){
+			case vc.ms.PLACE_TYPE_STORE: //store
 				BuildShop(topWindow);
 				break;
 				
-			case 1: //shrine
+			case vc.ms.PLACE_TYPE_SHRINE: //shrine
 				BuildShrine(topWindow);
 				break;
 				
-			case 2: //bank
+			case vc.ms.PLACE_TYPE_BANK: //bank
 				BuildBank(topWindow);
 				break;
 				
@@ -673,11 +647,8 @@ function SubmitBankTransfer(){
 
 function BuildExit(topWindow){
 	//ChangeMapvar
-	myLocation = MyCharacter.CurrentMap.SpecialPlaces[MyCharacter.PositionX][MyCharacter.PositionY];
-	var name = "Bank";
-	if(myLocation.Name !== undefined){
-		var name = myLocation.Name;
-	}
+	var myLocation = MyCharacter.CurrentMap.Places[MyCharacter.PositionX][MyCharacter.PositionY];
+	var name = myLocation.Name || "Exit";
 	
 	topWindow.append("<h1>" + name + "</h1>");
 	var button = $("<button class='button'>Exit to " + myLocation.ExitTo + "</button>").bind("click", function(e){ e.preventDefault(); vc.ms.ChangeMap(ProcessMapChange); });
@@ -701,11 +672,9 @@ function ProcessMapChange(response, data){
 }
 
 function BuildBank(topWindow){
-	var myLocation = MyCharacter.CurrentMap.SpecialPlaces[MyCharacter.PositionX][MyCharacter.PositionY];
-	var name = "Bank";
-	if(myLocation.Name !== undefined){
-		var name = myLocation.Name;
-	}
+	var myLocation = MyCharacter.CurrentMap.Places[MyCharacter.PositionX][MyCharacter.PositionY];
+	
+	var name = myLocation.Name || "Bank";
 	
 	topWindow.append("<h1>" + name + "</h1>");
 	
@@ -801,12 +770,10 @@ if(response.Result == vc.ER_SUCCESS){
 
 function BuildShop(topWindow){
 	var item = {};
-	var myLocation = MyCharacter.CurrentMap.SpecialPlaces[MyCharacter.PositionX][MyCharacter.PositionY];
-	var name = "Shop";
+	var myLocation = MyCharacter.CurrentMap.Places[MyCharacter.PositionX][MyCharacter.PositionY];	
+	var name = myLocation.Name || "Shop";
+	
 	var itemTypeLabels = ["Weapons", "Accessories", "Armors", "Spells"];
-	if(myLocation.Name !== undefined){
-		var name = myLocation.Name;
-	}
 	
 	topWindow.append("<h1>" + name + "</h1>");
 	var buyForm = $("<form id='buyForm'></form>");
@@ -948,12 +915,8 @@ function ProcessSale(response, data){
 }
 
 function BuildShrine(topWindow){
-	var myLocation = MyCharacter.CurrentMap.SpecialPlaces[MyCharacter.PositionX][MyCharacter.PositionY];
-	var name = "Shrine";
-	
-	if(myLocation.Name !== undefined){
-		var name = myLocation.Name;
-	}
+	var myLocation = MyCharacter.CurrentMap.Places[MyCharacter.PositionX][MyCharacter.PositionY];
+	var name = myLocation.Name || "Shrine";
 	
 	var container = $("<form id='shrineForm'><h1>" + name + "</h1></form>");
 	
