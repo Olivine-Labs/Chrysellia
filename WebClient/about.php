@@ -252,7 +252,7 @@ include_once('php/simplepie.inc');
 							<p>
 								<img src="./css/images/nullifiednll.jpg" />
 								Don Horn is a server administrator for Chrysellia; he runs one of the data clusters and works with Drew on server and network architecture. 
-								He's always had a passion for computers; and, when he's not working, he spens time with the other hardware in his life- his car, a carefully
+								He's always had a passion for computers; and, when he's not working, he spends time with the other hardware in his life- his car, a carefully
 								restored Camaro.<span style="color: #333;">lulz</span>
 							</p>
 						</article>
