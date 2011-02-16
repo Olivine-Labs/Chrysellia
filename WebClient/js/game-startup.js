@@ -492,11 +492,69 @@ function BuildMap(loadMapInfo){
 	$(ICache["currentMapName"]).text(MyCharacter.CurrentMap.Name);
 	$(ICache["currentMapPosition"]).text(MyCharacter.PositionX + " , " + MyCharacter.PositionY);
 	
+	
+	
 	if(loadMapInfo){
-		$.getScript("./core/staticInfo/" + MyCharacter.CurrentMap.Name + ".js", function(){ BuildGameWindow(); });
+		$.getScript("./core/staticInfo/" + MyCharacter.CurrentMap.Name + ".js", function(){ BuildMapTable(); BuildGameWindow(); });
 	}else{
+		BuildMapTable();
 		BuildGameWindow();
 	}
+}
+
+function BuildMapTable(){
+	var map = $(ICache["currentMap"]);
+	var myXMinusTwo = MyCharacter.CurrentMap.Places[MyCharacter.PositionX-2] || [{ LocationType: "null" },{ LocationType: "null" },{ LocationType: "null" }]
+	var myXMinusOne = MyCharacter.CurrentMap.Places[MyCharacter.PositionX-1] || [{ LocationType: "null" },{ LocationType: "null" },{ LocationType: "null" }]
+	var myX = MyCharacter.CurrentMap.Places[MyCharacter.PositionX];
+	var myXPlusOne = MyCharacter.CurrentMap.Places[MyCharacter.PositionX+1] || [{ LocationType: "null" },{ LocationType: "null" },{ LocationType: "null" }]
+	var myXPlusTwo = MyCharacter.CurrentMap.Places[MyCharacter.PositionX+2] || [{ LocationType: "null" },{ LocationType: "null" },{ LocationType: "null" }]
+
+	var mapArray = [
+		[
+			myXMinusTwo[MyCharacter.PositionY+2] || { LocationType: "null" },
+			myXMinusOne[MyCharacter.PositionY+2] || { LocationType: "null" },
+			myX[MyCharacter.PositionY+2] || { LocationType: "null" },
+			myXPlusOne[MyCharacter.PositionY+2] || { LocationType: "null" },
+			myXPlusTwo[MyCharacter.PositionY+2] || { LocationType: "null" }
+		],
+		[
+			myXMinusTwo[MyCharacter.PositionY+1] || { LocationType: "null" },
+			myXMinusOne[MyCharacter.PositionY+1] || { LocationType: "null" },
+			myX[MyCharacter.PositionY+1] || { LocationType: "null" },
+			myXPlusOne[MyCharacter.PositionY+1] || { LocationType: "null" },
+			myXPlusTwo[MyCharacter.PositionY+1] || { LocationType: "null" }
+		],
+		[
+			myXMinusTwo[MyCharacter.PositionY] || { LocationType: "null" },
+			myXMinusOne[MyCharacter.PositionY] || { LocationType: "null" },
+			myX[MyCharacter.PositionY] || { LocationType: "null" },
+			myXPlusOne[MyCharacter.PositionY] || { LocationType: "null" },
+			myXPlusTwo[MyCharacter.PositionY] || { LocationType: "null" }
+		],
+		[
+			myXMinusTwo[MyCharacter.PositionY-1] || { LocationType: "null" },
+			myXMinusOne[MyCharacter.PositionY -1] || { LocationType: "null" },
+			myX[MyCharacter.PositionY -1] || { LocationType: "null" },
+			myXPlusOne[MyCharacter.PositionY -1] || { LocationType: "null" },
+			myXPlusTwo[MyCharacter.PositionY-1] || { LocationType: "null" }
+		],
+		[
+			myXMinusTwo[MyCharacter.PositionY-2] || { LocationType: "null" },
+			myXMinusOne[MyCharacter.PositionY -2] || { LocationType: "null" },
+			myX[MyCharacter.PositionY -2] || { LocationType: "null" },
+			myXPlusOne[MyCharacter.PositionY -2] || { LocationType: "null" },
+			myXPlusTwo[MyCharacter.PositionY-2] || { LocationType: "null" }
+		]
+	];
+	
+	var row0 = $("<tr><td class='locationType_" + mapArray[0][0].LocationType + "'></td><td class='locationType_" + mapArray[0][1].LocationType + "'></td><td class='locationType_" + mapArray[0][2].LocationType + "'></td><td class='locationType_" + mapArray[0][3].LocationType + "'></td><td class='locationType_" + mapArray[0][4].LocationType + "'></td></tr>");
+	var row1 = $("<tr><td class='locationType_" + mapArray[1][0].LocationType + "'></td><td class='locationType_" + mapArray[1][1].LocationType + "'></td><td class='locationType_" + mapArray[1][2].LocationType + "'></td><td class='locationType_" + mapArray[1][3].LocationType + "'></td><td class='locationType_" + mapArray[1][4].LocationType + "'></td></tr>");
+	var row2 = $("<tr><td class='locationType_" + mapArray[2][0].LocationType + "'></td><td class='locationType_" + mapArray[2][1].LocationType + "'></td><td class='myLocation locationType_" + mapArray[2][2].LocationType + "'></td><td class='locationType_" + mapArray[2][3].LocationType + "'></td><td class='locationType_" + mapArray[2][4].LocationType + "'></td></tr>");
+	var row3 = $("<tr><td class='locationType_" + mapArray[3][0].LocationType + "'></td><td class='locationType_" + mapArray[3][1].LocationType + "'></td><td class='locationType_" + mapArray[3][2].LocationType + "'></td><td class='locationType_" + mapArray[3][3].LocationType + "'></td><td class='locationType_" + mapArray[3][4].LocationType + "'></td></tr>");
+	var row4 = $("<tr><td class='locationType_" + mapArray[4][0].LocationType + "'></td><td class='locationType_" + mapArray[4][1].LocationType + "'></td><td class='locationType_" + mapArray[4][2].LocationType + "'></td><td class='locationType_" + mapArray[4][3].LocationType + "'></td><td class='locationType_" + mapArray[4][4].LocationType + "'></td></tr>");
+	
+	map.empty().append(row0).append(row1).append(row2).append(row3).append(row4);
 }
 
 function BuildGameWindow(){
@@ -512,6 +570,8 @@ function BuildGameWindow(){
 			var select = $("<select id='monsterList' />");
 			select.appendTo(container);
 			
+			var colors = ["lowLevel", "averageLevel", "highLevel"];
+			var color = colors[1];
 			$("<button type='submit' id='attackButton' class='button attack'>Attack</button>").bind("click", function(e){ e.preventDefault(); Attack(0); }).button().appendTo(container);
 			$("<button type='submit' id='castButton' class='button cast'>Cast</button>").bind("click", function(e){ e.preventDefault(); Attack(1); }).button().appendTo(container);
 			$("<button class='look button' id='moveLook'>PK List</button>").bind("click", function(e){ $(this).button("option", "disabled", true); e.preventDefault(); vc.cs.PlayerListByLocation(ExamineLocation); }).button().appendTo(container);
@@ -524,7 +584,14 @@ function BuildGameWindow(){
 				if(m != "remove"){
 					var monsterId = monsters[m];
 					monster = V2Core.Monsters[monsterId];
-					option = $("<option value='" + monster.Id + "'>" + monster.Name + "</option>").appendTo(monstersOptGroup);
+
+					if(monster.Level - 3 <= (.75 * MyCharacter.Level)){
+						color = colors[0];
+					}else if(monster.Level - 3 >= (1.25 * MyCharacter.Level)){
+						color = colors[2];
+					}
+					
+					option = $("<option value='" + monster.Id + "' class='" + color + "'>" + monster.Name + "</option>").appendTo(monstersOptGroup);
 				}
 			}
 			monstersOptGroup.appendTo(select);
@@ -1435,6 +1502,7 @@ function LoadICache(){
 	ICache["rda_value"] = _("rda_value");
 	ICache["currentMapPosition"] = _("currentMapPosition");
 	ICache["currentMapName"] = _("currentMapName");
+	ICache["currentMap"] = _("currentMap");
 	
 	window.ICache = ICache;
 }

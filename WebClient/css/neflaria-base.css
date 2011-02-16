@@ -284,7 +284,7 @@ color: #fff;
 .game .copyright { font-size: .75em; }
 .motd { font-size: 1.1em; font-weight: bold; color: #C08826; }
 .chatMessage{ font-size: 1.1em; line-height: 1.35em; }
-#currentMap { background: transparent url(images/town1.png) top left no-repeat; float: left; overflow: hidden; }
+#currentMap { float: left; overflow: hidden; }
 #movement td { padding: 0 0 1px 1px; font-size: 9pt; }
 #currentMap td { border: none; border-collapse: collapse; height: 30px; width: 30px; }
 #currentMap tr { height: 30px; }
@@ -457,3 +457,33 @@ li.Troll { background-image: url("images/race_24s/troll.jpg"); }
 .about li p {
 	margin-left: .5em;
 }
+
+.lowLevel {
+	color: #090;
+}
+
+.averageLevel{
+	color: #990;
+}
+
+.highLevel {
+	color: #900;
+}
+
+.myLocation { background: url(images/humanplayer.png) center center no-repeat; }
+.locationType_0 { background-color: #50340f; }
+.locationType_1 { background-color: #999; }
+.locationType_2 { background-color: #23c5c8; }
+.locationType_3 { background-color: #0e5b0b; }
+.locationType_4 { background-color: #2459c9; }
+.locationType_5 { background-color: #060; }
+.locationType_6 { background-color: #f60; }
+.locationType_7 { background-color: #60f; }
+.locationType_8 { background-color: #333; }
+.locationType_9 { background-color: #284; }
+.locationType_10 { background-color: #c62324; }
+.locationType_11 { background-color: #987; }
+.locationType_12 { background-color: #9e6a1e; }
+.locationType_13 { background-color: #009; }
+.locationType_14 { background-color: #300; }
+.locationType_null { background-color: #000; }
