@@ -3,7 +3,7 @@ $(function(){
 	V2Core.CompressionMode = V2Core.COMPRESSION_MODE_jSEND;
 	
 	$.ajaxSetup({
-		url: V2Core.SERVERCODE_DIRECTORY + "Index.php",
+		url: V2Core.SERVERCODE_DIRECTORY + "index.php",
 		dataType: "json",
 		global: false,
 		timeout: 1000
