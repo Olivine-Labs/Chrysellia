@@ -1,5 +1,5 @@
 $(function(){
-	V2Core.SERVERCODE_DIRECTORY = "../Server/";
+	V2Core.SERVERCODE_DIRECTORY = "./Server/";
 	V2Core.CompressionMode = V2Core.COMPRESSION_MODE_jSEND;
 	
 	$.ajaxSetup({

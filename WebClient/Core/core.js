@@ -34,7 +34,7 @@
 		ER_ACCESSDENIED: 255, //when they just don't have access.
 		SERVERCODE_DIRECTORY: "./Server/",
 		STATICINFO_DIRECTORY: "./Core/staticInfo/",
-		API_URI: "../Server/API.php",
+		API_URI: this.SERVERCODE_DIRECTORY + "API.php",
 		
 		TYPE_ACCOUNT: 0, 
 		TYPE_CHARACTER: 1, 
