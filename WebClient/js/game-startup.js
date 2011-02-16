@@ -45,8 +45,10 @@
 			$tabs.tabs('select', '#' + ui.panel.id);
 		},
 		select: function(event, ui){
-			window.MyCharacter.CurrentChannel = $(".channelId")[0].value;
-			$(ui.tab).parent().removeClass("newMessage");
+			if($(ui.panel).children(".channelId").length > 0){
+				window.MyCharacter.CurrentChannel = $(".channelId", ui.panel)[0].value;
+				$(ui.tab).parent().removeClass("newMessage");
+			}
 		}
 	});
 
