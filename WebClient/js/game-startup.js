@@ -502,7 +502,7 @@ function BuildMap(loadMapInfo){
 
 function BuildMapTable(){
 	var map = $(ICache["currentMap"]);
-	var posX = (20 * -(window.MyCharacter.PositionX)) + 85;
+	var posX = (20 * -(window.MyCharacter.PositionX)) + 65;
 	var posY = (20 * (window.MyCharacter.PositionY - MyCharacter.CurrentMap.Places[MyCharacter.PositionX].length)) + 85;
 	console.log(posX + ", " + posY);
 	
