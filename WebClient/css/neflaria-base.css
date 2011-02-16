@@ -203,9 +203,9 @@ color: #fff;
 	position: relative; 
 	top: 0px;
 	left: 0px;
-	-moz-box-shadow:1px 2px 2px #777; 
-	-webkit-box-shadow:1px 2px 2px #777; 
-	box-shadow:1px 2px 2px #777;  
+	-moz-box-shadow:1px 2px 2px #000; 
+	-webkit-box-shadow:1px 2px 2px #000; 
+	box-shadow:1px 2px 2px #000;  
 	-webkit-transition: all 0.15s linear;
     -moz-transition: all 0.15s linear;
     -o-transition: all 0.15s linear;
@@ -214,9 +214,9 @@ color: #fff;
 .character a.bigButton:hover { 
 	top: -3px; 
 	left: -2px;
-	-moz-box-shadow: 3px 5px 5px #444; 
-	-webkit-box-shadow: 3px 5px 5px #444; 
-	box-shadow: 3px 5px 5px #444; 
+	-moz-box-shadow: 3px 5px 5px #000; 
+	-webkit-box-shadow: 3px 5px 5px #000; 
+	box-shadow: 3px 5px 5px #000; 
 }
 
 .bigButton .characterPortrait { 
