@@ -284,10 +284,9 @@ color: #fff;
 .game .copyright { font-size: .75em; }
 .motd { font-size: 1.1em; font-weight: bold; color: #C08826; }
 .chatMessage{ font-size: 1.1em; line-height: 1.35em; }
-#currentMap { float: left; overflow: hidden; }
+#currentMap { float: left; overflow: hidden; height: 150px; width: 150px; }
+#marker { height: 4px; width: 4px; margin-top: 73px; margin-left: 73px; float: left; background: #fff; } 
 #movement td { padding: 0 0 1px 1px; font-size: 9pt; }
-#currentMap td { border: none; border-collapse: collapse; height: 30px; width: 30px; }
-#currentMap tr { height: 30px; }
 .mapData { font-family: 'DejaWeb', Arial, Helvetica, sans-serif; padding: 0; margin: 0; height: 30px; width: 30px; display: block; text-align: center; }
 .ra_created { font-size: .75em; font-style: italic; }
 .character li.ra_gold { font-size: 18pt; }

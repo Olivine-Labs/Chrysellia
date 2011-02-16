@@ -489,13 +489,11 @@ function SelectCharacter(response, data){
 }
 
 function BuildMap(loadMapInfo){
-	$(ICache["currentMapName"]).text(MyCharacter.CurrentMap.Name);
-	$(ICache["currentMapPosition"]).text(MyCharacter.PositionX + " , " + MyCharacter.PositionY);
-	
-	
+	$(ICache["currentMapName"]).text(window.MyCharacter.CurrentMap.Name);
+	$(ICache["currentMapPosition"]).text(window.MyCharacter.PositionX + " , " + MyCharacter.PositionY);
 	
 	if(loadMapInfo){
-		$.getScript("./core/staticInfo/" + MyCharacter.CurrentMap.Name + ".js", function(){ BuildMapTable(); BuildGameWindow(); });
+		$.getScript("./core/staticInfo/" + window.MyCharacter.CurrentMap.Name + ".js", function(){ BuildMapTable(); BuildGameWindow(); });
 	}else{
 		BuildMapTable();
 		BuildGameWindow();
@@ -504,57 +502,11 @@ function BuildMap(loadMapInfo){
 
 function BuildMapTable(){
 	var map = $(ICache["currentMap"]);
-	var myXMinusTwo = MyCharacter.CurrentMap.Places[MyCharacter.PositionX-2] || [{ LocationType: "null" },{ LocationType: "null" },{ LocationType: "null" }]
-	var myXMinusOne = MyCharacter.CurrentMap.Places[MyCharacter.PositionX-1] || [{ LocationType: "null" },{ LocationType: "null" },{ LocationType: "null" }]
-	var myX = MyCharacter.CurrentMap.Places[MyCharacter.PositionX];
-	var myXPlusOne = MyCharacter.CurrentMap.Places[MyCharacter.PositionX+1] || [{ LocationType: "null" },{ LocationType: "null" },{ LocationType: "null" }]
-	var myXPlusTwo = MyCharacter.CurrentMap.Places[MyCharacter.PositionX+2] || [{ LocationType: "null" },{ LocationType: "null" },{ LocationType: "null" }]
-
-	var mapArray = [
-		[
-			myXMinusTwo[MyCharacter.PositionY+2] || { LocationType: "null" },
-			myXMinusOne[MyCharacter.PositionY+2] || { LocationType: "null" },
-			myX[MyCharacter.PositionY+2] || { LocationType: "null" },
-			myXPlusOne[MyCharacter.PositionY+2] || { LocationType: "null" },
-			myXPlusTwo[MyCharacter.PositionY+2] || { LocationType: "null" }
-		],
-		[
-			myXMinusTwo[MyCharacter.PositionY+1] || { LocationType: "null" },
-			myXMinusOne[MyCharacter.PositionY+1] || { LocationType: "null" },
-			myX[MyCharacter.PositionY+1] || { LocationType: "null" },
-			myXPlusOne[MyCharacter.PositionY+1] || { LocationType: "null" },
-			myXPlusTwo[MyCharacter.PositionY+1] || { LocationType: "null" }
-		],
-		[
-			myXMinusTwo[MyCharacter.PositionY] || { LocationType: "null" },
-			myXMinusOne[MyCharacter.PositionY] || { LocationType: "null" },
-			myX[MyCharacter.PositionY] || { LocationType: "null" },
-			myXPlusOne[MyCharacter.PositionY] || { LocationType: "null" },
-			myXPlusTwo[MyCharacter.PositionY] || { LocationType: "null" }
-		],
-		[
-			myXMinusTwo[MyCharacter.PositionY-1] || { LocationType: "null" },
-			myXMinusOne[MyCharacter.PositionY -1] || { LocationType: "null" },
-			myX[MyCharacter.PositionY -1] || { LocationType: "null" },
-			myXPlusOne[MyCharacter.PositionY -1] || { LocationType: "null" },
-			myXPlusTwo[MyCharacter.PositionY-1] || { LocationType: "null" }
-		],
-		[
-			myXMinusTwo[MyCharacter.PositionY-2] || { LocationType: "null" },
-			myXMinusOne[MyCharacter.PositionY -2] || { LocationType: "null" },
-			myX[MyCharacter.PositionY -2] || { LocationType: "null" },
-			myXPlusOne[MyCharacter.PositionY -2] || { LocationType: "null" },
-			myXPlusTwo[MyCharacter.PositionY-2] || { LocationType: "null" }
-		]
-	];
+	var posX = (20 * -(window.MyCharacter.PositionX)) + 85;
+	var posY = (20 * (window.MyCharacter.PositionY - MyCharacter.CurrentMap.Places[MyCharacter.PositionX].length)) + 85;
+	console.log(posX + ", " + posY);
 	
-	var row0 = $("<tr><td class='locationType_" + mapArray[0][0].LocationType + "'></td><td class='locationType_" + mapArray[0][1].LocationType + "'></td><td class='locationType_" + mapArray[0][2].LocationType + "'></td><td class='locationType_" + mapArray[0][3].LocationType + "'></td><td class='locationType_" + mapArray[0][4].LocationType + "'></td></tr>");
-	var row1 = $("<tr><td class='locationType_" + mapArray[1][0].LocationType + "'></td><td class='locationType_" + mapArray[1][1].LocationType + "'></td><td class='locationType_" + mapArray[1][2].LocationType + "'></td><td class='locationType_" + mapArray[1][3].LocationType + "'></td><td class='locationType_" + mapArray[1][4].LocationType + "'></td></tr>");
-	var row2 = $("<tr><td class='locationType_" + mapArray[2][0].LocationType + "'></td><td class='locationType_" + mapArray[2][1].LocationType + "'></td><td class='myLocation locationType_" + mapArray[2][2].LocationType + "'></td><td class='locationType_" + mapArray[2][3].LocationType + "'></td><td class='locationType_" + mapArray[2][4].LocationType + "'></td></tr>");
-	var row3 = $("<tr><td class='locationType_" + mapArray[3][0].LocationType + "'></td><td class='locationType_" + mapArray[3][1].LocationType + "'></td><td class='locationType_" + mapArray[3][2].LocationType + "'></td><td class='locationType_" + mapArray[3][3].LocationType + "'></td><td class='locationType_" + mapArray[3][4].LocationType + "'></td></tr>");
-	var row4 = $("<tr><td class='locationType_" + mapArray[4][0].LocationType + "'></td><td class='locationType_" + mapArray[4][1].LocationType + "'></td><td class='locationType_" + mapArray[4][2].LocationType + "'></td><td class='locationType_" + mapArray[4][3].LocationType + "'></td><td class='locationType_" + mapArray[4][4].LocationType + "'></td></tr>");
-	
-	map.empty().append(row0).append(row1).append(row2).append(row3).append(row4);
+	map.css('background', 'url("./css/images/large_maps/' + window.MyCharacter.CurrentMap.Name + '_20.png") no-repeat scroll ' + posX + 'px ' + posY + 'px transparent');
 }
 
 function BuildGameWindow(){
