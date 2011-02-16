@@ -154,7 +154,7 @@ include_once('php/simplepie.inc');
 						<h1>News</h1>
 						<section class="mainNews newsItem">
 							<h1>Chrysellia: Beta 2 Has Begun!</h1>
-							<em class="alternate"><date>2/14/11</date> - by Silwar Naiilo</em>
+							<em class="alternate"><date>2/16/11</date> - by Silwar Naiilo</em>
 							<p>
 								We made a lot of changes to Chrysellia. <a href="https://docs.google.com/a/neflaria.com/document/d/1IPe8gfz3TidozV7xrtKNO2ij2lRmHRQcQI-kw2Zsd3o/edit?hl=en&pli=1&authkey=COr4h7UB" target="_blank">View the patch notes here</a>. Notable entries:
 							</p>
