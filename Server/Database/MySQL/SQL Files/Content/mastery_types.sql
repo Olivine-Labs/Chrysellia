@@ -1,15 +1,29 @@
--- 01/15/2011
--- Content for Mastery_types table
+-- --------------------------------------------------------
 
-INSERT INTO mastery_types VALUES(0,'Armor');
-INSERT INTO mastery_types VALUES(1,'Sword');
-INSERT INTO mastery_types VALUES(2,'Axe');
-INSERT INTO mastery_types VALUES(3,'Mace');
-INSERT INTO mastery_types VALUES(4,'Staff');
-INSERT INTO mastery_types VALUES(5,'Bow');
-INSERT INTO mastery_types VALUES(6,'Fire');
-INSERT INTO mastery_types VALUES(7,'Air');
-INSERT INTO mastery_types VALUES(8,'Cold');
-INSERT INTO mastery_types VALUES(9,'Earth');
-INSERT INTO mastery_types VALUES(10,'Shadow');
-INSERT INTO mastery_types VALUES(11,'Arcane');
+--
+-- Table structure for table `mastery_types`
+--
+
+CREATE TABLE IF NOT EXISTS `mastery_types` (
+  `masteryId` tinyint(1) unsigned NOT NULL,
+  `name` varchar(150) NOT NULL,
+  PRIMARY KEY (`masteryId`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `mastery_types`
+--
+
+INSERT INTO `mastery_types` (`masteryId`, `name`) VALUES
+(0, 'Armor'),
+(1, 'Sword'),
+(2, 'Axe'),
+(3, 'Mace'),
+(4, 'Staff'),
+(5, 'Bow'),
+(6, 'Fire'),
+(7, 'Air'),
+(8, 'Cold'),
+(9, 'Earth'),
+(10, 'Shadow'),
+(11, 'Arcane');

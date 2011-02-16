@@ -419,6 +419,7 @@ INSERT INTO `item_template_equippables` (`itemTemplateId`, `masteryType`, `itemC
 ('ITEM_00000000000000000000393', 999, 0, 1, 2, 0, NULL, NULL, NULL, NULL),
 ('ITEM_00000000000000000000394', 999, 0, 1, 2, 0, NULL, NULL, NULL, NULL);
 
+
 --
 -- Constraints for dumped tables
 --
