@@ -21,8 +21,8 @@
 	
 	window.chatTabIndex = 0;
 	
-	ICache["myCharacter_ExperienceBar"].progressbar();
-	ICache["myCharacter_HealthBar"].progressbar();
+	ICache["MyCharacter_ExperienceBar"].progressbar();
+	ICache["MyCharacter_HealthBar"].progressbar();
 	
 	vc.cs.GetCurrentCharacter(SelectCharacter);
 	
@@ -158,7 +158,7 @@
 		if($this[0].value   == 0){
 			vc.is.UnEquip(window.MyCharacter.Equipment[slotType][slotIndex].ItemId, slotType, slotIndex, UnEquipItem);
 		}else{
-			if(MyCharacter.Equipment[slotType][slotIndex] !== {}){
+			if(window.MyCharacter.Equipment[slotType][slotIndex] !== {}){
 				vc.is.UnEquip(window.MyCharacter.Equipment[slotType][slotIndex].ItemId, slotType, slotIndex, function(response, data){vc.is.Equip($this[0].value , slotType, slotIndex, EquipItem)} );
 			}else{
 				vc.is.Equip($this[0].value , slotType, slotIndex, EquipItem)
@@ -212,23 +212,26 @@
 function Move(RelativeX, RelativeY){
 	SetEnableMovement(false);
 		
-	var x = RelativeX + MyCharacter.PositionX *1;
-	var y = RelativeY + MyCharacter.PositionY *1;
+	var x = RelativeX + window.MyCharacter.PositionX *1;
+	var y = RelativeY + window.MyCharacter.PositionY *1;
 	
-	if(x > (MyCharacter.CurrentMap.DimensionX -1) || MyCharacter.PositionX < 0){
-		x = MyCharacter.PositionX ;
+	if(x > (window.MyCharacter.CurrentMap.DimensionX -1) || window.MyCharacter.PositionX < 0){
+		x = window.MyCharacter.PositionX ;
 	}
 	
-	if(y > (MyCharacter.CurrentMap.DimensionY -1) || y < 0){
-		y = MyCharacter.PositionY ;
+	if(y > (window.MyCharacter.CurrentMap.DimensionY -1) || y < 0){
+		y = window.MyCharacter.PositionY ;
 	}
 	
-	vc.ms.Move(x, y, RefreshMap);
-	
-	if(RelativeX+RelativeY == 1 || RelativeX + RelativeY == -1){
-		window.setTimeout(function(){SetEnableMovement(true)}, 200);
+	if(window.MyCharacter.CurrentMap.Places[x][y].LocationType !== vc.ms.LOCATION_TYPE_WALL && window.MyCharacter.CurrentMap.Places[x][y].LocationType !== vc.ms.LOCATION_TYPE_WATER){
+		vc.ms.Move(x, y, RefreshMap);
+		if(RelativeX+RelativeY == 1 || RelativeX + RelativeY == -1){
+			window.setTimeout(function(){SetEnableMovement(true)}, 200);
+		}else{
+			window.setTimeout(function(){SetEnableMovement(true)}, 282);
+		}
 	}else{
-		window.setTimeout(function(){SetEnableMovement(true)}, 282);
+		SetEnableMovement(true);
 	}
 }
 
@@ -262,41 +265,41 @@ function LevelUpResponse(response, data){
 	if(response.Result == vc.ER_SUCCESS){ 
 		switch(stat){
 			case 0:
-				MyCharacter.Strength += 12;
-				MyCharacter.Dexterity += 12;
-				MyCharacter.Vitality += 12;
-				MyCharacter.Intelligence += 12;
-				MyCharacter.Wisdom += 12;
+				window.MyCharacter.Strength += 12;
+				window.MyCharacter.Dexterity += 12;
+				window.MyCharacter.Vitality += 12;
+				window.MyCharacter.Intelligence += 12;
+				window.MyCharacter.Wisdom += 12;
 				break;
 			case 1:
-				MyCharacter.Strength += 50;
+				window.MyCharacter.Strength += 50;
 				break;
 			case 2:
-				MyCharacter.Dexterity += 50;
+				window.MyCharacter.Dexterity += 50;
 				break;
 			case 3:
-				MyCharacter.Vitality += 50;
+				window.MyCharacter.Vitality += 50;
 				break;
 			case 4:
-				MyCharacter.Intelligence += 50;
+				window.MyCharacter.Intelligence += 50;
 				break;
 			case 5:
-				MyCharacter.Wisdom += 50;
+				window.MyCharacter.Wisdom += 50;
 				break;
 		}
 		
-		MyCharacter.Strength += MyCharacter.RacialStrength;
-		MyCharacter.Dexterity += MyCharacter.RacialDexterity;
-		MyCharacter.Vitality += MyCharacter.RacialVitality;
-		MyCharacter.Intelligence += MyCharacter.RacialIntelligence;
-		MyCharacter.Wisdom += MyCharacter.RacialWisdom;
-		MyCharacter.Level++;
+		window.MyCharacter.Strength += window.MyCharacter.RacialStrength;
+		window.MyCharacter.Dexterity += window.MyCharacter.RacialDexterity;
+		window.MyCharacter.Vitality += window.MyCharacter.RacialVitality;
+		window.MyCharacter.Intelligence += window.MyCharacter.RacialIntelligence;
+		window.MyCharacter.Wisdom += window.MyCharacter.RacialWisdom;
+		window.MyCharacter.Level++;
 
-		MyCharacter.FreeLevels--;
-		if(MyCharacter.FreeLevels < 1){
+		window.MyCharacter.FreeLevels--;
+		if(window.MyCharacter.FreeLevels < 1){
 			$("#statsWindow button, #statsWindow .all").hide();
 		}
-		MyCharacter.Health = MyCharacter.Vitality;
+		window.MyCharacter.Health = window.MyCharacter.Vitality;
 		
 		UpdateStats();
 	}
@@ -356,7 +359,7 @@ function UnEquipItem(response, data){
 	
 	$('#itemsWindow select').removeAttr('disabled');
 	
-	if(MyCharacter.CurrentMap.Places[MyCharacter.PositionX][MyCharacter.PositionY].PlaceType == vc.ms.PLACE_TYPE_STORE){
+	if(window.MyCharacter.CurrentMap.Places[window.MyCharacter.PositionX][window.MyCharacter.PositionY].PlaceType == vc.ms.PLACE_TYPE_STORE){
 		BuildGameWindow()
 	}
 }
@@ -364,8 +367,8 @@ function UnEquipItem(response, data){
 function RefreshMap(response, data){
 	if(vc.DebugMode && response.RequestDuration > 0){vc.Requests++;  vc.RequestDurationTotal += response.RequestDuration; ICache["rda_value"].text(vc.RequestDurationTotal / vc.Requests);}
 	if(response.Result == vc.ER_SUCCESS){ 
-		MyCharacter.PositionX = response.Data.X;
-		MyCharacter.PositionY = response.Data.Y;
+		window.MyCharacter.PositionX = response.Data.X;
+		window.MyCharacter.PositionY = response.Data.Y;
 		BuildMap(false);
 	}
 	
@@ -450,7 +453,7 @@ function FillChat(response, data){
 	
 	$(".chatMessage:nth-child(n+50)").remove();
 	
-	window.setTimeout(function(){ vc.ch.GetMessagesFromChannel(MyCharacter.CurrentChannel, FillChat); }, 4500);
+	window.setTimeout(function(){ vc.ch.GetMessagesFromChannel(window.MyCharacter.CurrentChannel, FillChat); }, 4500);
 }
 
 function SelectCharacter(response, data){
@@ -489,8 +492,8 @@ function SelectCharacter(response, data){
 }
 
 function BuildMap(loadMapInfo){
-	$(ICache["currentMapName"]).text(window.MyCharacter.CurrentMap.Name);
-	$(ICache["currentMapPosition"]).text(window.MyCharacter.PositionX + " , " + MyCharacter.PositionY);
+	ICache["currentMapName"].text(window.MyCharacter.CurrentMap.Name);
+	ICache["currentMapPosition"].text(window.MyCharacter.PositionX + " , " + window.MyCharacter.PositionY);
 	
 	if(loadMapInfo){
 		$.getScript("./core/staticInfo/" + window.MyCharacter.CurrentMap.Name + ".js", function(){ BuildMapTable(); BuildGameWindow(); });
@@ -501,17 +504,17 @@ function BuildMap(loadMapInfo){
 }
 
 function BuildMapTable(){
-	var map = $(ICache["currentMap"]);
+	var map = ICache["currentMap"];
 	var posX = (20 * -(window.MyCharacter.PositionX)) + 65;
-	var posY = (20 * (window.MyCharacter.PositionY - MyCharacter.CurrentMap.Places[MyCharacter.PositionX].length)) + 85;
+	var posY = (20 * (window.MyCharacter.PositionY - window.MyCharacter.CurrentMap.Places[window.MyCharacter.PositionX].length)) + 85;
 	console.log(posX + ", " + posY);
 	
 	map.css('background', 'url("./css/images/large_maps/' + window.MyCharacter.CurrentMap.Name + '_20.png") no-repeat scroll ' + posX + 'px ' + posY + 'px transparent');
 }
 
 function BuildGameWindow(){
-	var myLocation = MyCharacter.CurrentMap.Places[MyCharacter.PositionX][MyCharacter.PositionY];
-	var monsters = MyCharacter.CurrentMap.Monsters[myLocation.LocationType];
+	var myLocation = window.MyCharacter.CurrentMap.Places[window.MyCharacter.PositionX][window.MyCharacter.PositionY];
+	var monsters = window.MyCharacter.CurrentMap.Monsters[myLocation.LocationType];
 	
 	var topWindow = _("topCenter");
 	topWindow.html('&nbsp;');
@@ -537,9 +540,9 @@ function BuildGameWindow(){
 					var monsterId = monsters[m];
 					monster = V2Core.Monsters[monsterId];
 
-					if(monster.Level - 3 <= (.75 * MyCharacter.Level)){
+					if(monster.Level - 3 <= (.75 * window.MyCharacter.Level)){
 						color = colors[0];
-					}else if(monster.Level - 3 >= (1.25 * MyCharacter.Level)){
+					}else if(monster.Level - 3 >= (1.25 * window.MyCharacter.Level)){
 						color = colors[2];
 					}
 					
@@ -579,10 +582,10 @@ function SubmitBankTransaction(){
 	var action = _("transactionTypeSelection")[0].value ;
 	
 	if((action == 0 && amt == "all") || action == 2){
-		amt = MyCharacter.Gold*1;
+		amt = window.MyCharacter.Gold*1;
 		action = 0;
 	}else if((action == 1 && amt == "all") || action == 3){
-		amt = MyCharacter.Bank*1;
+		amt = window.MyCharacter.Bank*1;
 		action = 1;
 	}
 	
@@ -591,15 +594,15 @@ function SubmitBankTransaction(){
 	if(isInteger(amt) || amt > 0 ){
 		switch(action){
 			case 0:
-				if(amt > MyCharacter.Gold){
-					amt = MyCharacter.Gold;
+				if(amt > window.MyCharacter.Gold){
+					amt = window.MyCharacter.Gold;
 				}
 
 				vc.ms.Deposit(amt, ProcessBankDeposit);
 				break;
 			case 1: 
-				if(amt < MyCharacter.Gold){
-					amt = MyCharacter.Bank;
+				if(amt < window.MyCharacter.Gold){
+					amt = window.MyCharacter.Bank;
 				}
 				
 				vc.ms.Widthdraw(amt, ProcessBankWithdraw);
@@ -666,7 +669,7 @@ function SubmitBankTransfer(){
 
 function BuildExit(topWindow){
 	//ChangeMapvar
-	var myLocation = MyCharacter.CurrentMap.Places[MyCharacter.PositionX][MyCharacter.PositionY];
+	var myLocation = window.MyCharacter.CurrentMap.Places[window.MyCharacter.PositionX][window.MyCharacter.PositionY];
 	var name = myLocation.Name || "Exit";
 	
 	topWindow.append("<h1>" + name + "</h1>");
@@ -691,7 +694,7 @@ function ProcessMapChange(response, data){
 }
 
 function BuildBank(topWindow){
-	var myLocation = MyCharacter.CurrentMap.Places[MyCharacter.PositionX][MyCharacter.PositionY];
+	var myLocation = window.MyCharacter.CurrentMap.Places[window.MyCharacter.PositionX][window.MyCharacter.PositionY];
 	
 	var name = myLocation.Name || "Bank";
 	
@@ -723,7 +726,7 @@ function ReviveCharacter(response, data){
 	if(vc.DebugMode && response.RequestDuration > 0){vc.Requests++;  vc.RequestDurationTotal += response.RequestDuration; ICache["rda_value"].text(vc.RequestDurationTotal / vc.Requests);}
 	
 	if(response.Result == vc.ER_SUCCESS){ 
-		MyCharacter.Health = MyCharacter.Vitality;
+		window.MyCharacter.Health = window.MyCharacter.Vitality;
 		UpdateStats();
 		BuildGameWindow();
 	}
@@ -737,31 +740,31 @@ function Attack(fightType){
 	var enemyId = _("monsterList")[0].value ;
 	var fightResults = _("fightResults");
 	
-	if(MyCharacter.Health < 1){
+	if(window.MyCharacter.Health < 1){
 		alert("You can't fight! You're dead!");
 		return;
 	}
 			
 	if(enemyId.indexOf("MONS") > -1){
-		if(MyCharacter.CurrentBattle !== undefined){
-			if(MyCharacter.CurrentBattle.State == 2){
+		if(window.MyCharacter.CurrentBattle !== undefined){
+			if(window.MyCharacter.CurrentBattle.State == 2){
 				fightResults.html('');
 			}
 			
-			if(MyCharacter.CurrentBattle.Enemy == V2Core.Monsters[enemyId]){
-				MyCharacter.CurrentBattle.State = 1;
+			if(window.MyCharacter.CurrentBattle.Enemy == V2Core.Monsters[enemyId]){
+				window.MyCharacter.CurrentBattle.State = 1;
 			}else{
-				MyCharacter.CurrentBattle = { Enemy: V2Core.Monsters[enemyId], State: 0 }
+				window.MyCharacter.CurrentBattle = { Enemy: V2Core.Monsters[enemyId], State: 0 }
 			}
 		}else{
-			MyCharacter.CurrentBattle = { Enemy: V2Core.Monsters[enemyId], State: 0 }
+			window.MyCharacter.CurrentBattle = { Enemy: V2Core.Monsters[enemyId], State: 0 }
 		}
 		
-		MyCharacter.CurrentBattle = { Enemy: V2Core.Monsters[enemyId], State: 0 }
+		window.MyCharacter.CurrentBattle = { Enemy: V2Core.Monsters[enemyId], State: 0 }
 		vc.mn.Fight(enemyId, fightType, AttackRound);
 	}else if(enemyId.indexOf("CHAR") > -1){
 		
-		MyCharacter.CurrentBattle= { Enemy: { Id:enemyId, Name:$("#monsterList :selected").text() }, State: 0 }
+		window.MyCharacter.CurrentBattle= { Enemy: { Id:enemyId, Name:$("#monsterList :selected").text() }, State: 0 }
 		vc.cs.Fight(enemyId, fightType, AttackRound);
 	}
 }
@@ -777,10 +780,10 @@ if(response.Result == vc.ER_SUCCESS){
 		if($(".round", fightResults).length > 0){
 			$(".round", fightResults).animate({ opacity: 0 }, 250, function(){ 
 				$(this).remove();
-				BuildAttackMessage(battleObject, MyCharacter.CurrentBattle.Enemy.Name, true, fightResults);				
+				BuildAttackMessage(battleObject, window.MyCharacter.CurrentBattle.Enemy.Name, true, fightResults);				
 			});
 		}else{
-			BuildAttackMessage(battleObject, MyCharacter.CurrentBattle.Enemy.Name, true, fightResults);
+			BuildAttackMessage(battleObject, window.MyCharacter.CurrentBattle.Enemy.Name, true, fightResults);
 		}
 	}else{
 		Log("Attack Error: " + JSON.stringify(data));
@@ -789,7 +792,7 @@ if(response.Result == vc.ER_SUCCESS){
 
 function BuildShop(topWindow){
 	var item = {};
-	var myLocation = MyCharacter.CurrentMap.Places[MyCharacter.PositionX][MyCharacter.PositionY];	
+	var myLocation = window.MyCharacter.CurrentMap.Places[window.MyCharacter.PositionX][window.MyCharacter.PositionY];	
 	var name = myLocation.Name || "Shop";
 	
 	var itemTypeLabels = ["Weapons", "Accessories", "Armors", "Spells"];
@@ -829,18 +832,18 @@ function BuildShop(topWindow){
 	
 	var currentItem = {};		
 
-	for(var i= 0; i < MyCharacter.Inventories["Personal"].length; i++){
+	for(var i= 0; i < window.MyCharacter.Inventories["Personal"].length; i++){
 		s = "";
 		if(i == 0){
 			var s = " selected='selected'";
 		}
 		
-		currentItem = MyCharacter.Inventories["Personal"][i];
+		currentItem = window.MyCharacter.Inventories["Personal"][i];
 		sellSelection.append("<option value='" + currentItem.ItemId + "'" + s + ">" + currentItem.Name + " - " + currentItem.SellPrice + "</option>");
 	}
 	
 	var sellItem = $("<button id='sellItem' class='button'>Sell</buy>").bind("click", function(e){ e.preventDefault(); SellItem(); });
-	var sellInfo = $("<button id='sellInfo' class='button'>Info</buy>").bind("click", function(e){ e.preventDefault(); var index = $('#sellSelection option:selected').prevAll().length; if(index < 0){ index = 0; } DisplayItemInfo(MyCharacter.Inventories["Personal"][index]); });
+	var sellInfo = $("<button id='sellInfo' class='button'>Info</buy>").bind("click", function(e){ e.preventDefault(); var index = $('#sellSelection option:selected').prevAll().length; if(index < 0){ index = 0; } DisplayItemInfo(window.MyCharacter.Inventories["Personal"][index]); });
 	var sellDescription = $("<div id='sellDescription'></div>");
 	var sellContainer = $("<div><label for='sellSelection'>Sell:</span></div>").append(sellSelection);
 	sellForm.append(sellContainer).append(sellItem).append(sellInfo).append(sellDescription);
@@ -857,7 +860,7 @@ function SellItem(){
 }
 
 function BuyItem(){
-	if(MyCharacter.Inventories["Personal"].length < 20){
+	if(window.MyCharacter.Inventories["Personal"].length < 20){
 		vc.ms.Buy(_("itemSelection")[0].value , ProcessPurchase);
 	}
 }
@@ -891,8 +894,8 @@ function ProcessPurchase(response, data){
 	
 	if(response.Result == vc.ER_SUCCESS){ 
 		var item = response.Data;	
-		MyCharacter.Inventories["Personal"][MyCharacter.Inventories["Personal"].length] = item;
-		MyCharacter.Gold -= item.BuyPrice;
+		window.MyCharacter.Inventories["Personal"][window.MyCharacter.Inventories["Personal"].length] = item;
+		window.MyCharacter.Gold -= item.BuyPrice;
 		UpdateStats();
 		BuildInitialInventory();
 		BuildInventoryLists();
@@ -909,10 +912,10 @@ function ProcessSale(response, data){
 		var item = {};
 		var asdf = 0;
 		
-		for(var i in MyCharacter.Inventories["Personal"]){
+		for(var i in window.MyCharacter.Inventories["Personal"]){
 			if(isInteger(i)){
-				if(MyCharacter.Inventories["Personal"][i].ItemId == ItemId){
-					item = MyCharacter.Inventories["Personal"][i];
+				if(window.MyCharacter.Inventories["Personal"][i].ItemId == ItemId){
+					item = window.MyCharacter.Inventories["Personal"][i];
 				}
 				asdf++;
 			}
@@ -922,8 +925,8 @@ function ProcessSale(response, data){
 		
 		var price = item.SellPrice;
 		
-		MyCharacter.Inventories["Personal"].remove(asdf);
-		MyCharacter.Gold += price;
+		window.MyCharacter.Inventories["Personal"].remove(asdf);
+		window.MyCharacter.Gold += price;
 		UpdateStats();
 		BuildInitialInventory();
 		BuildInventoryLists();
@@ -934,12 +937,12 @@ function ProcessSale(response, data){
 }
 
 function BuildShrine(topWindow){
-	var myLocation = MyCharacter.CurrentMap.Places[MyCharacter.PositionX][MyCharacter.PositionY];
+	var myLocation = window.MyCharacter.CurrentMap.Places[window.MyCharacter.PositionX][window.MyCharacter.PositionY];
 	var name = myLocation.Name || "Shrine";
 	
 	var container = $("<form id='shrineForm'><h1>" + name + "</h1></form>");
 	
-	if(MyCharacter.Health > 0){
+	if(window.MyCharacter.Health > 0){
 		container.append("<h2>Why are you here? You're not dead.</h2>");
 	}else{
 		var reviveButton = $("<button type='submit' id='reviveButton' class='button'>Revive</button>");
@@ -1125,17 +1128,17 @@ function BuildAttackMessage(Attack, EnemyName, PlayerIsAttacker, fightResults){
 			
 			if(bo.Type == 2){
 				if(bo.Actor == myActor){
-					MyCharacter.Health += bo.Damage;
+					window.MyCharacter.Health += bo.Damage;
 					
-					if(MyCharacter.Health > MyCharacter.Vitality){
-						MyCharacter.Health = MyCharacter.Vitality;
+					if(window.MyCharacter.Health > window.MyCharacter.Vitality){
+						window.MyCharacter.Health = window.MyCharacter.Vitality;
 					}
 					
 					UpdateHealth();
 				}
 			}else{
 				if(bo.Actor != myActor){
-					MyCharacter.Health -= bo.Damage;
+					window.MyCharacter.Health -= bo.Damage;
 					UpdateHealth();
 				}
 			}
@@ -1190,31 +1193,31 @@ function BuildAttackMessage(Attack, EnemyName, PlayerIsAttacker, fightResults){
 			}
 			
 			if(Attack.Gold !== undefined){
-				MyCharacter.Gold += Attack.Gold;
+				window.MyCharacter.Gold += Attack.Gold;
 			}
 			
 			if(Attack.Experience !== undefined){
-				MyCharacter.Experience += Attack.Experience;
+				window.MyCharacter.Experience += Attack.Experience;
 			}
 			
 			if(Attack.AlignGood !== undefined){
-				MyCharacter.AlignGood = Attack.AlignGood;
+				window.MyCharacter.AlignGood = Attack.AlignGood;
 			}
 			
 			if(Attack.AlignOrder !== undefined){
-				MyCharacter.AlignOrder = Attack.AlignOrder;
+				window.MyCharacter.AlignOrder = Attack.AlignOrder;
 			}
 			
 			if(Attack.LevelUp !== undefined && Attack.LevelUp == true){
 				fightResults.append("<div class='result levelUp'><span class='attacker player'>You</span> have leveled up! <a href='#' class='chooseStats button'>Choose Stats</a></span></div>");
-				MyCharacter.Experience -= MyCharacter.NextLevelAt();
-				MyCharacter.FreeLevels++;
+				window.MyCharacter.Experience -= window.MyCharacter.NextLevelAt();
+				window.MyCharacter.FreeLevels++;
 			}
 			UpdateStats();
 		}else{
 			fightResults.append("<div class='result lostFight'><span class='attacker enemy'>You</span> were defeated!</span></div>");
-			MyCharacter.Health = 0;
-			MyCharacter.Gold = 0;
+			window.MyCharacter.Health = 0;
+			window.MyCharacter.Gold = 0;
 			UpdateStats();
 		}
 	}
@@ -1272,8 +1275,8 @@ function SubmitMessage(message){
 		var myChannel = window.MyCharacter.CurrentChannel;
 		
 		if(!msgobj.NonMessageCommand){
-			vc.ch.SendMessageToChannel(MyCharacter.CurrentChannel, message, function(){});
-			InsertChat([{ "Type": msgobj.Type, "FromName": MyCharacter.Name, "Message": msgobj.Message, AlignGood: MyCharacter.AlignGood, AlignOrder: MyCharacter.AlignOrder  }],myChannel);
+			vc.ch.SendMessageToChannel(window.MyCharacter.CurrentChannel, message, function(){});
+			InsertChat([{ "Type": msgobj.Type, "FromName": window.MyCharacter.Name, "Message": msgobj.Message, AlignGood: window.MyCharacter.AlignGood, AlignOrder: window.MyCharacter.AlignOrder  }],myChannel);
 		}else{
 			switch(msgobj.Type){
 				
@@ -1396,20 +1399,20 @@ function OpenDebugWindow(){
 function UpdateStats(){
 	var mc = window.MyCharacter;
 			
-	ICache["myCharacter_Name"].text(mc.Name);
-	ICache["myCharacter_Strength"].text(mc.Strength);
-	ICache["myCharacter_Dexterity"].text(mc.Dexterity);
-	ICache["myCharacter_Wisdom"].text(mc.Wisdom);
-	ICache["myCharacter_Intelligence"].text(mc.Intelligence);
-	ICache["myCharacter_Vitality"].text(mc.Vitality);
-	ICache["myCharacter_Gold"].add(ICache["myCharacter_CurrentGold"]).text(mc.Gold);
-	ICache["myCharacter_ExperienceBar"].progressbar("value", (mc.Experience / mc.NextLevelAt()) * 100)[0].setAttribute("title", mc.Experience + " / " + mc.NextLevelAt());
-	ICache["myCharacter_HealthBar"].progressbar("value", ((mc.Health / mc.Vitality) * 100))[0].setAttribute("title", mc.Health + " / " + mc.Vitality);
-	ICache["myCharacter_LevelTitle"].add(ICache["myCharacter_Level"]).text(mc.Level);
-	ICache["myCharacter_FreeLevels"].text(mc.FreeLevels);
-	ICache["myCharacter_Health"].text(mc.Health);
-	ICache["myCharacter_Experience"].text(mc.Experience);
-	ICache["myCharacter_Bank"].text(mc.Bank);
+	ICache["MyCharacter_Name"].text(mc.Name);
+	ICache["MyCharacter_Strength"].text(mc.Strength);
+	ICache["MyCharacter_Dexterity"].text(mc.Dexterity);
+	ICache["MyCharacter_Wisdom"].text(mc.Wisdom);
+	ICache["MyCharacter_Intelligence"].text(mc.Intelligence);
+	ICache["MyCharacter_Vitality"].text(mc.Vitality);
+	ICache["MyCharacter_Gold"].add(ICache["MyCharacter_CurrentGold"]).text(mc.Gold);
+	ICache["MyCharacter_ExperienceBar"].progressbar("value", (mc.Experience / mc.NextLevelAt()) * 100)[0].setAttribute("title", mc.Experience + " / " + mc.NextLevelAt());
+	ICache["MyCharacter_HealthBar"].progressbar("value", ((mc.Health / mc.Vitality) * 100))[0].setAttribute("title", mc.Health + " / " + mc.Vitality);
+	ICache["MyCharacter_LevelTitle"].add(ICache["MyCharacter_Level"]).text(mc.Level);
+	ICache["MyCharacter_FreeLevels"].text(mc.FreeLevels);
+	ICache["MyCharacter_Health"].text(mc.Health);
+	ICache["MyCharacter_Experience"].text(mc.Experience);
+	ICache["MyCharacter_Bank"].text(mc.Bank);
 	
 	var alignName = mc.AlignName();
 	var alignClass = "neutral";
@@ -1419,38 +1422,38 @@ function UpdateStats(){
 		alignClass = "evil";
 	}
 	
-	_("myCharacter_Alignment").text(alignName + " (" + mc.AlignGood + " / " + mc.AlignOrder + ")").siblings(".statLabel").addClass(alignClass);
+	_("MyCharacter_Alignment").text(alignName + " (" + mc.AlignGood + " / " + mc.AlignOrder + ")").siblings(".statLabel").addClass(alignClass);
 	
-	if(MyCharacter.FreeLevels > 0){
+	if(window.MyCharacter.FreeLevels > 0){
 		$("#statsWindow button, #statsWindow .all").show();
 	}
 }
 
 function UpdateHealth(){
 	var mc = window.MyCharacter;
-	ICache["myCharacter_HealthBar"].progressbar("value", ((mc.Health / mc.Vitality) * 100))[0].setAttribute("title", mc.Health + " / " + mc.Vitality);
-	ICache["myCharacter_Health"].text(mc.Health);
+	ICache["MyCharacter_HealthBar"].progressbar("value", ((mc.Health / mc.Vitality) * 100))[0].setAttribute("title", mc.Health + " / " + mc.Vitality);
+	ICache["MyCharacter_Health"].text(mc.Health);
 }
 
 function LoadICache(){
 	ICache = new Array();
-	ICache["myCharacter_Name"] = _("myCharacter_Name");
-	ICache["myCharacter_Strength"] = _("myCharacter_Strength");
-	ICache["myCharacter_Dexterity"] = _("myCharacter_Dexterity");
-	ICache["myCharacter_Wisdom"] = _("myCharacter_Wisdom");
-	ICache["myCharacter_Intelligence"] = _("myCharacter_Intelligence");
-	ICache["myCharacter_Vitality"] = _("myCharacter_Vitality");
-	ICache["myCharacter_Gold"] = _("myCharacter_Gold");
-	ICache["myCharacter_CurrentGold"] = _("myCharacter_CurrentGold");
-	ICache["myCharacter_ExperienceBar"] = _("myCharacter_ExperienceBar");
-	ICache["myCharacter_HealthBar"] = _("myCharacter_HealthBar");
-	ICache["myCharacter_LevelTitle"] = _("myCharacter_LevelTitle");
-	ICache["myCharacter_Level"] = _("myCharacter_Level");
-	ICache["myCharacter_FreeLevels"] = _("myCharacter_FreeLevels");
-	ICache["myCharacter_Health"] = _("myCharacter_Health");
-	ICache["myCharacter_Experience"] = _("myCharacter_Experience");
-	ICache["myCharacter_Name"] = _("myCharacter_Name");
-	ICache["myCharacter_Bank"] = _("myCharacter_Bank");
+	ICache["MyCharacter_Name"] = _("MyCharacter_Name");
+	ICache["MyCharacter_Strength"] = _("MyCharacter_Strength");
+	ICache["MyCharacter_Dexterity"] = _("MyCharacter_Dexterity");
+	ICache["MyCharacter_Wisdom"] = _("MyCharacter_Wisdom");
+	ICache["MyCharacter_Intelligence"] = _("MyCharacter_Intelligence");
+	ICache["MyCharacter_Vitality"] = _("MyCharacter_Vitality");
+	ICache["MyCharacter_Gold"] = _("MyCharacter_Gold");
+	ICache["MyCharacter_CurrentGold"] = _("MyCharacter_CurrentGold");
+	ICache["MyCharacter_ExperienceBar"] = _("MyCharacter_ExperienceBar");
+	ICache["MyCharacter_HealthBar"] = _("MyCharacter_HealthBar");
+	ICache["MyCharacter_LevelTitle"] = _("MyCharacter_LevelTitle");
+	ICache["MyCharacter_Level"] = _("MyCharacter_Level");
+	ICache["MyCharacter_FreeLevels"] = _("MyCharacter_FreeLevels");
+	ICache["MyCharacter_Health"] = _("MyCharacter_Health");
+	ICache["MyCharacter_Experience"] = _("MyCharacter_Experience");
+	ICache["MyCharacter_Name"] = _("MyCharacter_Name");
+	ICache["MyCharacter_Bank"] = _("MyCharacter_Bank");
 	ICache["rda_value"] = _("rda_value");
 	ICache["currentMapPosition"] = _("currentMapPosition");
 	ICache["currentMapName"] = _("currentMapName");

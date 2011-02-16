@@ -70,23 +70,23 @@
 					<div id="topLeft" class="container top grid_3">
 						<section class="stats">
 							<div class="stat name">
-								<h1><span id="myCharacter_Name"></span></h1>
+								<h1><span id="MyCharacter_Name"></span></h1>
 							</div>
 							<div class="stat level">
 								<h2><span class="statLabel" title="Level">Level</span>
-								<span id="myCharacter_LevelTitle"></span></h2>
+								<span id="MyCharacter_LevelTitle"></span></h2>
 							</div>
 							<div class="stat exp">
 								<span class="statLabel icon experience" title="Experience Points">XP</span>
-								<div id="myCharacter_ExperienceBar"></div>
+								<div id="MyCharacter_ExperienceBar"></div>
 							</div>
 							<div class="stat hp">
 								<span class="statLabel icon health" title="Health">Health</span>
-								<div id="myCharacter_HealthBar"></div>
+								<div id="MyCharacter_HealthBar"></div>
 							</div>
 							<div class="stat gold">
 								<span class="statLabel icon gold" title="Gold">Gold</span>
-								<span id="myCharacter_CurrentGold"></span>
+								<span id="MyCharacter_CurrentGold"></span>
 							</div>
 						</section>
 						<a href="#" class="button stats" id="statsWindowButton">Stats</a>
@@ -196,56 +196,56 @@
 		<div style="hidden" id="statsWindow" class="statsWindow" style="display: none;">
 			<div class="stat lvl">
 				<span class="statLabel icon lvl" title="Level">Level</span>
-				<span id="myCharacter_Level"></span>
+				<span id="MyCharacter_Level"></span>
 			</div>
 			<div class="stat freeLvls">
 				<span class="statLabel icon freeLevels" title="Free Levels">Free Levels</span>
-				<span id="myCharacter_FreeLevels"></span>
+				<span id="MyCharacter_FreeLevels"></span>
 			</div>
 			<div class="stat align">
 				<span class="statLabel icon alignment" title="Alignment">Alignment</span>
-				<span id="myCharacter_Alignment"></span>
+				<span id="MyCharacter_Alignment"></span>
 			</div>
 			<div class="stat str">
 				<span class="statLabel icon str" title="Strength">Strength</span>
-				<span id="myCharacter_Strength"></span>
+				<span id="MyCharacter_Strength"></span>
 				<button type="submit" class="button" style="display: none;">+</button>
 			</div>
 			<div class="stat dex">
 				<span class="statLabel icon dex" title="Dexterity">Dexterity</span>
-				<span id="myCharacter_Dexterity"></span>
+				<span id="MyCharacter_Dexterity"></span>
 				<button type="submit" class="button" style="display: none;">+</button>
 			</div>
 			<div class="stat wis">
 				<span class="statLabel icon wis" title="Wisdom">Wisdom</span>
-				<span id="myCharacter_Wisdom"></span>
+				<span id="MyCharacter_Wisdom"></span>
 				<button type="submit" class="button" style="display: none;">+</button>
 			</div>
 			<div class="stat int">
 				<span class="statLabel icon int" title="Intelligence">Intelligence</span>
-				<span id="myCharacter_Intelligence"></span>
+				<span id="MyCharacter_Intelligence"></span>
 				<button type="submit" class="button" style="display: none;">+</button>
 			</div>
 			<div class="stat vit">
 				<span class="statLabel icon vit" title="Vitality">Vitality</span>
-				<span id="myCharacter_Vitality"></span>
+				<span id="MyCharacter_Vitality"></span>
 				<button type="submit" class="button" style="display: none;">+</button>
 			</div>
 			<div class="stat vit">
 				<span class="statLabel icon health" title="Vitality">Health</span>
-				<span id="myCharacter_Health"></span>
+				<span id="MyCharacter_Health"></span>
 			</div>
 			<div class="stat exp">
 				<span class="statLabel icon experience" title="Experience">Experience</span>
-				<span id="myCharacter_Experience"></span>
+				<span id="MyCharacter_Experience"></span>
 			</div>
 			<div class="stat gold">
 				<span class="statLabel icon gold" title="Gold">Gold</span>
-				<span id="myCharacter_Gold"></span>
+				<span id="MyCharacter_Gold"></span>
 			</div>
 			<div class="stat gold">
 				<span class="statLabel icon bankedGold" title="Bank">Bank</span>
-				<span id="myCharacter_Bank"></span>
+				<span id="MyCharacter_Bank"></span>
 			</div>
 		</div>
 		

@@ -348,6 +348,8 @@ a.fb_button, a.fb_button:link, a.fb_button:hover, a.fb_button:active {
 #topCenter { height: 210px; overflow: auto; }
 input.donateButton { border: 0 none; background: transparent; padding: 0; margin: 0; }
 #movement {
+	height: 150px;
+	width: 150px;
 	position: absolute;
 	opacity: .25;
 }
