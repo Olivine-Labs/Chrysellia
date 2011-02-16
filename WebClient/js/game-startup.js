@@ -496,7 +496,7 @@ function BuildMap(loadMapInfo){
 	ICache["currentMapPosition"].text(window.MyCharacter.PositionX + " , " + window.MyCharacter.PositionY);
 	
 	if(loadMapInfo){
-		$.getScript("./core/staticInfo/" + window.MyCharacter.CurrentMap.Name + ".js", function(){ BuildMapTable(); BuildGameWindow(); });
+		$.getScript("./Core/staticInfo/" + window.MyCharacter.CurrentMap.Name + ".js", function(){ BuildMapTable(); BuildGameWindow(); });
 	}else{
 		BuildMapTable();
 		BuildGameWindow();
