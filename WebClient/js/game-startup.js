@@ -519,6 +519,7 @@ function BuildMapTable(){
 	console.log(posX + ", " + posY);
 	
 	map.css('background', 'url("./css/images/large_maps/' + window.MyCharacter.CurrentMap.Name + '_20.png") no-repeat scroll ' + posX + 'px ' + posY + 'px transparent');
+	_("largeMap").attr("href", "./css/images/large_maps/" + window.MyCharacter.CurrentMap.Name + "_20.png");
 }
 
 function BuildGameWindow(){

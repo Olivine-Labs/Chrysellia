@@ -121,6 +121,7 @@
 								</tr>
 							</table>
 						</form>
+						<a href="./css/images/large_maps/Parlaor_20.png" target="_blank" id="largeMap">View Large Map</a>
 					</section>
 				</div>
 				
