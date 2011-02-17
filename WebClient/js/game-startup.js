@@ -1,4 +1,4 @@
-﻿$(function(){
+$(function(){
 	vc.DebugMode = true;
 	
 	LoadICache();
@@ -746,6 +746,7 @@ function ReviveCharacter(response, data){
 function Attack(fightType){
 	SetEnableAttack(false); 
 	$("#fightResults .result").remove();
+	$("body").focus();
 	var enemyId = _("monsterList")[0].value ;
 	var fightResults = _("fightResults");
 	

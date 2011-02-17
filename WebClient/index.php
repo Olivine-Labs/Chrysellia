@@ -14,7 +14,7 @@ function get_facebook_cookie($app_id, $application_secret)
 		foreach ($args as $key => $value)
 		{
 			if ($key != 'sig')
-			{
+			{ 
 				$payload .= $key . '=' . $value;
 			}
 		}
@@ -43,7 +43,7 @@ include_once('php/simplepie.inc');
 		<meta name="distribution" content="Global" />
 		<meta name="copyright" content="All content copyright 2010 Jack Lawson and Drew Ditthardt. All rights reserved." />
 		
-		<title>Chrysellia (Beta)</title>
+		<title>Chrysellia (Beta 2)</title>
 		
 		<!--[if IE]>
 			<script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
