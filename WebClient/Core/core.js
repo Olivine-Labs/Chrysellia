@@ -25,6 +25,7 @@
 	V2Core = V2Core.prototype = {
 		//enums!
 		ER_SUCCESS: 0, //when Murphy is not around everything works.
+		ER_SERVERERROR: 248, //when the server returns something that's not a 400
 		ER_NOTONLINE: 249, //when the target is not online
 		ER_NOTLOGGEDIN: 250, //when the session fails
 		ER_BADDATA: 251, //when the data is bad
@@ -56,8 +57,12 @@
 		RequestDurationTotal: 0,
 		Requests: 0,
 		
+		//Ajax Errors
+		GlobalErrorCount: 0,
+		
 		CompressionMode: this.COMPRESSION_MODE_NONE,
 		
+		//Private! Leave me alone.
 		__requestId: 0,
 		
 		CallbackStack: [],
@@ -71,7 +76,7 @@
 		
 		ProcessCallbacks: function(data, textStatus, XMLHttpRequest){
 			for(var x in data){
-				if(vc.isInteger(x)){
+				if(vc.isInteger(x*1)){
 					var method = vc.CallbackStack[data[x].Id];
 					if (method != undefined && typeof method.Method == "function"){
 						var response = {};
@@ -99,9 +104,22 @@
 			}
 			
 			$.ajax({
-				data: {Data: dataToSend} ,
+				data: { Data: dataToSend } ,
 				success: function(data, textStatus, XMLHttpRequest){
+					vc.GlobalErrorCount = 0;
 					vc.ProcessCallbacks(data, textStatus, XMLHttpRequest);
+				},
+				error: function(data, textStatus, XMLHttpRequest){
+					if(textStatus == "timeout"){
+						if(vc.GlobalErrorCount < 3){
+							vc.SendSingleRequest(dataObject.Id, dataObject.Type, dataObject.Action, dataObject.Data);
+							vc.GlobalErrorCount++;
+						}else{
+							alert("There is a problem connecting to the server.\nPlease check your internet connection.");
+						}
+					}else{
+						vc.ProcessCallbacks({"0": { Result:vc.ER_SERVERERROR, Id: dataObject.Id, Data: {} }}, textStatus, XMLHttpRequest);
+					}
 				}
 			});
 		},

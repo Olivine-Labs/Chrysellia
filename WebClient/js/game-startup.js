@@ -38,7 +38,7 @@ $(function(){
 		chatbox.value = '';
 	});
 	
-	window.$tabs = $('#chatChannels').tabs({
+	window.$tabs = _('chatChannels').tabs({
 		tabTemplate: '<li><a href="#{href}" class="chatChannelLabel">#{label}</a> <span class="ui-icon ui-icon-close">Remove Tab</span></li>',
 		add: function(event, ui) {
 			$(ui.panel).append('<div />');
@@ -745,8 +745,8 @@ function ReviveCharacter(response, data){
 
 function Attack(fightType){
 	SetEnableAttack(false); 
-	$("#fightResults .result").remove();
-	$("body").focus();
+	_("fightResults").children(".result").remove();
+	_("fightForm").add("button", _("fightForm")).blur();
 	var enemyId = _("monsterList")[0].value ;
 	var fightResults = _("fightResults");
 	
@@ -774,7 +774,7 @@ function Attack(fightType){
 		vc.mn.Fight(enemyId, fightType, AttackRound);
 	}else if(enemyId.indexOf("CHAR") > -1){
 		
-		window.MyCharacter.CurrentBattle= { Enemy: { Id:enemyId, Name:$("#monsterList :selected").text() }, State: 0 }
+		window.MyCharacter.CurrentBattle= { Enemy: { Id:enemyId, Name:_("monsterList").children(":selected").text() }, State: 0 }
 		vc.cs.Fight(enemyId, fightType, AttackRound);
 	}
 }
