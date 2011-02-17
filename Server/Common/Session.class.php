@@ -57,6 +57,7 @@ class Session
 
 	public function _gc($Seconds)
 	{
+		$Seconds = 86400;
 		return $this->Database->Sessions->Clean($Seconds);
 	}
 
