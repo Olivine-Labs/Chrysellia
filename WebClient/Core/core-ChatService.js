@@ -38,10 +38,15 @@
 		},
 		
 		GetMessagesForCharacter: function(callback){
-			var data = { };
-			var requestId = vc.GenerateRequestId();
-			vc.CallbackStack[requestId] = {Method: callback, Data: data};
-			vc.SendSingleRequest(requestId, vc.TYPE_CHAT, vc.ch.ACTION_GETMESSAGESFORCHARACTER, data);
+			try{
+				var data = { };
+				var requestId = vc.GenerateRequestId();
+				vc.CallbackStack[requestId] = {Method: callback, Data: data};
+				vc.SendSingleRequest(requestId, vc.TYPE_CHAT, vc.ch.ACTION_GETMESSAGESFORCHARACTER, data);
+			}catch(err){
+				sleep(1000);
+				callback();
+			}
 		},
 		
 		SendMessageToChannel: function(channel, message, callback){

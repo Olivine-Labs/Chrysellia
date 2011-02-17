@@ -442,20 +442,27 @@ function AddTab(title, channelId, motd) {
 }
 
 function FillChat(response, data){
-	if(vc.DebugMode && response.RequestDuration > 0){vc.Requests++;  vc.RequestDurationTotal += response.RequestDuration; ICache["rda_value"].text(vc.RequestDurationTotal / vc.Requests);}
-	if(response.Result == vc.ER_SUCCESS){ 
+	try{
+		if(vc.DebugMode && response.RequestDuration > 0){
+			vc.Requests++;
+			vc.RequestDurationTotal += response.RequestDuration;
+			ICache["rda_value"].text(vc.RequestDurationTotal / vc.Requests);
+		}
+
+		if(response.Result == vc.ER_SUCCESS){
+	 
 		for(var i in response.Data){
-			if(i!=0){
-				InsertChat(response.Data[i], i);
-			}else if(typeof response.Data[0] == "object" && response.Data[0].length > 0){
-				ProcessSystemMessage(response.Data[0]);
+				if(i!=0){
+					InsertChat(response.Data[i], i);
+				}else if(typeof response.Data[0] == "object" && response.Data[0].length > 0){
+					ProcessSystemMessage(response.Data[0]);
+				}
 			}
 		}
+	}finally{
+		$(".chatMessage:nth-child(n+50)").remove();
+		window.setTimeout(function(){ vc.ch.GetMessagesFromChannel(window.MyCharacter.CurrentChannel, FillChat); }, 4500);
 	}
-	
-	$(".chatMessage:nth-child(n+50)").remove();
-	
-	window.setTimeout(function(){ vc.ch.GetMessagesFromChannel(window.MyCharacter.CurrentChannel, FillChat); }, 4500);
 }
 
 function SelectCharacter(response, data){
