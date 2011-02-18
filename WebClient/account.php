@@ -266,14 +266,15 @@
 		<script src="http://code.jquery.com/jquery-1.5.min.js"></script>
 		<script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.9/jquery-ui.min.js"></script>
 		
-		<!-- Here come the plugins
+		<!-- Here come the plugins 
+		<script src="./js/plugins.min.js"></script>-->
 		<script src="./js/jquery.watermark.min.js"></script>
 		<script src="./js/jquery.cookie.js"></script>
 		<script src="./Core/jquery-md5.js" type="text/javascript"></script>
 		<script src="./Core/json.js" type="text/javascript"></script>
 		<script src="./js/jsend.min.js"></script>
-		<script src="./js/jquery.tipsy.js"></script>-->
-		<script src="./js/plugins.min.js"></script>
+		<script src="./js/jquery.tipsy.js"></script>
+		<script src="./js/jstorage.js"></script>
 		
 		<!-- For the production version, we'll minify and combine our javascript, and keep a plain version for us
 		<script src="./Core/core.js"></script>

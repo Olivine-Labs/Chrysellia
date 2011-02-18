@@ -65,6 +65,8 @@
 		//Private! Leave me alone.
 		__requestId: 0,
 		
+		Temp: [],
+		
 		CallbackStack: [],
 		
 		QueueDefaults: { AutoSubmit: true, Timeout: 1000 },

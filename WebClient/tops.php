@@ -287,14 +287,15 @@ include_once('php/simplepie.inc');
 			{{/each}}
 		</script>
 		
-		<!-- Here come the plugins
+		<!-- Here come the plugins 
+		<script src="./js/plugins.min.js"></script>-->
 		<script src="./js/jquery.watermark.min.js"></script>
 		<script src="./js/jquery.cookie.js"></script>
 		<script src="./Core/jquery-md5.js" type="text/javascript"></script>
 		<script src="./Core/json.js" type="text/javascript"></script>
 		<script src="./js/jsend.min.js"></script>
-		<script src="./js/jquery.tipsy.js"></script>-->
-		<script src="./js/plugins.min.js"></script>
+		<script src="./js/jquery.tipsy.js"></script>
+		<script src="./js/jstorage.js"></script>
 				
 		<!-- Here come the services
 		<script src="./Core/core.js"></script>

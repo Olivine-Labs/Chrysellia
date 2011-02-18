@@ -1,5 +1,5 @@
 (function( window, undefined ) {
-	var Races = new Array();
+	var Races = {};
 
 	Races["RACE_00000000000000000000001"] = { 
 		Id: "RACE_00000000000000000000001", 

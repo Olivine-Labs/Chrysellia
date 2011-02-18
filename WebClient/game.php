@@ -292,15 +292,7 @@
 		<script src="./Core/core-ChatService.js"></script>
 		<script src="./Core/core-MapService.js"></script>
 		<script src="./Core/core-ItemService.js"></script>
-		<script src="./Core/core-MonsterService.js"></script>
-		
-		<!-- Data Libraries
-		<script src="./Core/staticInfo/libraries.min.js"></script>-->
-		<script src="./Core/staticInfo/races.js"></script>
-		<script src="./Core/staticInfo/maps.js"></script>
-		<script src="./Core/staticInfo/monsters.js"></script>
-		<script src="./Core/staticInfo/items.js"></script>
-		
+		<script src="./Core/core-MonsterService.js"></script>		
 		
 		<!-- Page setup
 		<script src="./js/startup.min.js"></script>
