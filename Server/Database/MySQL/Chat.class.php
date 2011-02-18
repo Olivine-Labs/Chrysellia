@@ -99,7 +99,7 @@ class Chat extends \Database\Chat
 		{
 			$Query->bind_result($Result[$Index]['Message'], $Result[$Index]['FromName'], $Result[$Index]['AlignGood'], $Result[$Index]['AlignOrder'], $Result[$Index]['Type'], $Result[$Index]['SentOn']);
 			$Continue = $Query->Fetch();
-			$Index ++;
+			$Index++;
 		}
 
 		if(count($Result) > 0)
@@ -136,7 +136,7 @@ class Chat extends \Database\Chat
 			$Query->bind_result($Result[$Index]['Message'], $Result[$Index]['FromName'], $Result[$Index]['AlignGood'], $Result[$Index]['AlignOrder'], $Result[$Index]['Type'], $Result[$Index]['SentOn']);
 			$Continue = $Query->Fetch();
 			$Result[$Index]['Message'] = unserialize($Result[$Index]['Message']);
-			$Index ++;
+			$Index++;
 		}
 
 		if(count($Result) > 0)

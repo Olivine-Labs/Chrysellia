@@ -320,7 +320,7 @@ class Character extends Being
 	{
 		$LevelModifier = 38.19;
 		$TNLMultiplier = 5;
-		return round(pow($this->Level+$LevelModifier, log(($this->Level+$LevelModifier)*$TNLMultiplier, 17-($this->Level/150)))-829.53);
+		return round(pow($this->Level+$this->FreeLevels+$LevelModifier, log(($this->Level+$this->FreeLevels+$LevelModifier)*$TNLMultiplier, 17-(($this->Level+$this->FreeLevels)/150)))-829.53);
 	}
 
 	/**
