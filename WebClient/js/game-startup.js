@@ -505,11 +505,21 @@ function BuildMap(loadMapInfo){
 	ICache["currentMapPosition"].text(window.MyCharacter.PositionX + " , " + window.MyCharacter.PositionY);
 	
 	if(loadMapInfo){
-		$.getScript("./Core/staticInfo/" + window.MyCharacter.CurrentMap.Name + ".js", function(){ BuildMapTable(); BuildGameWindow(); });
-	}else{
-		BuildMapTable();
-		BuildGameWindow();
+		var places = $.jStorage.get(window.MyCharacter.CurrentMap.Name) || null;
+		if(places == null){
+			$.getScript("./Core/staticInfo/" + window.MyCharacter.CurrentMap.Name + ".js", function(){ 
+				$.jStorage.set(window.MyCharacter.CurrentMap.Name, window.MyCharacter.CurrentMap.Places);
+				BuildMapTable(); 
+				BuildGameWindow(); 
+			});
+			return;
+		}else{
+			window.MyCharacter.CurrentMap.Places = places;
+		}
 	}
+
+	BuildMapTable();
+	BuildGameWindow();
 }
 
 function BuildMapTable(){
