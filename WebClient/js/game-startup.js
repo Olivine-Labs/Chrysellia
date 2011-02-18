@@ -1,5 +1,5 @@
 $(function(){
-	vc.DebugMode = true;
+	vc.DebugMode = false;
 	
 	LoadICache();
 	
@@ -23,8 +23,6 @@ $(function(){
 	
 	ICache["MyCharacter_ExperienceBar"].progressbar();
 	ICache["MyCharacter_HealthBar"].progressbar();
-	
-	vc.cs.GetCurrentCharacter(SelectCharacter);
 	
 	_("chatForm").bind("submit", function(e){
 		e.preventDefault();
@@ -209,7 +207,71 @@ $(function(){
 			OpenDebugWindow();
 		}
     });
+	
+	LoadDataLibraries();
 });
+
+function FireWhenReady(){
+	if(vc.Temp["SelectChar"] == 4){
+		vc.cs.GetCurrentCharacter(SelectCharacter);
+	}
+}
+
+function LoadDataLibraries(){
+	vc.Temp["SelectChar"] = 0;
+
+	var items = $.jStorage.get("Items") || null;
+	if(items === null){
+		$.getScript("./Core/staticInfo/items.js", function(){ 
+			$.jStorage.set("Items", vc.ItemTypes);
+			vc.Temp["SelectChar"]++;
+			FireWhenReady();
+		});
+	}else{
+		vc.ItemTypes = items;
+		vc.Temp["SelectChar"]++;
+		FireWhenReady();
+	}
+	
+	var maps = $.jStorage.get("Maps") || null;
+	if(maps === null){
+		$.getScript("./Core/staticInfo/maps.js", function(){ 
+			$.jStorage.set("Maps", vc.Maps);
+			vc.Temp["SelectChar"]++;
+			FireWhenReady();
+		});
+	}else{
+		vc.Maps = maps;
+		vc.Temp["SelectChar"]++;
+		FireWhenReady();
+	}
+	
+	var mobs = $.jStorage.get("Monsters") || null;
+	if(mobs === null){
+		$.getScript("./Core/staticInfo/monsters.js", function(){ 
+			$.jStorage.set("Monsters", vc.Monsters);
+			vc.Temp["SelectChar"]++;
+			FireWhenReady();
+		});
+	}else{
+		vc.Monsters = mobs;
+		vc.Temp["SelectChar"]++;
+		FireWhenReady();
+	}
+	
+	var races = $.jStorage.get("Races") || null;
+	if(races === null){
+		$.getScript("./Core/staticInfo/races.js", function(){ 
+			$.jStorage.set("Races", vc.Races);
+			vc.Temp["SelectChar"]++;
+			FireWhenReady();
+		});
+	}else{
+		vc.Races = races;
+		vc.Temp["SelectChar"]++;
+		FireWhenReady();
+	}
+}
 
 function Move(RelativeX, RelativeY){
 	SetEnableMovement(false);
@@ -472,14 +534,17 @@ function SelectCharacter(response, data){
 	
 	if(vc.DebugMode && response.RequestDuration > 0){vc.Requests++;  vc.RequestDurationTotal += response.RequestDuration; ICache["rda_value"].text(vc.RequestDurationTotal / vc.Requests);}
 	if(response.Result == vc.ER_SUCCESS){ 
-
 		window.MyCharacter.Construct(response.Data);
 		UpdateStats();
 	}else{
-		if(!vc.DebugMode){
-			alert("Please login again.");
-			window.location = "./index.php";
+		if($.cookie("l") == "true"){
+			vc.as.Logout(Logout);
 		}
+		
+		$.cookie("l", "false");
+		
+		alert("Please login again.");
+		window.location = "./index.php";
 	}
 	
 	for(var i in window.MyCharacter.Channels){
@@ -558,7 +623,7 @@ function BuildGameWindow(){
 			for(m in monsters){
 				if(m != "remove"){
 					var monsterId = monsters[m];
-					monster = V2Core.Monsters[monsterId];
+					monster = $.jStorage.get("Monsters")[monsterId];
 
 					if(monster.Level - 3 <= (.75 * window.MyCharacter.Level)){
 						color = colors[0];
@@ -702,7 +767,7 @@ function ProcessMapChange(response, data){
 	if(vc.DebugMode && response.RequestDuration > 0){vc.Requests++;  vc.RequestDurationTotal += response.RequestDuration; ICache["rda_value"].text(vc.RequestDurationTotal / vc.Requests);}
 	
 	if(response.Result == vc.ER_SUCCESS){ 
-		window.MyCharacter.CurrentMap = Maps[response.Data.MapId];
+		window.MyCharacter.CurrentMap = $.jStorage.get("Maps")[response.Data.MapId];
 		window.MyCharacter.PositionX = response.Data.PositionX;
 		window.MyCharacter.PositionY =  response.Data.PositionY;
 		BuildMap(true);
@@ -767,21 +832,23 @@ function Attack(fightType){
 	}
 			
 	if(enemyId.indexOf("MONS") > -1){
+		var monster = $.jStorage.get("Monsters")[enemyId];
+		
 		if(window.MyCharacter.CurrentBattle !== undefined){
 			if(window.MyCharacter.CurrentBattle.State == 2){
 				fightResults.html('');
 			}
 			
-			if(window.MyCharacter.CurrentBattle.Enemy == V2Core.Monsters[enemyId]){
+			if(window.MyCharacter.CurrentBattle.Enemy == monster){
 				window.MyCharacter.CurrentBattle.State = 1;
 			}else{
-				window.MyCharacter.CurrentBattle = { Enemy: V2Core.Monsters[enemyId], State: 0 }
+				window.MyCharacter.CurrentBattle = { Enemy: monster, State: 0 }
 			}
 		}else{
-			window.MyCharacter.CurrentBattle = { Enemy: V2Core.Monsters[enemyId], State: 0 }
+			window.MyCharacter.CurrentBattle = { Enemy: monster, State: 0 }
 		}
 		
-		window.MyCharacter.CurrentBattle = { Enemy: V2Core.Monsters[enemyId], State: 0 }
+		window.MyCharacter.CurrentBattle = { Enemy: monster, State: 0 }
 		vc.mn.Fight(enemyId, fightType, AttackRound);
 	}else if(enemyId.indexOf("CHAR") > -1){
 		
@@ -830,7 +897,7 @@ function BuildShop(topWindow){
 			index = 0; 
 		} 
 		var split = _("itemTypeSelection")[0].value .split("|");
-		var item = V2Core.ItemTypes[2][split[0]][split[1]];
+		var item = $.jStorage.get("Items")[2][split[0]][split[1]];
 	
 		DisplayItemInfo(item[index]); 
 	});
@@ -896,8 +963,8 @@ function FilterItemTypes(itemSlotType){
 	var currentItem = {};
 	var itemSelection = _("itemSelection").empty();
 	var split = itemSlotType.split("|");
-	var items = V2Core.ItemTypes[2][split[0]][split[1]];
-	for(item in V2Core.ItemTypes[2][split[0]][split[1]]){
+	var items = $.jStorage.get("Items")[2][split[0]][split[1]];
+	for(item in items){
 		if(item != "remove"){
 			currentItem = items[item];
 			s = "";
@@ -1144,7 +1211,7 @@ function BuildAttackMessage(Attack, EnemyName, PlayerIsAttacker, fightResults){
 			
 			var special = "";
 			if(Attack.Special !== undefined && Attack.Special > 0){
-				special = " <span class='monsterType " + vc.MonsterSpecialTypes[Attack.Special] + "'>" + vc.MonsterSpecialTypes[Attack.Special] + "</span>";
+				special = " <span class='monsterType " + vc.mn.MonsterSpecialTypes[Attack.Special] + "'>" + vc.mn.MonsterSpecialTypes[Attack.Special] + "</span>";
 			}
 			
 			if(bo.Type == 2){
@@ -1366,8 +1433,9 @@ function ProcessIDPlayer(response, data){
 		
 		var $alignContainer = $('<div class="stat align"><span class="statLabel icon alignment ' + alignClass + '" title="Alignment">Alignment</span></div>');
 		$("<span />").text(alignName + " (" + character.AlignGood + " / " + character.AlignOrder + ")").addClass(alignClass).appendTo($alignContainer);
-			
-		$("<div class='statsWindow " + V2Core.Races[character.RaceId].Name + "'><div class='stat'><h2>" + characterName + "</h2><h4>" + V2Core.Races[character.RaceId].Name + "</h4></div><div class='stat lvl'><span class='statLabel icon lvl' title='Level'>Level</span><span>" + character.Level + "</span></div></div>").append($alignContainer).dialog({ title: characterName });
+		
+		var raceName = $.jStorage.get("Races")[character.RaceId].Name;
+		$("<div class='statsWindow " + raceName + "'><div class='stat'><h2>" + characterName + "</h2><h4>" + raceName + "</h4></div><div class='stat lvl'><span class='statLabel icon lvl' title='Level'>Level</span><span>" + character.Level + "</span></div></div>").append($alignContainer).dialog({ title: characterName });
 	}else if(response.Result == vc.ER_BADDATA){
 		alert("Character '" + characterName + "' not found!");
 	}else{

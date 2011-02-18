@@ -11,7 +11,7 @@ $(function(){
 		timeout: 1500
 	});
 
-	vc.CheckVersion(function(v){ if(v != vc.Version) { alert("Your game file cache is out of date.\nPlease clear your browser's cache."); }  });
+	vc.CheckVersion(function(v){ if(v != vc.Version) { $.jStorage.flush(); alert("Your game file cache is out of date.\nPlease clear your browser's cache."); }  });
 
 	$("a").focusin(function() {
 	  $(this).css("opacity",.75);
