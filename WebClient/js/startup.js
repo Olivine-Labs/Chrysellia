@@ -8,7 +8,7 @@ $(function(){
 		url: V2Core.SERVERCODE_DIRECTORY + "index.php",
 		dataType: "json",
 		global: false,
-		timeout: 1500
+		timeout: 3333
 	});
 
 	vc.CheckVersion(function(v){ if(v != vc.Version) { $.jStorage.flush(); alert("Your game file cache is out of date.\nPlease clear your browser's cache."); }  });

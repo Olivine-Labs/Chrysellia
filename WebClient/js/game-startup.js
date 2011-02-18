@@ -208,6 +208,10 @@ $(function(){
 		}
     });
 	
+	vc.DisconnectionNotice = function(data){
+		$("<div>You have been disconnected from the server. There may be a server connection issue, or an issue with your internet connection. Please refresh or try again at a later time.</div>").appendTo("body").dialog({ modal: true, title: "Disconnected!" });
+	}
+	
 	LoadDataLibraries();
 });
 
