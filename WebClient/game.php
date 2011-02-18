@@ -41,7 +41,7 @@
 		<link rel="alternate" type="application/rss+xml" title="Chrysellia News RSS Feed" href="http://v2.neflaria.com/blog/feed/" />
 	</head>
 	<body class="game dark">
-		<div id="loading" style="width: 100%; height: 100%; background-color: #000; text-align: center; position: absolute; top: 0; left: 0; z-index: 10000;"><div style="margin-top: 100px; color: #fff;"><h1>Loading</h1></div></div>
+		<div id="loading" style="width: 100%; height: 100%; background-color: #000; text-align: center; position: absolute; top: 0; left: 0; z-index: 100;"><div style="margin-top: 100px; color: #fff;"><h1>Loading</h1></div></div>
 		<div id="messages">
 			<div class="container_12">
 				<div class="grid_12" id="info">

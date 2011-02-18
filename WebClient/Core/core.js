@@ -76,6 +76,10 @@
 			return vc.__requestId + "m";
 		},
 		
+		DisconnectionNotice: function(data){
+			alert("There is a problem connecting to the server.\nPlease check your internet connection.");
+		},
+		
 		ProcessCallbacks: function(data, textStatus, XMLHttpRequest){
 			for(var x in data){
 				if(vc.isInteger(x*1)){
@@ -117,7 +121,7 @@
 							vc.SendSingleRequest(dataObject.Id, dataObject.Type, dataObject.Action, dataObject.Data);
 							vc.GlobalErrorCount++;
 						}else{
-							alert("There is a problem connecting to the server.\nPlease check your internet connection.");
+							vc.DisconnectionNotice(dataObject);
 						}
 					}else{
 						vc.ProcessCallbacks({"0": { Result:vc.ER_SERVERERROR, Id: dataObject.Id, Data: {} }}, textStatus, XMLHttpRequest);
