@@ -1,4 +1,4 @@
-$(function(){
+;$(function(){
 	$(".button.plus").button({ icons: { primary: "ui-icon-circle-plus" }, text: false });
 	$(".button.minus").button({ icons: { primary: "ui-icon-circle-minus" }, text: false });
 	

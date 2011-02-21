@@ -1,4 +1,4 @@
-$(function(){
+;$(function(){
 	
 	FB.init({appId: '119442588120693', status: true, cookie: true, xfbml: true});
 	

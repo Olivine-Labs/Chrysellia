@@ -1,4 +1,4 @@
-$(function(){
+;$(function(){
 	vc.DebugMode = false;
 	
 	LoadICache();
