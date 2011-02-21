@@ -282,7 +282,7 @@ color: #fff;
 }
 #chatChannels .ui-tabs-panel { overflow: auto; margin-top: 30px; }
 .game .copyright { font-size: .75em; }
-.motd { font-size: 1.1em; font-weight: bold; color: #C08826; }
+.motd, .goldDrop { font-size: 1.1em; font-weight: bold; color: #C08826; }
 .chatMessage{ font-size: 1.1em; line-height: 1.35em; }
 #currentMap { float: left; overflow: hidden; height: 150px; width: 150px; }
 #marker { height: 4px; width: 4px; margin-top: 73px; margin-left: 73px; float: left; background: #fff; } 
