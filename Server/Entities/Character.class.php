@@ -385,12 +385,11 @@ class Character extends Being
 			$AnEnemy->Equipment[2]=$Armor;
 		}
 
-		$PlayerArmorClass = 0;
-		$NumWeapons = 0;
-
 		//0 is the player, 1 is the enemy. Loop through to create "Rounds", or rows in the result set.
 		for($Index = 0; $Index < 2; $Index++)
 		{
+			$NumWeapons = 0;
+			$EnemyArmorClass = 0;
 			$Being = null;
 			$EnemyBeing = null;
 			$DamageType = 0;
@@ -414,13 +413,17 @@ class Character extends Being
 				$DamageType = $Spell;
 			}
 
-			//Get Armor Class for the attacker
-			foreach($Being->Equipment AS $AnItem)
+			//Get Armor Class for the attacked
+			foreach($EnemyBeing->Equipment AS $AnItem)
 			{
 				if($AnItem->SlotType == 1)
 				{
-					$PlayerArmorClass += $AnItem->ItemClass;
+					$EnemyArmorClass += $AnItem->ItemClass;
 				}
+			}
+			//Get the attacker's weapons.
+			foreach($Being->Equipment AS $AnItem)
+			{
 				if(!$Spell)
 				{
 					if($AnItem->SlotType == 0)
@@ -507,7 +510,7 @@ class Character extends Being
 							$EnemyArmorMastery = 0;
 							if(get_class($AnEnemy) == 'Entities\Character')
 								$EnemyArmorMastery = $EnemyBeing->Masteries[0]['Value'];
-							$EnemyArmorClass = 0;
+
 							$ItemClassBonus = $Being->WeaponClassBonus;
 							if($DamageType)
 								$ItemClassBonus = $Being->SpellClassBonus;
