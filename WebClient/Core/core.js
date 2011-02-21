@@ -10,7 +10,7 @@
  */
 
  
- (function( window, undefined ) {
+ ;(function( window, undefined ) {
 
 	var V2Core = function (){};
 	var ShortQueue = function(){};

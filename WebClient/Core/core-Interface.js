@@ -1,4 +1,4 @@
-(function( window, undefined ) {
+;(function( window, undefined ) {
 	var Interface = function (){};
 	
 	Interface = Interface.prototype = {
