@@ -116,9 +116,11 @@ if(
 									if($AttackResult['Winner'] == 0)
 									{
 										//Gold Drops
+										global $_CONFIG;
 										if(mt_rand(1, 1000000) < ($_CONFIG[CF_GAME][CF_GAME_DROPS][CF_GAME_DROPS_GOLD]*10000))
 										{
-											$CurrentFight['GoldDrop'] = $CurrentFight['GoldGiven'] * 1000;
+											$AttackResult['GoldDrop'] = $CurrentFight['GoldGiven'] * 1000;
+											$Character->Gold += $AttackResult['GoldDrop'];
 										}
 									}
 
