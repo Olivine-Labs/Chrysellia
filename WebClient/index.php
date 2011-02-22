@@ -57,8 +57,10 @@ include_once('php/simplepie.inc');
 		<link href="css/grid.css" rel="stylesheet" media="screen" />
 		<link href="css/neflaria-base.css" rel="stylesheet" media="screen" />
 		<link href="css/tipsy.css" rel="stylesheet" media="screen" />-->
-		<link href="css/neflaria.min.css" rel="stylesheet" media="screen" />
-		<link href="css/grid.min.css" rel="stylesheet" media="screen" />
+		<!--<link href="css/neflaria.min.css" rel="stylesheet" media="screen" />
+		<link href="css/grid.min.css" rel="stylesheet" media="screen" />-->
+		<link href="http://s3.amazonaws.com/Chrysellia/css/neflaria.min.css.gz" rel="stylesheet" media="screen" />
+		<link href="http://s3.amazonaws.com/Chrysellia/css/grid.min.css.gz" rel="stylesheet" media="screen" />
 		
 		<!--[if IE 8]>
 		<link href="css/ie8.css" rel="stylesheet" media="screen" />
@@ -376,33 +378,41 @@ include_once('php/simplepie.inc');
 		</script>
 		<![endif]-->
 		
-		<!-- Here come the plugins 
-		<script src="./js/plugins.min.js"></script>-->
+				<!-- Here come the plugins 
+		<script src="./js/plugins.min.js"></script>
 		<script src="./js/jquery.watermark.min.js"></script>
 		<script src="./js/jquery.cookie.js"></script>
 		<script src="./Core/jquery-md5.js" type="text/javascript"></script>
 		<script src="./Core/json.js" type="text/javascript"></script>
 		<script src="./js/jsend.min.js"></script>
 		<script src="./js/jquery.tipsy.js"></script>
-		<script src="./js/jstorage.js"></script>
+		<script src="./js/jstorage.js"></script>-->
+		<script src="http://s3.amazonaws.com/Chrysellia/js/plugins.min.js.gz"></script>
 		<script src="./js/consolefix.js"></script>
 				
 		<!-- For the production version, we'll minify and combine our javascript, and keep a plain version for us
+		<script src="./Core/core.min.js"></script>
 		<script src="./Core/core.js"></script>
 		<script src="./Core/core-AccountService.js"></script>
 		<script src="./Core/core-CharacterService.js"></script>
-		<script src="./Core/core-APIService.js"></script> -->
-		<script src="./Core/core.min.js"></script>
+		<script src="./Core/core-CommandService.js"></script>
+		<script src="./Core/core-ChatService.js"></script>
+		<script src="./Core/core-MapService.js"></script>
+		<script src="./Core/core-ItemService.js"></script>
+		<script src="./Core/core-MonsterService.js"></script>	-->	
+		<script src="http://s3.amazonaws.com/Chrysellia/js/core.min.js.gz"></script>
 		
-		<!-- Data Libraries
-		<script src="./Core/staticInfo/races.js"></script>-->
-		<script src="./Core/staticInfo/libraries.min.js"></script>
-
+		<!-- Libraries -->
+		<script src="https://s3.amazonaws.com/Chrysellia/js/libraries.min.js.gz"></script>
+		
 		<!-- Page setup
-		<script src="./js/startup.js"></script>
-		<script src="./js/index-startup.js"></script> -->
 		<script src="./js/startup.min.js"></script>
-		<script src="./js/index-startup.min.js"></script>
+		<script src="./js/game-startup.min.js"></script>
+		<script src="./js/startup.js"></script>
+		<script src="./js/game-startup.js"></script>-->
+		
+		<script src="http://s3.amazonaws.com/Chrysellia/js/startup.min.js.gz"></script>
+		<script src="http://s3.amazonaws.com/Chrysellia/js/index-startup.min.js.gz"></script>
 		
 		<div id="fb-root"></div>
 		<script src="http://connect.facebook.net/en_US/all.js"></script>
