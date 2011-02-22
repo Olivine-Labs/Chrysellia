@@ -1,3 +1,5 @@
-if (typeof console == "undefined") {
-    this.console = {log: function() {}};
-}
+;(function( window, undefined ) {
+	if (typeof window.console == "undefined") {
+	    window.console = { log: function() {} };
+	}
+})(window);

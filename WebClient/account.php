@@ -275,6 +275,7 @@
 		<script src="./js/jsend.min.js"></script>
 		<script src="./js/jquery.tipsy.js"></script>
 		<script src="./js/jstorage.js"></script>
+		<script src="./js/consolefix.js"></script>
 		
 		<!-- For the production version, we'll minify and combine our javascript, and keep a plain version for us
 		<script src="./Core/core.js"></script>

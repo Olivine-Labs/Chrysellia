@@ -58,14 +58,14 @@ $_CONFIG[CF_DATABASE][CF_DB_PASS] = '';
 $_CONFIG[CF_DATABASE][CF_DB_BASE] = 'chrysellia';
 $_CONFIG[CF_DATABASE][CF_DB_TYPE] = DB_MYSQL;
 
-/* Crimson
+/* Crimson*/
 $_CONFIG[CF_DATABASE][CF_DB_HOST] = 'p:localhost';
 $_CONFIG[CF_DATABASE][CF_DB_PORT] = 3306;
 $_CONFIG[CF_DATABASE][CF_DB_USER] = 'neflariaroot';
 $_CONFIG[CF_DATABASE][CF_DB_PASS] = 'PhS6vEtujZrNRJdn';
 $_CONFIG[CF_DATABASE][CF_DB_BASE] = 'neflaria';
 $_CONFIG[CF_DATABASE][CF_DB_TYPE] = DB_MYSQL;
-*/
+
 
 //Output Configuration
 $_CONFIG[CF_OUTPUT] = array();
