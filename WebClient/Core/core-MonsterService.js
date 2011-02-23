@@ -7,12 +7,30 @@
  *Dependencies: jQuery Core, core.js
  */
  
-(function( window, undefined ) {
+;(function( window, undefined ) {
 	
 	var MonsterService = function (){};
 	
 	MonsterService = MonsterService.prototype = {
 		ACTION_FIGHT: 0,
+		
+		MonsterSpecialTypes: [
+			"Normal",
+			"Merchant",
+			"Defender",
+			"Assassin",
+			 "Leader",
+			"Elder",
+			"Veteran",
+			"Fanatic",
+			"Enigma",
+			"Saint",
+			"Demon",
+			"Judge",
+			"Anarchist",
+			"Fool",
+			"Illusionist"
+		],
 		
 		Fight: function(monsterId, fightType, callback){
 			var data = { MonsterId: monsterId, FightType: fightType };

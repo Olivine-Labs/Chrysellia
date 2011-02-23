@@ -1,5 +1,5 @@
 (function( window, undefined ) {
-	var Maps = new Array();
+	var Maps = {};
 	
 	Maps["MAP_00000000000000000000001"] = { 
 		Id: "MAP_00000000000000000000001", 

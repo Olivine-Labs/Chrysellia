@@ -7,7 +7,7 @@
  *Dependencies: jQuery Core, core.js
  */
  
-(function( window, undefined ) {
+;(function( window, undefined ) {
 	
 	var MapService = function (){};
 	

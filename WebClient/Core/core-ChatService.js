@@ -7,7 +7,7 @@
  *Dependencies: jQuery Core, core.js
  */
  
-(function( window, undefined ) {
+;(function( window, undefined ) {
 	var StaticRooms = new Array();
 	StaticRooms["General"] = "CHAN_00000000000000000000001";
 	StaticRooms["Trade"] = "CHAN_00000000000000000000002";

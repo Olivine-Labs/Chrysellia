@@ -112,6 +112,21 @@ if(
 
 									$Success = true;
 									$Database->startTransaction();
+
+									if(array_key_exists('Winner', $AttackResult))
+									{
+										if($AttackResult['Winner'] == 0)
+										{
+											global $_CONFIG;
+											//Gold Drops
+											if(mt_rand(1, 1000000) < ($_CONFIG[CF_GAME][CF_GAME_DROPS][CF_GAME_DROPS_GOLD]*10000))
+											{
+												$AttackResult['GoldDrop'] = $CurrentFight['GoldGiven'] * 1000;
+												$Character->Gold += $AttackResult['GoldDrop'];
+											}
+										}
+									}
+
 									if($Database->Characters->UpdateTraits($Character))
 									{
 										foreach($AttackResult['Masteries'] AS $MasteryId)

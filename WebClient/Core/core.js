@@ -10,7 +10,7 @@
  */
 
  
- (function( window, undefined ) {
+ ;(function( window, undefined ) {
 
 	var V2Core = function (){};
 	var ShortQueue = function(){};
@@ -65,6 +65,8 @@
 		//Private! Leave me alone.
 		__requestId: 0,
 		
+		Temp: [],
+		
 		CallbackStack: [],
 		
 		QueueDefaults: { AutoSubmit: true, Timeout: 1000 },
@@ -72,6 +74,10 @@
 		GenerateRequestId: function(){
 			vc.__requestId++;
 			return vc.__requestId + "m";
+		},
+		
+		DisconnectionNotice: function(data){
+			alert("There is a problem connecting to the server.\nPlease check your internet connection.");
 		},
 		
 		ProcessCallbacks: function(data, textStatus, XMLHttpRequest){
@@ -115,7 +121,7 @@
 							vc.SendSingleRequest(dataObject.Id, dataObject.Type, dataObject.Action, dataObject.Data);
 							vc.GlobalErrorCount++;
 						}else{
-							alert("There is a problem connecting to the server.\nPlease check your internet connection.");
+							vc.DisconnectionNotice(dataObject);
 						}
 					}else{
 						vc.ProcessCallbacks({"0": { Result:vc.ER_SERVERERROR, Id: dataObject.Id, Data: {} }}, textStatus, XMLHttpRequest);
