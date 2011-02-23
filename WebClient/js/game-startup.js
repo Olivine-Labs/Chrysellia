@@ -407,6 +407,9 @@ function EquipItem(response, data){
 	Log("Equip Item: " + JSON.stringify(data));
 	
 	$('#itemsWindow select').removeAttr('disabled');
+	
+	BuildInitialInventory();
+	BuildInventoryLists();
 }
 
 function UnEquipItem(response, data){
@@ -896,7 +899,7 @@ function BuildShop(topWindow){
 	var buyItem = $("<button id='buyItem' class='button'>Purchase</buy>").bind("click", function(e){ e.preventDefault(); BuyItem(); });
 	var itemInfo = $("<button id='itemInfo' class='button'>Info</buy>").bind("click", function(e){ 
 		e.preventDefault(); 
-		var index = $('#itemSelection option:selected').prevAll().length; 
+		var index = $('#itemSelection').get(0).selectedIndex; 
 		if(index < 0){ 
 			index = 0; 
 		} 
@@ -925,17 +928,12 @@ function BuildShop(topWindow){
 	var currentItem = {};		
 
 	for(var i= 0; i < window.MyCharacter.Inventories["Personal"].length; i++){
-		s = "";
-		if(i == 0){
-			var s = " selected='selected'";
-		}
-		
 		currentItem = window.MyCharacter.Inventories["Personal"][i];
-		sellSelection.append("<option value='" + currentItem.ItemId + "'" + s + ">" + currentItem.Name + " - " + currentItem.SellPrice + "</option>");
+		sellSelection.append("<option value='" + currentItem.ItemId + ">" + currentItem.Name + " - " + currentItem.SellPrice + "</option>");
 	}
 	
 	var sellItem = $("<button id='sellItem' class='button'>Sell</buy>").bind("click", function(e){ e.preventDefault(); SellItem(); });
-	var sellInfo = $("<button id='sellInfo' class='button'>Info</buy>").bind("click", function(e){ e.preventDefault(); var index = $('#sellSelection option:selected').prevAll().length; if(index < 0){ index = 0; } DisplayItemInfo(window.MyCharacter.Inventories["Personal"][index]); });
+	var sellInfo = $("<button id='sellInfo' class='button'>Info</buy>").bind("click", function(e){ e.preventDefault(); DisplayItemInfo(window.MyCharacter.Inventories["Personal"][$('#sellSelection ').get(0).selectedIndex]); });
 	var sellDescription = $("<div id='sellDescription'></div>");
 	var sellContainer = $("<div><label for='sellSelection'>Sell:</span></div>").append(sellSelection);
 	sellForm.append(sellContainer).append(sellItem).append(sellInfo).append(sellDescription);
@@ -1003,21 +1001,18 @@ function ProcessSale(response, data){
 	if(response.Result == vc.ER_SUCCESS){ 
 		var item = {};
 		var asdf = 0;
+		var removalIndex = 0;
 		
-		for(var i in window.MyCharacter.Inventories["Personal"]){
-			if(isInteger(i)){
-				if(window.MyCharacter.Inventories["Personal"][i].ItemId == ItemId){
-					item = window.MyCharacter.Inventories["Personal"][i];
-				}
-				asdf++;
+		for(var i = 0; i < window.MyCharacter.Inventories["Personal"].length; i++){
+			if(window.MyCharacter.Inventories["Personal"][i].ItemId == ItemId){
+				item = window.MyCharacter.Inventories["Personal"][i];
+				removalIndex = i;
 			}
 		}
 		
-		asdf--;
-		
 		var price = item.SellPrice;
 		
-		window.MyCharacter.Inventories["Personal"].remove(asdf);
+		window.MyCharacter.Inventories["Personal"].remove(removalIndex);
 		window.MyCharacter.Gold += price;
 		UpdateStats();
 		BuildInitialInventory();

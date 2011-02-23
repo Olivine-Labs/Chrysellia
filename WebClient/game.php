@@ -304,12 +304,12 @@
 		
 		<!-- Page setup
 		<script src="./js/startup.min.js"></script>
-		<script src="./js/game-startup.min.js"></script>
+		<script src="./js/game-startup.min.js"></script>-->
 		<script src="./js/startup.js"></script>
-		<script src="./js/game-startup.js"></script>-->
+		<script src="./js/game-startup.js"></script>
 		
-		<script src="http://s3.amazonaws.com/Chrysellia/js/startup.min.js.gz"></script>
-		<script src="http://s3.amazonaws.com/Chrysellia/js/game-startup.min.js.gz"></script>
+		<!-- <script src="http://s3.amazonaws.com/Chrysellia/js/startup.min.js.gz"></script>
+		<script src="http://s3.amazonaws.com/Chrysellia/js/game-startup.min.js.gz"></script>-->
 
 		
 		<script type="text/javascript">
