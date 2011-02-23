@@ -111,8 +111,8 @@
 		SetEnableMovement(false);
 		$this = $(this);
 		
-		var dirx = $this.siblings(".x")[0].value   *1;
-		var diry = $this.siblings(".y")[0].value   *1;
+		var dirx = $this.siblings(".x")[0].value*1;
+		var diry = $this.siblings(".y")[0].value*1;
 		
 		Move(dirx, diry);
 	});
@@ -202,11 +202,13 @@
 		}
 	});
 	
-	$(document).keydown(function(e) {
-        if(e.which == 192){
-			OpenDebugWindow();
-		}
-    });
+	if(vc.Debug){
+		$(document).keydown(function(e) {
+			if(e.which == 192){
+				OpenDebugWindow();
+			}
+		});
+	}
 	
 	vc.DisconnectionNotice = function(data){
 		$("<div>You have been disconnected from the server. There may be a server connection issue, or an issue with your internet connection. Please refresh or try again at a later time.</div>").appendTo("body").dialog({ modal: true, title: "Disconnected!" });
