@@ -489,6 +489,6 @@ li.Troll { background-image: url("images/race_24s/troll.jpg"); }
 .locationType_14 { background-color: #300; }
 .locationType_null { background-color: #000; }
 
-.stat .ui-progressbar { margin-left: 30px; }
+.stat .ui-progressbar { margin-left: 30px; height: 20px; }
 
 #largeMap { display: block; clear: both; font-size: 8pt; margin: .5em; }

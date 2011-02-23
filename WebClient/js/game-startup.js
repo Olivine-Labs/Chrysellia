@@ -111,8 +111,8 @@ $(function(){
 		SetEnableMovement(false);
 		$this = $(this);
 		
-		var dirx = $this.siblings(".x")[0].value   *1;
-		var diry = $this.siblings(".y")[0].value   *1;
+		var dirx = $this.siblings(".x")[0].value*1;
+		var diry = $this.siblings(".y")[0].value*1;
 		
 		Move(dirx, diry);
 	});
@@ -202,11 +202,13 @@ $(function(){
 		}
 	});
 	
-	$(document).keydown(function(e) {
-        if(e.which == 192){
-			OpenDebugWindow();
-		}
-    });
+	if(vc.Debug){
+		$(document).keydown(function(e) {
+			if(e.which == 192){
+				OpenDebugWindow();
+			}
+		});
+	}
 	
 	vc.DisconnectionNotice = function(data){
 		$("<div>You have been disconnected from the server. There may be a server connection issue, or an issue with your internet connection. Please refresh or try again at a later time.</div>").appendTo("body").dialog({ modal: true, title: "Disconnected!" });
@@ -474,8 +476,7 @@ function CreateChannel(response, data){
 
 function JoinChannel(response, data){
 	if(vc.DebugMode && response.RequestDuration > 0){vc.Requests++;  vc.RequestDurationTotal += response.RequestDuration; ICache["rda_value"].text(vc.RequestDurationTotal / vc.Requests);}
-if(response.Result == vc.ER_SUCCESS){ 
-
+	if(response.Result == vc.ER_SUCCESS){ 
 		$("#jc_channelName, #cc_channelMOTD")[0].value   = '';
 		_("joinChannelForm").dialog("close");
 		AddTab(response.Data.Name, response.Data.ChannelId, response.Data.Motd);
@@ -866,9 +867,10 @@ function Attack(fightType){
 
 function AttackRound(response, data){
 	window.setTimeout(function(){SetEnableAttack(true)}, 1500);
+	
 	if(vc.DebugMode && response.RequestDuration > 0){vc.Requests++;  vc.RequestDurationTotal += response.RequestDuration; ICache["rda_value"].text(vc.RequestDurationTotal / vc.Requests);}
-if(response.Result == vc.ER_SUCCESS){ 
-
+	
+	if(response.Result == vc.ER_SUCCESS){ 
 		var fightResults = _("fightResults");
 		var battleObject = response.Data;
 		
@@ -1281,6 +1283,11 @@ function BuildAttackMessage(Attack, EnemyName, PlayerIsAttacker, fightResults){
 			
 			if(Attack.Gold !== undefined){
 				window.MyCharacter.Gold += Attack.Gold;
+			}
+			
+			if(Attack.GoldDrop !== undefined){
+				window.MyCharacter.Gold += Attack.GoldDrop;
+				fightResults.append("<div class='result goldDrop " + masteryLabel + "'><span class='enemy'>" + EnemyName + "</span> <strong>has dropped a large bag of gold!</strong></div>");
 			}
 			
 			if(Attack.Experience !== undefined){
