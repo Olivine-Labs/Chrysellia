@@ -296,6 +296,7 @@
 		<script src="./Core/core-MapService.js"></script>
 		<script src="./Core/core-ItemService.js"></script>
 		<script src="./Core/core-MonsterService.js"></script>
+		<script src="./Core/core-APIService.js"></script>
 		
 		<!-- Libraries -->
 		<script src="./Core/staticInfo/items.js"></script>
@@ -305,7 +306,7 @@
 		
 		<!-- Page setup -->
 		<script src="./js/startup.js"></script>
-		<script src="./js/game-startup.js"></script>
+		<script src="./js/account-startup.js"></script>
 		
 		<div id="fb-root"></div>
 		<script src="http://connect.facebook.net/en_US/all.js"></script><script type="text/javascript">

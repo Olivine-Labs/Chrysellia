@@ -304,12 +304,17 @@
 		<script src="./Core/core-MapService.js"></script>
 		<script src="./Core/core-ItemService.js"></script>
 		<script src="./Core/core-MonsterService.js"></script>
+		<script src="./Core/core-APIService.js"></script>
 		
 		<!-- Libraries -->
 		<script src="./Core/staticInfo/items.js"></script>
 		<script src="./Core/staticInfo/maps.js"></script>
 		<script src="./Core/staticInfo/monsters.js"></script>
 		<script src="./Core/staticInfo/races.js"></script>
+		
+		<!-- Page setup -->
+		<script src="./js/startup.js"></script>
+		<script src="./js/game-startup.js"></script>
 
 		
 		<script type="text/javascript">
