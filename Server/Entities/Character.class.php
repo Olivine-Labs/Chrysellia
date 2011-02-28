@@ -508,7 +508,7 @@ class Character extends Being
 						if(mt_rand(1,100) < $ChanceToHit)
 						{
 							$EnemyArmorMastery = 0;
-							if(get_class($AnEnemy) == 'Entities\Character')
+							if(get_class($EnemyBeing) == 'Entities\Character')
 								$EnemyArmorMastery = $EnemyBeing->Masteries[0]['Value'];
 
 							$ItemClassBonus = $Being->WeaponClassBonus;
