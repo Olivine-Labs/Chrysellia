@@ -514,7 +514,7 @@ class Character extends Being
 							$ItemClassBonus = $Being->WeaponClassBonus;
 							if($DamageType)
 								$ItemClassBonus = $Being->SpellClassBonus;
-							$BaseDamage=pow(1.15,((($AnItem->ItemClass + $ItemClassBonus)-($EnemyArmorClass + $EnemyBeing->ArmorClassBonus))-round($EnemyArmorMastery/5)));
+							$BaseDamage=pow(1.15,($AnItem->ItemClass + $ItemClassBonus)-($EnemyArmorClass + $EnemyBeing->ArmorClassBonus + round($EnemyArmorMastery/5)));
 							$ActualDamage=\gauss_ms($DamageStat/3, ($DamageStat/3) * 0.1)*$BaseDamage;
 							$ActualDamage = round($ActualDamage * (1/max(pow($NumWeapons, 1.5), 1)) / (2/3));
 							$CritChance=mt_rand(1,20+$Mastery/10);
