@@ -598,7 +598,7 @@ class Character extends Being
 							{
 								if($this->Masteries[$ArrayItem['MasteryType']]['Value'] < $this->RacialMasteries[$ArrayItem['MasteryType']]['Max'])
 								{
-									$MasteryCheck = 20+(($this->Health/$ArrayItem['Damage'])*20);
+									$MasteryCheck = 20+(($ArrayItem['Damage'] / $this->Vitality)*20);
 									if(mt_rand(1,max(20+$this->Masteries[0]['Value']*50,50))<$MasteryCheck)
 									{
 										$this->Masteries[0]['Value']++;
