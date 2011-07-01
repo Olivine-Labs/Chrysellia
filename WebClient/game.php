@@ -1,47 +1,8 @@
 <!DOCTYPE html>
 
 <html lang="en">
-	<head>
-		<meta http-equiv="Content-Type" content="text/html;charset=utf-8" /> 
-		<meta name="keywords" content="free online mmo, mmorpg, rpg, neflaria, shimlar, neflaria v2" />
-		<meta name="description" content="Chrysellia is a free online RPG: create an account and fight for the top spot!" />
-
-		<meta name="author" content="silwarnaiilo@neflaria.com" />
-		<meta name="distribution" content="Global" />
-		<meta name="copyright" content="All content copyright 2010 Jack Lawson and Drew Ditthardt. All rights reserved." />
-		
-		<title>Chrysellia (Beta)</title>
-		
-		<!--[if IE]>
-			<script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
-		<![endif]-->
-
-		<link href='http://fonts.googleapis.com/css?family=Crimson+Text&subset=latin' rel='stylesheet' type='text/css'>
-		<!-- <link href="http://s3.amazonaws.com/Chrysellia/css/neflaria.min.css.gz" rel="stylesheet" media="screen" />
-		<link href="http://s3.amazonaws.com/Chrysellia/css/grid-fluid.min.css.gz" rel="stylesheet" media="screen" /> -->
-
-		<link href="./css/html5-reset.css" rel="stylesheet" media="screen" />
-		<link href="./css/jquery-ui.css" rel="stylesheet" media="screen" />
-		<link href="./css/grid-fluid.css" rel="stylesheet" media="screen" />
-		<link href="./css/neflaria-base.css" rel="stylesheet" media="screen" />
-		<link href="./css/tipsy.css" rel="stylesheet" media="screen" />
-		
-		<!--[if IE 8]>
-		<link href="css/ie8.css" rel="stylesheet" media="screen" />
-		<![endif]-->
-		
-		<!--[if IE 7]>
-		<link href="css/ie7.css" rel="stylesheet" media="screen" />
-		<![endif]-->
-		
-		<!--[if IE 6]>
-		<link href="css/ie6.css" rel="stylesheet" media="screen" />
-		<![endif]-->
-		
-		<link rel="icon" type="image/png" href="images/favicon.ico" /> 
-		<link rel="alternate" type="application/rss+xml" title="Chrysellia News RSS Feed" href="http://v2.neflaria.com/blog/feed/" />
-	</head>
-	<body class="game dark">
+  <?php include('head.php'); ?>  
+  <body class="game dark">
 		<div id="loading" style="width: 100%; height: 100%; background-color: #000; text-align: center; position: absolute; top: 0; left: 0; z-index: 100;"><div style="margin-top: 100px; color: #fff;"><h1>Loading</h1></div></div>
 		<div id="messages">
 			<div class="container_12">
@@ -272,64 +233,7 @@
 		<![endif]-->
 		<!-- -->
 
-		<!--<script src="http://code.jquery.com/jquery-1.5.min.js"></script>
-		<script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.9/jquery-ui.min.js"></script>
-		<script src="http://s3.amazonaws.com/Chrysellia/js/plugins.min.js.gz"></script>
-		<script src="./js/consolefix.js"></script>
-		<script src="http://s3.amazonaws.com/Chrysellia/js/core.min.js.gz"></script>
-		<script src="http://s3.amazonaws.com/Chrysellia/js/libraries.min.js.gz"></script>
-		<script src="http://s3.amazonaws.com/Chrysellia/js/startup.min.js.gz"></script>
-		<script src="http://s3.amazonaws.com/Chrysellia/js/account-startup.min.js.gz"></script>-->
-		
-		<script src="http://code.jquery.com/jquery-1.5.1.min.js"></script>
-		<script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.9/jquery-ui.min.js"></script>
-		
-		<!-- Here come the plugins -->
-		<script src="./js/plugins.min.js"></script>
-		<script src="./js/jquery.watermark.min.js"></script>
-		<script src="./js/jquery.cookie.js"></script>
-		<script src="./Core/jquery-md5.js" type="text/javascript"></script>
-		<script src="./Core/json.js" type="text/javascript"></script>
-		<script src="./js/jsend.min.js"></script>
-		<script src="./js/jquery.tipsy.js"></script>
-		<script src="./js/jstorage.js"></script>
-		<script src="./js/consolefix.js"></script>
-				
-		<!-- For the production version, we'll minify and combine our javascript, and keep a plain version for us -->
-		<script src="./Core/core.js"></script>
-		<script src="./Core/core-AccountService.js"></script>
-		<script src="./Core/core-CharacterService.js"></script>
-		<script src="./Core/core-CommandService.js"></script>
-		<script src="./Core/core-ChatService.js"></script>
-		<script src="./Core/core-MapService.js"></script>
-		<script src="./Core/core-ItemService.js"></script>
-		<script src="./Core/core-MonsterService.js"></script>
-		<script src="./Core/core-APIService.js"></script>
-		
-		<!-- Libraries -->
-		<script src="./Core/staticInfo/items.js"></script>
-		<script src="./Core/staticInfo/maps.js"></script>
-		<script src="./Core/staticInfo/monsters.js"></script>
-		<script src="./Core/staticInfo/races.js"></script>
-		
-		<!-- Page setup -->
-		<script src="./js/startup.js"></script>
-		<script src="./js/game-startup.js"></script>
-
-		
-		<script type="text/javascript">
-		  var _gaq = _gaq || [];
-		  _gaq.push(['_setAccount', 'UA-20727556-1']);
-		  _gaq.push(['_setDomainName', 'none']);
-		  _gaq.push(['_setAllowLinker', true]);
-		  _gaq.push(['_trackPageview']);
-
-		  (function() {
-			var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
-			ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
-			var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
-		  })();
-
-		</script>
-	</body>
+    <?php include('commonscripts.php'); ?>
+    <script src="./js/game-startup.js"></script>
+  </body>
 </html>
