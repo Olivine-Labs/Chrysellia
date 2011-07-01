@@ -19,10 +19,8 @@
 		GetTops: function(limit, index, sort, listType, race, callback){
 			var data = { Action: APIService.ACTION_TOP, Data: { Num: limit, Position: index, Sort: sort, ListType: listType, Race: race }};
 			var dataToSend = JSON.stringify(data);
-			switch(vc.CompressionMode){
-				case vc.COMPRESSION_MODE_jSEND:
-					dataToSend = $.jSEND(dataToSend);
-					break;
+			if(vc.CompressionMode == vc.COMPRESSION_MODE_jSEND){
+        dataToSend = $.jSEND(dataToSend);
 			}
 			
 			$.getJSON(
@@ -35,10 +33,8 @@
 		Count: function(callback){
 			var data = { Action: vc.api.ACTION_TOP };
 			var dataToSend = JSON.stringify(data);
-			switch(vc.CompressionMode){
-				case vc.COMPRESSION_MODE_jSEND:
-					dataToSend = $.jSEND(dataToSend);
-					break;
+			if(vc.CompressionMode == vc.COMPRESSION_MODE_jSEND){
+        dataToSend = $.jSEND(dataToSend);
 			}
 			
 			$.getJSON(
@@ -52,10 +48,8 @@
 			var data = { Action: vc.api.ACTION_ONLINE };
 			var dataToSend = JSON.stringify(data);
 			
-			switch(vc.CompressionMode){
-				case vc.COMPRESSION_MODE_jSEND:
-					dataToSend = $.jSEND(dataToSend);
-					break;
+			if(vc.CompressionMode == vc.COMPRESSION_MODE_jSEND){
+        dataToSend = $.jSEND(dataToSend);
 			}
 			
 			$.getJSON(
@@ -64,7 +58,7 @@
 				function(data) { callback(data[0]); }
 			);
 		}
-	}
+	};
 	
 	V2Core.APIService = V2Core.api = APIService;
 })(window);

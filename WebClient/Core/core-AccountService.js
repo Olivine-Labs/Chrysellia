@@ -35,7 +35,7 @@
 			vc.CallbackStack[requestId] = {Method: callback, Data: data};
 			vc.SendSingleRequest(requestId, vc.TYPE_ACCOUNT, vc.as.ACTION_LOGOUT, data);
 		}
-	}
+	};
 	
 	V2Core.AccountService = V2Core.as = AccountService;
 })(window);

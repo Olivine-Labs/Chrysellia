@@ -20,26 +20,26 @@
 		ACTION_ID: 6,
 
 		SendChatCommand: function(channel, command, message, callback){
+      var data = {};
+      var requestId = vc.GenerateRequestId();
+
 			switch(command){
 				case vc.CommandService.ACTION_EMOTE:
-					var data = { Channel: channel, Message: message };
-					var requestId = vc.GenerateRequestId();
+					data = { Channel: channel, Message: message };
 					vc.CallbackStack[requestId] = {Method: callback, Data: data};
 					vc.SendSingleRequest(requestId, vc.TYPE_COMMANDS, command, data);
 					break;
 				case vc.CommandService.ACTION_ID:
-					var data = { Character: message };
-					var requestId = vc.GenerateRequestId();
+					data = { Character: message };
 					vc.CallbackStack[requestId] = {Method: callback, Data: data};
 					vc.SendSingleRequest(requestId, vc.TYPE_COMMANDS, command, data);
 					break;
 				default:
 					callback({ Result: V2Core.ER_MALFORMED, Data: data });
-					return;
-					break;
+          break;
 			}
 		}
-	}
+	};
 	
 	V2Core.CommandService = V2Core.cmd = CommandService;
 })(window);

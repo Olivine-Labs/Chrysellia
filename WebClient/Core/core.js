@@ -255,7 +255,7 @@
 		
 		this.RaceName = function(){
 			return V2Core.Races[this.RaceId].Name;
-		}
+		};
 		
 		this.GenderName = function(){
 			if(this.Gender === 0){
@@ -263,15 +263,15 @@
 			}else{
 				return "Female";
 			}
-		}
+		};
 		
 		this.NextLevelAt = function(){
 			return vc.CalculateLevelRequiredExp(this.Level+this.FreeLevels);
-		}
+		};
 		
 		this.AlignName = function(){
 			return vc.AlignName(this);
-		}
+		};
 		
 		this.Construct = function(data){
 			this.CharacterId = data.CharacterId;
@@ -304,8 +304,8 @@
 			this.RacialDexterity = data.RacialDexterity;
 			this.RacialWisdom = data.RacialWisdom;
 			this.RacialIntelligence = data.RacialIntelligence;
-		}
-	}
+		};
+	};
 	
 	Character.prototype.constructor = Character;
 	

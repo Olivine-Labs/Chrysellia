@@ -98,7 +98,7 @@
 				
 			var ResultRed = red[4].toString(16);
 			var ResultGreen = green[4].toString(16);
-			var ResultBlue = blue[4].toString(16)
+			var ResultBlue = blue[4].toString(16);
 			
 			if(AlignGood > 99 || AlignGood < -99 || AlignOrder > 99 || AlignOrder < -99 ) {
 				var Color1Red = red[4];
@@ -146,21 +146,21 @@
 				ResultBlue = ResultBlue.toString(16);
 			}
 			
-			if(ResultRed == 0){
+			if(ResultRed === 0){
 				ResultRed = "00";
 			}
 			
-			if(ResultGreen == 0){
+			if(ResultGreen === 0){
 				ResultGreen = "00";
 			}
 			
-			if(ResultBlue == 0){
+			if(ResultBlue === 0){
 				ResultBlue = "00";
 			}
 			
 			return ResultRed + "" + ResultGreen + "" + ResultBlue;
 		}
-	}
+	};
 	
 	V2Core.CharacterService = V2Core.cs = CharacterService;
 })(window);
