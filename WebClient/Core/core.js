@@ -84,7 +84,7 @@
 			for(var x in data){
 				if(vc.isInteger(x*1)){
 					var method = vc.CallbackStack[data[x].Id];
-					if (method != undefined && typeof method.Method == "function"){
+					if (method !== undefined && typeof method.Method == "function"){
 						var response = {};
 						if(method.Data !== undefined){
 							response = method.Data;
@@ -103,10 +103,8 @@
 			
 			var dataToSend = JSON.stringify(dataArray);
 			console.log(dataToSend);
-			switch(vc.CompressionMode){
-				case vc.COMPRESSION_MODE_jSEND:
-					dataToSend = $.jSEND(dataToSend);
-					break;
+			if(vc.CompressionMode == vc.COMPRESSION_MODE_jSEND){
+        dataToSend = $.jSEND(dataToSend);
 			}
 			
 			$.ajax({
@@ -132,17 +130,15 @@
 		
 		SendQueue: function(queue){
 			var dataToSend = JSON.stringify(queue.Items);
-			switch(vc.CompressionMode){
-				case vc.COMPRESSION_MODE_jSEND:
-					dataToSend = $.jSEND(dataToSend);
-					break;
+			if(vc.CompressionMode == vc.COMPRESSION_MODE_jSEND){
+        dataToSend = $.jSEND(dataToSend);
 			}
 			
 			$.ajax({
 				data: {Data: dataToSend} ,
 				success: function(data, textStatus, XMLHttpRequest){
-					for(x in queue.Items){
-						vc.ProcessCallbacks(queue.Items[x], textStatus, XMLHttpRequest);
+					for(var i = 0; i < queue.Items.length; i++){
+						vc.ProcessCallbacks(queue.Items[i], textStatus, XMLHttpRequest);
 					}
 					
 					queue.Items = [];
@@ -181,9 +177,10 @@
 			}
 			
 			var totalAlign = "Neutral";
-			if(goodAlign != "" || orderAlign != ""){
+
+			if(goodAlign !== "" || orderAlign !== ""){
 				var spacing = "";
-				if(goodAlign != ""){
+				if(goodAlign !== ""){
 					spacing = " ";
 				}
 				totalAlign = goodAlign + spacing + orderAlign;
@@ -193,7 +190,7 @@
 		},
 		
 		isInteger: function(s) {
-		  return (s.toString().search(/^-?[0-9]+$/) == 0);
+		  return (s.toString().search(/^-?[0-9]+$/) === 0);
 		}
 	};
 	
@@ -249,10 +246,10 @@
 		this.Gold = 0;
 		this.Bank = 0;
 		this.CurrentChannel = "CHAN_00000000000000000000001";
-		this.Channels = new Array();
-		this.Inventories = new Array();
-		this.Inventories["Personal"] = new Array();
-		this.Equipment = new Array();
+		this.Channels = [];
+		this.Inventories = [];
+		this.Inventories["Personal"] = [];
+		this.Equipment = [];
 		
 		this.CurrentMap = {};
 		
@@ -261,7 +258,7 @@
 		}
 		
 		this.GenderName = function(){
-			if(this.Gender == 0){
+			if(this.Gender === 0){
 				return "Male";
 			}else{
 				return "Female";
@@ -304,7 +301,7 @@
 			this.Equipment = data.Equipment;
 			this.RacialVitality = data.RacialVitality;
 			this.RacialStrength = data.RacialStrength;
-			this.RacialDexterity = data.RacialDexterity
+			this.RacialDexterity = data.RacialDexterity;
 			this.RacialWisdom = data.RacialWisdom;
 			this.RacialIntelligence = data.RacialIntelligence;
 		}
