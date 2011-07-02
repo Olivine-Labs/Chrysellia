@@ -288,8 +288,5 @@ include_once('php/simplepie.inc');
 		
     <?php include('commonscripts.php'); ?>
 	  <script src="./js/index-startup.js"></script>
-		
-		<div id="fb-root"></div>
-		<script src="http://connect.facebook.net/en_US/all.js"></script>
 	</body>
 </html>
