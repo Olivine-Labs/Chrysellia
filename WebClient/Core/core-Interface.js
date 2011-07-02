@@ -40,7 +40,7 @@
 			$("#myCharacter_HealthBar").progressbar("value", ((mc.Health / mc.Vitality) * 100)).attr("title", mc.Health + " / " + mc.Vitality);
 			$("#myCharacter_Health").text(mc.Health);
 		}
-	}
+	};
 	
 	V2Core.Interface = V2Core.i = Interface;
 })(window);

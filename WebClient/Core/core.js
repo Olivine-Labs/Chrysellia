@@ -137,8 +137,10 @@
 			$.ajax({
 				data: {Data: dataToSend} ,
 				success: function(data, textStatus, XMLHttpRequest){
-					for(var i = 0; i < queue.Items.length; i++){
-						vc.ProcessCallbacks(queue.Items[i], textStatus, XMLHttpRequest);
+					for(var x in queue){
+            if(queue.hasOwnProperty(x)){
+              vc.ProcessCallbacks(queue.Items[x], textStatus, XMLHttpRequest);
+            }
 					}
 					
 					queue.Items = [];

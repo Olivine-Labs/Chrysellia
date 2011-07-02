@@ -38,7 +38,7 @@
 			vc.CallbackStack[requestId] = {Method: callback, Data: data};
 			vc.SendSingleRequest(requestId, vc.TYPE_MONSTER, vc.mn.ACTION_FIGHT, data);
 		}
-	}
+	};
 	
 	V2Core.MonsterService = V2Core.mn = MonsterService;
 })(window);

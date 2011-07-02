@@ -106,7 +106,7 @@
 			vc.CallbackStack[requestId] = {Method: callback, Data: data};
 			vc.SendSingleRequest(requestId, vc.TYPE_PLACES, vc.ms.ACTION_TRANSFER, data);
 		}
-	}
+	};
 	
 	V2Core.MapService = V2Core.ms = MapService;
 })(window);
