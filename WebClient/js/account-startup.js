@@ -8,12 +8,6 @@
   }
 
   function Logout(data){
-    FB.getLoginStatus(function(response) {
-      if (!!response.session) {
-        FB.logout();
-      }
-    });
-    
     $.cookie("l",false);
     
     window.location = "./index.php";
