@@ -14,9 +14,9 @@ include_once('php/simplepie.inc');
 				<div class="grid_12" id="mainNav">
 					<nav>
 						<ul>
-							<li><a href="index.php" class="selected">Home</a></li>
+							<li><a href="index.php">Home</a></li>
 							<li><a href="account.php" class="playNow">Play</a></li>
-							<li><a href="tops.php">Rankings</a></li>
+							<li><a href="tops.php" class="selected">Rankings</a></li>
 							<li><form target="_blank" method="post" action="https://www.paypal.com/cgi-bin/webscr"><input type="hidden" value="_s-xclick" name="cmd"><input type="hidden" value="9TRGSRK4VVC28" name="hosted_button_id"><button type="image" border="0" alt="PayPal - The safer, easier way to pay online!" name="submit" >Donate</button><img width="1" height="1" border="0" src="https://www.paypal.com/en_US/i/scr/pixel.gif" alt=""></form></li>
 							<li><a href="about.php">About</a></li>
 						</ul>
