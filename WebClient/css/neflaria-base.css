@@ -384,7 +384,6 @@ form label { display: inline-block; margin-right: .5em; }
 
 body.game.dark {	background-color: #111;	color: #fff;}
 .game.dark section h1 { color: #c33; }
-article h1 { color: #999; font-size: 16pt; }
 article h2 { color: #ccc; font-size: 12pt; font-style: italic; }
 .game.dark .fightResults .enemy { color: #c33; }
 .dark .ui-widget-content { background: #222; color: #ccc; }

@@ -24,21 +24,15 @@ include_once('php/simplepie.inc');
 						<ul>
 							<li><a href="index.php" class="selected">Home</a></li>
 							<li><a href="account.php" class="playNow">Play</a></li>
-							<li><a href="http://blog.chrysellia.com" target="_blank">Blog</a></li>
-							<li><a href="http://wiki.chrysellia.com" target="_blank">Manual</a></li>
 							<li><a href="tops.php">Rankings</a></li>
-							<li><a href="http://forum.chrysellia.com" target="_blank">Forum</a></li>
-							<li><form target="_blank" method="post" action="https://www.paypal.com/cgi-bin/webscr"><input type="hidden" value="_s-xclick" name="cmd"><input type="hidden" value="U9PMXZHBZPVPJ" name="hosted_button_id"><button type="image" border="0" alt="PayPal - The safer, easier way to pay online!" name="submit" >Donate</button><img width="1" height="1" border="0" src="https://www.paypal.com/en_US/i/scr/pixel.gif" alt=""></form></li>
+							<li><form target="_blank" method="post" action="https://www.paypal.com/cgi-bin/webscr"><input type="hidden" value="_s-xclick" name="cmd"><input type="hidden" value="9TRGSRK4VVC28" name="hosted_button_id"><button type="image" border="0" alt="PayPal - The safer, easier way to pay online!" name="submit" >Donate</button><img width="1" height="1" border="0" src="https://www.paypal.com/en_US/i/scr/pixel.gif" alt=""></form></li>
 							<li><a href="about.php">About</a></li>
-							<li><a href="api.php">API</a></li>
-							<li class='fbButton'><iframe src="http://www.facebook.com/plugins/like.php?href=http%3A%2F%2Fwww.chrysellia.com&amp;layout=button_count&amp;show_faces=true&amp;width=75&amp;action=like&amp;colorscheme=light&amp;height=21" scrolling="no" frameborder="0" style="border:none; overflow:hidden; width:75px; height:21px;" allowTransparency="true"></iframe></li>
-							<!--<li><a href="#">Store</a></li>-->
 						</ul>
 					</nav>
 				</div>
 			</div>
 		</div>
-		
+
 		<section id="top10" class="container_12">
 			<div class="grid_12">
 			<h1>Top 30:</h1>
@@ -61,10 +55,42 @@ include_once('php/simplepie.inc');
 				
 				<div class="container_8">
 					<section class="grid_8 news">
-						<h1>News</h1>
-						<section class="mainNews newsItem">
+            <h1>News</h1>
+            <article class="mainNews" >
+              <h1>Chrysellia: Re-Hosted and Open-Sourced</h1>
+              <em class="alternate">10/4/11 - by Silwar Naiilo</em>
+              
+              <p>
+                It's been in interesting journey with Chrysellia. After running <a href="http://www.neflaria.com">Neflaria</a>
+                for a while, Drew and I (Jack) decided to attempted to build a sucessor to Neflaria - Chrysellia was built to
+                test out some of our architecture decisions. It did this well, and I think that it answered a lot of questions
+                and pushed us to see what we could build in a short amount of time.
+              </p>
+
+              <p>
+                Chrysellia really served as a launching point for many of the things we're building- for example, an experiment
+                with Websockets as an alternative to AJAX requests for data spawned 
+                <a href="http://www.github.com/Olivine-Labs/Alchemy-Websockets">Alchemy Websockets</a>, an open-source, MIT-licensed
+                library meant to help all kinds of applications. We worked on methods to completely seperate the client-side code
+                from the server-side code, keeping the presentation and logic layers seperated, which has spawned a web framework
+                that we'll be releasing soon. It also created questions about how we're storing data - we've since moved on to
+                MongoDB, from MySQL, all generated out of this project.
+              </p>
+  
+              <p>
+                So, while Chrysellia was meant to become a core gaming engine, what's come out if it is something even stronger-
+                and we're very excited about what we can offer to the community. Feel free to poke around in the code, use it
+                as a platform for trying things out, or anything you'd like - the code is MIT-licensed.
+              </p>
+
+              <p>
+                <a href="http://www.github.com/Olivine-Labs/Chrysellia">Chrysellia code hosted on Github</a>
+              </p>
+            </article>
+
+						<article class="newsItem">
 							<h1>Chrysellia: Beta 2 Has Begun!</h1>
-							<em class="alternate"><date>2/16/11</date> - by Silwar Naiilo</em>
+							<em class="alternate">2/16/11 - by Silwar Naiilo</em>
 							<p>
 								We made a lot of changes to Chrysellia. <a href="https://docs.google.com/a/neflaria.com/document/d/1IPe8gfz3TidozV7xrtKNO2ij2lRmHRQcQI-kw2Zsd3o/edit?hl=en&pli=1&authkey=COr4h7UB" target="_blank">View the patch notes here</a>. Notable entries:
 							</p>
@@ -108,7 +134,7 @@ include_once('php/simplepie.inc');
 								Keep up with the <a href="http://blog.chrysellia.com">Chrysellia Blog</a> for update notes, and join the 
 								<a href="http://forum.chrysellia.com">Chrysellia Forum</a> for up-to-date information.
 							</p>
-						</section>
+            </article>
           </section>
 					
 					<!--

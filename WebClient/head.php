@@ -35,6 +35,5 @@
 		<![endif]-->
 		
 		<link rel="icon" type="image/png" href="images/favicon.ico" /> 
-		<link rel="alternate" type="application/rss+xml" title="Neflaria News RSS Feed" href="http://v2.neflaria.com/blog/feed/" />
 	</head>
 

@@ -19,17 +19,11 @@
 				<div class="grid_12" id="mainNav">
 					<nav>
 						<ul>
-							<li><a href="index.php">Home</a></li>
-							<li><a href="account.php" class="playNow selected">Play</a></li>
-							<li><a href="http://blog.chrysellia.com" target="_blank">Blog</a></li>
-							<li><a href="http://wiki.chrysellia.com" target="_blank">Manual</a></li>
+							<li><a href="index.php" class="selected">Home</a></li>
+							<li><a href="account.php" class="playNow">Play</a></li>
 							<li><a href="tops.php">Rankings</a></li>
-							<li><a href="http://forum.chrysellia.com" target="_blank">Forum</a></li>
-							<li><form target="_blank" method="post" action="https://www.paypal.com/cgi-bin/webscr"><input type="hidden" value="_s-xclick" name="cmd"><input type="hidden" value="U9PMXZHBZPVPJ" name="hosted_button_id"><button type="image" border="0" alt="PayPal - The safer, easier way to pay online!" name="submit" >Donate</button><img width="1" height="1" border="0" src="https://www.paypal.com/en_US/i/scr/pixel.gif" alt=""></form></li>
+							<li><form target="_blank" method="post" action="https://www.paypal.com/cgi-bin/webscr"><input type="hidden" value="_s-xclick" name="cmd"><input type="hidden" value="9TRGSRK4VVC28" name="hosted_button_id"><button type="image" border="0" alt="PayPal - The safer, easier way to pay online!" name="submit" >Donate</button><img width="1" height="1" border="0" src="https://www.paypal.com/en_US/i/scr/pixel.gif" alt=""></form></li>
 							<li><a href="about.php">About</a></li>
-							<li><a href="api.php">API</a></li>
-							<li class='fbButton'><iframe src="http://www.facebook.com/plugins/like.php?href=http%3A%2F%2Fwww.chrysellia.com&amp;layout=button_count&amp;show_faces=true&amp;width=75&amp;action=like&amp;colorscheme=light&amp;height=21" scrolling="no" frameborder="0" style="border:none; overflow:hidden; width:75px; height:21px;" allowTransparency="true"></iframe></li>
-							<!--<li><a href="#">Store</a></li>-->
 						</ul>
 					</nav>
 					
