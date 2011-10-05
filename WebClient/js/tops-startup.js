@@ -1,7 +1,4 @@
 ;$(function(){
-	
-	FB.init({appId: '119442588120693', status: true, cookie: true, xfbml: true});
-	
 	$("#playNow").dialog({ modal: true, title: "Log In / Register a New Account", width: 600, autoOpen: false });
 	
 	$(".playNow").bind("click", function(e){
@@ -65,73 +62,6 @@
 		LogInAccount(username, password);
 		
 		return false;
-	});
-
-	$("#fbregister").bind("click", function(e){
-		e.preventDefault();
-		
-		var username = "";
-		var password = "";
-		var email = "";
-		
-		FB.getLoginStatus(function(response) {			
-			if (!response.session) {
-				FB.login(function(response) {
-					
-					if (response.session) {
-						username = response.session.uid;
-						password = response.session.access_token;
-
-						if (response.perms) {
-							FB.api('/me', function(response) {
-								email = response.email;
-								RegisterAccount(username, password, email);
-							});
-						} else {
-						  // user is logged in, but did not grant any permissions
-						}
-					} else {
-						// cancelled
-					}
-				}, {perms:'read_stream,publish_stream,offline_access,email,create_event,user_birthday'});
-			}else{
-				username = response.session.uid;
-				password = response.session.access_token;
-				
-				FB.api('/me', function(response) {
-					email = response.email;
-					RegisterAccount(username, password, email);
-				});
-			}
-		});
-	});
-
-	$("#fblogin").bind("click", function(e){
-		e.preventDefault();
-		
-		var username = "";
-		var password = "";
-		var email = "";
-							
-		FB.getLoginStatus(function(response) {
-			if (!response.session) {
-				FB.login(function(response) {
-					if (response.session) {
-						username = response.session.uid;
-						password = response.session.access_token;
-						
-						LogInAccount(username, password);						
-					} else {
-						// cancelled
-					}
-				});
-			}else{
-				username = response.session.uid;
-				password = response.session.access_token;
-						
-				LogInAccount(username, password);
-			}
-		});
 	});
 	
 	$("#topsOptions button").button({icons: { primary: "ui-icon-search" }});

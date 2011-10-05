@@ -397,7 +397,6 @@
     var map = ICache["currentMap"];
     var posX = (20 * -(window.MyCharacter.PositionX)) + 65;
     var posY = (20 * (window.MyCharacter.PositionY - window.MyCharacter.CurrentMap.Places[window.MyCharacter.PositionX].length)) + 85;
-    console.log(posX + ", " + posY);
     
     map.css('background', 'url("./css/images/large_maps/' + window.MyCharacter.CurrentMap.Name + '_20.png") no-repeat scroll ' + posX + 'px ' + posY + 'px transparent');
     _("largeMap").attr("href", "./css/images/large_maps/" + window.MyCharacter.CurrentMap.Name + "_20.png");
@@ -1248,12 +1247,6 @@
   }
 
   function Logout(response, data){
-    FB.getLoginStatus(function(response) {
-      if (!!response.session) {
-        FB.logout();
-      }
-    });
-    
     $.cookie("l",false);
     
     window.location = "./index.php";

@@ -1,4 +1,4 @@
-<script src="http://code.jquery.com/jquery-1.5.1.min.js"></script>
+<script src="http://code.jquery.com/jquery-1.6.4.min.js"></script>
 <script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.9/jquery-ui.min.js"></script>
 
 <!--[if IE]>
@@ -21,36 +21,47 @@
 
 <!-- For the production version, we'll minify and combine our javascript, and keep a plain version for us -->
 
-<!-- Here come the plugins -->
-<script src="./js/plugins.min.js"></script>
-<script src="./js/jquery.watermark.min.js"></script>
-<script src="./js/jquery.cookie.js"></script>
-<script src="./Core/jquery-md5.js" type="text/javascript"></script>
-<script src="./Core/json.js" type="text/javascript"></script>
-<script src="./js/jsend.min.js"></script>
-<script src="./js/jquery.tipsy.js"></script>
-<script src="./js/jstorage.js"></script>
-<script src="./js/consolefix.js"></script>
   
 <!-- Game services -->
-<script src="./Core/core.js"></script>
-<script src="./Core/core-AccountService.js"></script>
-<script src="./Core/core-CharacterService.js"></script>
-<script src="./Core/core-CommandService.js"></script>
-<script src="./Core/core-ChatService.js"></script>
-<script src="./Core/core-MapService.js"></script>
-<script src="./Core/core-ItemService.js"></script>
-<script src="./Core/core-MonsterService.js"></script>
-<script src="./Core/core-APIService.js"></script>
+<?php
+$debug = false;
 
-<!-- Libraries -->
-<script src="./Core/staticInfo/items.js"></script>
-<script src="./Core/staticInfo/maps.js"></script>
-<script src="./Core/staticInfo/monsters.js"></script>
-<script src="./Core/staticInfo/races.js"></script>
+if($debug){?>
+  <!-- Here come the plugins -->
+  <script src="./js/jquery.watermark.min.js"></script>
+  <script src="./js/jquery.cookie.js"></script>
+  <script src="./Core/jquery-md5.js" type="text/javascript"></script>
+  <script src="./Core/json.js" type="text/javascript"></script>
+  <script src="./js/jsend.min.js"></script>
+  <script src="./js/jquery.tipsy.js"></script>
+  <script src="./js/jstorage.js"></script>
+  <script src="./js/consolefix.js"></script>
 
-<!-- Page setup -->
+  <script src="./Core/core.js"></script>
+  <script src="./Core/core-AccountService.js"></script>
+  <script src="./Core/core-CharacterService.js"></script>
+  <script src="./Core/core-CommandService.js"></script>
+  <script src="./Core/core-ChatService.js"></script>
+  <script src="./Core/core-MapService.js"></script>
+  <script src="./Core/core-ItemService.js"></script>
+  <script src="./Core/core-MonsterService.js"></script>
+  <script src="./Core/core-APIService.js"></script>
+
+  <!-- Libraries -->
+  <script src="./Core/staticInfo/items.js"></script>
+  <script src="./Core/staticInfo/maps.js"></script>
+  <script src="./Core/staticInfo/monsters.js"></script>
+  <script src="./Core/staticInfo/races.js"></script>
+
+  <!-- Page setup -->
+<?php } else { ?>
+  <script src="./js/plugins.min.js"></script>
+  <script src="./Core/core.min.js"></script>
+  <script src="./Core/staticInfo/libraries.min.js"></script>
+<?php } ?>
+
 <script src="./js/startup.js"></script>
+
 
 <script type="text/javascript">
   var _gaq = _gaq || [];
