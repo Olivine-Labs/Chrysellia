@@ -7,31 +7,11 @@ include_once('php/simplepie.inc');
 
 <html lang="en">
 	<?php include('head.php'); ?>
-	<body class="index">	
-	<?php
-		$newsFeed = new SimplePie();
 
-		$newsFeed->set_feed_url("http://blog.chrysellia.com/atom/");
-		$newsFeed->set_item_limit(4);
-
-		$newsFeedSuccess = $newsFeed->init();
-		$newsFeed->handle_content_type();
-		?>
 		<div id="messages">
 			<div class="container_12">
 				<div class="grid_12" id="info">
 					<span class="info">Online: <span id="onlines" class="loading">...</span></span>
-					<span class="info">News: 
-						<?php
-							if ($newsFeedSuccess):
-							?>
-								<?php 
-								foreach($newsFeed->get_items(0, 1) as $item){
-								?>
-									<a href="<?php if ($item->get_permalink()) echo $item->get_permalink() ?>" target="_blank"><?php echo $item->get_title(); ?></a> - (<date><?php echo $item->get_date('j M Y, g:i a'); ?></date>)
-								<?php } ?>
-						<?php endif; ?>
-					</span>
 				</div>
 			</div>
 			<div class="clear"></div>
@@ -129,25 +109,7 @@ include_once('php/simplepie.inc');
 								<a href="http://forum.chrysellia.com">Chrysellia Forum</a> for up-to-date information.
 							</p>
 						</section>
-						
-						<section class="secondaryNews newsItem">
-							<h1>News</h1>
-								<?php
-									if ($newsFeedSuccess):
-									?>
-									<ul>
-										<?php 
-										foreach($newsFeed->get_items(0, 5) as $item){
-										?>
-											<li class="alternate"><a href="<?php if ($item->get_permalink()) echo $item->get_permalink() ?>" target="_blank"><?php echo $item->get_title(); ?></a> - (<date><?php echo $item->get_date('j M Y, g:i a'); ?></date>)</li>
-										<?php } ?>
-										<li><a href="http://blog.chrysellia.com/atom/" class="alternate rssFeed">Subscribe to the Chrysellia News RSS</a></li>
-										<li><a href="http://www.twitter.com/chrysellia" class="twitter">Follow Chrysellia</a> on Twitter</li>
-									</ul>
-									
-								<?php endif; ?>
-						</section>
-					</section>
+          </section>
 					
 					<!--
 					<section class="grid_4 fromManual">
