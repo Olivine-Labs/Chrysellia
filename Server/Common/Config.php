@@ -27,7 +27,7 @@ define('CF_INPUT', 2);
 
 define('CF_GAME', 3);
 	define('CF_GAME_DROPS', 0);
-		define('CF_GAME_DROPS_GOLD', 0);
+		define('CF_GAME_DROPS_GOLD', 1);
 		define('CF_GAME_DROPS_GEM', 1);
 		define('CF_GAME_DROPS_SHADOW', 2);
 		define('CF_GAME_DROPS_UNIQUE', 3);
